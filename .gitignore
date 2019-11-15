@@ -1,0 +1,4 @@
+doxyoutput/*
+xml/*
+_build/*
+build/*
