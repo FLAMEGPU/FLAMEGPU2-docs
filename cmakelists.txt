@@ -4,39 +4,43 @@ cmake_minimum_required(VERSION VERSION 3.12 FATAL_ERROR)
 project(userguide NONE)
 
 # https://cmake.org/cmake/help/latest/module/FindPython3.html#module:FindPython3
-find_package(Python3 COMPONENTS Interpreter REQUIRED)
+# find_package(Python3 COMPONENTS Interpreter REQUIRED)
 
 # Add the cmake folder so the FindSphinx module is found
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 find_package(Sphinx REQUIRED)
 
-set(SPHINX_SOURCE ${CMAKE_CURRENT_SOURCE_DIR})
-set(SPHINX_BUILD ${CMAKE_BINARY_DIR}/userguide)
+set(SPHINX_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+set(SPHINX_BUILD ${CMAKE_CURRENT_BINARY_DIR}/userguide)
 
-# Build doxygen if we can
-if(FLAMEGPU_ROOT)
-    include(${FLAMEGPU_ROOT}/cmake/common.cmake)
-    include(${FLAMEGPU_ROOT}/cmake/doxygen.cmake)
+find_package(FLAMEGPU2)
+# Build Doxygen if we can
+if(FLAMEGPU2_FOUND)
+    # Load FGPU2s Doxygen config
+    include(${FLAMEGPU2_ROOT}/cmake/doxygen.cmake)
+    mark_as_advanced(FORCE BUILD_API_DOCUMENTATION)
 endif()
-if(FLAMEGPU_ROOT AND DOXYGEN_FOUND)
-    # Move it up a level, otherwise get alot of git garbage during configure
-    create_doxygen_target("${CMAKE_CURRENT_SOURCE_DIR}" "../docs_xml")
+
+if(FLAMEGPU2_FOUND AND DOXYGEN_FOUND)
+    # Decide path to temp store the xml output
+    set(API_DOCS_XML_PATH "api_xml")
+    # Disabling this setting might break stuff
+    if(${BUILD_API_DOCUMENTATION})
+        # Create Doxygen target 'userguide_docs_xml'
+        create_doxygen_target("${FLAMEGPU2_ROOT}" "${CMAKE_CURRENT_BINARY_DIR}" "${API_DOCS_XML_PATH}")
+    endif()
+    # Create Sphinx target
     add_custom_target(userguide ALL
                       COMMAND ${SPHINX_EXECUTABLE} -b html
                       # Tell Breathe where to find the Doxygen output
-                      -Dbreathe_projects."FLAME GPU 2"="../docs_xml"
+                      -Dbreathe_projects."FLAME GPU 2"="${CMAKE_CURRENT_BINARY_DIR}/${API_DOCS_XML_PATH}"
                       ${SPHINX_SOURCE} ${SPHINX_BUILD}
                       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-    add_dependencies(userguide userguide_docs_xml)
+    # Make Sphinx target depend on Doxygen target
+    add_dependencies(userguide api_docs_xml)
 else()
     add_custom_target(userguide ALL
                       COMMAND ${SPHINX_EXECUTABLE} -b html
                       ${SPHINX_SOURCE} ${SPHINX_BUILD}
                       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-endif()
-
-set_target_properties("userguide" PROPERTIES EXCLUDE_FROM_ALL TRUE)
-if(CMAKE_USE_FOLDERS)
-    set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-    set_property(TARGET "userguide" PROPERTY FOLDER "FLAMEGPU")
 endif()

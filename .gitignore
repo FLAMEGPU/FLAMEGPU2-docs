@@ -2,3 +2,5 @@ doxyoutput/*
 xml/*
 _build/*
 build/*
+# This directory is created in root by Breathe for Sphinx
+src/api/*
