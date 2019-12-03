@@ -3,6 +3,10 @@ cmake_minimum_required(VERSION VERSION 3.12 FATAL_ERROR)
 # Name the project and set languages
 project(userguide NONE)
 
+# Don't create installation scripts (and hide CMAKE_INSTALL_PREFIX from cmake-gui)
+set(CMAKE_SKIP_INSTALL_RULES TRUE)
+set(CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}" CACHE INTERNAL "" FORCE)
+
 # https://cmake.org/cmake/help/latest/module/FindPython3.html#module:FindPython3
 # find_package(Python3 COMPONENTS Interpreter REQUIRED)
 
