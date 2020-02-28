@@ -10,8 +10,8 @@ This user guide provides a clear introduction to the core features of FLAME GPU 
    
    1-environment.rst
    2-agent.rst
-   3-agent-communication.rst
-   4-agent-functions.rst
+   3-agent-functions.rst
+   4-agent-communication.rst
    5-host-functions.rst
    6-initialisation.rst
    

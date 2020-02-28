@@ -269,7 +269,7 @@ bounds of the histogram:
        // 10 bins, inclusive lower bound 0, exclusive upper bound 100
        std::vector<int> hist = myAgent.histogramEven<int, int>("z", 10, 0, 100);
    }
-   
+
 Agent Creation
 ~~~~~~~~~~~~~~
 The Host API’s agent creation interface is identical to that available from the
@@ -277,7 +277,7 @@ Device API. However, agents of any valid type and state can be created
 (whereas the Device API requires the type and state be specified in the model description).
 
 Host agent creation should be used sparingly as it may impact performance if large numbers
-of agents are reguarly being created on the host.
+of agents are regularly being created on the host.
 
 **Note:** *Agents created by host functions do not exist until after all host functions, 
 of the same type, at the current layer or step have completed. Such that, host reductions
