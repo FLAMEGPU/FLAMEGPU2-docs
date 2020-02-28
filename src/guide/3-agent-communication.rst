@@ -99,11 +99,99 @@ Reading messages:
 
 Direct
 ------
+Not yet available.
 
 
 Spatial
 -------
+Spatial messaging is available in both 2D and 3D, providing access to a reduced subset of messages 
+which fall within a set radius. This message types force the inclusion of the ``float`` message 
+variables ``x``, ``y`` (and ``z``). These are used internally by the data structure and correspond
+to the location of the message.
+
+**Note:** *Spatial message access does not limit messages to those inside the radius. The user must 
+perform this bounds check manually. This is not performed automatically, to avoid duplication of 
+expensive distance calculations.*
+
+An example of spatial 3D messaging can be found in the `circles_spatial3D` example.
+
+Model Definition
+~~~~~~~~~~~~~~~~
+
+Defining the message's variables:
+.. code:: cpp
+    // Message type is specified as MsgSpatial2D
+    MsgSpatial2D::Description &message = model.newMessage<MsgSpatial2D>("location");
+    // Add extra message variables
+    message.newVariable<int>("id");
+    // This is the search radius for message access, and must be set
+    message.setRadius(1.0f);
+    // These are the bounds of the environment, and must be set
+    // messages that fall outside will have their location clamped (within the data structure's handling)
+    message.setMin(0, 0);
+    message.setMax(50, 50);
+        
+The message is added to agent functions the same as all other messaging types. For an example see the
+earlier examples for Brute Force messaging.
+
+Message Access
+~~~~~~~~~~~~~~
+
+Outputting messages:
+.. code:: cpp
+    // The 3rd argument specifies the output message type as Spatial 2D messaging
+    FLAMEGPU_AGENT_FUNCTION(output_message, MsgNone, MsgSpatial2D) {
+        // Set extra message variables
+        FLAMEGPU->message_out.setVariable<int>("id", FLAMEGPU->getVariable<int>("id"));
+        // Spatial messaging add convenience methods for setting the 2D or 3D location with a single call
+        FLAMEGPU->message_out.setLocation(
+            FLAMEGPU->getVariable<float>("x"),
+            FLAMEGPU->getVariable<float>("y"));
+        return ALIVE;
+    }
+    
+Reading messages:
+.. code:: cpp
+    // The 2nd argument specifies the input message type as Brute Force messaging
+    FLAMEGPU_AGENT_FUNCTION(move, MsgBruteForce, MsgNone) {
+        const int ID = FLAMEGPU->getVariable<int>("id");
+        // Load user specified constants
+        const float REPULSE_FACTOR = FLAMEGPU->environment.get<float>("repulse");
+        const float RADIUS = FLAMEGPU->message_in.radius();
+        // Load agent variables
+        const float x1 = FLAMEGPU->getVariable<float>("x");
+        const float y1 = FLAMEGPU->getVariable<float>("y");
+        int count = 0;
+        // The message list is an iterable, the search origin is specified as (x1, y1, z1)
+        for (const auto &message : FLAMEGPU->message_in(x1, y1, z1)) {
+            // Check the ID variable to skip the agent's own message
+            if (message.getVariable<int>("id") != ID) {
+                const float x2 = message.getVariable<float>("x");
+                const float y2 = message.getVariable<float>("y");
+                float x21 = x2 - x1;
+                float y21 = y2 - y1;
+                const float separation = sqrt(x21*x21 + y21*y21);
+                // Calculate whether the message falls within the search radius
+                if (separation < RADIUS && separation > 0.0f) {
+                    // Process the message
+                    float k = sinf((separation / RADIUS)*3.141*-2)*REPULSE_FACTOR;
+                    x21 /= separation;
+                    y21 /= separation;
+                    fx += k * x21;
+                    fy += k * y21;
+                    count++;
+                }
+            }
+        }
+        fx /= count > 0 ? count : 1;
+        fy /= count > 0 ? count : 1;
+        // Update the agent according to the message processing result
+        FLAMEGPU->setVariable<float>("x", x1 + fx);
+        FLAMEGPU->setVariable<float>("y", y1 + fy);
+        return ALIVE;
+    }
 
 
 Graph
 -----
+Not yet available.
