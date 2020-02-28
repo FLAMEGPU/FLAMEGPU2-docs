@@ -290,7 +290,6 @@ will not account for newly created agents straight away.*
 Example usage:
 
 .. code:: cpp
-
    FLAMEGPU_HOST_FUNCTION(my_host_function) {
         // Create an agent of type 'red' in the initial_state (specified in agent description)
         // Set the new agent's 'z' variable to a random number [1,10]
