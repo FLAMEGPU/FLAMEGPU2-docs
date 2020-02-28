@@ -136,8 +136,6 @@ to that used to initial the environment properties via
 Environment properties can also be created and removed during
 simulations, however this is discouraged as it may impact performance.
 
-Example usage:
-
 Random Number Generation
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -270,4 +268,37 @@ bounds of the histogram:
        // Create a histogram of agent 'red's variable 'z'
        // 10 bins, inclusive lower bound 0, exclusive upper bound 100
        std::vector<int> hist = myAgent.histogramEven<int, int>("z", 10, 0, 100);
+   }
+   
+Agent Creation
+~~~~~~~~~~~~~~
+The Host API’s agent creation interface is identical to that available from the
+Device API. However, agents of any valid type and state can be created 
+(whereas the Device API requires the type and state be specified in the model description).
+
+Host agent creation should be used sparingly as it may impact performance if large numbers
+of agents are reguarly being created on the host.
+
+**Note:** *Agents created by host functions do not exist until after all host functions, 
+of the same type, at the current layer or step have completed. Such that, host reductions
+will not account for newly created agents straight away.*
+
+**Note:** *Agents created in an exit condition which returns ``EXIT`` or an exit function
+ will never exist.*
+
+
+Example usage:
+
+.. code:: cpp
+
+   FLAMEGPU_HOST_FUNCTION(my_host_function) {
+        // Create an agent of type 'red' in the initial_state (specified in agent description)
+        // Set the new agent's 'z' variable to a random number [1,10]
+        auto newAgt = FLAMEGPU->newAgent("red");
+        newAgt.setVariable<int>("z", FLAMEGPU->random.uniform<int>(1, 10));
+        // Create a second agent of type 'red', this time in the state 'off'
+        // Assign the new agent's 'x' variable -1
+        auto newAgt2 = FLAMEGPU->newAgent("red", "off");
+        newAgt2.setVariable<float>("x", -1.0f);
+        // Variables not set here, will be set to their default values (specified in the agent description)
    }
