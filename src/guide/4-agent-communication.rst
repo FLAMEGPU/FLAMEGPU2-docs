@@ -12,14 +12,17 @@ Agents are able to read back their own message when iterating message lists.
 FLAME GPU comes with several messaging options, described below. It can be extended to support 
 bespoke messaging types, for guidance on this see the file ``include/flamegpu/runtime/messaging.h``.
 
-============== =========================== =========================================
+============== =========================== ==================================================
 Type           Symbol                       Description
-============== =========================== =========================================
+============== =========================== ==================================================
 *Disabled*     ``MsgNone``                 No message type is active
 Brute Force    ``MsgBruteForce``           Access all messages
 Spatial 2D     ``MsgSpatial2D``            Access all messages within a radius in 2D
 Spatial 3D     ``MsgSpatial3D``            Access all messages within a radius in 3D
-============== =========================== =========================================
+Array 1D       ``MsgArray1D``              Directly access messages via a 1 dimensional array
+Array 2D       ``MsgArray2D``              Directly access messages via a 2 dimensional array
+Array 3D       ``MsgArray3D``              Directly access messages via a 3 dimensional array
+============== =========================== ==================================================
 
 
 Brute Force
@@ -35,7 +38,9 @@ Model Definition
 ~~~~~~~~~~~~~~~~
 
 Defining the message's variables:
+
 .. code:: cpp
+
     MsgBruteForce::Description &message = model.newMessage("location");
     message.newVariable<int>("id");
     message.newVariable<float>("x");
@@ -43,6 +48,7 @@ Defining the message's variables:
 Adding the message as an input/output to agent functions
     
 .. code:: cpp
+
     // Some agent defined elsewhere
     AgentDescription &agent = ...;
     // This agent has an output function 'output_message'
@@ -58,7 +64,9 @@ Message Access
 ~~~~~~~~~~~~~~
 
 Outputting messages:
+
 .. code:: cpp
+
     // The 3rd argument specifies the output message type as Brute Force messaging
     FLAMEGPU_AGENT_FUNCTION(output_message, MsgNone, MsgBruteForce) {
         // Only agents with even id output the message
@@ -71,7 +79,9 @@ Outputting messages:
     }
     
 Reading messages:
+
 .. code:: cpp
+
     // The 2nd argument specifies the input message type as Brute Force messaging
     FLAMEGPU_AGENT_FUNCTION(move, MsgBruteForce, MsgNone) {
         const int ID = FLAMEGPU->getVariable<int>("id");
@@ -97,9 +107,25 @@ Reading messages:
     }
 
 
-Direct
+Array
 ------
-Not yet available.
+Array messaging is available in 1D, 2D and 3D, providing direct access to messages at a known location within an array.
+
+**TODO** Details on how optional output works.
+
+It is also possible to iterate messages within a Moore neighbourhood of a selected element of the array.
+
+An example of 2D array messaging can be found in the `game_of_life` example.
+
+Model Definition
+~~~~~~~~~~~~~~~~
+
+**TODO**
+
+Message Access
+~~~~~~~~~~~~~~
+
+**TODO**
 
 
 Spatial
@@ -119,7 +145,9 @@ Model Definition
 ~~~~~~~~~~~~~~~~
 
 Defining the message's variables:
+
 .. code:: cpp
+
     // Message type is specified as MsgSpatial2D
     MsgSpatial2D::Description &message = model.newMessage<MsgSpatial2D>("location");
     // Add extra message variables
@@ -138,7 +166,9 @@ Message Access
 ~~~~~~~~~~~~~~
 
 Outputting messages:
+
 .. code:: cpp
+
     // The 3rd argument specifies the output message type as Spatial 2D messaging
     FLAMEGPU_AGENT_FUNCTION(output_message, MsgNone, MsgSpatial2D) {
         // Set extra message variables
@@ -151,7 +181,9 @@ Outputting messages:
     }
     
 Reading messages:
+
 .. code:: cpp
+
     // The 2nd argument specifies the input message type as Brute Force messaging
     FLAMEGPU_AGENT_FUNCTION(move, MsgBruteForce, MsgNone) {
         const int ID = FLAMEGPU->getVariable<int>("id");

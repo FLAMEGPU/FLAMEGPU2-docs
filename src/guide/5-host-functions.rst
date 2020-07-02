@@ -112,8 +112,8 @@ conditions (with the exception of properties that were marked as
 constant, they cannot be changed), these can then be read during agent
 functions.
 
-The Host API’s methods for accessing environmental vars is very similar
-to that used to initial the environment properties via
+The Host API’s methods for accessing environmental properties is very similar
+to that used to initialise the environment properties via
 ``EnvironmentDescription``.
 
 .. code:: cpp
@@ -269,6 +269,10 @@ bounds of the histogram:
        // 10 bins, inclusive lower bound 0, exclusive upper bound 100
        std::vector<int> hist = myAgent.histogramEven<int, int>("z", 10, 0, 100);
    }
+   
+Sorting Agents
+~~~~~~~~~~~~~~
+**TODO**
 
 Agent Creation
 ~~~~~~~~~~~~~~
@@ -280,8 +284,8 @@ Host agent creation should be used sparingly as it may impact performance if lar
 of agents are regularly being created on the host.
 
 **Note:** *Agents created by host functions do not exist until after all host functions, 
-of the same type, at the current layer or step have completed. Such that, host reductions
-will not account for newly created agents straight away.*
+at the current layer have completed. Such that, host reductions will not account for newly 
+created agents straight away.*
 
 **Note:** *Agents created in an exit condition which returns ``EXIT`` or an exit function
  will never exist.*
@@ -290,6 +294,7 @@ will not account for newly created agents straight away.*
 Example usage:
 
 .. code:: cpp
+
    FLAMEGPU_HOST_FUNCTION(my_host_function) {
         // Create an agent of type 'red' in the initial_state (specified in agent description)
         // Set the new agent's 'z' variable to a random number [1,10]

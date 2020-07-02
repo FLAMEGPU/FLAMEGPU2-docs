@@ -27,12 +27,15 @@ variables, reading environment variables and random number generation.
 Example definition:
 
 .. code:: cpp
+
     // This agent function condition only allows agents who's 'x' variable equals '1' to progress
     FLAMEGPU_AGENT_FUNCTION_CONDITION(x_is_1) {
         return FLAMEGPU->getVariable<int>("x") == 1;
     }
     
+ 
 .. code:: cpp
+
     // A model is defined
     ModelDescription m("model");
     // It contains an agent with 'variable 'x' and two states 'foo' and 'bar'
