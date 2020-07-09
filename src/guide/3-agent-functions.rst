@@ -68,7 +68,7 @@ The agent function random number api is identical to that present in host functi
 
 The main difference, is that uniformly distributed floats are in the range ``(0-1]``, whereas host generation is in the range ``[0-1)``. This is due to the underlying libraries used.
 
-*If unfamiliar with the range notation, square brackets* ``[ ]`` *denote the bound is inclusive whereas regular brackets* ``( )`` *represent an inclusive bound.*
+*If unfamiliar with the range notation, square brackets* ``[ ]`` *denote the bound is inclusive whereas regular brackets* ``( )`` *represent an exclusive bound.*
 
 .. code:: cpp
 
