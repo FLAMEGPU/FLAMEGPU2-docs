@@ -12,7 +12,7 @@ Model Definition
 
 
 Agent Function Conditions
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 When defining agent functions the initial and end states for the executing agent must be specified. Following this,
 all agents in the specified initial state will execute the agent function and move to the end state. In order to
 allow agents in the same state to diverge an agent function condition must be added to the function.
