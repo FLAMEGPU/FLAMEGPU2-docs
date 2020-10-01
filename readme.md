@@ -17,6 +17,26 @@ When building, it can optionally be linked to the main FLAMEGPU2 source reposito
 * [FLAMEGPU2 Source](https://github.com/FLAMEGPU/FLAMEGPU2_dev): Required for building api documentation
 * [Doxygen](http://www.doxygen.nl/): Required for building api documentation
 
+
+## Installing Python Requirements
+
+### Using `venv` (linux)
+
+```bash
+mkdir -p -m 700 ~/.venvs
+python3 -m venv ~/.venvs/FLAMEGPU2_userguide
+source ~/.venvs/FLAMEGPU2_userguide/bin/activate
+python3 -m pip install -r requirements.txt 
+```
+
+### Using Conda (windows)
+
+```
+conda create --name FLAMEGPU2_userguide python=3
+conda activate FLAMEGPU2_userguide
+pip install -r requirements.txt
+```
+
 ## Building
 CMake is used to generate a build script for your specific platform, this requires a supported build system.
 
