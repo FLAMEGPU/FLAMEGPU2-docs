@@ -1,0 +1,29 @@
+# Just build documentation using Doxygen - no CUDA required
+name: build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies into virtualenv
+      run: |
+        mkdir -p -m 700 .venv
+        python3 -m venv .venv
+        source .venv/bin/activate
+        python3 -m pip install -r requirements.txt
+
+    # @todo download FLAMEGPU/FLAMEGPU to include API docs once breeze works.
+    - name: Configure
+      run: |
+        source .venv/bin/activate
+        cmake . -B build
+
+    - name: Build
+      run: cmake --build . --target all --verbose -j `nproc`
+      working-directory: build
