@@ -30,12 +30,7 @@ jobs:
       run: cmake --build . --target all --verbose -j `nproc`
       working-directory: build
 
-    - name: Publish
-      run: echo "@todo"
-      working-directory: build
-
-
-    - name: Publish to gh-pages
+    - name: Commit to gh-pages
       run: |
         git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY --branch gh-pages --single-branch gh-pages
         cp -r docs/_build/html/* gh-pages/
@@ -46,7 +41,9 @@ jobs:
         git commit -m "Update documentation $GITHUB_SHA" -a || true
         # The above command will fail if no changes were present, so we ignore
         # the return code.
-    - name: Push changes
+      working-directory: build
+
+    - name: Push gh-pages
       uses: ad-m/github-push-action@master
       with:
         branch: gh-pages
