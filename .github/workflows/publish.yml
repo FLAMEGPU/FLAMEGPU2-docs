@@ -30,6 +30,7 @@ jobs:
       run: cmake --build . --target all --verbose -j `nproc`
       working-directory: build
 
+    # @todo - make this a fresh commit every time to keep repo size down + make sure no deleted files remain.
     - name: Commit to gh-pages
       run: |
         git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY --branch gh-pages --single-branch gh-pages
