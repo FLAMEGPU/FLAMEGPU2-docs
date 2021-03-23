@@ -36,25 +36,3 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./build/userguide/
         # cname: flamegpu.com
-
-
-    # # @todo - make this a fresh commit every time to keep repo size down + make sure no deleted files remain.
-    # - name: Commit to gh-pages
-    #   run: |
-    #     git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY --branch gh-pages --single-branch gh-pages
-    #     cp -r userguide/* gh-pages/
-    #     cd gh-pages
-    #     git config --local user.email "action@github.com"
-    #     git config --local user.name "GitHub Action"
-    #     git add .
-    #     git commit -m "Update documentation $GITHUB_SHA" -a || true
-    #     # The above command will fail if no changes were present, so we ignore
-    #     # the return code.
-    #   working-directory: build
-
-    # - name: Push gh-pages
-    #   uses: ad-m/github-push-action@master
-    #   with:
-    #     branch: gh-pages
-    #     directory: gh-pages
-    #     github_token: ${{ secrets.GITHUB_TOKEN }}

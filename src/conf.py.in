@@ -31,6 +31,7 @@ release = '0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 
+html_logo = "@RELPATH_CONFIG_TO_STATIC@/img/flamegpu2-icon-notext-128.png"
 
 # If the 
 if @USE_BREATHE_EXHALE@:
