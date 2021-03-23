@@ -3,6 +3,9 @@ find_path(FLAMEGPU2_ROOT src/flamegpu/exception/FGPUException.cpp
     HINTS
         $ENV{FLAMEGPU2_ROOT}
         ${FLAMEGPU2_ROOT}
+        "${PROJECT_SOURCE_DIR}/../FGPU2"
+        "${PROJECT_SOURCE_DIR}/../FLAMEGPU2"
+        "${PROJECT_SOURCE_DIR}/../FLAMEGPU2_DEV"
         "${PROJECT_SOURCE_DIR}/../fgpu2"
         "${PROJECT_SOURCE_DIR}/../flamegpu2"
         "${PROJECT_SOURCE_DIR}/../flamegpu2_dev"
