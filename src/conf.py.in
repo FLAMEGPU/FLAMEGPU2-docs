@@ -65,8 +65,23 @@ if @USE_BREATHE_EXHALE@:
 # Tell sphinx what the primary language being documented is.
 primary_domain = 'cpp'
 
+# cuda is not a valid sphinx domain, instead we must pass cuda specific attributes which allow the generated docs to be parsed.
+# See Section B.1. Function Execution Space Specifiers of the CUDA docs https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#c-language-extensions
+cpp_id_attributes = [
+    "__global__", 
+    "__device__",
+    "__host__",
+    "__noinline__", 
+    "__forceinline__", 
+    "__constant__", 
+    "__shared__", 
+    "__managed__", 
+    "__restrict__"
+    ]
+
 # Tell sphinx what the pygments highlight language should be.
-highlight_language = 'cpp'
+highlight_language = 'cuda'
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
