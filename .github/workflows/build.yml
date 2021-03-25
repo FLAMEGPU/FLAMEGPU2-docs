@@ -1,4 +1,3 @@
-# Just build documentation using Doxygen - no CUDA required
 name: build
 
 on:

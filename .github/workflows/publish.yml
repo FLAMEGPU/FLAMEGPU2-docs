@@ -1,5 +1,4 @@
-# Just build documentation using Doxygen - no CUDA required
-name: build
+name: publish
 
 on:
   push:
@@ -7,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-18.04
     env:
       build_api_docs: "ON"
