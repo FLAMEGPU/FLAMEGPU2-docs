@@ -4,26 +4,44 @@ name: build
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-18.04
+    env:
+      build_api_docs: "ON"
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout FLAMEGPU2/FLAMEGPU2-userguide
+      uses: actions/checkout@v2
+      with:
+        path: FLAMEGPU2-userguide
 
-    - name: Install dependencies into virtualenv
+    - name: Checkout FLAMEGPU2/FLAMEGPU2
+      if: env.build_api_docs == 'ON'
+      uses: actions/checkout@v2
+      with:
+        repository: FLAMEGPU/FLAMEGPU2
+        path: FLAMEGPU2
+
+    - name: Install doxygen
+      if: env.build_api_docs == 'ON'
+      run: sudo apt -y install doxygen
+
+    - name: Install python packages
+      working-directory: FLAMEGPU2-userguide
       run: |
         mkdir -p -m 700 .venv
         python3 -m venv .venv
         source .venv/bin/activate
         python3 -m pip install -r requirements.txt
 
-    # @todo download FLAMEGPU/FLAMEGPU to include API docs once breeze works.
     - name: Configure
+      working-directory: FLAMEGPU2-userguide
       run: |
         source .venv/bin/activate
         cmake . -B build
 
     - name: Build
+      working-directory: FLAMEGPU2-userguide/build
       run: cmake --build . --target all --verbose -j `nproc`
-      working-directory: build
