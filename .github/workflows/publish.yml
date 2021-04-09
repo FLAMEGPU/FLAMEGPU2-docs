@@ -54,10 +54,10 @@ jobs:
       run: cmake --build . --target all --verbose -j `nproc`
 
     # Deploy the documentation to the gh-pages branch of this repository, which is hosted at docs.flamegpu.com
-    # The cname option isn't strictly required, as github appears to use the value from master / the repo settings. 
+    # If cname is ommitted this action empties it, so we provide it here rather than in the settings
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: FLAMEGPU2-docs/build/userguide/
-        # cname: docs.flamegpu.com
+        cname: docs.flamegpu.com
