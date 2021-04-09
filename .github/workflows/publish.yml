@@ -1,21 +1,25 @@
 name: publish
 
 on:
+  # Run this workflow only on pushes to the master branch, or if the run workflow button is pressed in the github website.
   push:
-  pull_request:
+    branches: 
+      - master
   workflow_dispatch:
 
 jobs:
   publish:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     env:
       build_api_docs: "ON"
     steps:
+    # Chekout this repository into specified path
     - name: Checkout FLAMEGPU2/FLAMEGPU2-userguide
       uses: actions/checkout@v2
       with:
-        path: FLAMEGPU2-userguide
+        path: FLAMEGPU2-docs
 
+    # If API docs are being built, check them out into a subfolder.
     - name: Checkout FLAMEGPU2/FLAMEGPU2
       if: env.build_api_docs == 'ON'
       uses: actions/checkout@v2
@@ -23,31 +27,37 @@ jobs:
         repository: FLAMEGPU/FLAMEGPU2
         path: FLAMEGPU2
 
+    # Install dependencies via apt
     - name: Install doxygen
       if: env.build_api_docs == 'ON'
       run: sudo apt -y install doxygen
 
+    # Install pythoon dependencies via pip into a venv
     - name: Install python packages
-      working-directory: FLAMEGPU2-userguide
+      working-directory: FLAMEGPU2-docs
       run: |
         mkdir -p -m 700 .venv
         python3 -m venv .venv
         source .venv/bin/activate
         python3 -m pip install -r requirements.txt
 
+    # Configure CMake 
     - name: Configure
-      working-directory: FLAMEGPU2-userguide
+      working-directory: FLAMEGPU2-docs
       run: |
         source .venv/bin/activate
         cmake . -B build
 
+    # Build the documentation
     - name: Build
-      working-directory: FLAMEGPU2-userguide/build
+      working-directory: FLAMEGPU2-docs/build
       run: cmake --build . --target all --verbose -j `nproc`
 
+    # Deploy the documentation to the gh-pages branch of this repository, which is hosted at docs.flamegpu.com
+    # The cname option isn't strictly required, as github appears to use the value from master / the repo settings. 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: FLAMEGPU2-userguide/build/userguide/
-        # cname: flamegpu.com
+        publish_dir: FLAMEGPU2-docs/build/userguide/
+        # cname: docs.flamegpu.com
