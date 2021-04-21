@@ -2,3 +2,5 @@ sphinx >= 2.0
 breathe >= 4.13.0
 exhale
 sphinx_rtd_theme
+sphinx_tabs
+sphinx-copybutton

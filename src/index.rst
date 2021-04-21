@@ -7,10 +7,12 @@ Welcome to FLAME GPU 2's documentation!
 =======================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
    :caption: Contents:
    
+   quickstart/index.rst
    guide/index.rst
+   example-docs/index.rst
    
    api/library_root
    api/class_view_hierarchy

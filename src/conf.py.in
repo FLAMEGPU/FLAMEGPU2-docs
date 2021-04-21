@@ -33,12 +33,19 @@ release = '0'
 
 html_logo = "@RELPATH_CONFIG_TO_STATIC@/img/flamegpu2-icon-notext-128.png"
 
+extensions = [
+    'sphinx_tabs.tabs',
+    'sphinx_copybutton'
+]
+
 # If the 
 if @USE_BREATHE_EXHALE@:
 
     extensions = [
         'breathe',
-        'exhale'
+        'exhale',
+        'sphinx_tabs.tabs',
+        'sphinx_copybutton'
     ]
 
     # Setup the breathe extension
@@ -109,7 +116,7 @@ html_theme_options = {
     # 'vcs_pageview_mode': '',
     'style_nav_header_background': 'black',
     # Toc options
-    'collapse_navigation': True,
+    'collapse_navigation': False,
     'sticky_navigation': True,
     'navigation_depth': 4,
     'includehidden': True,
