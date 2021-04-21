@@ -5,14 +5,18 @@ This user guide provides a clear introduction to the core features of FLAME GPU 
 
 
 .. toctree::
-   :maxdepth: 2   
+   :maxdepth: 5   
    :caption: Sections:
    
-   1-environment.rst
-   2-agent.rst
-   3-agent-functions.rst
-   4-agent-communication.rst
-   5-host-functions.rst
-   6-submodels.rst
-   7-initialisation.rst
+   2-model-definition/index.rst
+   3-behaviour-definition/index.rst
+   4-initial-conditions/index.rst
+   5-running-a-sim/index.rst
+   6-agent-birth-death/index.rst
+   7-submodels/index.rst
+   8-advanced-sim-management/index.rst
+   9-visualisation/index.rst
+   10-performance-troubleshooting/index.rst
+   11-fgpu2-source/index.rst
+   
    
