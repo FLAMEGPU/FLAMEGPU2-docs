@@ -14,7 +14,7 @@ This user guide provides a clear introduction to the core features of FLAME GPU 
    5-running-a-sim/index.rst
    6-agent-birth-death/index.rst
    7-submodels/index.rst
-   8-advanced-sim-management/index.rst
+   8-running-multiple-sims/index.rst
    9-visualisation/index.rst
    10-performance-troubleshooting/index.rst
    11-fgpu2-source/index.rst
