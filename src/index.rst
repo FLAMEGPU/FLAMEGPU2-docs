@@ -12,6 +12,7 @@ Welcome to FLAME GPU 2's documentation!
    
    quickstart/index.rst
    guide/index.rst
+   example-docs/index.rst
    
    api/library_root
    api/class_view_hierarchy
