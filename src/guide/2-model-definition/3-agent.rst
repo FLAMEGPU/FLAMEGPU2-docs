@@ -1,51 +1,139 @@
 Defining Agents
 ===============
 
-Agents are the central component of FLAME GPU simulations, as they map effectively to the highly parallel architecture of GPUs.
+Agents are the central component of FLAME GPU simulations, and are directly equivalent to agent-based modelling agents. However, 
+they can also be used to represent other things such as scalar fields across the environment. Agents are represented by an ``AgentDescription``
+object
 
-**TODO General Description**
+Defining a New Agent Type
+-------------------------
+FLAMEGPU2 agents are associated with a particular model. As such they are created via a `ModelDescription` object and are initialised with a name:
 
-Model Definition
-----------------
-**TODO**
+.. tabs::
+  
+  .. code-tab:: python
 
-
-
-Agent Function Conditions
-~~~~~~~~~~~~~~~~~~~~~~~~~
-When defining agent functions the initial and end states for the executing agent must be specified. Following this,
-all agents in the specified initial state will execute the agent function and move to the end state. In order to
-allow agents in the same state to diverge an agent function condition must be added to the function.
-
-Agent function conditions are executed by all agents before the main agent function, and must return either ``true``
-or ``false``. Agents which return ``true`` pass the function and continue to execute the agent function and transition
-to the end state.
-
-Within agent function conditions a reduced read-only FGPU Device API is available. This only permits reading agent
-variables, reading environment variables and random number generation.
-
-Example definition:
-
-.. code:: cpp
-
-    // This agent function condition only allows agents who's 'x' variable equals '1' to progress
-    FLAMEGPU_AGENT_FUNCTION_CONDITION(x_is_1) {
-        return FLAMEGPU->getVariable<int>("x") == 1;
-    }
-    
+    # Create a new agent called 'predator' associated the model 'model' 
+    predator = model.newAgent("predator")
  
-.. code:: cpp
+  .. code-tab:: cpp
 
-    // A model is defined
-    ModelDescription m("model");
-    // It contains an agent with 'variable 'x' and two states 'foo' and 'bar'
-    AgentDescription &a = m.newAgent("agent");
-    a.newVariable<int>("x");
-    a.newState("foo");
-    a.newState("bar");
-    // The agent has an agent function which transitions agents from state 'foo' to 'bar'
-    AgentFunctionDescription &af1 = a.newFunction("example_function", ExampleFn);
-    af1.setInitialState("foo");
-    af1.setEndState("bar");
-    // Only agents that pass function condition 'x_is_1' may execute the function and transition
-    af1.setFunctionCondition(x_is_1);
+    // Create a new agent called 'predator' associated the model 'model' 
+    AgentDescription &predator = model.newAgent("predator");
+
+Agent Properties
+----------------
+Agent properties should be used to store data which is unique to each instance of an agent, for example, each individual predator in a predator-prey simulation
+would have its own position and hunger level. Each property has a name and a type. For a complete list of supported types, see **TODO: reference page for available types**. 
+
+.. tabs::
+
+  .. code-tab:: python
+
+    # Create two new floating point variables, x and y
+    predator.newVariableFloat("x")
+    predator.newVariableFloat("y")
+
+    # Create a new integer variable, hungerLevel
+    predator.newVariableInt("hungerLevel")
+
+  .. code-tab:: cpp
+
+    // Create two new floating point variables, x and y
+    predator.newVariable<float>("x");
+    predator.newVariable<float>("y");
+
+    // Create a new integer variable, hungerLevel
+    predator.newVariable<int>("hungerLevel");
+
+Agent Array Properties
+----------------------
+Array properties can also be defined by providing a name and array length:
+
+.. tabs::
+
+  .. code-tab:: python
+
+    # Create an array property called exampleArray which is an array of 3 integers
+    predator.newVariableArrayInt("exampleArray", 3)
+
+  .. code-tab:: cpp
+
+    // Create an array property called exampleArray which is an array of 3 integers
+    predator.newVariableArray<int>("exampleArray", 3);
+
+Agent States
+------------
+Agent states are usually used to group sets of behaviours. For example, a predator in a predator-prey simulation may have a resting state and a hunting state.
+All newly defined agent types will have a default state, but you can add additional states if you wish to. States can be defined through the 
+``AgentDescription`` object:
+
+.. tabs::
+
+  .. code-tab:: python
+
+    # Create two new states, resting and hunting
+    predator.newState("resting")
+    predator.newState("hunting")
+
+  .. code-tab:: cpp
+
+    // Create two new states, resting and hunting
+    predator.newState("resting");
+    predator.newState("hunting");
+    
+Full Example Code From This Page
+--------------------------------
+
+.. tabs::
+
+  .. code-tab:: python
+    
+    # Create a new agent called 'predator' associated the model 'model' 
+    predator = model.newAgent("predator")
+
+    # Create two new floating point variables, x and y
+    predator.newVariableFloat("x")
+    predator.newVariableFloat("y")
+
+    # Create a new integer variable, hungerLevel
+    predator.newVariableInt("hungerLevel")
+
+    # Create an array property called exampleArray which is an array of 3 integers
+    predator.newVariableArrayInt("exampleArray", 3)
+
+    # Create two new states, resting and hunting
+    predator.newState("resting")
+    predator.newState("hunting")
+
+  .. code-tab:: cpp
+
+    // Create a new agent called 'predator' associated the model 'model' 
+    AgentDescription &predator = model.newAgent("predator");
+
+    // Create two new floating point variables, x and y
+    predator.newVariable<float>("x");
+    predator.newVariable<float>("y");
+
+    // Create a new integer variable, hungerLevel
+    predator.newVariable<int>("hungerLevel");
+
+    // Create an array property called exampleArray which is an array of 3 integers
+    predator.newVariableArray<int>("exampleArray", 3);
+
+    // Create two new states, resting and hunting
+    predator.newState("resting");
+    predator.newState("hunting");
+
+More Info 
+---------
+* Related User Guide Pages
+
+  * `Interacting with the Environment <../3-behaviour-definition/3-interacting-with-environment.html>`_
+  * `Random Number Generation <../8-advanced-sim-management/2-rng-seeds.html>`_
+
+* Full API documentation for the ``EnvironmentDescription``: link
+* Examples which demonstrate creating an environment
+
+  * Boids Brute Force (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/boids_bruteforce/src/main.cu>`_)
+  * Ensemble (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/ensemble/src/main.cu>`_)

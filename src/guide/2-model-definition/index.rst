@@ -11,5 +11,4 @@ This user guide provides a clear introduction to the core features of FLAME GPU 
    1-model.rst
    2-environment.rst
    3-agent.rst
-   4-agent-properties.rst   
   
