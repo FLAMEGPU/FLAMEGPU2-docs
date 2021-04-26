@@ -13,4 +13,3 @@ This user guide provides a clear introduction to the core features of FLAME GPU 
    3-interacting-with-environment.rst   
    4-agent-communication.rst
    5-conditional-behaviours.rst
-   6-runtime-agent-behaviour.rst
