@@ -35,7 +35,8 @@ html_logo = "@RELPATH_CONFIG_TO_STATIC@/img/flamegpu2-icon-notext-128.png"
 
 extensions = [
     'sphinx_tabs.tabs',
-    'sphinx_copybutton'
+    'sphinx_copybutton',
+    'sphinx.ext.graphviz'
 ]
 
 # If the 
@@ -45,7 +46,8 @@ if @USE_BREATHE_EXHALE@:
         'breathe',
         'exhale',
         'sphinx_tabs.tabs',
-        'sphinx_copybutton'
+        'sphinx_copybutton',
+        'sphinx.ext.graphviz'
     ]
 
     # Setup the breathe extension
