@@ -23,6 +23,11 @@ jobs:
         repository: FLAMEGPU/FLAMEGPU2
         path: FLAMEGPU2
 
+    # Install dependencies via apt
+    - name: Install graphviz
+      run: sudo apt -y install graphviz 
+
+    # Install API docs dependencies via apt
     - name: Install doxygen
       if: env.build_api_docs == 'ON'
       run: sudo apt -y install doxygen
