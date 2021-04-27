@@ -11,3 +11,4 @@ This user guide provides a clear introduction to the core features of FLAME GPU 
    1-agent-populations.rst
    2-initial-properties.rst
    4-rng-seeds.rst
+   5-from-disk.rst
