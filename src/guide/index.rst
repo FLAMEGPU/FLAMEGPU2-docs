@@ -8,6 +8,7 @@ This user guide provides a clear introduction to the core features of FLAME GPU 
    :maxdepth: 5   
    :caption: Sections:
    
+   1-meta/index.rst
    2-model-definition/index.rst
    3-behaviour-definition/index.rst
    4-initial-conditions/index.rst
