@@ -12,6 +12,7 @@ The FLAME GPU 2 userguide and API docs can be found at [docs.flamegpu.com](https
 ## Requirements
 * [CMake](https://cmake.org/)
 * [Python3]
+* [Graphviz](https://graphviz.org/)
 *Python Packages:*
   * [Sphinx](http://www.sphinx-doc.org/en/master/) >= 2.0
   * [Breathe](https://breathe.readthedocs.io/en/latest/) >= 4.13.0

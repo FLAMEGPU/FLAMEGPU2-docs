@@ -19,6 +19,9 @@ set(SPHINX_BUILD "${CMAKE_CURRENT_BINARY_DIR}/userguide")
 set(SPHINX_CONFIG_DIR "${CMAKE_CURRENT_BINARY_DIR}")
 # set(SPHINX_CAHCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/_doctrees")
 
+# Find graphviz which is required for the user guide (sphinx graphviz plugin)
+find_package(Graphviz REQUIRED)
+
 find_package(FLAMEGPU2)
 # Build Doxygen if we can
 if(FLAMEGPU2_FOUND)
@@ -34,7 +37,6 @@ file(RELATIVE_PATH RELPATH_CONFIG_TO_STATIC "${SPHINX_CONFIG_DIR}" "${SPHINX_SOU
 set(EXHALE_CONTAINMENT_FOLDER_ABS "${SPHINX_SOURCE}/api")
 file(RELATIVE_PATH EXHALE_CONTAINMENT_FOLDER "${SPHINX_CONFIG_DIR}" "${EXHALE_CONTAINMENT_FOLDER_ABS}")
 
-message("FLAMEGPU2_FOUND ${FLAMEGPU2_FOUND}")
 if(FLAMEGPU2_FOUND AND DOXYGEN_FOUND)
     # Set the var used when generating conf.py to enable breathe/exhale 
     set(USE_BREATHE_EXHALE "True")
