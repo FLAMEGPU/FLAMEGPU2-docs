@@ -15,9 +15,6 @@ Welcome to FLAME GPU 2's documentation!
    example-docs/index.rst
    
    api/library_root
-   api/class_view_hierarchy
-   api/file_view_hierarchy
-   api/unabridged_api
 
 
 Indices and tables

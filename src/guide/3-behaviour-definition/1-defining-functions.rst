@@ -15,7 +15,7 @@ Defining an Agent Function
 --------------------------
 
 An agent function is defined using the ``FLAMEGPU_AGENT_FUNCTION`` macro. This takes three arguments: a unique name identifying the function, an input
-message type, and an output message type. We will discuss messages in more detail later, so for now don't worry about the second and third paramters.
+message communication strategy, and an output message communication strategy. We will discuss messages in more detail later, so for now don't worry about the second and third paramters.
 
 In C++, these definitions should appear before your main function. In python, they should be specified in string literals, with the containing variable'state
 name matching the unique function identifier:
