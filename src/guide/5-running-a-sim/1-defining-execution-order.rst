@@ -180,4 +180,25 @@ Manual Layer Specification
 --------------------------
 
 FLAMEGPU2 will automatically determine the optimal execution layers using the DependencyGraph, but you can
-specify them manually if you wish.
+specify them manually if you wish. To do so, create `LayerDescription` objects, one representing each execution layer.
+Manually created layers will execute in the order they are defined. You should not mix manual layer creation with
+the dependency specification method.
+
+
+.. tabs::
+
+  .. code-tab:: python
+
+    # Create a new layer for the model 'model'
+    layer = model.newLayer()
+
+    # Add the agent function 'outputdata' to the layer
+    layer.addAgentFunction(outputdata)
+
+  .. code-tab:: cpp
+
+    // Create a new layer for the model 'model'
+    LayerDescription &layer = model.newLayer();
+    
+    // Add the agent function 'outputdata' to the layer
+    layer.addAgentFunction(outputdata);
