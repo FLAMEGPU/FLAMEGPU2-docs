@@ -50,9 +50,9 @@ Any arithmetic or enum type can be used as an environment property
   .. code-tab:: python
 
     # Define environmental properties and their initial values
-    env.addFloat("f_prop", 12.0f)     # Create float property 'f_prop', with value of 12
-    env.addInt("ia_prop", {1, 2, 3})  # Create int array property 'ia_prop', with value of [1, 2, 3]
-    env.addChar("c_prop", 'g', true)  # Create constant char property 'c_prop', with value 'g'
+    env.newPropertyFloat("f_prop", 12.0)     # Create float property 'f_prop', with value of 12
+    env.newPropertyArrayInt("ia_prop", 3, [1, 2, 3])  # Create int array property 'ia_prop', with value of [1, 2, 3]
+    env.newPropertyChar("c_prop", 'g', True)  # Create constant char property 'c_prop', with value 'g'
 
   .. code-tab:: cpp
 
@@ -89,9 +89,9 @@ Full Example Code From This Page
     env = pyflamegpu.EnvironmentDescription()
 
     # Define environmental properties and their initial values
-    env.addFloat("f_prop", 12.0f)     # Create float property 'f_prop', with value of 12
-    env.addInt("ia_prop", {1, 2, 3})  # Create int array property 'ia_prop', with value of [1, 2, 3]
-    env.addChar("c_prop", 'g', true)  # Create constant char property 'c_prop', with value 'g'
+    env.newPropertyFloat("f_prop", 12.0)     # Create float property 'f_prop', with value of 12
+    env.newPropertyArrayInt("ia_prop", 3, [1, 2, 3])  # Create int array property 'ia_prop', with value of [1, 2, 3]
+    env.newPropertyChar("c_prop", 'g', True)  # Create constant char property 'c_prop', with value 'g'
 
     # Attach the EnvironmentDescription to a ModelDescription
     model.setEnvironment(env)
