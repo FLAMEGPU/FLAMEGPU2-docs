@@ -25,7 +25,7 @@ name matching the unique function identifier:
   .. code-tab:: python
 
     # Define an agent function called agent_fn1
-    agent_fn1_source = """
+    agent_fn1_source = r"""
     FLAMEGPU_AGENT_FUNCTION(agent_fn1, MsgNone, MsgNone) {
         # Behaviour goes here
     }
@@ -129,7 +129,7 @@ Full Example Code From This Page
   .. code-tab:: python
     
     # Define an agent function called agent_fn1
-    agent_fn1_source = """
+    agent_fn1_source = r"""
     FLAMEGPU_AGENT_FUNCTION(agent_fn1, MsgNone, MsgNone) {
         # Behaviour goes here
     }
