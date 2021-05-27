@@ -23,14 +23,14 @@ FLAMEGPU2 agents are associated with a particular model. As such they are create
 
 Agent Properties
 ----------------
-Agent properties should be used to store data which is unique to each instance of an agent, for example, each individual predator in a predator-prey simulation
-would have its own position and hunger level. Each property has a name and a type. For a complete list of supported types, see **TODO: reference page for available types**.
+Agent variables should be used to store data which is unique to each instance of an agent, for example, each individual predator in a predator-prey simulation
+would have its own position and hunger level. Each variable has a name and a type. For a complete list of supported types, see **TODO: reference page for available types**.
 
 Agent ID
 ~~~~~~~~
 
-All agents have a built in `id` property. This is a number which uniquely identifies this agent. Each agent will automatically be assigned an ID when the simulation 
-starts or the agent is birthed. There is currently no way to change the ID of an agent. The agent ID property is of type `id_t` which is an `unsigned int` by default, but can be redefined if
+All agents have a built in `id` variable. This is a number which uniquely identifies this agent. Each agent will automatically be assigned an ID when the simulation 
+starts or the agent is birthed. There is currently no way to change the ID of an agent. The agent ID variable is of type `id_t` which is an `unsigned int` by default, but can be redefined if
 more IDs are required.
 
 User Defined Properties
@@ -58,18 +58,18 @@ User Defined Properties
 
 Agent Array Properties
 ----------------------
-Array properties can also be defined by providing a name and array length:
+Array variables can also be defined by providing a name and array length:
 
 .. tabs::
 
   .. code-tab:: python
 
-    # Create an array property called exampleArray which is an array of 3 integers
+    # Create an array variable called exampleArray which is an array of 3 integers
     predator.newVariableArrayInt("exampleArray", 3)
 
   .. code-tab:: cpp
 
-    // Create an array property called exampleArray which is an array of 3 integers
+    // Create an array variable called exampleArray which is an array of 3 integers
     predator.newVariableArray<int>("exampleArray", 3);
 
 Agent States
@@ -109,7 +109,7 @@ Full Example Code From This Page
     # Create a new integer variable, hungerLevel
     predator.newVariableInt("hungerLevel")
 
-    # Create an array property called exampleArray which is an array of 3 integers
+    # Create an array variable called exampleArray which is an array of 3 integers
     predator.newVariableArrayInt("exampleArray", 3)
 
     # Create two new states, resting and hunting
@@ -128,7 +128,7 @@ Full Example Code From This Page
     // Create a new integer variable, hungerLevel
     predator.newVariable<int>("hungerLevel");
 
-    // Create an array property called exampleArray which is an array of 3 integers
+    // Create an array variable called exampleArray which is an array of 3 integers
     predator.newVariableArray<int>("exampleArray", 3);
 
     // Create two new states, resting and hunting

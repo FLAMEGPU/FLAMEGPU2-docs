@@ -9,7 +9,7 @@ This user guide provides a clear introduction to the core features of FLAME GPU 
    :caption: Sections:
    
    1-defining-functions.rst
-   2-modifying-agent-properties.rst
+   2-modifying-agent-variables.rst
    3-interacting-with-environment.rst   
    4-agent-communication.rst
    5-conditional-behaviours.rst

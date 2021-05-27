@@ -1,13 +1,13 @@
 Modifying Agent Properties
 ==========================
 
-Each instance of an agent will have its own copy of each of the agent properties specified in the agent type defintion.
+Each instance of an agent will have its own copy of each of the agent variables specified in the agent type defintion.
 These can be accessed and modified within agent functions. 
 
 Within an agent function, variables can be read with ``getVariable`` and written to with ``setVariable``.
 These variables are accessed from higher latency device memory, so for the best performance, we recommended
 that you avoid multiple reads or writes to the same variable in any agent functions and do as much as possible
-with the local copy. The agent ID built-in property can be accessed via the `getID` method.
+with the local copy. The agent ID built-in variable can be accessed via the `getID` method.
 
 To achieve the high performance of FLAMEGPU2, agent behaviours must be implemented using C++. 
 
