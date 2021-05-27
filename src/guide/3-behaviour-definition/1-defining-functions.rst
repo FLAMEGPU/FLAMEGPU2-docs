@@ -93,6 +93,33 @@ The function can then be added to an ``AgentDescription`` using the ``newRTCFunc
     // The AgentFunctionDescription is stored in the agent_fn1_description variable
     AgentFunctionDescription& agent_fn1_description = agent.newRTCFunction("agent_fn1", agent_fn1_source);
 
+FLAMEGPU Device Functions
+-------------------------
+
+If you wish to define regular functions which can be used within agent function definitions, you can use the `FLAMEGPU_DEVICE_FUNCTION` macro:
+
+.. tabs::
+
+  .. code-tab:: cpp
+
+    // Define a function for adding two ingtegers which can be called inside agent functions.
+    FLAMEGPU_DEVICE_FUNCTION int add(int a, int b) {
+      return a + b;
+    }
+
+FLAMEGPU Host Device Functions
+------------------------------
+
+If you wish to define regular functions which can be used within agent function definitions and in host code, you can use the `FLAMEGPU_HOST_DEVICE_FUNCTION` macro:
+
+.. tabs::
+
+  .. code-tab:: cpp
+
+    // Define a function for subtracting two ingtegers which can be called inside agent functions, or in host code
+    FLAMEGPU_HOST_DEVICE_FUNCTION int subtract(int a, int b) {
+      return a - b;
+    }
 
 Full Example Code From This Page
 --------------------------------
@@ -113,6 +140,11 @@ Full Example Code From This Page
     agent_fn1_description = agent.newRTCFunction("agent_fn1", agent_fn1_source);
 
   .. code-tab:: cpp
+
+    // Define a function for adding two ingtegers which can be called inside agent functions.
+    FLAMEGPU_DEVICE_FUNCTION int add(int a, int b) {
+      return a + b;
+    }
 
     // Define an agent function called agent_fn1 - specified ahead of main function
     FLAMEGPU_AGENT_FUNCTION(agent_fn1, MsgNone, MsgNone) {

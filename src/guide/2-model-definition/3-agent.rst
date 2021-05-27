@@ -24,7 +24,17 @@ FLAMEGPU2 agents are associated with a particular model. As such they are create
 Agent Properties
 ----------------
 Agent properties should be used to store data which is unique to each instance of an agent, for example, each individual predator in a predator-prey simulation
-would have its own position and hunger level. Each property has a name and a type. For a complete list of supported types, see **TODO: reference page for available types**. 
+would have its own position and hunger level. Each property has a name and a type. For a complete list of supported types, see **TODO: reference page for available types**.
+
+Agent ID
+~~~~~~~~
+
+All agents have a built in `id` property. This is a number which uniquely identifies this agent. Each agent will automatically be assigned an ID when the simulation 
+starts or the agent is birthed. There is currently no way to change the ID of an agent. The agent ID property is of type `id_t` which is an `unsigned int` by default, but can be redefined if
+more IDs are required.
+
+User Defined Properties
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. tabs::
 
