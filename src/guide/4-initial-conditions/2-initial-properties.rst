@@ -4,7 +4,7 @@ Initialising Agent Variables
 Initialising a Population
 -------------------------
 
-To initialise a population, iterate over the ``AgentVector`` object and set the properties for each agent:
+To initialise a population, iterate over the ``AgentVector`` object and set the variables for each agent:
 
 ** TODO: not very idiomatic - python should use enumerate I think, and range based for for cpp**
 
