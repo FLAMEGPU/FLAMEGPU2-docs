@@ -9,3 +9,5 @@ For example
 `...` 
 
 will run the program '...' initialised with `....JSON`.
+
+Agent IDs must be unique when the file is loaded from disk. There is no way to fix this programmatically within FLAME, it must be corrected in the intiialisation file.
