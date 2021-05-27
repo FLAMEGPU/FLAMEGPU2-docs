@@ -1,5 +1,5 @@
-Modifying Agent Properties
-==========================
+Modifying Agent Variables
+=========================
 
 Each instance of an agent will have its own copy of each of the agent variables specified in the agent type defintion.
 These can be accessed and modified within agent functions. 

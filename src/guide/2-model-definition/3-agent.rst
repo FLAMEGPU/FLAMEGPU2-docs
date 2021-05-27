@@ -21,7 +21,7 @@ FLAMEGPU2 agents are associated with a particular model. As such they are create
     // Create a new agent called 'predator' associated the model 'model' 
     AgentDescription &predator = model.newAgent("predator");
 
-Agent Properties
+Agent Variables
 ----------------
 Agent variables should be used to store data which is unique to each instance of an agent, for example, each individual predator in a predator-prey simulation
 would have its own position and hunger level. Each variable has a name and a type. For a complete list of supported types, see **TODO: reference page for available types**.
@@ -33,7 +33,7 @@ All agents have a built in `id` variable. This is a number which uniquely identi
 starts or the agent is birthed. There is currently no way to change the ID of an agent. The agent ID variable is of type `id_t` which is an `unsigned int` by default, but can be redefined if
 more IDs are required.
 
-User Defined Properties
+User Defined Variables
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 .. tabs::
@@ -56,7 +56,7 @@ User Defined Properties
     // Create a new integer variable, hungerLevel
     predator.newVariable<int>("hungerLevel");
 
-Agent Array Properties
+Agent Array Variables
 ----------------------
 Array variables can also be defined by providing a name and array length:
 
