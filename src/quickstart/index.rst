@@ -6,8 +6,12 @@
 Quickstart Guide
 ================
 
+This quickstart guide will walk you through setting up FLAMEGPU2, building, and running a simple model.
+
 .. toctree::
    :maxdepth: 5
    :caption: Contents:
    
-   1-quickstart.rst
+   1-template-repo.rst
+   2-running-the-model.rst
+   3-next-steps.rst
