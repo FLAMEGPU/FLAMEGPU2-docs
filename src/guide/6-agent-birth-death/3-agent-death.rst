@@ -29,7 +29,7 @@ conditionals to only have agents die according to a certain condition:
 
   .. code-tab:: cpp
     
-    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MsgNone, MsgNone) {
+    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MessageNone, MessageNone) {
         // Get the 'x' variable of the agent
         int x = FLAMEGPU->getVariable<int>("x");
         
