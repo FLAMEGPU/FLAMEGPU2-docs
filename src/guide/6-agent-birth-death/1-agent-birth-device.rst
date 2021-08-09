@@ -15,16 +15,16 @@ Enabling Agent Creation
 To create agents from agent functions, you must specify the type of agent the function produces when defining your agent functions:
 
 .. tabs::
-  
-  .. code-tab:: python
-  
-    # The agent type 'example_agent' is set as the agent output type
-    agent_fn1_description.setAgentOutput(example_agent)
 
   .. code-tab:: cpp
 
     // The agent type 'example_agent' is set as the agent output type
     agent_fn1_description.setAgentOutput(example_agent);
+
+  .. code-tab:: python
+  
+    # The agent type 'example_agent' is set as the agent output type
+    agent_fn1_description.setAgentOutput(example_agent)
 
 Creating the New Agent
 ----------------------
@@ -55,16 +55,16 @@ By default, agent creation is mandatory for an agent function which has agent ou
 function runs for to output an agent, you can enable optional agent output:
 
 .. tabs::
-  
-  .. code-tab:: python
-
-    # Enable optional agent output
-    agent_fn1_description.setAgentOutputOptional(true)
 
   .. code-tab:: cpp
 
     // Enable optional agent output
     agent_fn1_description.setAgentOutputOptional(true);
+
+  .. code-tab:: python
+
+    # Enable optional agent output
+    agent_fn1_description.setAgentOutputOptional(true)
 
 With this set, a new agent will only be created if one of the ``FLAMEGPU->agent_out`` variables is set manually. **TODO: check this is correct**
 As an example:
@@ -93,14 +93,6 @@ Full Example Code From This Page
 
 .. tabs::
 
-  .. code-tab:: python
-    
-    # The agent type 'example_agent' is set as the agent output type
-    agent_fn1_description.setAgentOutput(example_agent)
-
-    # Enable optional agent output
-    agent_fn1_description.setAgentOutputOptional(true)
-
   .. code-tab:: cpp
 
     // The agent type 'example_agent' is set as the agent output type
@@ -108,6 +100,16 @@ Full Example Code From This Page
 
     // Enable optional agent output
     agent_fn1_description.setAgentOutputOptional(true);
+
+    .. code-tab:: python
+    
+    # The agent type 'example_agent' is set as the agent output type
+    agent_fn1_description.setAgentOutput(example_agent)
+
+    # Enable optional agent output
+    agent_fn1_description.setAgentOutputOptional(true)
+
+
 
 
 .. tabs::

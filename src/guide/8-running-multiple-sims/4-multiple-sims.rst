@@ -6,10 +6,6 @@ An ensemble is a group of simulations which are run concurrently. To use an ense
 
 .. tabs::
 
-  .. code-tab:: python
-
-    **TODO: python ensembles**
-
   .. code-tab:: cpp
      
     // Create a RunPlanVector object from the model, specifying we wish to run 20 simulations
@@ -23,3 +19,7 @@ An ensemble is a group of simulations which are run concurrently. To use an ense
 
     // Run the ensemble
     ensemble.simulate();
+
+  .. code-tab:: python
+
+    **TODO: python ensembles**

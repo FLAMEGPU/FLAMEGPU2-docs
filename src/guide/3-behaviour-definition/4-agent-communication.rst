@@ -11,47 +11,46 @@ Defining a message type in FLAMEGPU2 requires selection of a communication strat
 with several built-in communication strategies, described below. It can also be extended to support bespoke messaging types. For guidance on this see the file 
 ``include/flamegpu/runtime/messaging.h``. For each message type, the communication strategy defines how the messages will be accessed.
 
-============== =========================== ==================================================
+============== =========================== ======================================================
 Type           Symbol                       Description
-============== =========================== ==================================================
+============== =========================== ======================================================
 Brute Force    ``MessageBruteForce``           Access all messages
 Spatial 2D     ``MessageSpatial2D``            Access all messages within a radius in 2D
 Spatial 3D     ``MessageSpatial3D``            Access all messages within a radius in 3D
 Array 1D       ``MessageArray1D``              Directly access messages via a 1 dimensional array
 Array 2D       ``MessageArray2D``              Directly access messages via a 2 dimensional array
 Array 3D       ``MessageArray3D``              Directly access messages via a 3 dimensional array
-============== =========================== ==================================================
+============== =========================== ======================================================
 
 A new message type can defined using one of the above symbols:
 
 .. tabs::
-    
+
+    .. code-tab:: cpp
+
+      // Create a new message type called "location" which uses the brute force communication strategy
+      flamegpu::MessageBruteForce::Description &locationMessage = model.newMessage("location");
+
     .. code-tab:: python
       
       # Create a new message type called "location" which uses the brute force communication strategy
       location_message = model.newMessageBruteForce("location")
 
-    .. code-tab:: cpp
-      
-      // Create a new message type called "location" which uses the brute force communication strategy
-      flamegpu::MessageBruteForce::Description &locationMessage = model.newMessage("location");
+
 
 Data the message should contain can then be defined using the ``newVariable`` method of the message's ``Description`` object:
 
 .. tabs::
-    
+
+    .. code-tab:: cpp
+        
+      // Add a variable of type "int" with name "id" to the "location_message" type
+      locationMessage.newVariable<int>("id");
+
     .. code-tab:: python
       
       # Add a variable of type "int" with name "id" to the "location_message" type
       location_message.newVariableInt("id")
-
-    .. code-tab:: cpp
-      
-      // Add a variable of type "int" with name "id" to the "location_message" type
-      locationMessage.newVariable<int>("id");
-
-
-
 
 Sending Messages
 ----------------
@@ -72,16 +71,15 @@ and must match that of the message type:
 To specify the type of message the function should output, the ``setMessageOutput`` method of the ``AgentFunctionDescription`` object is used:
 
 .. tabs::
-    
+    .. code-tab:: cpp
+      
+      // Specify that the "outputdata" agent function outputs a "location_message"
+      outputdata.setMessageOutput("location_message");    
+
     .. code-tab:: python
       
       # Specify that the "outputdata" agent function outputs a "location_message"
       outputdata.setMessageOutput("location_message")
-
-    .. code-tab:: cpp
-      
-      // Specify that the "outputdata" agent function outputs a "location_message"
-      outputdata.setMessageOutput("location_message");
 
 The agent function will now output a message of type "location_message". The variables in the message can be set as follows:
 
@@ -116,16 +114,16 @@ You must also specify the interaction radius via the ``MessageDescription`` obje
 
 .. tabs::
     
+    .. code-tab:: cpp
+
+      // Specify that the "outputdata" agent function has an interaction radius of 2.0f
+      outputdata.setMessageOutput(2.0f);
+  
     .. code-tab:: python
       
       # Specify that the "outputdata" agent function has an interaction radius of 2.0
       outputdata.setRadius(2.0)
 
-    .. code-tab:: cpp
-      
-      // Specify that the "outputdata" agent function has an interaction radius of 2.0f
-      outputdata.setMessageOutput(2.0f);
-      
       
 **Array Messaging**
 If you are using ``MessageArray1D``, ``MessageArray2D`` or ``MessageArray3D`` then you must specify the corresponding array index when outputting a message. It is important that only 1 agent writes a message to each index (if ``SEATBELTS`` is enabled then multiple outputs to the same index will raise an exception).
@@ -162,16 +160,16 @@ The input message type is specified using the ``setMessageInput`` method of the 
 
 
 .. tabs::
-    
-    .. code-tab:: python
-      
-      # Specify that the "inputdata" agent function inputs a "location_message"
-      inputdata.setMessageInput("location_message")
 
     .. code-tab:: cpp
       
       // Specify that the "inputdata" agent function inputs a "location_message"
       inputdata.setMessageInput("location_message");
+
+    .. code-tab:: python
+      
+      # Specify that the "inputdata" agent function inputs a "location_message"
+      inputdata.setMessageInput("location_message")
 
 With the input message type specified, the message list will be available in the agent function definition. The message list can be iterated over to access each message:
 

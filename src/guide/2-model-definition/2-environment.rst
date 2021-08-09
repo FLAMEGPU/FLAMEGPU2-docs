@@ -15,15 +15,16 @@ An ``EnvironmentDescription`` is initialised as shown below:
 
 .. tabs::
 
+  .. code-tab:: cpp
+
+    // Create an EnvironmentDescription object called env
+    flamegpu::EnvironmentDescription env;
+
   .. code-tab:: python
     
     # Create an EnvironmentDescription object called env
     env = pyflamegpu.EnvironmentDescription()
 
-  .. code-tab:: cpp
-
-    // Create an EnvironmentDescription object called env
-    flamegpu::EnvironmentDescription env;
 
 
 Defining Environmental Properties
@@ -47,6 +48,13 @@ Any arithmetic or enum type can be used as an environment property
 
 .. tabs::
 
+  .. code-tab:: cpp
+
+    // Define environmental properties and their initial values
+    env.add<float>("f_prop", 12.0f);        // Create float property 'f_prop', with value of 12
+    env.add<int, 3>("ia_prop", {1, 2, 3});  // Create int array property 'ia_prop', with value of [1, 2, 3]
+    env.add<char>("c_prop", 'g', true);     // Create constant char property 'c_prop', with value 'g'
+
   .. code-tab:: python
 
     # Define environmental properties and their initial values
@@ -54,12 +62,6 @@ Any arithmetic or enum type can be used as an environment property
     env.newPropertyArrayInt("ia_prop", 3, [1, 2, 3])  # Create int array property 'ia_prop', with value of [1, 2, 3]
     env.newPropertyChar("c_prop", 'g', True)  # Create constant char property 'c_prop', with value 'g'
 
-  .. code-tab:: cpp
-
-    // Define environmental properties and their initial values
-    env.add<float>("f_prop", 12.0f);        // Create float property 'f_prop', with value of 12
-    env.add<int, 3>("ia_prop", {1, 2, 3});  // Create int array property 'ia_prop', with value of [1, 2, 3]
-    env.add<char>("c_prop", 'g', true);     // Create constant char property 'c_prop', with value 'g'
 
 Attaching the Environment to a Model
 ------------------------------------
@@ -68,33 +70,20 @@ An environment can be associated with a particular model using the ``setEnvironm
 
 .. tabs::
 
-  .. code-tab:: python
-
-    # Attach the EnvironmentDescription to a ModelDescription
-    model.setEnvironment(env)
-
   .. code-tab:: cpp
 
     // Attach the EnvironmentDescription to a ModelDescription
     model.setEnvironment(env);
 
+  .. code-tab:: python
+
+    # Attach the EnvironmentDescription to a ModelDescription
+    model.setEnvironment(env)
+
 Full Example Code From This Page
 --------------------------------
 
 .. tabs::
-
-  .. code-tab:: python
-    
-    # Create an EnvironmentDescription object called env
-    env = pyflamegpu.EnvironmentDescription()
-
-    # Define environmental properties and their initial values
-    env.newPropertyFloat("f_prop", 12.0)     # Create float property 'f_prop', with value of 12
-    env.newPropertyArrayInt("ia_prop", 3, [1, 2, 3])  # Create int array property 'ia_prop', with value of [1, 2, 3]
-    env.newPropertyChar("c_prop", 'g', True)  # Create constant char property 'c_prop', with value 'g'
-
-    # Attach the EnvironmentDescription to a ModelDescription
-    model.setEnvironment(env)
 
   .. code-tab:: cpp
 
@@ -108,6 +97,19 @@ Full Example Code From This Page
 
     // Attach the EnvironmentDescription to a ModelDescription
     model.setEnvironment(env);
+
+  .. code-tab:: python
+    
+    # Create an EnvironmentDescription object called env
+    env = pyflamegpu.EnvironmentDescription()
+
+    # Define environmental properties and their initial values
+    env.newPropertyFloat("f_prop", 12.0)     # Create float property 'f_prop', with value of 12
+    env.newPropertyArrayInt("ia_prop", 3, [1, 2, 3])  # Create int array property 'ia_prop', with value of [1, 2, 3]
+    env.newPropertyChar("c_prop", 'g', True)  # Create constant char property 'c_prop', with value 'g'
+
+    # Attach the EnvironmentDescription to a ModelDescription
+    model.setEnvironment(env)
 
 More Info 
 ---------

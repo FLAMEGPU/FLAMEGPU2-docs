@@ -12,14 +12,14 @@ type of agent, and number of agents to create:
 
 .. tabs::
 
-  .. code-tab:: python
-    
-    # Create a population of 1000 'Boid' agents
-    populationSize = 1000
-    population = pyflamegpu.AgentVector(model.Agent("Boid"), populationSize)
-
   .. code-tab:: cpp
     
     // Create a population of 1000 'Boid' agents
     const unsigned int populationSize = 1000;
     flamegpu::AgentVector population(model.Agent("Boid"), populationSize);
+
+  .. code-tab:: python
+    
+    # Create a population of 1000 'Boid' agents
+    populationSize = 1000
+    population = pyflamegpu.AgentVector(model.Agent("Boid"), populationSize)

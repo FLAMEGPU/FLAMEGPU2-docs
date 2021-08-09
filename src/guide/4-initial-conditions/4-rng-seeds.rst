@@ -5,21 +5,6 @@ Agent variables can be initialised with randomly generated data:
 
 .. tabs::
 
-  .. code-tab:: python
-
-    # Set the min and max initial positions
-    min_pos = -2.0f
-    max_pos = 2.0f
-
-    # For each agent
-    for i in range(populationSize):
-        instance = population[i]
-
-        # Randomly initialise the x, y and z variables with values between min_pos and max_pos
-        instance.setVariableFloat("x", random.uniform(min_pos, max_pos))
-        instance.setVariableFloat("y", random.uniform(min_pos, max_pos))
-        instance.setVariableFloat("z", random.uniform(min_pos, max_pos))
-
   .. code-tab:: cpp
 
     // Use the standard C++ library mt19937 random number generator
@@ -39,3 +24,18 @@ Agent variables can be initialised with randomly generated data:
         instance.setVariable<float>("y", position_distribution(rngEngine));
         instance.setVariable<float>("z", position_distribution(rngEngine));
     }
+
+  .. code-tab:: python
+
+    # Set the min and max initial positions
+    min_pos = -2.0f
+    max_pos = 2.0f
+
+    # For each agent
+    for i in range(populationSize):
+        instance = population[i]
+
+        # Randomly initialise the x, y and z variables with values between min_pos and max_pos
+        instance.setVariableFloat("x", random.uniform(min_pos, max_pos))
+        instance.setVariableFloat("y", random.uniform(min_pos, max_pos))
+        instance.setVariableFloat("z", random.uniform(min_pos, max_pos))

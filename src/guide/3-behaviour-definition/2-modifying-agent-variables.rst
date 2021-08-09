@@ -32,7 +32,9 @@ To achieve the high performance of FLAMEGPU2, agent behaviours must be implement
 Agent variables can also be arrays, accessing these requires extra arguments. It is not possible to retrieve or set a full array
 in a single function call, during agent functions, elements must be accessed individually.
 
-.. code:: cpp
+.. tabs::
+
+  .. code-tab:: cpp
 
     FLAMEGPU_AGENT_FUNCTION(ExampleFn, flamegpu::MessageNone, flamegpu::MessageNone) {
         // Return agent variable 'location[1]' and store it in local variable 'y'

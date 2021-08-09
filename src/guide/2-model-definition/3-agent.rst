@@ -10,16 +10,17 @@ Defining a New Agent Type
 FLAMEGPU2 agents are associated with a particular model. As such they are created via a `ModelDescription` object and are initialised with a name:
 
 .. tabs::
-  
-  .. code-tab:: python
 
-    # Create a new agent called 'predator' associated the model 'model' 
-    predator = model.newAgent("predator")
- 
   .. code-tab:: cpp
 
     // Create a new agent called 'predator' associated the model 'model' 
     flamegpu::AgentDescription &predator = model.newAgent("predator");
+
+  .. code-tab:: python
+
+    # Create a new agent called 'predator' associated the model 'model' 
+    predator = model.newAgent("predator")
+
 
 Agent Variables
 ----------------
@@ -38,15 +39,6 @@ User Defined Variables
 
 .. tabs::
 
-  .. code-tab:: python
-
-    # Create two new floating point variables, x and y
-    predator.newVariableFloat("x")
-    predator.newVariableFloat("y")
-
-    # Create a new integer variable, hungerLevel
-    predator.newVariableInt("hungerLevel")
-
   .. code-tab:: cpp
 
     // Create two new floating point variables, x and y
@@ -56,21 +48,33 @@ User Defined Variables
     // Create a new integer variable, hungerLevel
     predator.newVariable<int>("hungerLevel");
 
+  .. code-tab:: python
+
+    # Create two new floating point variables, x and y
+    predator.newVariableFloat("x")
+    predator.newVariableFloat("y")
+
+    # Create a new integer variable, hungerLevel
+    predator.newVariableInt("hungerLevel")
+
+
+
 Agent Array Variables
 ----------------------
 Array variables can also be defined by providing a name and array length:
 
 .. tabs::
 
+  .. code-tab:: cpp
+
+    // Create an array variable called exampleArray which is an array of 3 integers
+    predator.newVariableArray<int>("exampleArray", 3);
+
   .. code-tab:: python
 
     # Create an array variable called exampleArray which is an array of 3 integers
     predator.newVariableArrayInt("exampleArray", 3)
 
-  .. code-tab:: cpp
-
-    // Create an array variable called exampleArray which is an array of 3 integers
-    predator.newVariableArray<int>("exampleArray", 3);
 
 Agent States
 ------------
@@ -80,22 +84,43 @@ All newly defined agent types will have a default state, but you can add additio
 
 .. tabs::
 
-  .. code-tab:: python
-
-    # Create two new states, resting and hunting
-    predator.newState("resting")
-    predator.newState("hunting")
 
   .. code-tab:: cpp
 
     // Create two new states, resting and hunting
     predator.newState("resting");
     predator.newState("hunting");
+
+  .. code-tab:: python
+
+    # Create two new states, resting and hunting
+    predator.newState("resting")
+    predator.newState("hunting")
+
     
 Full Example Code From This Page
 --------------------------------
 
 .. tabs::
+
+  .. code-tab:: cpp
+
+    // Create a new agent called 'predator' associated the model 'model' 
+    flamegpu::AgentDescription &predator = model.newAgent("predator");
+
+    // Create two new floating point variables, x and y
+    predator.newVariable<float>("x");
+    predator.newVariable<float>("y");
+
+    // Create a new integer variable, hungerLevel
+    predator.newVariable<int>("hungerLevel");
+
+    // Create an array variable called exampleArray which is an array of 3 integers
+    predator.newVariableArray<int>("exampleArray", 3);
+
+    // Create two new states, resting and hunting
+    predator.newState("resting");
+    predator.newState("hunting");
 
   .. code-tab:: python
     
@@ -116,24 +141,6 @@ Full Example Code From This Page
     predator.newState("resting")
     predator.newState("hunting")
 
-  .. code-tab:: cpp
-
-    // Create a new agent called 'predator' associated the model 'model' 
-    flamegpu::AgentDescription &predator = model.newAgent("predator");
-
-    // Create two new floating point variables, x and y
-    predator.newVariable<float>("x");
-    predator.newVariable<float>("y");
-
-    // Create a new integer variable, hungerLevel
-    predator.newVariable<int>("hungerLevel");
-
-    // Create an array variable called exampleArray which is an array of 3 integers
-    predator.newVariableArray<int>("exampleArray", 3);
-
-    // Create two new states, resting and hunting
-    predator.newState("resting");
-    predator.newState("hunting");
 
 More Info 
 ---------
