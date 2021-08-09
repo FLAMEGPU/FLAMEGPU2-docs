@@ -356,9 +356,9 @@ Usage of the ``HostAPI`` random methods matches that of the ``DeviceAPI``.
 =================== ==================== =======================================================================================================
 Name                Arguments            Description
 =================== ==================== =======================================================================================================
-``uniform``         -                    Returns a uniformly distributed floating point number in the inclusive-exclusive range [0, 1).
+``uniform``                              Returns a uniformly distributed floating point number in the inclusive-exclusive range [0, 1).
 ``uniform``         ``min``, ``max``     Returns a uniformly distributed integer in the inclusive range [min, max].
-``normal``          -                    Returns a normally distributed floating point number with mean 0.0 and standard deviation 1.0.
+``normal``                               Returns a normally distributed floating point number with mean 0.0 and standard deviation 1.0.
 ``logNormal``       ``mean``, ``stddev`` Returns a log-normally distributed floating point number with the specified mean and standard deviation
 =================== ==================== =======================================================================================================
 

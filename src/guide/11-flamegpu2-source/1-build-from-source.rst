@@ -1,4 +1,4 @@
-Building FLAMEGPU from Source
+Building FLAME GPU from Source
 =============================
 
 Building FLAME GPU 2.x from source requires a C++ 17 host compiler, a CUDA toolkit 11.x installation, and CMake >= 3.18.
