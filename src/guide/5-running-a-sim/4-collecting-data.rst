@@ -1,3 +1,5 @@
+.. _Collecting Data:
+
 Collecting Data
 ===============
 
