@@ -1,3 +1,5 @@
+.. _Defining Agent Function:
+
 Defining Agent Functions
 ========================
 

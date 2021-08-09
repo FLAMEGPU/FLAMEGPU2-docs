@@ -11,7 +11,7 @@ FLAMEGPU2 programs are composed of 4 sections:
 Agent/Host Function Definitions
 -------------------------------
 
-These functions define the actual behaviours of your model and are defined before the `main` function. For more detail about defining these please see **TODO: Link**.
+These functions define the actual behaviours of your model and are defined before the `main` function. For more detail about defining these please see :ref:`Defining Agent Function`.
 If your model is growing very large, you can move these into a separate file and include it using the `#include` preprocessor
 directive. Any number of files could be included this way, allowing you to group related functions together. 
 
