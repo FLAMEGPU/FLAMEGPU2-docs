@@ -11,7 +11,7 @@ Agent function conditions are executed by all agents before the main agent funct
 or ``false``. Agents which return ``true`` pass the function and continue to execute the agent function and transition
 to the end state.
 
-Within agent function conditions a reduced read-only FGPU Device API is available. This only permits reading agent
+Within agent function conditions a reduced read-only FLAMEGPU Device API is available. This only permits reading agent
 variables, reading environment variables and random number generation.
 
 Example definition:

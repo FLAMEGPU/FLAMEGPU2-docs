@@ -18,6 +18,6 @@ This user guide provides a clear introduction to the core features of FLAME GPU 
    8-running-multiple-sims/index.rst
    9-visualisation/index.rst
    10-performance-troubleshooting/index.rst
-   11-fgpu2-source/index.rst
+   11-flamegpu2-source/index.rst
    
    
