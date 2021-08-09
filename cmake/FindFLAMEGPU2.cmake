@@ -1,8 +1,8 @@
 #Look for a file we expect to always exist
-find_path(FLAMEGPU2_ROOT src/flamegpu/exception/FGPUException.cpp
+find_path(FLAMEGPU_ROOT src/flamegpu/exception/FGPUException.cpp
     HINTS
-        $ENV{FLAMEGPU2_ROOT}
-        ${FLAMEGPU2_ROOT}
+        $ENV{FLAMEGPU_ROOT}
+        ${FLAMEGPU_ROOT}
         "${PROJECT_SOURCE_DIR}/../FGPU2"
         "${PROJECT_SOURCE_DIR}/../FLAMEGPU2"
         "${PROJECT_SOURCE_DIR}/../FLAMEGPU2_DEV"
@@ -16,5 +16,5 @@ include(FindPackageHandleStandardArgs)
  
 #Handle standard arguments to find_package like REQUIRED and QUIET
 find_package_handle_standard_args(FLAMEGPU2
-                                  "Failed to find FLAMEGPU2 root"
-                                  FLAMEGPU2_ROOT)
+                                  "Failed to find FLAMEGPU root"
+                                  FLAMEGPU_ROOT)
