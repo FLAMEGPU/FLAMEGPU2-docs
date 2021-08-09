@@ -8,3 +8,5 @@ This user guide provides a clear introduction to the core features of FLAME GPU 
    :caption: Sections:
    
    1-defining-a-submodel.rst
+
+.. 2-submodel-exit-conditions.rst was removed as it was currently unused, generating warnings.
