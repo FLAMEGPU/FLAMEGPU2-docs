@@ -6,3 +6,5 @@ build*/*
 src/api/*
 .vscode
 docs.code-workspace
+.venv
+venv
