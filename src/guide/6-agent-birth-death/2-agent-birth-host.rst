@@ -1,3 +1,5 @@
+.. _Agent Birth from Host Functions:
+
 Agent Birth from Host Functions
 ===============================
 

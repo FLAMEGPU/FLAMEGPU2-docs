@@ -5,7 +5,7 @@ Agent Creation Overview
 -----------------------
 The agent creation interface usable in agent functions is only able to create a single agent per existing agent per iteration. 
 Additionally, the agent type and state being created must be earlier specified as part of the model description. If you need
-to create more than one agent for each existing agent, you should use the *TODO: link to host agent creation api*
+to create more than one agent for each existing agent, you should use the :ref:`Agent Birth from Host Functions`.
 
 **Note:** *Agents created by agent functions do not exist until the next layer.*
 
