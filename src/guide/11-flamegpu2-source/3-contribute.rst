@@ -26,62 +26,63 @@ Good pull requests—patches, improvements, new features—are a fantastic help.
 
 **Please ask first** before embarking on any significant pull request (e.g. implementing features, refactoring code), otherwise you risk spending a lot of time working on something that the project's developers might not want to merge into the project.
 
-Please adhere to the [coding conventions](#Coding-Conventions) used throughout the project (indentation, accurate comments, etc.) and any other requirements (such as test coverage).
+Please adhere to the :ref:`Coding Conventions` used throughout the project (indentation, accurate comments, etc.) and any other requirements (such as test coverage).
 
 Before merging pull requests are required to pass all continuous integration:
 
-* The full codebase should build with the `WARNINGS_AS_ERRORS` option enabled under the provided CMake configuration, on both Windows and Linux.
+* The full codebase should build with the ``WARNINGS_AS_ERRORS`` option enabled under the provided CMake configuration, on both Windows and Linux.
 * The full test suite should pass.
-* `cpplint` should report no issues, using `CPPLINT.cfg` found in the root of the project.
+* ``cpplint`` should report no issues, using ``CPPLINT.cfg`` found in the root of the project.
 
-Ideally, these should be addressed as far as possible before creating a pull request. Executing the tests and linter are detailed in the main [README](README.md).
+Ideally, these should be addressed as far as possible before creating a pull request. Executing the tests and linter are detailed in the main `README <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/README.md>`__.
 
 Unit Tests
 ^^^^^^^^^^
 
 Any significant additional feature will require creation of tests to demonstrate their functional correctness.
 
-The existing [tests](tree/master/tests) can be used as templates for how to implement a new test.
+The existing `tests <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/tree/master/tests>`__ can be used as templates for how to implement a new test.
 
+.. _Coding Conventions:
 
 Coding Conventions
 ^^^^^^^^^^^^^^^^^^
 
 A consistent code style throughout
 
-The code within FLAME GPU conforms to the `Google C++ style guide <https://google.github.io/styleguide/cppguide.html>`_, as enforced by `cpplint`, with a number of relaxations:
+The code within FLAME GPU conforms to the `Google C++ style guide <https://google.github.io/styleguide/cppguide.html>`__, as enforced by ``cpplint``, with a number of relaxations:
 
-* `[Formatting/Line Length]`: Relaxed to a limit of 240 characters.
+* ``[Formatting/Line Length]``: Relaxed to a limit of 240 characters.
 
-Naming Conventions
-^^^^^^^^^^^^^^^^^^
+.. Naming Conventions
+.. ^^^^^^^^^^^^^^^^^^
 
-**TODO: Discuss & write**
+.. **TODO: Discuss & write**
 
 Checking Code Style
 ^^^^^^^^^^^^^^^^^^^
 
-As detailed within the main [README](README.md), if `cpplint` is installed CMake will generate lint targets which report code which strays from the projects coding style.
+As detailed within the main `README <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/README.md>`__, if ``cpplint`` is installed CMake will generate lint targets which report code which strays from the projects coding style.
 
-This can be executed using `make lint_all` or building the `lint_all` project.
+This can be executed using ``make lint_all`` or building the ``lint_all`` project.
 
-*Note: If adding new files, they will first need to be added to `CMakeLists.txt` and CMake configure re-ran.*
+.. Note::
+   If adding new files, they will first need to be added to ``CMakeLists.txt`` and CMake configure re-ran.
 
 Updating CMakeLists.txt
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-If adding new source or header files, it is necessary to add them to the list of files within the relevant `CMakeLists.txt`:
+If adding new source or header files, it is necessary to add them to the list of files within the relevant ``CMakeLists.txt``:
 
-**TODO: Update links*
-**TODO: Update links***
-The main FLAME GPU 2 library: within [`src`](tree/master/src).
-The example models: within the models subdirectory of [`examples`](tree/master/examples).
-The tests: within [`tests`](tree/master/tests).
+* The main FLAME GPU 2 library: within `src <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/tree/master/src>`__.
+* The example models: within the models subdirectory of `examples <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/tree/master/examples>`__.
+* The tests: within `tests <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/tree/master/tests>`__.
 
-Similarly if submitting a new example model, it will need to include it's own `CMakeLists.txt` (which can be based off an existing examples). This will also need to be reference from the main `CMakeLists.txt` in the root directory of the project.
+Similarly if submitting a new example model, it will need to include it's own ``CMakeLists.txt`` (which can be based off an existing examples). 
+This will also need to be reference from the main ``CMakeLists.txt`` in the root directory of the project.
 
 This ensure that users on both Linux and Windows can continue to build FLAME GPU 2.
 
 License
 -------
-By contributing your code, you agree to license your contribution under the `MIT License <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/LICENSE.MD>`_.
+By contributing your code, you agree to license your contribution under the `MIT License <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/LICENSE.MD>`__.
