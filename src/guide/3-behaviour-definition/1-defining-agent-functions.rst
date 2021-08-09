@@ -16,11 +16,14 @@ method is the only method supported for the python version of FLAMEGPU2.
 Defining an Agent Function
 --------------------------
 
-An agent function is defined using the ``FLAMEGPU_AGENT_FUNCTION`` macro. This takes three arguments: a unique name identifying the function, an input
-message communication strategy, and an output message communication strategy. We will discuss messages in more detail later, so for now don't worry about the second and third paramters.
+Agent Functions can be specified as C++ functions, built at compile time when using the C++ interface, or they can be specified as Run-Time Compiled (RTC) functions when using the C++ interface, or the Python interface.
 
-In C++, these definitions should appear before your main function. In python, they should be specified in string literals, with the containing variable'state
-name matching the unique function identifier:
+An agent function is defined using the ``FLAMEGPU_AGENT_FUNCTION`` macro. 
+This takes three arguments: a unique name identifying the function, an input message communication strategy, and an output message communication strategy.
+We will discuss messages in more detail later, so for now don't worry about the second and third parameters.
+
+For Non-RTC functions, when using the C++ interface, the ``FLAMEGPU_AGENT_FUNCTION`` macro can be used to declare and define the agent function, which can then be associated with the ``flamegpu::AgentDescription`` object using the ``newFunction`` method.
+
 
 .. tabs::
 
@@ -32,7 +35,35 @@ name matching the unique function identifier:
     }
 
     int main() {
-    ... // Rest of code
+        // ...
+
+        // Attach a function called agent_fn1, defined by the symbol agent_fn1 to the AgentDescription object agent.
+        flamegpu::AgentFunctionDescription& agent_fn1_description = agent.newFunction("agent_fn1", agent_fn1);
+
+        // ...
+    }
+
+When using the Run-Time Compiled (RTC) functions, optionally in the C++ interface or required by the Python interface, the function must be defined in a string and associated with the AgentDescription using the ``newRTCFunction`` method.
+
+.. tabs::
+
+  .. code-tab:: cpp
+
+    const char* agent_fn1_source = R"###(
+    // Define an agent function called agent_fn1 - specified ahead of main function
+    FLAMEGPU_AGENT_FUNCTION(agent_fn1, flamegpu::MessageNone, flamegpu::MessageNone) {
+        // Behaviour goes here
+    }
+    )###";
+
+    int main() {
+        // ...
+
+        // Attach a function called agent_fn1, defined in the string variable agent_fn1_source to the AgentDescription object agent.
+        flamegpu::AgentFunctionDescription& agent_fn1_description = agent.newRTCFunction("agent_fn1", agent_fn1_source);
+
+        // ...
+    }
 
   .. code-tab:: python
 
@@ -43,54 +74,13 @@ name matching the unique function identifier:
     }
     """
 
-With the agent function named and defined, it can now be attached to a particular agent type via an ``AgentDescription`` object:
+    # ...
 
-.. tabs::
-
-  .. code-tab:: cpp
-     
-    // Attach a function called agent_fn1 to an agent called agent
-    // The AgentFunctionDescription is stored in the agent_fn1_description variable
-    flamegpu::AgentFunctionDescription& agent_fn1_description = agent.newFunction("agent_fn1", agent_fn1_source);
-
-  .. code-tab:: python
-
-    # Attach a function called agent_fn1 to an agent called agent
+    # Attach a function called agent_fn1 to an agent represented by the AgentDescription agent 
     # The AgentFunctionDescription is stored in the agent_fn1_description variable
     agent_fn1_description = agent.newRTCFunction("agent_fn1", agent_fn1_source);
 
-
-Defining a Runtime-Compiled Agent Function (C++)
-------------------------------------------------
-If you are using the python interface, you can only use runtime-compiled agent functions and this was presented in
-the previous section, so you can *TODO: skip to the next section*
-
-The previously described method for defining an agent function results in the function being compiled at compile time. 
-If you know that you want to define your agent behaviours at runtime, you can instead use this method. Otherwise, you can 
-*TODO: skip to the next section*
-
-To define a runtime-compiled agent function, the function source should be stored in a string:
-
-.. tabs::
-
-  .. code-tab:: cpp
-
-    // Define an agent function called agent_fn1 which will be compiled at runtime
-    const char* agent_fn1_source = R"###(
-    FLAMEGPU_AGENT_FUNCTION(agent_fn1, flamegpu::MessageNone, flamegpu::MessageNone) {
-        // Behaviour goes here
-    }
-    )###";
-
-The function can then be added to an ``AgentDescription`` using the ``newRTCFunction`` method:
-
-.. tabs::
-
-  .. code-tab:: cpp
-
-    // Attach a runtime-compiled function called agent_fn1 to an agent called agent
-    // The AgentFunctionDescription is stored in the agent_fn1_description variable
-    flamegpu::AgentFunctionDescription& agent_fn1_description = agent.newRTCFunction("agent_fn1", agent_fn1_source);
+    # ...
 
 FLAMEGPU Device Functions
 -------------------------
