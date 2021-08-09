@@ -25,7 +25,9 @@ FLAMEGPU2 agents are associated with a particular model. As such they are create
 Agent Variables
 ----------------
 Agent variables should be used to store data which is unique to each instance of an agent, for example, each individual predator in a predator-prey simulation
-would have its own position and hunger level. Each variable has a name and a type. For a complete list of supported types, see **TODO: reference page for available types**.
+would have its own position and hunger level. Each variable has a name and a type.
+
+.. For a complete list of supported types, see **TODO: reference page for available types**.
 
 Agent ID
 ~~~~~~~~

@@ -63,15 +63,13 @@ With the agent function named and defined, it can now be attached to a particula
 Defining a Runtime-Compiled Agent Function (C++)
 ------------------------------------------------
 If you are using the python interface, you can only use runtime-compiled agent functions and this was presented in
-the previous section, so you can*TODO: skip to the next section*
+the previous section, so you can *TODO: skip to the next section*
 
 The previously described method for defining an agent function results in the function being compiled at compile time. 
 If you know that you want to define your agent behaviours at runtime, you can instead use this method. Otherwise, you can 
 *TODO: skip to the next section*
 
 To define a runtime-compiled agent function, the function source should be stored in a string:
-
-*TODO: std::string vs const char**
 
 .. tabs::
 

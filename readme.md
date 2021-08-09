@@ -55,6 +55,7 @@ The following command will generate build files:
 ```bash
 mkdir -p build && cd build
 cmake .. 
+cmake --build .
 ```
 
 You can optionally specify the location of the FLAMEGPU2 source repository:
