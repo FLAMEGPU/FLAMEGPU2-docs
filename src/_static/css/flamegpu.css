@@ -1,0 +1,72 @@
+/* Generic font */
+body {
+    font-family: -apple-system,BlinkMacSystemFont,"Roboto","Segoe UI","Helvetica Neue","Lucida Grande",Arial,sans-serif;
+}
+
+.rst-content .toctree-wrapper > p.caption, 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+legend {
+    font-family: -apple-system,BlinkMacSystemFont,"Roboto","Segoe UI","Helvetica Neue","Lucida Grande",Arial,sans-serif;
+}
+
+/* Increase the maximum page width, possibly too far. */
+.wy-nav-content {
+    max-width: 1600px;
+}
+
+/* Generic anchor colours */
+a {
+    color: #660000;
+}
+a:visited {
+    color: #660000;
+}
+a:hover {
+    color: #aa0000;
+}
+
+/* Navigation colours */
+.wy-nav-top,
+.wy-nav-side {
+    background: #4d4d4d;
+}
+.wy-nav-top a,
+.wy-nav-side a,
+.wy-menu-vertical header,
+.wy-menu-vertical p.caption {
+    color: #ffffff;
+} 
+
+/* Code tab formatting */
+.sphinx-tabs-tab,
+.sphinx-tabs-tab[aria-selected="false"] {
+    color: #660000;
+}
+.sphinx-tabs-tab[aria-selected="true"] {
+    color: #aa0000;
+}
+.sphinx-tabs-panel, 
+[role="tablist"],
+.sphinx-tabs-tab[aria-selected="false"],
+.sphinx-tabs-tab[aria-selected="true"] {
+    border-color: #660000;
+}
+
+/* General code block formatting */
+code, kbd, pre, samp {
+    font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+}
+
+/* Code block background colour */
+.highlight {
+    background: #f5f5f5;
+}
+.rst-content code.literal,
+.rst-content tt.literal {
+    color: #aa0000;
+}
