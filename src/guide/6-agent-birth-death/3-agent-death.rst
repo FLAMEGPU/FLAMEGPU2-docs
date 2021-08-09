@@ -23,7 +23,7 @@ the ``AgentFunctionDescription`` object:
 Agent Death
 -----------
 
-To have an agent die, simply ``return DEAD;`` instead of ``return ALIVE;`` at the end of a death-enabled agent function. You can use
+To have an agent die, simply ``return flamegpu::DEAD;`` instead of ``return flamegpu::ALIVE;`` at the end of a death-enabled agent function. You can use
 conditionals to only have agents die according to a certain condition:
 
 .. tabs::

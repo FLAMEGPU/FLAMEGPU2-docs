@@ -264,7 +264,7 @@ Agent populations can also be sorted according to a variable, the C++ API can ad
         sheep.sortFloat("health", flamegpu.ASC);
 
 
-It's also possible to create new agents with the ``HostAgentAPI``, this is covered in `Section 6.2. <../6-agent-birth-death/2-agent-birth-host.html>`_. These agents are not created until after the layer has completed execution, so they will not affect reductions or sorts carried out in the same host function. This is the preferred method of host agent birth as it performs a single host-device memory copy.
+It's also possible to create new agents with the ``HostAgentAPI``, this is covered in :ref:`Agent Birth from Host Functions`. These agents are not created until after the layer has completed execution, so they will not affect reductions or sorts carried out in the same host function. This is the preferred method of host agent birth as it performs a single host-device memory copy.
 
 For raw access to agent data, ``DeviceAgentVector`` can be used. This has an interface similar to ``AgentVector``, however automatically synchronises data movement between host and device. This should only be used in limited circumstances as copying memory between host and device has high latency.
 
