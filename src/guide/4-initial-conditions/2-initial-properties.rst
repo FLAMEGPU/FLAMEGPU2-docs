@@ -10,7 +10,7 @@ To initialise a population, iterate over the ``AgentVector`` object and set the 
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     for (unsigned int i = 0; i < populationSize; i++) {
         flamegpu::AgentVector::Agent instance = population[i];
@@ -30,7 +30,7 @@ A single agent can be individually accessed by indexing into the ``AgentVector``
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
     
     // Fetch the 23rd agent
     flamegpu::AgentVector::Agent instance = population[23];

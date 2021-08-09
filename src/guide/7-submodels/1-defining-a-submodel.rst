@@ -17,7 +17,7 @@ When calling `SubAgentDescription::bindAgent()`, it is also possible to automati
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
   
       // Define a submodel
       flamegpu::ModelDescription sub_m("submodel");
@@ -56,7 +56,7 @@ Environment properties are also mapped similarly. It is not possible to map a no
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
   
       // Define a submodel
       flamegpu::ModelDescription sub_m("submodel");

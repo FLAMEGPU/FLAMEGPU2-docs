@@ -26,7 +26,7 @@ A new message type can defined using one of the above symbols:
 
 .. tabs::
 
-    .. code-tab:: cpp
+    .. code-tab:: cuda CUDA C++
 
       // Create a new message type called "location" which uses the brute force communication strategy
       flamegpu::MessageBruteForce::Description &locationMessage = model.newMessage("location");
@@ -42,7 +42,7 @@ Data the message should contain can then be defined using the ``newVariable`` me
 
 .. tabs::
 
-    .. code-tab:: cpp
+    .. code-tab:: cuda CUDA C++
         
       // Add a variable of type "int" with name "id" to the "location_message" type
       locationMessage.newVariable<int>("id");
@@ -60,7 +60,7 @@ and must match that of the message type:
 
 .. tabs::
 
-    .. code-tab:: cpp
+    .. code-tab:: cuda CUDA C++
 
       // Define an agent function, "outputdata" which has no input messages and outputs a message using the "MessageBruteForce" communication strategy
       FLAMEGPU_AGENT_FUNCTION(outputdata, flamegpu::MessageNone, flamegpu::MessageBruteForce) {
@@ -71,7 +71,7 @@ and must match that of the message type:
 To specify the type of message the function should output, the ``setMessageOutput`` method of the ``AgentFunctionDescription`` object is used:
 
 .. tabs::
-    .. code-tab:: cpp
+    .. code-tab:: cuda CUDA C++
       
       // Specify that the "outputdata" agent function outputs a "location_message"
       outputdata.setMessageOutput("location_message");    
@@ -85,7 +85,7 @@ The agent function will now output a message of type "location_message". The var
 
 .. tabs::
 
-    .. code-tab:: cpp
+    .. code-tab:: cuda CUDA C++
 
       // Define an agent function, "outputdata" which has no input messages and outputs a message using the "MessageBruteForce" communication strategy
       FLAMEGPU_AGENT_FUNCTION(outputdata, flamegpu::MessageNone, flamegpu::MessageBruteForce) {
@@ -99,7 +99,7 @@ If you are using ``MessageSpatial2D`` or ``MessageSpatial3D`` then your message 
 
 .. tabs::
 
-    .. code-tab:: cpp
+    .. code-tab:: cuda CUDA C++
 
       // Define an agent function, "outputdata" which has no input messages and outputs a message using the "MessageSpatial3D" communication strategy
       FLAMEGPU_AGENT_FUNCTION(outputdata, flamegpu::MessageNone, flamegpu::MessageSpatial3D) {
@@ -114,7 +114,7 @@ You must also specify the interaction radius via the ``MessageDescription`` obje
 
 .. tabs::
     
-    .. code-tab:: cpp
+    .. code-tab:: cuda CUDA C++
 
       // Specify that the "outputdata" agent function has an interaction radius of 2.0f
       outputdata.setMessageOutput(2.0f);
@@ -130,7 +130,7 @@ If you are using ``MessageArray1D``, ``MessageArray2D`` or ``MessageArray3D`` th
 
 .. tabs::
 
-    .. code-tab:: cpp
+    .. code-tab:: cuda CUDA C++
 
       // Define an agent function, "outputdata" which has no input messages and outputs a message using the "MessageArray3D" communication strategy
       FLAMEGPU_AGENT_FUNCTION(outputdata, flamegpu::MessageNone, flamegpu::MessageArray3D) {
@@ -148,7 +148,7 @@ Reading a message is very similar to sending one. The second argument in the age
 
 .. tabs::
 
-    .. code-tab:: cpp
+    .. code-tab:: cuda CUDA C++
 
       // Define an agent function, "inputdata" which has accepts an input message using the "MessageBruteForce" communication strategy and inputs no messages
       FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageBruteForce, flamegpu::MessageNone) {
@@ -161,7 +161,7 @@ The input message type is specified using the ``setMessageInput`` method of the 
 
 .. tabs::
 
-    .. code-tab:: cpp
+    .. code-tab:: cuda CUDA C++
       
       // Specify that the "inputdata" agent function inputs a "location_message"
       inputdata.setMessageInput("location_message");
@@ -176,7 +176,7 @@ With the input message type specified, the message list will be available in the
 
 .. tabs::
 
-    .. code-tab:: cpp
+    .. code-tab:: cuda CUDA C++
 
       // Define an agent function, "inputdata" which has accepts an input message using the "MessageBruteForce" communication strategy and inputs no messages
       FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageBruteForce, flamegpu::MessageNone) {
@@ -193,7 +193,7 @@ Spatial messaging will return all messages within the radius specified at the mo
 
 .. tabs::
 
-    .. code-tab:: cpp
+    .. code-tab:: cuda CUDA C++
 
       // Define an agent function, "inputdata" which has accepts an input message using the "MessageSpatial3D" communication strategy and inputs no messages
       FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageSpatial3D, flamegpu::MessageNone) {
@@ -230,7 +230,7 @@ Messages can be accessed from a specific array index:
 
 .. tabs::
 
-    .. code-tab:: cpp
+    .. code-tab:: cuda CUDA C++
 
       // Define an agent function, "inputdata" which has accepts an input message using the "MessageSpatial3D" communication strategy and inputs no messages
       FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageArray3D, flamegpu::MessageNone) {
@@ -249,7 +249,7 @@ Similar to spatial messaging, array messages can be used to iterate the exclusiv
 
 .. tabs::
 
-    .. code-tab:: cpp
+    .. code-tab:: cuda CUDA C++
 
       // Define an agent function, "inputdata" which has accepts an input message using the "MessageSpatial3D" communication strategy and inputs no messages
       FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageArray3D, flamegpu::MessageNone) {
@@ -271,7 +271,7 @@ If wrapping of array bounds is required, then an alternate iterator method ``wra
 
 .. tabs::
 
-    .. code-tab:: cpp
+    .. code-tab:: cuda CUDA C++
 
       // Define an agent function, "inputdata" which has accepts an input message using the "MessageSpatial3D" communication strategy and inputs no messages
       FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageArray3D, flamegpu::MessageNone) {

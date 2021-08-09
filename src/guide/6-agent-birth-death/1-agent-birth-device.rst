@@ -16,7 +16,7 @@ To create agents from agent functions, you must specify the type of agent the fu
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // The agent type 'example_agent' is set as the agent output type
     agent_fn1_description.setAgentOutput(example_agent);
@@ -36,7 +36,7 @@ Agent Output from Device:
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
   
       FLAMEGPU_AGENT_FUNCTION(ExampleAgentOutputFn, flamegpu::MessageNone, flamegpu::MessageNone) {
           // The output agent's 'x' variable is set
@@ -56,7 +56,7 @@ function runs for to output an agent, you can enable optional agent output:
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Enable optional agent output
     agent_fn1_description.setAgentOutputOptional(true);
@@ -70,7 +70,7 @@ With this set, a new agent will only be created if one of the ``FLAMEGPU->agent_
 As an example:
 
 .. tabs::
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
   
     FLAMEGPU_AGENT_FUNCTION(OptionalOutput, flamegpu::MessageNone, flamegpu::MessageNone) {
         // Fetch this agent's id
@@ -93,7 +93,7 @@ Full Example Code From This Page
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // The agent type 'example_agent' is set as the agent output type
     agent_fn1_description.setAgentOutput(example_agent);
@@ -114,7 +114,7 @@ Full Example Code From This Page
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
   
       FLAMEGPU_AGENT_FUNCTION(ExampleAgentOutputFn, flamegpu::MessageNone, flamegpu::MessageNone) {
           // The output agent's 'x' variable is set

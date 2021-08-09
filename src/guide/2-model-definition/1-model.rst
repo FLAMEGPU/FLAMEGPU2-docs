@@ -15,7 +15,7 @@ A ``ModelDescription`` is initialised with a name:
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Create a ModelDescription object called model, initialised with the name "some_model"
     flamegpu::ModelDescription model("some_model");

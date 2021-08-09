@@ -13,7 +13,7 @@ Example definition:
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
      
     // Define an host function called host_fn1
     FLAMEGPU_HOST_FUNCTION(host_fn1) {
@@ -45,7 +45,7 @@ They can be added as init functions, which execute once at the start when ``CUDA
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
   
     // Define a new model
     flamegpu::ModelDescription model("Test Model");
@@ -68,7 +68,7 @@ They can be added as exit functions, which execute once after all steps have com
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
   
     // Define a new model
     flamegpu::ModelDescription model("Test Model");
@@ -90,7 +90,7 @@ They can be added as step functions, which execute each model step after all lay
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
   
     // Define a new model
     flamegpu::ModelDescription model("Test Model");
@@ -113,7 +113,7 @@ They can also be added to individual layers, so that they can execute between ag
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
   
     // Define a new model
     flamegpu::ModelDescription model("Test Model");
@@ -144,7 +144,7 @@ Host agent operations are performed on a single agent state, the state can be om
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
   
     // Define an host function called read_env_hostfn
     FLAMEGPU_HOST_FUNCTION(read_env_hostfn) {
@@ -180,7 +180,7 @@ As with most variable operations, these require the variable type to be specifie
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
   
     // Define an host function called reduce_hostfn
     FLAMEGPU_HOST_FUNCTION(reduce_hostfn) {
@@ -216,7 +216,7 @@ As with most variable operations, these require the variable type to be specifie
 The C++ API also has access to custom reduction and transform-reduction operations:
 
 .. tabs::
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
   
     // Define a bespoke reduction operator sum
     FLAMEGPU_CUSTOM_REDUCTION(sum, a, b) {
@@ -241,7 +241,7 @@ Agent populations can also be sorted according to a variable, the C++ API can ad
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
   
     // Define an host function called reduce_hostfn
     FLAMEGPU_HOST_FUNCTION(reduce_hostfn) {
@@ -270,7 +270,7 @@ For raw access to agent data, ``DeviceAgentVector`` can be used. This has an int
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
   
     // Define an host function called deviceagentvector_hostfn
     FLAMEGPU_HOST_FUNCTION(deviceagentvector_hostfn) {
@@ -304,7 +304,7 @@ Reading environment properties:
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
   
     // Define an host function called read_env_hostfn
     FLAMEGPU_HOST_FUNCTION(read_env_hostfn) {
@@ -328,7 +328,7 @@ Updating environment properties:
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
   
     // Define an host function called write_env_hostfn
     FLAMEGPU_HOST_FUNCTION(write_env_hostfn) {
@@ -366,7 +366,7 @@ When calling any of these methods the type must be specified. Most methods only 
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
   
     // Define an host function called random_hostfn
     FLAMEGPU_HOST_FUNCTION(random_hostfn) {
@@ -390,7 +390,7 @@ Additionally the ``HostAPI`` random object has the ability to retrieve and updat
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
   
     // Define an host function called random_hostfn2
     FLAMEGPU_HOST_FUNCTION(random_hostfn2) {

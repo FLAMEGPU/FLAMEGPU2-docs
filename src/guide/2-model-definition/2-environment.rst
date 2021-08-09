@@ -15,7 +15,7 @@ An ``EnvironmentDescription`` is initialised as shown below:
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Create an EnvironmentDescription object called env
     flamegpu::EnvironmentDescription env;
@@ -48,7 +48,7 @@ Any arithmetic or enum type can be used as an environment property
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Define environmental properties and their initial values
     env.add<float>("f_prop", 12.0f);        // Create float property 'f_prop', with value of 12
@@ -70,7 +70,7 @@ An environment can be associated with a particular model using the ``setEnvironm
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Attach the EnvironmentDescription to a ModelDescription
     model.setEnvironment(env);
@@ -85,7 +85,7 @@ Full Example Code From This Page
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Create an EnvironmentDescription object called env
     flamegpu::EnvironmentDescription env;

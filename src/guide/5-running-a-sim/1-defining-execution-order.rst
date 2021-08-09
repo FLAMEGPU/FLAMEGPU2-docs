@@ -14,7 +14,7 @@ These are specified using the ``dependsOn`` method.
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Declare that agent_fn2 depends on agent_fn1
     agent_fn2.dependsOn(agent_fn1)
@@ -34,7 +34,7 @@ Any of the objects can depend on multiple other objects:
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Declare that agent_fn6 depends on agent_fn3, agent_fn4 and agent_fn5
     agent_fn6.dependsOn(agent_fn3, agent_fn4, agent_fn5)
@@ -55,7 +55,7 @@ Each model has an associated dependency graph which is accessed via a ``ModelDes
 
 .. tabs::
   
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Access the DependencyGraph of model
     flamegpu::DependencyGraph& graph = model.getDependencyGraph();
@@ -72,7 +72,7 @@ Any functions or submodels which have no dependencies are *roots*. These must be
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Add agent_fn1 as a root
     graph.addRoot(agent_fn1);
@@ -92,7 +92,7 @@ When you have specified all your dependencies and roots, you must instruct the m
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Generate the actual execution layers from the dependency graph
     model.generateLayers();
@@ -107,7 +107,7 @@ string representation of the layers:
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Get the constructed layers and store them in variable actualLayers
     std::string actualLayers = graph.getConstructedLayersString();
@@ -131,7 +131,7 @@ will be happening in the order you expect them to.
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Produce a diagram of the dependency graph, saved as graphdiagram.gv
     graph.generateDOTDiagram("graphdiagram.gv");
@@ -145,7 +145,7 @@ As an example, the following code would produce the graph below in a file named 
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     f2.dependsOn(f);
     f3.dependsOn(f);
@@ -189,7 +189,7 @@ the dependency specification method.
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Create a new layer for the model 'model'
     flamegpu::LayerDescription &layer = model.newLayer();

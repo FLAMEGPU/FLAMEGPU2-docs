@@ -5,7 +5,7 @@ Agent variables can be initialised with randomly generated data:
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Use the standard C++ library mt19937 random number generator
     std::mt19937 rngEngine(cuda_model.getSimulationConfig().random_seed);

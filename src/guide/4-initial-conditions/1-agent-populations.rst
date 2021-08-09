@@ -12,7 +12,7 @@ type of agent, and number of agents to create:
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
     
     // Create a population of 1000 'Boid' agents
     const unsigned int populationSize = 1000;

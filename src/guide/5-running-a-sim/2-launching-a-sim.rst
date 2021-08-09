@@ -6,7 +6,7 @@ its ``simulate`` method:
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
      
     // Create a simulation object from the model
     flamegpu::CUDASimulation simulation(model);
