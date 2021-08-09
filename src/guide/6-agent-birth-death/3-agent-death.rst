@@ -29,15 +29,15 @@ conditionals to only have agents die according to a certain condition:
 
   .. code-tab:: cpp
     
-    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MessageNone, MessageNone) {
+    FLAMEGPU_AGENT_FUNCTION(agent_fn1, flamegpu::MessageNone, flamegpu::MessageNone) {
         // Get the 'x' variable of the agent
         int x = FLAMEGPU->getVariable<int>("x");
         
         // Kill any agents with x < 25
         if (x < 25) {
-            return DEAD;
+            return flamegpu::DEAD;
         } else {
-            return ALIVE;
+            return flamegpu::ALIVE;
         }
     }
 

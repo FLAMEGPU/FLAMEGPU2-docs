@@ -10,7 +10,7 @@ Environmental properties are accessed as follows:
 
   .. code-tab:: cpp
 
-    FLAMEGPU_AGENT_FUNCTION(ExampleFn, MessageNone, MessageNone) {
+    FLAMEGPU_AGENT_FUNCTION(ExampleFn, flamegpu::MessageNone, flamegpu::MessageNone) {
         // Get the value of environment variable 'interaction_radius' and store it in local variable 'interaction_radius'
         int interaction_radius = FLAMEGPU->environment.getProperty<float>("interaction_radius");
 

@@ -22,4 +22,4 @@ type of agent, and number of agents to create:
     
     // Create a population of 1000 'Boid' agents
     const unsigned int populationSize = 1000;
-    AgentVector population(model.Agent("Boid"), populationSize);
+    flamegpu::AgentVector population(model.Agent("Boid"), populationSize);

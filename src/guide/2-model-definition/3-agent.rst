@@ -19,7 +19,7 @@ FLAMEGPU2 agents are associated with a particular model. As such they are create
   .. code-tab:: cpp
 
     // Create a new agent called 'predator' associated the model 'model' 
-    AgentDescription &predator = model.newAgent("predator");
+    flamegpu::AgentDescription &predator = model.newAgent("predator");
 
 Agent Variables
 ----------------
@@ -119,7 +119,7 @@ Full Example Code From This Page
   .. code-tab:: cpp
 
     // Create a new agent called 'predator' associated the model 'model' 
-    AgentDescription &predator = model.newAgent("predator");
+    flamegpu::AgentDescription &predator = model.newAgent("predator");
 
     // Create two new floating point variables, x and y
     predator.newVariable<float>("x");
