@@ -9,15 +9,16 @@ the ``AgentFunctionDescription`` object:
 
 .. tabs::
   
+  .. code-tab:: cpp
+
+    // Allow agent_fn1 to kill agents
+    agent_fn1_description.setAllowAgentDeath(true);
+
   .. code-tab:: python
 
     # Allow agent_fn1 to kill agents
     agent_fn1_description.setAllowAgentDeath(true)
 
-  .. code-tab:: cpp
-
-    // Allow agent_fn1 to kill agents
-    agent_fn1_description.setAllowAgentDeath(true);
 
 Agent Death
 -----------

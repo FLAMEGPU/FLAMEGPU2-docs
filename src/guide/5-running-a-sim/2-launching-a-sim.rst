@@ -6,20 +6,6 @@ its ``simulate`` method:
 
 .. tabs::
 
-  .. code-tab:: python
-
-    # Create a simulation object from the model
-    simulation = pyflamegpu.CUDASimulation(model)
-
-    # Initialise the model with the supplied command line parameters
-    simulation.initialise(sys.argv)
-
-    # Set a procedural population
-    simulation.setPopulationData(population)
-
-    # Run the simulation
-    simulation.simulate()
-
   .. code-tab:: cpp
      
     // Create a simulation object from the model
@@ -33,3 +19,17 @@ its ``simulate`` method:
 
     // Run the simulation
     simulation.simulate();
+
+  .. code-tab:: python
+
+    # Create a simulation object from the model
+    simulation = pyflamegpu.CUDASimulation(model)
+
+    # Initialise the model with the supplied command line parameters
+    simulation.initialise(sys.argv)
+
+    # Set a procedural population
+    simulation.setPopulationData(population)
+
+    # Run the simulation
+    simulation.simulate()

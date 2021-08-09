@@ -24,15 +24,6 @@ name matching the unique function identifier:
 
 .. tabs::
 
-  .. code-tab:: python
-
-    # Define an agent function called agent_fn1
-    agent_fn1_source = r"""
-    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MessageNone, MessageNone) {
-        # Behaviour goes here
-    }
-    """
-
   .. code-tab:: cpp
      
     // Define an agent function called agent_fn1 - specified ahead of main function
@@ -43,21 +34,30 @@ name matching the unique function identifier:
     int main() {
     ... // Rest of code
 
+  .. code-tab:: python
+
+    # Define an agent function called agent_fn1
+    agent_fn1_source = r"""
+    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MessageNone, MessageNone) {
+        # Behaviour goes here
+    }
+    """
+
 With the agent function named and defined, it can now be attached to a particular agent type via an ``AgentDescription`` object:
 
 .. tabs::
-
-  .. code-tab:: python
-
-    # Attach a function called agent_fn1 to an agent called agent
-    # The AgentFunctionDescription is stored in the agent_fn1_description variable
-    agent_fn1_description = agent.newRTCFunction("agent_fn1", agent_fn1_source);
 
   .. code-tab:: cpp
      
     // Attach a function called agent_fn1 to an agent called agent
     // The AgentFunctionDescription is stored in the agent_fn1_description variable
     flamegpu::AgentFunctionDescription& agent_fn1_description = agent.newFunction("agent_fn1", agent_fn1_source);
+
+  .. code-tab:: python
+
+    # Attach a function called agent_fn1 to an agent called agent
+    # The AgentFunctionDescription is stored in the agent_fn1_description variable
+    agent_fn1_description = agent.newRTCFunction("agent_fn1", agent_fn1_source);
 
 
 Defining a Runtime-Compiled Agent Function (C++)
@@ -127,22 +127,9 @@ Full Example Code From This Page
 
 .. tabs::
 
-  .. code-tab:: python
-    
-    # Define an agent function called agent_fn1
-    agent_fn1_source = r"""
-    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MessageNone, MessageNone) {
-        # Behaviour goes here
-    }
-    """
-
-    # Attach a function called agent_fn1 to an agent called agent
-    # The AgentFunctionDescription is stored in the agent_fn1_description variable
-    agent_fn1_description = agent.newRTCFunction("agent_fn1", agent_fn1_source);
-
   .. code-tab:: cpp
 
-    // Define a function for adding two ingtegers which can be called inside agent functions.
+    // Define a function for adding two integers which can be called inside agent functions.
     FLAMEGPU_DEVICE_FUNCTION int add(int a, int b) {
       return a + b;
     }
@@ -168,6 +155,19 @@ Full Example Code From This Page
     // Attach a runtime-compiled function called agent_fn1 to an agent called agent
     // The AgentFunctionDescription is stored in the agent_fn1_description variable
     flamegpu::AgentFunctionDescription& agent_fn1_description = agent.newRTCFunction("agent_fn1", agent_fn1_source);
+
+  .. code-tab:: python
+    
+    # Define an agent function called agent_fn1
+    agent_fn1_source = r"""
+    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MessageNone, MessageNone) {
+        # Behaviour goes here
+    }
+    """
+
+    # Attach a function called agent_fn1 to an agent called agent
+    # The AgentFunctionDescription is stored in the agent_fn1_description variable
+    agent_fn1_description = agent.newRTCFunction("agent_fn1", agent_fn1_source);
 
 
 More Info 

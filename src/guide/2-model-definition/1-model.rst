@@ -15,15 +15,16 @@ A ``ModelDescription`` is initialised with a name:
 
 .. tabs::
 
+  .. code-tab:: cpp
+
+    // Create a ModelDescription object called model, initialised with the name "some_model"
+    flamegpu::ModelDescription model("some_model");
+
   .. code-tab:: python
     
     # Create a ModelDescription object called model, initialised with the name "some_model"
     model = pyflamegpu.ModelDescription("some_model")
 
-  .. code-tab:: cpp
-
-    // Create a ModelDescription object called model, initialised with the name "some_model"
-    flamegpu::ModelDescription model("some_model");
 
 More Info 
 ---------
