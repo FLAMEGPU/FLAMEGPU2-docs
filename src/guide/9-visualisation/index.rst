@@ -9,6 +9,8 @@ This user guide provides a clear introduction to the core features of FLAME GPU 
    :caption: Sections:
    
    1-building-with-vis.rst
-   2-custom-models.rst
-   3-custom-colours.rst
-   4-representing-properties-with-colour.rst
+
+.. Removed incomplete sections
+.. 2-custom-models.rst
+.. 3-custom-colours.rst
+.. 4-representing-properties-with-colour.rst
