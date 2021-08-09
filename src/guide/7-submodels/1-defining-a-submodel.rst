@@ -10,7 +10,6 @@ Models may contain multiple submodels, and submodels may contain sub-submodels. 
 
 SubModel Definition
 --------------------
-**TODO: Adapt to consistent format. Add python code**
 A submodel as defined the same as a regular model, via a `ModelDescription`. It must then be added to the model which should host the submodel. Mappings between agent states, agent variables and environment properties can then be created. When mapping variables and properties, they must be of the same type and length.
 
 When calling `SubAgentDescription::bindAgent()`, it is also possible to automatically bind compatible states and variables.

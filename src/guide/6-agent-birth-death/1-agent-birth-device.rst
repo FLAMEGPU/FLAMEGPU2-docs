@@ -66,7 +66,7 @@ function runs for to output an agent, you can enable optional agent output:
     # Enable optional agent output
     agent_fn1_description.setAgentOutputOptional(true)
 
-With this set, a new agent will only be created if one of the ``FLAMEGPU->agent_out`` variables is set manually. **TODO: check this is correct**
+With this set, a new agent will only be created if one of the ``FLAMEGPU->agent_out`` variables is set manually.
 As an example:
 
 .. tabs::
