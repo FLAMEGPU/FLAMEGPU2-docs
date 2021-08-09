@@ -26,7 +26,7 @@ name matching the unique function identifier:
 
     # Define an agent function called agent_fn1
     agent_fn1_source = r"""
-    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MsgNone, MsgNone) {
+    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MessageNone, MessageNone) {
         # Behaviour goes here
     }
     """
@@ -34,7 +34,7 @@ name matching the unique function identifier:
   .. code-tab:: cpp
      
     // Define an agent function called agent_fn1 - specified ahead of main function
-    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MsgNone, MsgNone) {
+    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MessageNone, MessageNone) {
         // Behaviour goes here
     }
 
@@ -78,7 +78,7 @@ To define a runtime-compiled agent function, the function source should be store
 
     // Define an agent function called agent_fn1 which will be compiled at runtime
     const char* agent_fn1_source = R"###(
-    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MsgNone, MsgNone) {
+    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MessageNone, MessageNone) {
         // Behaviour goes here
     }
     )###";
@@ -130,7 +130,7 @@ Full Example Code From This Page
     
     # Define an agent function called agent_fn1
     agent_fn1_source = r"""
-    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MsgNone, MsgNone) {
+    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MessageNone, MessageNone) {
         # Behaviour goes here
     }
     """
@@ -147,13 +147,13 @@ Full Example Code From This Page
     }
 
     // Define an agent function called agent_fn1 - specified ahead of main function
-    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MsgNone, MsgNone) {
+    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MessageNone, MessageNone) {
         // Behaviour goes here
     }
 
     // Define an agent function called agent_fn1 which will be compiled at runtime
     const char* agent_fn1_source = R"###(
-    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MsgNone, MsgNone) {
+    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MessageNone, MessageNone) {
         // Behaviour goes here
     }
     )###";

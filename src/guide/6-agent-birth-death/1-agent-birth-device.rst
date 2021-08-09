@@ -38,7 +38,7 @@ Agent Output from Device:
 
   .. code-tab:: cpp
   
-      FLAMEGPU_AGENT_FUNCTION(ExampleAgentOutputFn, MsgNone, MsgNone) {
+      FLAMEGPU_AGENT_FUNCTION(ExampleAgentOutputFn, MessageNone, MessageNone) {
           // The output agent's 'x' variable is set
           FLAMEGPU->agent_out.setVariable<float>("x", 12.0f);
   
@@ -72,7 +72,7 @@ As an example:
 .. tabs::
   .. code-tab:: cpp
   
-    FLAMEGPU_AGENT_FUNCTION(OptionalOutput, MsgNone, MsgNone) {
+    FLAMEGPU_AGENT_FUNCTION(OptionalOutput, MessageNone, MessageNone) {
         // Fetch this agent's id
         unsigned int id = FLAMEGPU->getVariable<unsigned int>("id") + 1;
   
@@ -114,7 +114,7 @@ Full Example Code From This Page
 
   .. code-tab:: cpp
   
-      FLAMEGPU_AGENT_FUNCTION(ExampleAgentOutputFn, MsgNone, MsgNone) {
+      FLAMEGPU_AGENT_FUNCTION(ExampleAgentOutputFn, MessageNone, MessageNone) {
           // The output agent's 'x' variable is set
           FLAMEGPU->agent_out.setVariable<float>("x", 12.0f);
   
@@ -122,7 +122,7 @@ Full Example Code From This Page
           ...
       }
 
-      FLAMEGPU_AGENT_FUNCTION(OptionalOutput, MsgNone, MsgNone) {
+      FLAMEGPU_AGENT_FUNCTION(OptionalOutput, MessageNone, MessageNone) {
         // Fetch this agent's id
         unsigned int id = FLAMEGPU->getVariable<unsigned int>("id") + 1;
   

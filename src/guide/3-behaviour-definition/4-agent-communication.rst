@@ -14,12 +14,12 @@ with several built-in communication strategies, described below. It can also be 
 ============== =========================== ==================================================
 Type           Symbol                       Description
 ============== =========================== ==================================================
-Brute Force    ``MsgBruteForce``           Access all messages
-Spatial 2D     ``MsgSpatial2D``            Access all messages within a radius in 2D
-Spatial 3D     ``MsgSpatial3D``            Access all messages within a radius in 3D
-Array 1D       ``MsgArray1D``              Directly access messages via a 1 dimensional array
-Array 2D       ``MsgArray2D``              Directly access messages via a 2 dimensional array
-Array 3D       ``MsgArray3D``              Directly access messages via a 3 dimensional array
+Brute Force    ``MessageBruteForce``           Access all messages
+Spatial 2D     ``MessageSpatial2D``            Access all messages within a radius in 2D
+Spatial 3D     ``MessageSpatial3D``            Access all messages within a radius in 3D
+Array 1D       ``MessageArray1D``              Directly access messages via a 1 dimensional array
+Array 2D       ``MessageArray2D``              Directly access messages via a 2 dimensional array
+Array 3D       ``MessageArray3D``              Directly access messages via a 3 dimensional array
 ============== =========================== ==================================================
 
 A new message type can defined using one of the above symbols:
@@ -34,7 +34,7 @@ A new message type can defined using one of the above symbols:
     .. code-tab:: cpp
       
       // Create a new message type called "location" which uses the brute force communication strategy
-      MsgBruteForce::Description &locationMessage = model.newMessage("location");
+      MessageBruteForce::Description &locationMessage = model.newMessage("location");
 
 Data the message should contain can then be defined using the ``newVariable`` method of the message's ``Description`` object:
 
@@ -63,8 +63,8 @@ and must match that of the message type:
 
     .. code-tab:: cpp
 
-      // Define an agent function, "outputdata" which has no input messages and outputs a message using the "MsgBruteForce" communication strategy
-      FLAMEGPU_AGENT_FUNCTION(outputdata, MsgNone, MsgBruteForce) {
+      // Define an agent function, "outputdata" which has no input messages and outputs a message using the "MessageBruteForce" communication strategy
+      FLAMEGPU_AGENT_FUNCTION(outputdata, MessageNone, MessageBruteForce) {
         // Agent function code goes here
         ...
       }
@@ -89,21 +89,21 @@ The agent function will now output a message of type "location_message". The var
 
     .. code-tab:: cpp
 
-      // Define an agent function, "outputdata" which has no input messages and outputs a message using the "MsgBruteForce" communication strategy
-      FLAMEGPU_AGENT_FUNCTION(outputdata, MsgNone, MsgBruteForce) {
+      // Define an agent function, "outputdata" which has no input messages and outputs a message using the "MessageBruteForce" communication strategy
+      FLAMEGPU_AGENT_FUNCTION(outputdata, MessageNone, MessageBruteForce) {
         // Set the "id" message variable to this agent's id 
         FLAMEGPU->message_out.setVariable<int>("id", FLAMEGPU->getVariable<int>("id"));
       }
 
 **Spatial Messaging**
-If you are using ``MsgSpatial2D`` or ``MsgSpatial3D`` then your message type will automatically have ``float`` variables ``x``, ``y`` (and ``z`` for 3D) added to the message. These correspond to the message's spatial location and must be set in your agent function. 
+If you are using ``MessageSpatial2D`` or ``MessageSpatial3D`` then your message type will automatically have ``float`` variables ``x``, ``y`` (and ``z`` for 3D) added to the message. These correspond to the message's spatial location and must be set in your agent function. 
 
 .. tabs::
 
     .. code-tab:: cpp
 
-      // Define an agent function, "outputdata" which has no input messages and outputs a message using the "MsgSpatial3D" communication strategy
-      FLAMEGPU_AGENT_FUNCTION(outputdata, MsgNone, MsgSpatial3D) {
+      // Define an agent function, "outputdata" which has no input messages and outputs a message using the "MessageSpatial3D" communication strategy
+      FLAMEGPU_AGENT_FUNCTION(outputdata, MessageNone, MessageSpatial3D) {
         // Set the required variables for spatial messaging
         FLAMEGPU->message_out.setVariable<float>("x", FLAMEGPU->getVariable<float>("x"));
         FLAMEGPU->message_out.setVariable<float>("y", FLAMEGPU->getVariable<float>("y"));
@@ -127,14 +127,14 @@ You must also specify the interaction radius via the ``MessageDescription`` obje
       
       
 **Array Messaging**
-If you are using ``MsgArray1D``, ``MsgArray2D`` or ``MsgArray3D`` then you must specify the corresponding array index when outputting a message. It is important that only 1 agent writes a message to each index (if ``SEATBELTS`` is enabled then multiple outputs to the same index will raise an exception).
+If you are using ``MessageArray1D``, ``MessageArray2D`` or ``MessageArray3D`` then you must specify the corresponding array index when outputting a message. It is important that only 1 agent writes a message to each index (if ``SEATBELTS`` is enabled then multiple outputs to the same index will raise an exception).
 
 .. tabs::
 
     .. code-tab:: cpp
 
-      // Define an agent function, "outputdata" which has no input messages and outputs a message using the "MsgArray3D" communication strategy
-      FLAMEGPU_AGENT_FUNCTION(outputdata, MsgNone, MsgArray3D) {
+      // Define an agent function, "outputdata" which has no input messages and outputs a message using the "MessageArray3D" communication strategy
+      FLAMEGPU_AGENT_FUNCTION(outputdata, MessageNone, MessageArray3D) {
         // Set the index to store the array message
         FLAMEGPU->message_out.setIndex(FLAMEGPU->getVariable<unsigned int>("x"), FLAMEGPU->getVariable<unsigned int>("y"), FLAMEGPU->getVariable<unsigned int>("z"));
         // Set message variables
@@ -150,8 +150,8 @@ Reading a message is very similar to sending one. The second argument in the age
 
     .. code-tab:: cpp
 
-      // Define an agent function, "inputdata" which has accepts an input message using the "MsgBruteForce" communication strategy and inputs no messages
-      FLAMEGPU_AGENT_FUNCTION(inputdata, MsgBruteForce, MsgNone) {
+      // Define an agent function, "inputdata" which has accepts an input message using the "MessageBruteForce" communication strategy and inputs no messages
+      FLAMEGPU_AGENT_FUNCTION(inputdata, MessageBruteForce, MessageNone) {
         // Agent function code goes here
         ...
       }
@@ -178,8 +178,8 @@ With the input message type specified, the message list will be available in the
 
     .. code-tab:: cpp
 
-      // Define an agent function, "inputdata" which has accepts an input message using the "MsgBruteForce" communication strategy and inputs no messages
-      FLAMEGPU_AGENT_FUNCTION(inputdata, MsgBruteForce, MsgNone) {
+      // Define an agent function, "inputdata" which has accepts an input message using the "MessageBruteForce" communication strategy and inputs no messages
+      FLAMEGPU_AGENT_FUNCTION(inputdata, MessageBruteForce, MessageNone) {
         // For each message in the message list
         for (const auto& message : FLAMEGPU->message_in) {
           int idFromMessage = message->getVariable<int>("id");
@@ -195,8 +195,8 @@ Spatial messaging will return all messages within the radius specified at the mo
 
     .. code-tab:: cpp
 
-      // Define an agent function, "inputdata" which has accepts an input message using the "MsgSpatial3D" communication strategy and inputs no messages
-      FLAMEGPU_AGENT_FUNCTION(inputdata, MsgSpatial3D, MsgNone) {
+      // Define an agent function, "inputdata" which has accepts an input message using the "MessageSpatial3D" communication strategy and inputs no messages
+      FLAMEGPU_AGENT_FUNCTION(inputdata, MessageSpatial3D, MessageNone) {
         const float RADIUS = FLAMEGPU->message_in.radius();
         // Get this agent's x, y, z variables
         const float x = FLAMEGPU->getVariable<float>("x");
@@ -231,8 +231,8 @@ Messages can be accessed from a specific array index:
 
     .. code-tab:: cpp
 
-      // Define an agent function, "inputdata" which has accepts an input message using the "MsgSpatial3D" communication strategy and inputs no messages
-      FLAMEGPU_AGENT_FUNCTION(inputdata, MsgArray3D, MsgNone) {
+      // Define an agent function, "inputdata" which has accepts an input message using the "MessageSpatial3D" communication strategy and inputs no messages
+      FLAMEGPU_AGENT_FUNCTION(inputdata, MessageArray3D, MessageNone) {
         // Get this agent's x, y, z variables
         const unsigned int x = FLAMEGPU->getVariable<unsigned int>("x");
         const unsigned int y = FLAMEGPU->getVariable<unsigned int>("y");
@@ -249,8 +249,8 @@ Similar to spatial messaging, array messages can be used to iterate the exclusiv
 
     .. code-tab:: cpp
 
-      // Define an agent function, "inputdata" which has accepts an input message using the "MsgSpatial3D" communication strategy and inputs no messages
-      FLAMEGPU_AGENT_FUNCTION(inputdata, MsgArray3D, MsgNone) {
+      // Define an agent function, "inputdata" which has accepts an input message using the "MessageSpatial3D" communication strategy and inputs no messages
+      FLAMEGPU_AGENT_FUNCTION(inputdata, MessageArray3D, MessageNone) {
         // Get this agent's x, y, z variables
         const unsigned int x = FLAMEGPU->getVariable<unsigned int>("x");
         const unsigned int y = FLAMEGPU->getVariable<unsigned int>("y");
@@ -270,8 +270,8 @@ If wrapping of array bounds is required, then an alternate iterator method ``wra
 
     .. code-tab:: cpp
 
-      // Define an agent function, "inputdata" which has accepts an input message using the "MsgSpatial3D" communication strategy and inputs no messages
-      FLAMEGPU_AGENT_FUNCTION(inputdata, MsgArray3D, MsgNone) {
+      // Define an agent function, "inputdata" which has accepts an input message using the "MessageSpatial3D" communication strategy and inputs no messages
+      FLAMEGPU_AGENT_FUNCTION(inputdata, MessageArray3D, MessageNone) {
         // Get this agent's x, y, z variables
         const unsigned int x = FLAMEGPU->getVariable<unsigned int>("x");
         const unsigned int y = FLAMEGPU->getVariable<unsigned int>("y");

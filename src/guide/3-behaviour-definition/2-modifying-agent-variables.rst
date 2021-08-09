@@ -15,7 +15,7 @@ To achieve the high performance of FLAMEGPU2, agent behaviours must be implement
 
   .. code-tab:: cpp
 
-    FLAMEGPU_AGENT_FUNCTION(ExampleFn, MsgNone, MsgNone) {
+    FLAMEGPU_AGENT_FUNCTION(ExampleFn, MessageNone, MessageNone) {
         // Get the value of agent variable 'x' and store it in local variable 'x'
         int x = FLAMEGPU->getVariable<int>("x");
 
@@ -34,7 +34,7 @@ in a single function call, during agent functions, elements must be accessed ind
 
 .. code:: cpp
 
-    FLAMEGPU_AGENT_FUNCTION(ExampleFn, MsgNone, MsgNone) {
+    FLAMEGPU_AGENT_FUNCTION(ExampleFn, MessageNone, MessageNone) {
         // Return agent variable 'location[1]' and store it in local variable 'y'
         // The length of the array must be passed as the second template argument, in this example the array has a length of 3
         int y = FLAMEGPU->getVariable<int, 3>("location", 1);
