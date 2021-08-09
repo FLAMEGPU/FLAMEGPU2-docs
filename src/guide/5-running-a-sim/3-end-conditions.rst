@@ -15,7 +15,7 @@ The number of steps can be set through the ``SimulationConfig`` method of a ``CU
     # Set the simulation to run for 500 steps
     simulation.SimulationConfig().steps = 500
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
      
     // Set the simulation to run for 500 steps
     simulation.SimulationConfig().steps = 500;
@@ -28,7 +28,7 @@ as other host functions, but return either ``CONTINUE`` or ``EXIT``:
 
 .. tabs::
 
-    .. code-tab:: cpp
+    .. code-tab:: cuda CUDA C++
 
       FLAMEGPU_EXIT_CONDITION(my_exit_condition) {
         if (someCondition)
@@ -46,7 +46,7 @@ The exit condition can be added to the model:
         # Add 'my_exit_condition' to 'model'
         model.addExitCondition(my_exit_condition)
 
-    .. code-tab:: cpp
+    .. code-tab:: cuda CUDA C++
 
         // Add 'my_exit_condition' to 'model'
         model.addExitCondition(my_exit_condition);

@@ -13,7 +13,7 @@ To achieve the high performance of FLAMEGPU2, agent behaviours must be implement
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     FLAMEGPU_AGENT_FUNCTION(ExampleFn, flamegpu::MessageNone, flamegpu::MessageNone) {
         // Get the value of agent variable 'x' and store it in local variable 'x'
@@ -34,7 +34,7 @@ in a single function call, during agent functions, elements must be accessed ind
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     FLAMEGPU_AGENT_FUNCTION(ExampleFn, flamegpu::MessageNone, flamegpu::MessageNone) {
         // Return agent variable 'location[1]' and store it in local variable 'y'

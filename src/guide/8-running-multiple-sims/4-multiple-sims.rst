@@ -6,7 +6,7 @@ An ensemble is a group of simulations which are run concurrently. To use an ense
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
      
     // Create a RunPlanVector object from the model, specifying we wish to run 20 simulations
     flamegpu::RunPlanVector runplan(model, 20);

@@ -19,7 +19,7 @@ set of functions which can be used to collect information about agents and their
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
     
     // Define a step function called 'step_function'
     FLAMEGPU_STEP_FUNCTION(step_function) {

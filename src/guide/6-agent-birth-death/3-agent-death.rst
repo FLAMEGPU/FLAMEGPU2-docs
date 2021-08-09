@@ -9,7 +9,7 @@ the ``AgentFunctionDescription`` object:
 
 .. tabs::
   
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Allow agent_fn1 to kill agents
     agent_fn1_description.setAllowAgentDeath(true);
@@ -28,7 +28,7 @@ conditionals to only have agents die according to a certain condition:
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
     
     FLAMEGPU_AGENT_FUNCTION(agent_fn1, flamegpu::MessageNone, flamegpu::MessageNone) {
         // Get the 'x' variable of the agent

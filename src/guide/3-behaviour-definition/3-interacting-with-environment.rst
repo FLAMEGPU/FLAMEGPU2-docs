@@ -8,7 +8,7 @@ Environmental properties are accessed as follows:
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     FLAMEGPU_AGENT_FUNCTION(ExampleFn, flamegpu::MessageNone, flamegpu::MessageNone) {
         // Get the value of environment variable 'interaction_radius' and store it in local variable 'interaction_radius'

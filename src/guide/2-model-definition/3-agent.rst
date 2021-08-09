@@ -11,7 +11,7 @@ FLAMEGPU2 agents are associated with a particular model. As such they are create
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Create a new agent called 'predator' associated the model 'model' 
     flamegpu::AgentDescription &predator = model.newAgent("predator");
@@ -41,7 +41,7 @@ User Defined Variables
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Create two new floating point variables, x and y
     predator.newVariable<float>("x");
@@ -67,7 +67,7 @@ Array variables can also be defined by providing a name and array length:
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Create an array variable called exampleArray which is an array of 3 integers
     predator.newVariableArray<int>("exampleArray", 3);
@@ -87,7 +87,7 @@ All newly defined agent types will have a default state, but you can add additio
 .. tabs::
 
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Create two new states, resting and hunting
     predator.newState("resting");
@@ -105,7 +105,7 @@ Full Example Code From This Page
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Create a new agent called 'predator' associated the model 'model' 
     flamegpu::AgentDescription &predator = model.newAgent("predator");

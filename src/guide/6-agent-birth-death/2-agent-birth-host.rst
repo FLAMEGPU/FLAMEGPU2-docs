@@ -5,7 +5,7 @@ Agents can be created using host step functions.
 
 .. tabs::
   
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     FLAMEGPU_STEP_FUNCTION(BasicOutput) {
         // Get the agent type 'agent'

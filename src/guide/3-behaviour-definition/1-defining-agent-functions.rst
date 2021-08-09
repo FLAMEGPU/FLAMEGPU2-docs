@@ -27,7 +27,7 @@ For Non-RTC functions, when using the C++ interface, the ``FLAMEGPU_AGENT_FUNCTI
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
      
     // Define an agent function called agent_fn1 - specified ahead of main function
     FLAMEGPU_AGENT_FUNCTION(agent_fn1, flamegpu::MessageNone, flamegpu::MessageNone) {
@@ -45,9 +45,10 @@ For Non-RTC functions, when using the C++ interface, the ``FLAMEGPU_AGENT_FUNCTI
 
 When using the Run-Time Compiled (RTC) functions, optionally in the C++ interface or required by the Python interface, the function must be defined in a string and associated with the AgentDescription using the ``newRTCFunction`` method.
 
+.. cpp syntax highlighting due to issues with the cuda highlighter and raw strings.
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cpp CUDA C++
 
     const char* agent_fn1_source = R"###(
     // Define an agent function called agent_fn1 - specified ahead of main function
@@ -89,7 +90,7 @@ If you wish to define regular functions which can be used within agent function 
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Define a function for adding two integers which can be called inside agent functions.
     FLAMEGPU_DEVICE_FUNCTION int add(int a, int b) {
@@ -103,7 +104,7 @@ If you wish to define regular functions which can be used within agent function 
 
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cuda CUDA C++
 
     // Define a function for subtracting two integers which can be called inside agent functions, or in host code
     FLAMEGPU_HOST_DEVICE_FUNCTION int subtract(int a, int b) {
@@ -113,9 +114,10 @@ If you wish to define regular functions which can be used within agent function 
 Full Example Code From This Page
 --------------------------------
 
+.. cpp syntax highlighting due to issues with the cuda highlighter and raw strings.
 .. tabs::
 
-  .. code-tab:: cpp
+  .. code-tab:: cpp CUDA C++
 
     // Define a function for adding two integers which can be called inside agent functions.
     FLAMEGPU_DEVICE_FUNCTION int add(int a, int b) {
