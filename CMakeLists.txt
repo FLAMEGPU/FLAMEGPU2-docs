@@ -26,7 +26,7 @@ find_package(FLAMEGPU2)
 # Build Doxygen if we can
 if(FLAMEGPU2_FOUND)
     # Load FLAMEGPU2s Doxygen config, implicitly calls find_package(doxygen)
-    include(${FLAMEGPU2_ROOT}/cmake/doxygen.cmake)
+    include(${FLAMEGPU_ROOT}/cmake/doxygen.cmake)
     mark_as_advanced(FORCE BUILD_API_DOCUMENTATION)
 endif()
 
@@ -53,7 +53,7 @@ if(FLAMEGPU2_FOUND AND DOXYGEN_FOUND)
     # Disabling this setting might break stuff
     if(${BUILD_API_DOCUMENTATION})
         # Create Doxygen target 'userguide_docs_xml'
-        create_doxygen_target("${FLAMEGPU2_ROOT}" "${CMAKE_CURRENT_BINARY_DIR}" "${API_DOCS_XML_PATH}")
+        create_doxygen_target("${FLAMEGPU_ROOT}" "${CMAKE_CURRENT_BINARY_DIR}" "${API_DOCS_XML_PATH}")
     endif()
     # Create Sphinx target
     add_custom_target(userguide ALL
