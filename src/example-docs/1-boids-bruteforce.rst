@@ -1,3 +1,0 @@
-Boids Brute Force
-=================
-
