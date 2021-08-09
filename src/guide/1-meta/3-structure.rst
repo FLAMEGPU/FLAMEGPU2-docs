@@ -8,8 +8,6 @@ FLAMEGPU2 programs are composed of 4 sections:
 - Initialisation
 - Execution
 
-**TODO: annotated source code image with sections identified**
-
 Agent/Host Function Definitions
 -------------------------------
 
