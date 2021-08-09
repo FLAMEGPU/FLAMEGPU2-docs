@@ -2,7 +2,7 @@ Interacting with the Environment
 ================================
 
 Agent functions can read environmental properties. If you wish to modify an environmental property, this must be done
-through *TODO: link to host functions*.
+through :ref:`Host Functions`.
 
 Environmental properties are accessed as follows:
 
