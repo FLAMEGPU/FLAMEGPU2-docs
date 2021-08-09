@@ -54,11 +54,6 @@ The code within FLAME GPU conforms to the `Google C++ style guide <https://googl
 
 * ``[Formatting/Line Length]``: Relaxed to a limit of 240 characters.
 
-.. Naming Conventions
-.. ^^^^^^^^^^^^^^^^^^
-
-.. **TODO: Discuss & write**
-
 Checking Code Style
 ^^^^^^^^^^^^^^^^^^^
 

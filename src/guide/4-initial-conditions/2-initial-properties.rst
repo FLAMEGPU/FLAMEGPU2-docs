@@ -6,8 +6,6 @@ Initialising a Population
 
 To initialise a population, iterate over the ``AgentVector`` object and set the variables for each agent:
 
-** TODO: not very idiomatic - python should use enumerate I think, and range based for for cpp**
-
 .. tabs::
 
   .. code-tab:: cuda CUDA C++
@@ -19,8 +17,7 @@ To initialise a population, iterate over the ``AgentVector`` object and set the 
 
   .. code-tab:: python
 
-    for i in range(populationSize):
-        instance = population[i];
+    for i, instance in enumerate(population):
         instance.setVariableInt("id", i);
   
 Accessing a Single Agent
