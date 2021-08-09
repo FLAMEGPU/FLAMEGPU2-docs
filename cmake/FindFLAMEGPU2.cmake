@@ -1,5 +1,5 @@
-#Look for a file we expect to always exist
-find_path(FLAMEGPU_ROOT src/flamegpu/exception/FGPUException.cpp
+#  Look for a file we expect to always exist. version.h is dynamically created so cannot be relied upon
+find_path(FLAMEGPU_ROOT include/flamegpu/defines.h
     HINTS
         $ENV{FLAMEGPU_ROOT}
         ${FLAMEGPU_ROOT}
