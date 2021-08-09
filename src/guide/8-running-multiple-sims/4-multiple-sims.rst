@@ -19,7 +19,3 @@ An ensemble is a group of simulations which are run concurrently. To use an ense
 
     // Run the ensemble
     ensemble.simulate();
-
-  .. code-tab:: python
-
-    **TODO: python ensembles**
