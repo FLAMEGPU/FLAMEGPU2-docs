@@ -23,7 +23,7 @@ A ``ModelDescription`` is initialised with a name:
   .. code-tab:: cpp
 
     // Create a ModelDescription object called model, initialised with the name "some_model"
-    ModelDescription model("some_model");
+    flamegpu::ModelDescription model("some_model");
 
 More Info 
 ---------

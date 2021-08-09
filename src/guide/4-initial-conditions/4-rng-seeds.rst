@@ -32,7 +32,7 @@ Agent variables can be initialised with randomly generated data:
 
     // For each agent
     for (unsigned int i = 0; i < populationSize; i++) {
-        AgentVector::Agent instance = population[i];
+        flamegpu::AgentVector::Agent instance = population[i];
 
         // Randomly initialise the x, y and z variables with values between min_pos and max_pos
         instance.setVariable<float>("x", position_distribution(rngEngine));

@@ -32,9 +32,9 @@ as other host functions, but return either ``CONTINUE`` or ``EXIT``:
 
       FLAMEGPU_EXIT_CONDITION(my_exit_condition) {
         if (someCondition)
-          return EXIT;  // End the simulation here
+          return flamegpu::EXIT;  // End the simulation here
         else
-          return CONTINUE;  // Continue the simulation
+          return flamegpu::CONTINUE;  // Continue the simulation
       }
 
 The exit condition can be added to the model:

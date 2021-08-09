@@ -20,30 +20,30 @@ When calling `SubAgentDescription::bindAgent()`, it is also possible to automati
   .. code-tab:: cpp
   
       // Define a submodel
-      ModelDescription sub_m("submodel");
+      flamegpu::ModelDescription sub_m("submodel");
       {
           // Define a simple agent with variable 'x' and state 'foo'
-          AgentDescription &a = sub_m.newAgent("subagent");
+          flamegpu::AgentDescription &a = sub_m.newAgent("subagent");
           a.newVariable<int>("x");
           a.newState("foo");
           // Add an agent function to the model
-          AgentFunctionDescription &af1 = a.newFunction("example_function", ExampleFn);
+          flamegpu::AgentFunctionDescription &af1 = a.newFunction("example_function", ExampleFn);
           sub_m.newLayer().addFunction(af1);
           // Give the model an exit condition, this is required for all submodels
           sub_m.addExitCondition(ExitCdn);
       }
       // Define the parent model
-      ModelDescription m("model");
+      flamegpu::ModelDescription m("model");
       {
           // Define a simple agent with variable 'y' and state 'bar'
-          AgentDescription &a = m.newAgent("agent");
+          flamegpu::AgentDescription &a = m.newAgent("agent");
           a.newVariable<int>("y");
           a.newState("bar");
           // Add the submodel
-          SubModelDescription &smd = m.newSubModel("sub", sub_m);
+          flamegpu::SubModelDescription &smd = m.newSubModel("sub", sub_m);
           // Map agent's foo and bar
           // We pass false, as we don't wish for matching variables and states to be automatically mapped
-          SubAgentDescription &agent_map = smd.bindAgent("subagent", "agent", false, false);
+          flamegpu::SubAgentDescription &agent_map = smd.bindAgent("subagent", "agent", false, false);
           // Map the agent variables and states
           agent_map.mapState("foo", "bar")
           agent_map.mapVariable("x", "y")
@@ -59,18 +59,18 @@ Environment properties are also mapped similarly. It is not possible to map a no
   .. code-tab:: cpp
   
       // Define a submodel
-      ModelDescription sub_m("submodel");
+      flamegpu::ModelDescription sub_m("submodel");
       // As this property will be mapped, it's value is redundant as it will always be inherited
       sub_m.Environment().add<float>("foo", 0);
       sub_m.Environment().add<float>("foo2", 0, true);
       
       // Define the parent model
-      ModelDescription m("model");
+      flamegpu::ModelDescription m("model");
       m.Environment().add<float>("bar", 12.0f);
       m.Environment().add<float>("bar2", 21.0f);
       
       // Setup the mapping
-      SubModelDescription &smd = m.newSubModel("sub", sub_m);
-      SubEnvironmentDescription &senv = smd.SubEnvironment();
+      flamegpu::SubModelDescription &smd = m.newSubModel("sub", sub_m);
+      flamegpu::SubEnvironmentDescription &senv = smd.SubEnvironment();
       senv.mapProperty("foo", "bar");
       senv.mapProperty("foo2", "bar2");

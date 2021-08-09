@@ -54,7 +54,7 @@ They can be added as init functions, which execute once at the start when ``CUDA
   .. code-tab:: cpp
   
     // Define a new model
-    ModelDescription model("Test Model");
+    flamegpu::ModelDescription model("Test Model");
     ... // Rest of model definition
     // Add the init function host_fn1 to Test Model
     model.addInitFunction(host_fn1);
@@ -75,7 +75,7 @@ They can be added as exit functions, which execute once after all steps have com
   .. code-tab:: cpp
   
     // Define a new model
-    ModelDescription model("Test Model");
+    flamegpu::ModelDescription model("Test Model");
     ... // Rest of model definition
     // Add the exit function host_fn1 to Test Model
     model.addExitFunction(host_fn1);
@@ -97,7 +97,7 @@ They can be added as step functions, which execute each model step after all lay
   .. code-tab:: cpp
   
     // Define a new model
-    ModelDescription model("Test Model");
+    flamegpu::ModelDescription model("Test Model");
     ... // Rest of model definition
     // Add the step function host_fn1 to Test Model
     model.addStepFunction(host_fn1);
@@ -120,10 +120,10 @@ They can also be added to individual layers, so that they can execute between ag
   .. code-tab:: cpp
   
     // Define a new model
-    ModelDescription model("Test Model");
+    flamegpu::ModelDescription model("Test Model");
     ... // Rest of model definition
     // Define a new layer
-    Layer Description &layer1 = model.newLayer();
+    flamegpu::Layer Description &layer1 = model.newLayer();
     // Add the host function host_fn1 to the layer
     layer1.addHostFunction(host_fn1);
     
@@ -152,9 +152,9 @@ Host agent operations are performed on a single agent state, the state can be om
     // Define an host function called read_env_hostfn
     FLAMEGPU_HOST_FUNCTION(read_env_hostfn) {
         // Retrieve the host agent tools for agent sheep in the default state
-        HostAgentAPI sheep = FLAMEGPU->agent("sheep");
+        flamegpu::HostAgentAPI sheep = FLAMEGPU->agent("sheep");
         // Retrieve the host agent tools for agent wolf in the hungry state
-        HostAgentAPI hungry_wolf = FLAMEGPU->agent("wolf", "hungry");
+        flamegpu::HostAgentAPI hungry_wolf = FLAMEGPU->agent("wolf", "hungry");
     }
 
 Various reduction operators are provided, to allow specific agent variables to be reduced across the population.
@@ -198,7 +198,7 @@ As with most variable operations, these require the variable type to be specifie
     // Define an host function called reduce_hostfn
     FLAMEGPU_HOST_FUNCTION(reduce_hostfn) {
         // Retrieve the host agent tools for agent sheep in the default state
-        HostAgentAPI sheep = FLAMEGPU->agent("sheep");
+        flamegpu::HostAgentAPI sheep = FLAMEGPU->agent("sheep");
         // Reduce for the min, max of the sheep agent's health variable
         float min_health = sheep.min<float>("health");
         float max_health = sheep.max<float>("health");
@@ -227,7 +227,7 @@ The C++ API also has access to custom reduction and transform-reduction operatio
     // Define an host function called customreduce_hostfn
     FLAMEGPU_HOST_FUNCTION(customreduce_hostfn) {
         // Retrieve the host agent tools for agent sheep in the default state
-        HostAgentAPI sheep = FLAMEGPU->agent("sheep");
+        flamegpu::HostAgentAPI sheep = FLAMEGPU->agent("sheep");
         // Reduce for the sum of the sheep agent's health variable, the input value is 0
         double sum_health = sheep.reduce<float>("health", sum, 0.0f);
         // Reduce for the sum of the sheep agent's health variable's that are even, the input value is 0
@@ -253,14 +253,14 @@ Agent populations can also be sorted according to a variable, the C++ API can ad
     // Define an host function called reduce_hostfn
     FLAMEGPU_HOST_FUNCTION(reduce_hostfn) {
         // Retrieve the host agent tools for agent sheep in the default state
-        HostAgentAPI sheep = FLAMEGPU->agent("sheep");
+        flamegpu::HostAgentAPI sheep = FLAMEGPU->agent("sheep");
         // Sort the sheep population according to their health variable
         sheep.sort<float>("health", HostAgentAPI::ASC);
         // Sort the sheep population according to their awake variables, those with equal awake variables are sub-sorted according by health
         sheep.sort<int, float>("awake", flamegpu.DESC, "health", flamegpu.ASC);
     }
 
-It's also possible to create new agents with the ``HostAgentAPI``, this is covered in `Section 6.2. <../6-agent-birth-death/2-agent-birth-host.html>`_. These agents are not created until after the layer has completed execution, so they will not affect reductions or sorts carried out in the same host function. This is the prefered method of host agent birth as it performs a single host-device memory copy.
+It's also possible to create new agents with the ``HostAgentAPI``, this is covered in `Section 6.2. <../6-agent-birth-death/2-agent-birth-host.html>`_. These agents are not created until after the layer has completed execution, so they will not affect reductions or sorts carried out in the same host function. This is the preferred method of host agent birth as it performs a single host-device memory copy.
 
 For raw access to agent data, ``DeviceAgentVector`` can be used. This has an interface similar to ``AgentVector``, however automatically synchronises data movement between host and device. This should only be used in limited circumstances as copying memory between host and device has high latency.
 
@@ -284,9 +284,9 @@ For raw access to agent data, ``DeviceAgentVector`` can be used. This has an int
     // Define an host function called deviceagentvector_hostfn
     FLAMEGPU_HOST_FUNCTION(deviceagentvector_hostfn) {
         // Retrieve the host agent tools for agent sheep in the default state
-        HostAgentAPI sheep = FLAMEGPU->agent("sheep");
+        flamegpu::HostAgentAPI sheep = FLAMEGPU->agent("sheep");
         // Get DeviceAgentVector to the sheep population
-        DeviceAgentVector sheep_vector = sheep.getPopulationData();
+        flamegpu::DeviceAgentVector sheep_vector = sheep.getPopulationData();
         // Set all sheep's health back to 100
         for(auto s : sheep_vector)
             s.setVariable<float>("health", 100.0);

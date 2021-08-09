@@ -23,7 +23,7 @@ An ``EnvironmentDescription`` is initialised as shown below:
   .. code-tab:: cpp
 
     // Create an EnvironmentDescription object called env
-    EnvironmentDescription env;
+    flamegpu::EnvironmentDescription env;
 
 
 Defining Environmental Properties
@@ -99,7 +99,7 @@ Full Example Code From This Page
   .. code-tab:: cpp
 
     // Create an EnvironmentDescription object called env
-    EnvironmentDescription env;
+    flamegpu::EnvironmentDescription env;
 
     // Define environmental properties and their initial values
     env.add<float>("f_prop", 12.0f);        // Create float property 'f_prop', with value of 12

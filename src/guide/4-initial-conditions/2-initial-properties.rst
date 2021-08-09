@@ -19,7 +19,7 @@ To initialise a population, iterate over the ``AgentVector`` object and set the 
   .. code-tab:: cpp
 
     for (unsigned int i = 0; i < populationSize; i++) {
-        AgentVector::Agent instance = population[i];
+        flamegpu::AgentVector::Agent instance = population[i];
         instance.setVariable<int>("id", i);
     }
 
@@ -41,7 +41,7 @@ A single agent can be individually accessed by indexing into the ``AgentVector``
   .. code-tab:: cpp
     
     // Fetch the 23rd agent
-    AgentVector::Agent instance = population[23];
+    flamegpu::AgentVector::Agent instance = population[23];
 
     Set its id to 12,000
     instance.setVariable<int>("id", 12000);

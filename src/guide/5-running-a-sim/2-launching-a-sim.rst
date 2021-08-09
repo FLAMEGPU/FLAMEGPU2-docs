@@ -23,7 +23,7 @@ its ``simulate`` method:
   .. code-tab:: cpp
      
     // Create a simulation object from the model
-    CUDASimulation simulation(model);
+    flamegpu::CUDASimulation simulation(model);
 
     // Initialise the model with the supplied command line parameters
     simulation.initialise(argc, argv);

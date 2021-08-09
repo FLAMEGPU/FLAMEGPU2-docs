@@ -34,7 +34,7 @@ A new message type can defined using one of the above symbols:
     .. code-tab:: cpp
       
       // Create a new message type called "location" which uses the brute force communication strategy
-      MessageBruteForce::Description &locationMessage = model.newMessage("location");
+      flamegpu::MessageBruteForce::Description &locationMessage = model.newMessage("location");
 
 Data the message should contain can then be defined using the ``newVariable`` method of the message's ``Description`` object:
 
@@ -48,7 +48,7 @@ Data the message should contain can then be defined using the ``newVariable`` me
     .. code-tab:: cpp
       
       // Add a variable of type "int" with name "id" to the "location_message" type
-      locationMessage.newVariable<Int>("id");
+      locationMessage.newVariable<int>("id");
 
 
 
@@ -64,7 +64,7 @@ and must match that of the message type:
     .. code-tab:: cpp
 
       // Define an agent function, "outputdata" which has no input messages and outputs a message using the "MessageBruteForce" communication strategy
-      FLAMEGPU_AGENT_FUNCTION(outputdata, MessageNone, MessageBruteForce) {
+      FLAMEGPU_AGENT_FUNCTION(outputdata, flamegpu::MessageNone, flamegpu::MessageBruteForce) {
         // Agent function code goes here
         ...
       }
@@ -90,9 +90,10 @@ The agent function will now output a message of type "location_message". The var
     .. code-tab:: cpp
 
       // Define an agent function, "outputdata" which has no input messages and outputs a message using the "MessageBruteForce" communication strategy
-      FLAMEGPU_AGENT_FUNCTION(outputdata, MessageNone, MessageBruteForce) {
+      FLAMEGPU_AGENT_FUNCTION(outputdata, flamegpu::MessageNone, flamegpu::MessageBruteForce) {
         // Set the "id" message variable to this agent's id 
         FLAMEGPU->message_out.setVariable<int>("id", FLAMEGPU->getVariable<int>("id"));
+        return flamegpu::ALIVE;
       }
 
 **Spatial Messaging**
@@ -103,12 +104,12 @@ If you are using ``MessageSpatial2D`` or ``MessageSpatial3D`` then your message 
     .. code-tab:: cpp
 
       // Define an agent function, "outputdata" which has no input messages and outputs a message using the "MessageSpatial3D" communication strategy
-      FLAMEGPU_AGENT_FUNCTION(outputdata, MessageNone, MessageSpatial3D) {
+      FLAMEGPU_AGENT_FUNCTION(outputdata, flamegpu::MessageNone, flamegpu::MessageSpatial3D) {
         // Set the required variables for spatial messaging
         FLAMEGPU->message_out.setVariable<float>("x", FLAMEGPU->getVariable<float>("x"));
         FLAMEGPU->message_out.setVariable<float>("y", FLAMEGPU->getVariable<float>("y"));
         FLAMEGPU->message_out.setVariable<float>("z", FLAMEGPU->getVariable<float>("z"));
-
+        return flamegpu::ALIVE;
       }
 
 You must also specify the interaction radius via the ``MessageDescription`` object:
@@ -134,11 +135,12 @@ If you are using ``MessageArray1D``, ``MessageArray2D`` or ``MessageArray3D`` th
     .. code-tab:: cpp
 
       // Define an agent function, "outputdata" which has no input messages and outputs a message using the "MessageArray3D" communication strategy
-      FLAMEGPU_AGENT_FUNCTION(outputdata, MessageNone, MessageArray3D) {
+      FLAMEGPU_AGENT_FUNCTION(outputdata, flamegpu::MessageNone, flamegpu::MessageArray3D) {
         // Set the index to store the array message
         FLAMEGPU->message_out.setIndex(FLAMEGPU->getVariable<unsigned int>("x"), FLAMEGPU->getVariable<unsigned int>("y"), FLAMEGPU->getVariable<unsigned int>("z"));
         // Set message variables
         FLAMEGPU->message_out.setVariable<float>("foo", FLAMEGPU->getVariable<float>("bar"));
+        return flamegpu::ALIVE;
       }
 
 Reading Messages
@@ -151,7 +153,7 @@ Reading a message is very similar to sending one. The second argument in the age
     .. code-tab:: cpp
 
       // Define an agent function, "inputdata" which has accepts an input message using the "MessageBruteForce" communication strategy and inputs no messages
-      FLAMEGPU_AGENT_FUNCTION(inputdata, MessageBruteForce, MessageNone) {
+      FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageBruteForce, flamegpu::MessageNone) {
         // Agent function code goes here
         ...
       }
@@ -179,7 +181,7 @@ With the input message type specified, the message list will be available in the
     .. code-tab:: cpp
 
       // Define an agent function, "inputdata" which has accepts an input message using the "MessageBruteForce" communication strategy and inputs no messages
-      FLAMEGPU_AGENT_FUNCTION(inputdata, MessageBruteForce, MessageNone) {
+      FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageBruteForce, flamegpu::MessageNone) {
         // For each message in the message list
         for (const auto& message : FLAMEGPU->message_in) {
           int idFromMessage = message->getVariable<int>("id");
@@ -196,7 +198,7 @@ Spatial messaging will return all messages within the radius specified at the mo
     .. code-tab:: cpp
 
       // Define an agent function, "inputdata" which has accepts an input message using the "MessageSpatial3D" communication strategy and inputs no messages
-      FLAMEGPU_AGENT_FUNCTION(inputdata, MessageSpatial3D, MessageNone) {
+      FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageSpatial3D, flamegpu::MessageNone) {
         const float RADIUS = FLAMEGPU->message_in.radius();
         // Get this agent's x, y, z variables
         const float x = FLAMEGPU->getVariable<float>("x");
@@ -218,6 +220,7 @@ Spatial messaging will return all messages within the radius specified at the mo
             int idFromMessage = message->getVariable<int>("id");
           }
         }
+        return flamegpu::ALIVE;
       }
 
 Please note that at this time spatial messaging does not return messaging wrapping the environment bounds.
@@ -232,7 +235,7 @@ Messages can be accessed from a specific array index:
     .. code-tab:: cpp
 
       // Define an agent function, "inputdata" which has accepts an input message using the "MessageSpatial3D" communication strategy and inputs no messages
-      FLAMEGPU_AGENT_FUNCTION(inputdata, MessageArray3D, MessageNone) {
+      FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageArray3D, flamegpu::MessageNone) {
         // Get this agent's x, y, z variables
         const unsigned int x = FLAMEGPU->getVariable<unsigned int>("x");
         const unsigned int y = FLAMEGPU->getVariable<unsigned int>("y");
@@ -241,6 +244,7 @@ Messages can be accessed from a specific array index:
         const auto message = FLAMEGPU->message_in.at(x, y, z);        
         // Process the message's variables
         int idFromMessage = message->getVariable<int>("id");
+        return flamegpu::ALIVE;
       }
       
 Similar to spatial messaging, array messages can be used to iterate the exclusive Moore neighbourhood around a target index (the specified index's message is not returned):
@@ -250,7 +254,7 @@ Similar to spatial messaging, array messages can be used to iterate the exclusiv
     .. code-tab:: cpp
 
       // Define an agent function, "inputdata" which has accepts an input message using the "MessageSpatial3D" communication strategy and inputs no messages
-      FLAMEGPU_AGENT_FUNCTION(inputdata, MessageArray3D, MessageNone) {
+      FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageArray3D, flamegpu::MessageNone) {
         // Get this agent's x, y, z variables
         const unsigned int x = FLAMEGPU->getVariable<unsigned int>("x");
         const unsigned int y = FLAMEGPU->getVariable<unsigned int>("y");
@@ -260,6 +264,7 @@ Similar to spatial messaging, array messages can be used to iterate the exclusiv
           // Process the message's variables
           int idFromMessage = message->getVariable<int>("id");
         }
+        return flamegpu::ALIVE;
       }
 
 Moore iteration supports radii of any suitable positive integer. Whilst the default is ``1``, bespoke values can optionally be passed as the final argument during iteration.
@@ -271,7 +276,7 @@ If wrapping of array bounds is required, then an alternate iterator method ``wra
     .. code-tab:: cpp
 
       // Define an agent function, "inputdata" which has accepts an input message using the "MessageSpatial3D" communication strategy and inputs no messages
-      FLAMEGPU_AGENT_FUNCTION(inputdata, MessageArray3D, MessageNone) {
+      FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageArray3D, flamegpu::MessageNone) {
         // Get this agent's x, y, z variables
         const unsigned int x = FLAMEGPU->getVariable<unsigned int>("x");
         const unsigned int y = FLAMEGPU->getVariable<unsigned int>("y");
@@ -281,4 +286,5 @@ If wrapping of array bounds is required, then an alternate iterator method ``wra
           // Process the message's variables
           int idFromMessage = message->getVariable<int>("id");
         }
+        return flamegpu::ALIVE;
       }

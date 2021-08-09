@@ -36,7 +36,7 @@ name matching the unique function identifier:
   .. code-tab:: cpp
      
     // Define an agent function called agent_fn1 - specified ahead of main function
-    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MessageNone, MessageNone) {
+    FLAMEGPU_AGENT_FUNCTION(agent_fn1, flamegpu::MessageNone, flamegpu::MessageNone) {
         // Behaviour goes here
     }
 
@@ -57,8 +57,7 @@ With the agent function named and defined, it can now be attached to a particula
      
     // Attach a function called agent_fn1 to an agent called agent
     // The AgentFunctionDescription is stored in the agent_fn1_description variable
-    TODO: Should we use auto for these?
-    AgentFunctionDescription& agent_fn1_description = agent.newFunction("agent_fn1", agent_fn1_source);
+    flamegpu::AgentFunctionDescription& agent_fn1_description = agent.newFunction("agent_fn1", agent_fn1_source);
 
 
 Defining a Runtime-Compiled Agent Function (C++)
@@ -80,7 +79,7 @@ To define a runtime-compiled agent function, the function source should be store
 
     // Define an agent function called agent_fn1 which will be compiled at runtime
     const char* agent_fn1_source = R"###(
-    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MessageNone, MessageNone) {
+    FLAMEGPU_AGENT_FUNCTION(agent_fn1, flamegpu::MessageNone, flamegpu::MessageNone) {
         // Behaviour goes here
     }
     )###";
@@ -93,7 +92,7 @@ The function can then be added to an ``AgentDescription`` using the ``newRTCFunc
 
     // Attach a runtime-compiled function called agent_fn1 to an agent called agent
     // The AgentFunctionDescription is stored in the agent_fn1_description variable
-    AgentFunctionDescription& agent_fn1_description = agent.newRTCFunction("agent_fn1", agent_fn1_source);
+    flamegpu::AgentFunctionDescription& agent_fn1_description = agent.newRTCFunction("agent_fn1", agent_fn1_source);
 
 FLAMEGPU Device Functions
 -------------------------
@@ -104,7 +103,7 @@ If you wish to define regular functions which can be used within agent function 
 
   .. code-tab:: cpp
 
-    // Define a function for adding two ingtegers which can be called inside agent functions.
+    // Define a function for adding two integers which can be called inside agent functions.
     FLAMEGPU_DEVICE_FUNCTION int add(int a, int b) {
       return a + b;
     }
@@ -118,7 +117,7 @@ If you wish to define regular functions which can be used within agent function 
 
   .. code-tab:: cpp
 
-    // Define a function for subtracting two ingtegers which can be called inside agent functions, or in host code
+    // Define a function for subtracting two integers which can be called inside agent functions, or in host code
     FLAMEGPU_HOST_DEVICE_FUNCTION int subtract(int a, int b) {
       return a - b;
     }
@@ -149,28 +148,26 @@ Full Example Code From This Page
     }
 
     // Define an agent function called agent_fn1 - specified ahead of main function
-    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MessageNone, MessageNone) {
+    FLAMEGPU_AGENT_FUNCTION(agent_fn1, flamegpu::MessageNone, flamegpu::MessageNone) {
         // Behaviour goes here
     }
 
     // Define an agent function called agent_fn1 which will be compiled at runtime
     const char* agent_fn1_source = R"###(
-    FLAMEGPU_AGENT_FUNCTION(agent_fn1, MessageNone, MessageNone) {
+    FLAMEGPU_AGENT_FUNCTION(agent_fn1, flamegpu::MessageNone, flamegpu::MessageNone) {
         // Behaviour goes here
     }
     )###";
-
 
     // Somewhere inside main() {
 
     // Attach a function called agent_fn1 to an agent called agent
     // The AgentFunctionDescription is stored in the agent_fn1_description variable
-    TODO: Should we use auto for these?
-    AgentFunctionDescription& agent_fn1_description = agent.newFunction("agent_fn1", agent_fn1_source);
+    flamegpu::AgentFunctionDescription& agent_fn1_description = agent.newFunction("agent_fn1", agent_fn1_source);
 
     // Attach a runtime-compiled function called agent_fn1 to an agent called agent
     // The AgentFunctionDescription is stored in the agent_fn1_description variable
-    AgentFunctionDescription& agent_fn1_description = agent.newRTCFunction("agent_fn1", agent_fn1_source);
+    flamegpu::AgentFunctionDescription& agent_fn1_description = agent.newRTCFunction("agent_fn1", agent_fn1_source);
 
 
 More Info 

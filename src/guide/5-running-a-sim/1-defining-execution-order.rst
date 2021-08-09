@@ -61,7 +61,7 @@ Each model has an associated dependency graph which is accessed via a ``ModelDes
   .. code-tab:: cpp
 
     // Access the DependencyGraph of model
-    DependencyGraph& graph = model.getDependencyGraph();
+    flamegpu::DependencyGraph& graph = model.getDependencyGraph();
 
 Specifying Roots
 ----------------
@@ -198,7 +198,7 @@ the dependency specification method.
   .. code-tab:: cpp
 
     // Create a new layer for the model 'model'
-    LayerDescription &layer = model.newLayer();
+    flamegpu::LayerDescription &layer = model.newLayer();
     
     // Add the agent function 'outputdata' to the layer
     layer.addAgentFunction(outputdata);
