@@ -3,8 +3,6 @@ Agent Communication
 
 Communication between agents in FLAMEGPU2 is handled through messages. Messages contain variables which are used to transmit information between agents.
 
-*TODO: Diagram demonstrating messaging structure*
-
 Defining Messages
 -----------------
 Defining a message type in FLAMEGPU2 requires selection of a communication strategy and specification of the data the message will contain. FLAME GPU comes 
