@@ -10,7 +10,6 @@ Welcome to FLAME GPU 2's documentation!
    :maxdepth: 5
    :caption: Contents:
    
-   quickstart/index.rst
    guide/index.rst
    example-docs/index.rst
    
