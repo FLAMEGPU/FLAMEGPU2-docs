@@ -60,7 +60,7 @@ Each model has an associated dependency graph which is accessed via a ``ModelDes
     // Access the DependencyGraph of model
     flamegpu::DependencyGraph& graph = model.getDependencyGraph();
 
-    .. code-tab:: python
+  .. code-tab:: python
 
     # Access the DependencyGraph of model
     graph = model.getDependencyGraph()

@@ -74,7 +74,7 @@ As an example:
   
     FLAMEGPU_AGENT_FUNCTION(OptionalOutput, flamegpu::MessageNone, flamegpu::MessageNone) {
         // Fetch this agent's id
-        unsigned int id = FLAMEGPU->getVariable<unsigned int>("id") + 1;
+        unsigned int id = FLAMEGPU->getVariable<unsigned int>("id");
   
         // If its id is even, output a new agent, otherwise do nothing
         if (id % 2 == 0) {
@@ -126,7 +126,7 @@ Full Example Code From This Page
 
       FLAMEGPU_AGENT_FUNCTION(OptionalOutput, flamegpu::MessageNone, flamegpu::MessageNone) {
         // Fetch this agent's id
-        unsigned int id = FLAMEGPU->getVariable<unsigned int>("id") + 1;
+        unsigned int id = FLAMEGPU->getVariable<unsigned int>("id");
   
         // If its id is even, output a new agent, otherwise do nothing
         if (id % 2 == 0) {
