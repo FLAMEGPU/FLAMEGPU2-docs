@@ -51,9 +51,9 @@ Any arithmetic or enum type can be used as an environment property
   .. code-tab:: cuda CUDA C++
 
     // Define environmental properties and their initial values
-    env.add<float>("f_prop", 12.0f);        // Create float property 'f_prop', with value of 12
-    env.add<int, 3>("ia_prop", {1, 2, 3});  // Create int array property 'ia_prop', with value of [1, 2, 3]
-    env.add<char>("c_prop", 'g', true);     // Create constant char property 'c_prop', with value 'g'
+    env.newProperty<float>("f_prop", 12.0f);        // Create float property 'f_prop', with value of 12
+    env.newPropertyadd<int, 3>("ia_prop", {1, 2, 3});  // Create int array property 'ia_prop', with value of [1, 2, 3]
+    env.newPropertyadd<char>("c_prop", 'g', true);     // Create constant char property 'c_prop', with value 'g'
 
   .. code-tab:: python
 
@@ -91,9 +91,9 @@ Full Example Code From This Page
     flamegpu::EnvironmentDescription env;
 
     // Define environmental properties and their initial values
-    env.add<float>("f_prop", 12.0f);        // Create float property 'f_prop', with value of 12
-    env.add<int, 3>("ia_prop", {1, 2, 3});  // Create int array property 'ia_prop', with value of [1, 2, 3]
-    env.add<char>("c_prop", 'g', true);     // Create constant char property 'c_prop', with value 'g'
+    env.newProperty<float>("f_prop", 12.0f);        // Create float property 'f_prop', with value of 12
+    env.newProperty<int, 3>("ia_prop", {1, 2, 3});  // Create int array property 'ia_prop', with value of [1, 2, 3]
+    env.newProperty<char>("c_prop", 'g', true);     // Create constant char property 'c_prop', with value 'g'
 
     // Attach the EnvironmentDescription to a ModelDescription
     model.setEnvironment(env);
