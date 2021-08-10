@@ -13,6 +13,7 @@ with several built-in communication strategies, described below. It can also be 
 Type           Symbol                       Description
 ============== =========================== ======================================================
 Brute Force    ``MessageBruteForce``           Access all messages
+Bucket         ``MessageBucket``               Access all messages with a specified integer key
 Spatial 2D     ``MessageSpatial2D``            Access all messages within a radius in 2D
 Spatial 3D     ``MessageSpatial3D``            Access all messages within a radius in 3D
 Array 1D       ``MessageArray1D``              Directly access messages via a 1 dimensional array
@@ -89,6 +90,46 @@ The agent function will now output a message of type "location_message". The var
       FLAMEGPU_AGENT_FUNCTION(outputdata, flamegpu::MessageNone, flamegpu::MessageBruteForce) {
         // Set the "id" message variable to this agent's id 
         FLAMEGPU->message_out.setVariable<int>("id", FLAMEGPU->getVariable<int>("id"));
+        return flamegpu::ALIVE;
+      }
+
+**Bucket Messaging**
+Bucket Messages each have an associated bucket index, of an integer type such as ``int`` or ``unsigned int``.
+The Bucket indices are a sequential set of integers, between a configurable lower and upper bound, using the ``setUpperBound``, ``setLowerBound`` and ``setBounds`` methods on the ``BucketMessage::Description`` class.
+
+.. tabs::
+    
+  .. code-tab:: cuda CUDA C++
+
+    // Set an upper bound of bucket indices to 12 for the "message" MessageBucket::Description instance.
+    message.setUpperBound(12);
+    // Set the lower bound to 2, this will default to 0 if not provided
+    message.setLowerBound(2);
+
+    // Or set them both at the same time
+    message.setBounds(2, 12);
+
+  .. code-tab:: python
+    
+    # Set an upper bound of bucket indices to 12 for the "message" MessageBucket::Description instance.
+    message.setUpperBound(12);
+    # Set the lower bound to 2, this will default to 0 if not provided
+    message.setLowerBound(2);
+
+    # Or set them both at the same time
+    message.setBounds(2, 12);
+
+When outputting bucket messages, the bucket index for the message must be set, using the ``FLAMEGPU->mesasage_out.setKey`` method.
+
+.. tabs::
+
+    .. code-tab:: cuda CUDA C++
+
+      // Define an agent function, "outputdata" which has no input messages and outputs a message using the "MessageBucket" communication strategy
+      FLAMEGPU_AGENT_FUNCTION(outputdata, flamegpu::MessageNone, flamegpu::MessageBucket) {
+        FLAMEGPU->message_out.setVariable<float>("x", FLAMEGPU->getVariable<float>("x"));
+        // Set the bucket key for the message, to the agents "bucket" member variable
+        FLAMEGPU->message_out.setKey(FLAMEGPU->getVariable<int>("bucket"));
         return flamegpu::ALIVE;
       }
 
@@ -183,6 +224,28 @@ With the input message type specified, the message list will be available in the
           int idFromMessage = message->getVariable<int>("id");
         }
       }
+
+**Bucket Messaging**
+
+If you are using the Bucket messaging strategy, you will also need to supply the bucket index/key to access the messages from the specific bucket.
+If an invalid bucket index is provided (based on the bounds), then either a device exception will be thrown if available (``SEATBELTS=ON``), or no messages will be returned.
+
+.. tabs::
+
+  .. code-tab:: cuda CUDA C++
+
+    // Define an agent function, "inputdata" which has accepts an input message using the "MessageBucket" communication strategy and inputs no messages
+    FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageBucket, flamegpu::MessageNone) {
+      // Get this agent's bucket variable
+      const int x = FLAMEGPU->getVariable<int>("bucket");
+
+      // For each message in the message list which was output to the requested bucket
+      for (const auto& message : FLAMEGPU->message_in(bucket)) {
+        // const T var = message.getVariable<T>(...);
+      }
+
+      return flamegpu::ALIVE;
+    }
 
 **Spatial Messaging**
 If you are using one of the spatial messaging strategies, you will also need to supply the x and y coordinates of this agent to access the relevant messages.
