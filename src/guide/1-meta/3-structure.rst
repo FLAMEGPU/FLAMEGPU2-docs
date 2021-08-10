@@ -3,10 +3,10 @@ Structure of a FLAMEGPU2 Program
 
 FLAMEGPU2 programs are composed of 4 sections:
 
-- Agent/Host function definitions
-- Model Declaration
-- Initialisation
-- Execution
+* Agent/Host function definitions
+* Model Declaration
+* Initialisation
+* Execution
 
 Agent/Host Function Definitions
 -------------------------------
@@ -21,11 +21,11 @@ Model Declaration
 Inside the `main` function, your model structure is declared. This includes declaration of agent and message types. We recommend the following structure For
 model declaration:
 
-- ModelDescription
-- Message types
-- Agent types
-- Environment
-- Function dependencies
+* ModelDescription
+* Message types
+* Agent types
+* Environment
+* Function dependencies
 
 Initialisation
 --------------
