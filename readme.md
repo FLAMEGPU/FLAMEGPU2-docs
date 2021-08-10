@@ -1,21 +1,21 @@
 # FLAME GPU 2 User Guide
 
+[![build](https://github.com/FLAMEGPU/FLAMEGPU2-docs/actions/workflows/build.yml/badge.svg)](https://github.com/FLAMEGPU/FLAMEGPU2-docs/actions/workflows/build.yml)
+[![publish](https://github.com/FLAMEGPU/FLAMEGPU2-docs/actions/workflows/publish.yml/badge.svg)](https://github.com/FLAMEGPU/FLAMEGPU2-docs/actions/workflows/publish.yml)
+
 This repository contains the content and build process for generating the FLAMEGPU2 user guide.
 
 When building, it can optionally be linked to the main FLAMEGPU2 source repository to include doxygen generated API documentation.
 
 The FLAME GPU 2 userguide and API docs can be found at [docs.flamegpu.com](https://docs.flamegpu.com).
 
-[![build](https://github.com/FLAMEGPU/FLAMEGPU2-docs/actions/workflows/build.yml/badge.svg)](https://github.com/FLAMEGPU/FLAMEGPU2-docs/actions/workflows/build.yml)
-[![publish](https://github.com/FLAMEGPU/FLAMEGPU2-docs/actions/workflows/publish.yml/badge.svg)](https://github.com/FLAMEGPU/FLAMEGPU2-docs/actions/workflows/publish.yml)
-
 ## Requirements
 
 * [CMake](https://cmake.org/)
-* [Python3]
+* [Python3](https://www.python.org/downloads/)
 * [Graphviz](https://graphviz.org/)
-*Python Packages:*
-  * [Sphinx](http://www.sphinx-doc.org/en/master/) >= 2.0
+* Python Packages:
+  * [Sphinx](http://www.sphinx-doc.org/en/master/) >= 2.0, < 4.1.0
   * [Breathe](https://breathe.readthedocs.io/en/latest/) >= 4.13.0
   * [Exhale](https://exhale.readthedocs.io/en/latest/)
   * [sphinx_rtd_theme](https://sphinx-rtd-theme.readthedocs.io/en/stable/)
@@ -33,7 +33,7 @@ The FLAME GPU 2 userguide and API docs can be found at [docs.flamegpu.com](https
 mkdir -p -m 700 ~/.venvs
 python3 -m venv ~/.venvs/FLAMEGPU2_userguide
 source ~/.venvs/FLAMEGPU2_userguide/bin/activate
-python3 -m pip install -r requirements.txt 
+python3 -m pip install -Ur requirements.txt 
 ```
 
 ### Using Conda (windows)
@@ -41,7 +41,7 @@ python3 -m pip install -r requirements.txt
 ```bash
 conda create --name FLAMEGPU2_userguide python=3
 conda activate FLAMEGPU2_userguide
-pip install -r requirements.txt
+pip install -Ur requirements.txt
 ```
 
 ## Building
@@ -69,9 +69,9 @@ If you lack a build system, executing `windows.bat` inside the directory `cmake`
 
 ## Publishing
 
-The GitHub actions workflow [publish](https://github.com/FLAMEGPU/FLAMEGPU2-docs/actions/workflows/publish.yml) (`.github/workflows/publish.yaml`) builds the documentation from the `master` branch and pushes the generated html to the `gh-pages` branch.
+The GitHub actions workflow [publish](https://github.com/FLAMEGPU/FLAMEGPU2-docs/actions/workflows/publish.yml) builds the documentation from the `master` branch and pushes the generated html to the `gh-pages` branch.
 This is then hosted at [docs.flamegpu.com](https://docs.flamegpu.com).
 
-This includes the API documentation, generated based on the contents of FLAMEGPU/FLAMEGPU2 at build time. If the API has been updated but the user guide has not, the workflow can be manually triggered by users with the correct github permissions using the `Run workflow` button on the `publish` page. It may be worth manually running the `build` workflow first to make sure it can be built.
-
-We may wish to make this workflow be triggered by certain events in the core repository in the future.
+This includes the API documentation, generated based on the contents of [FLAMEGPU/FLAMEGPU2](https://github.com/FLAMEGPU/FLAMEGPU2) at build time
+If the API has been updated but the user guide has not, the workflow can be manually triggered by users with the correct github permissions using the `Run workflow` button on the `publish` page.
+It may be worth manually running the `build` workflow first to make sure it can be built.
