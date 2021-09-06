@@ -12,4 +12,4 @@ This user guide provides a clear introduction to the core features of FLAME GPU 
    2-setting-up-vis.rst
    3-visualising-agents.rst
    4-adding-details.rst
-   4-visualisation-controls.rst
+   5-visualisation-controls.rst
