@@ -296,7 +296,7 @@ For raw access to agent data, ``DeviceAgentVector`` can be used. This has an int
             s.setVariableFloat("health", 100.0);
         
 
-**Environment Tools**
+**Environment Properties**
 
 ``HostAPI`` access to environment properties goes further than the ``DeviceAPI``, allowing environment properties to be updated too. Only environment properties marked const, during model definition cannot be updated.
 
@@ -347,7 +347,77 @@ Updating environment properties:
           FLAMEGPU.environment.setPropertyFloat("foo", 12.0);
           # Update the environment property bar of type int array[3]
           FLAMEGPU.environment.setPropertyArrayInt("bar", [1, 2, 3]);
+          
+**Macro Environment Properties**
 
+Similar to regualr environment properties, macro environment properties can be read and updated within host functions. However, there is an additional limitation that any accessed macro environment property must not being accessed by an agent function in the same layer, as this may cause a race condition.
+
+Reading environment macro properties:
+
+.. tabs::
+
+  .. code-tab:: cuda CUDA C++
+  
+    // Define an host function called read_env_hostfn
+    FLAMEGPU_HOST_FUNCTION(read_env_hostfn) {
+        // Retrieve the environment macro property foo of type float
+        const float foo = FLAMEGPU->environment.getMacroProperty<float>("foo");
+        // Retrieve the environment macro property bar of type int array[3][3][3]
+        auto bar = FLAMEGPU->environment.getProperty<int, 3, 3, 3>("bar");
+        int bar_1_1_1 = bar[1][1][1];
+    }
+
+  .. code-tab:: python
+  
+    # Define an host function called read_env_hostfn
+    class read_env_hostfn(pyflamegpu.HostFunctionCallback):
+      def run(self,FLAMEGPU):
+        # Retrieve the environment macro property foo of type float
+        foo = FLAMEGPU->environment.getMacroPropertyFloat("foo");
+        # Retrieve the environment macro property bar of type int array[3][3][3]
+        bar = FLAMEGPU.environment.getPropertyInt("bar");
+        bar_1_1_1 = bar[1][1][1];
+
+Macro properties in host functions are designed to behave as closely to their representative data type as possible. So most assignment and arithmetic operations should behave as expected.
+
+Python has several exceptions to this rule; 
+* The assignment operator is only avaialable when it maps to ``__setitem__(index, val)`` (e.g. ``foo[0] = 10``)
+* The increment/decrement operators are not available, as they cannot be overriden.
+
+Updating environment macro properties:
+
+
+.. tabs::
+
+  .. code-tab:: cuda CUDA C++
+  
+    // Define an host function called write_env_hostfn
+    FLAMEGPU_HOST_FUNCTION(write_env_hostfn) {
+        // Retrieve the environment macro property bar of type int array[3][3][3]
+        auto bar = FLAMEGPU->environment.getProperty<int, 3, 3, 3>("bar");
+        // Update some of the values
+        foo = 12.0f;
+        bar[0][0][0]+=1;
+        bar[0][1][0] = 5;
+        ++bar[0][0][2];
+    }
+
+    .. code-tab:: python
+  
+      # Define an host function called write_env_hostfn
+      class write_env_hostfn(pyflamegpu.HostFunctionCallback):
+        def run(self,FLAMEGPU):
+        # Retrieve the environment macro property foo of type float
+        foo = FLAMEGPU->environment.getMacroPropertyFloat("foo");
+        # Retrieve the environment macro property bar of type int array[3][3][3]
+        bar = FLAMEGPU.environment.getPropertyInt("bar");
+        # Update some of the values
+        # foo = 12.0; is not allowed
+        foo.set(12.0);
+        foo[0] = 12.0; # This is the same as calling set()
+        bar[0][0][0]+=1;
+        bar[0][1][0] = 5;
+        # ++bar[0][0][2]; # Python does not allow the increment operator to be overriden
 
 **Random Generation**
 
