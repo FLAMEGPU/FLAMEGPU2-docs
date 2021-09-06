@@ -26,7 +26,7 @@ find_package(FLAMEGPU2)
 # Build Doxygen if we can
 if(FLAMEGPU2_FOUND)
     # Load FLAMEGPU2s Doxygen config, implicitly calls find_package(doxygen)
-    include(${FLAMEGPU_ROOT}/cmake/doxygen.cmake)
+    include(${FLAMEGPU_ROOT}/cmake/dependencies/doxygen.cmake)
     mark_as_advanced(FORCE BUILD_API_DOCUMENTATION)
 endif()
 
