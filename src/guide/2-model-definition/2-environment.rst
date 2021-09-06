@@ -11,19 +11,23 @@ an ``EnvironmentDescription`` object.
 Creating an EnvironmentDescription Object
 -----------------------------------------
 
-An ``EnvironmentDescription`` is initialised as shown below:
+An ``EnvironmentDescription`` is owned by the ``ModelDescription``, you can get access as shown below:
 
 .. tabs::
 
   .. code-tab:: cuda CUDA C++
-
-    // Create an EnvironmentDescription object called env
-    flamegpu::EnvironmentDescription env;
+  
+    // Create a new model
+    flamegpu::ModelDescription model("Environment Demo");
+    // Get access to it's environment description
+    flamegpu::EnvironmentDescription &env = model.getEnvironment();
 
   .. code-tab:: python
-    
-    # Create an EnvironmentDescription object called env
-    env = pyflamegpu.EnvironmentDescription()
+  
+    # Create a new model
+    model pyflamegpu.ModelDescription("Environment Demo");
+    # Get access to it's environment description
+    env = model.getEnvironment();
 
 
 
@@ -63,23 +67,6 @@ Any arithmetic or enum type can be used as an environment property
     env.newPropertyChar("c_prop", 'g', True)  # Create constant char property 'c_prop', with value 'g'
 
 
-Attaching the Environment to a Model
-------------------------------------
-
-An environment can be associated with a particular model using the ``setEnvironment`` method of a ``ModelDescription`` object:
-
-.. tabs::
-
-  .. code-tab:: cuda CUDA C++
-
-    // Attach the EnvironmentDescription to a ModelDescription
-    model.setEnvironment(env);
-
-  .. code-tab:: python
-
-    # Attach the EnvironmentDescription to a ModelDescription
-    model.setEnvironment(env)
-
 Full Example Code From This Page
 --------------------------------
 
@@ -87,29 +74,27 @@ Full Example Code From This Page
 
   .. code-tab:: cuda CUDA C++
 
-    // Create an EnvironmentDescription object called env
-    flamegpu::EnvironmentDescription env;
+    // Create a new model
+    flamegpu::ModelDescription model("Environment Demo");
+    // Get access to it's environment description
+    flamegpu::EnvironmentDescription &env = model.getEnvironment();
 
     // Define environmental properties and their initial values
     env.newProperty<float>("f_prop", 12.0f);        // Create float property 'f_prop', with value of 12
     env.newProperty<int, 3>("ia_prop", {1, 2, 3});  // Create int array property 'ia_prop', with value of [1, 2, 3]
     env.newProperty<char>("c_prop", 'g', true);     // Create constant char property 'c_prop', with value 'g'
 
-    // Attach the EnvironmentDescription to a ModelDescription
-    model.setEnvironment(env);
-
   .. code-tab:: python
-    
-    # Create an EnvironmentDescription object called env
-    env = pyflamegpu.EnvironmentDescription()
+  
+    # Create a new model
+    model pyflamegpu.ModelDescription("Environment Demo");
+    # Get access to it's environment description
+    env = model.getEnvironment();
 
     # Define environmental properties and their initial values
     env.newPropertyFloat("f_prop", 12.0)     # Create float property 'f_prop', with value of 12
     env.newPropertyArrayInt("ia_prop", 3, [1, 2, 3])  # Create int array property 'ia_prop', with value of [1, 2, 3]
     env.newPropertyChar("c_prop", 'g', True)  # Create constant char property 'c_prop', with value 'g'
-
-    # Attach the EnvironmentDescription to a ModelDescription
-    model.setEnvironment(env)
 
 More Info 
 ---------
