@@ -1,3 +1,5 @@
+.. _building-flamegpu-from-source:
+
 Building FLAME GPU from Source
 =============================
 
