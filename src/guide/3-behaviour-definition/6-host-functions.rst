@@ -410,22 +410,22 @@ Updating environment macro properties:
         ++bar[0][0][2];
     }
 
-    .. code-tab:: python
+  .. code-tab:: python
   
-      # Define an host function called write_env_hostfn
-      class write_env_hostfn(pyflamegpu.HostFunctionCallback):
-        def run(self,FLAMEGPU):
-        # Retrieve the environment macro property foo of type float
-        foo = FLAMEGPU->environment.getMacroPropertyFloat("foo");
-        # Retrieve the environment macro property bar of type int array[3][3][3]
-        bar = FLAMEGPU.environment.getPropertyInt("bar");
-        # Update some of the values
-        # foo = 12.0; is not allowed
-        foo.set(12.0);
-        foo[0] = 12.0; # This is the same as calling set()
-        bar[0][0][0]+=1;
-        bar[0][1][0] = 5;
-        # ++bar[0][0][2]; # Python does not allow the increment operator to be overriden
+    # Define an host function called write_env_hostfn
+    class write_env_hostfn(pyflamegpu.HostFunctionCallback):
+      def run(self,FLAMEGPU):
+      # Retrieve the environment macro property foo of type float
+      foo = FLAMEGPU->environment.getMacroPropertyFloat("foo");
+      # Retrieve the environment macro property bar of type int array[3][3][3]
+      bar = FLAMEGPU.environment.getPropertyInt("bar");
+      # Update some of the values
+      # foo = 12.0; is not allowed
+      foo.set(12.0);
+      foo[0] = 12.0; # This is the same as calling set()
+      bar[0][0][0]+=1;
+      bar[0][1][0] = 5;
+      # ++bar[0][0][2]; # Python does not allow the increment operator to be overriden
 
 **Random Generation**
 
