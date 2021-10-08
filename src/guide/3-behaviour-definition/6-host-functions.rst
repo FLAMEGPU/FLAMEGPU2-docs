@@ -43,6 +43,8 @@ There are several ways that host functions can be added to a model; init, exit, 
 
 They can be added as init functions, which execute once at the start when ``CUDASimulation::simulate()`` is called.
 
+If multiple init functions are added to a model, they will be executed in the order that they were added to the model.
+
 .. tabs::
 
   .. code-tab:: cuda CUDA C++
@@ -66,6 +68,8 @@ They can be added as init functions, which execute once at the start when ``CUDA
 
 They can be added as exit functions, which execute once after all steps have completed when ``CUDASimulation::simulate()`` is called.
 
+If multiple exit functions are added to a model, they will be executed in the order that they were added to the model.
+
 .. tabs::
 
   .. code-tab:: cuda CUDA C++
@@ -87,6 +91,8 @@ They can be added as exit functions, which execute once after all steps have com
 
 
 They can be added as step functions, which execute each model step after all layers have executed.
+
+If multiple step functions are added to a model, they will be executed in the order that they were added to the model.
 
 .. tabs::
 
@@ -110,6 +116,8 @@ They can be added as step functions, which execute each model step after all lay
     
     
 They can also be added to individual layers, so that they can execute between agent functions each model step.
+
+Host functions must be the only functions within a layer.
 
 .. tabs::
 
