@@ -49,7 +49,9 @@ They can also be updated with a selection of functions, which execute atomically
 
 Macro properties support the normal ``+``, ``-``, ``+=``, ``-=``, ``++``, ``--`` operations. They also have access to a limited set of additional functions, explained in the table below.
 
-*Note, ``DeviceMacroProperty`` update support is limited to specific variable types. This varies between functions however ``uint32_t`` has the widest support, for full explanation check the API docs.*
+.. note::
+
+  ``DeviceMacroProperty`` update support is limited to specific variable types. This varies between functions however ``uint32_t`` has the widest support, for full explanation check the API docs.
 
 ===================== ===================================================== ============================
 Method                Supported Types                                       Description
