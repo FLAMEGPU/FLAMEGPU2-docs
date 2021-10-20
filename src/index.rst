@@ -13,6 +13,7 @@ Welcome to FLAME GPU 2's documentation!
    quickstart/index.rst
    guide/index.rst
    api/library_root
+   Forum <https://github.com/FLAMEGPU/FLAMEGPU2/discussions>
 
 
 Indices and tables
