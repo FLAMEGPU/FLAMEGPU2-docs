@@ -1,7 +1,7 @@
 Running Multiple Simulations
 ============================
 
-This user guide provides a clear introduction to the core features of FLAME GPU 2, by the end of the user guide you should have the skills necessary to implement a multi-agent simulation using FLAME GPU 2.
+FLAME GPU 2 provides ``CUDAEnsemble`` as a facility for executing batch runs of multiple configurations of a model.
 
 
 .. toctree::
