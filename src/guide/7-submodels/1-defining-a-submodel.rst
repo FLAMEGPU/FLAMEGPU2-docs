@@ -8,7 +8,7 @@ A submodel must exist independently within a layer of the parent model, it canno
 
 Models may contain multiple submodels, and submodels may contain sub-submodels. The only limitation to submodel nested, is that circular dependencies are not permitted (e.g. a submodel adding it's parent model as a submodel).
 
-SubModel Definition
+Submodel Definition
 --------------------
 A submodel as defined the same as a regular model, via a `ModelDescription`. It must then be added to the model which should host the submodel. Mappings between agent states, agent variables and environment properties can then be created. When mapping variables and properties, they must be of the same type and length.
 
