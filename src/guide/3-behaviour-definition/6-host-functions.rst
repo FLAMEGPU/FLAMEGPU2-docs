@@ -173,16 +173,16 @@ Host agent operations are performed on a single agent state, the state can be om
 
 Various reduction operators are provided, to allow specific agent variables to be reduced across the population.
 
-=================== ================================================================== ===================================================================================================================
-Name                Arguments                                                          Description
-=================== ================================================================== ===================================================================================================================
-``sum``             ``variable``                                                       Returns the sum of the specified agent variable.
-``sum``             ``variable``                                                       Returns the sum of the specified agent variable.
-``min``             ``variable``                                                       Returns the minimum value of the specified agent variable.
-``max``             ``variable``                                                       Returns the maximum value of the specified agent variable.
-``count``           ``variable``, ``value``                                            Returns the number of agents with the specified value of the specified agent variable.
-``histogramEven``   ``variable``, ``histogramBins``, ``lowerBound``, ``upperBound``    Returns a histogram of the specified agent variable, with evenly spaced bins in the range [lowerBounds, upperBound)
-=================== ================================================================== ===================================================================================================================
+========================= ================================================================== ===================================================================================================================
+Name                      Arguments                                                          Description
+========================= ================================================================== ===================================================================================================================
+``sum``                   ``variable``                                                       Returns the sum of the specified agent variable.
+``meanStandardDeviation`` ``variable``                                                       Returns a pair of doubles, the first item being the mean, and the second the standard deviation of the specified agent variable.
+``min``                   ``variable``                                                       Returns the minimum value of the specified agent variable.
+``max``                   ``variable``                                                       Returns the maximum value of the specified agent variable.
+``count``                 ``variable``, ``value``                                            Returns the number of agents with the specified value of the specified agent variable.
+``histogramEven``         ``variable``, ``histogramBins``, ``lowerBound``, ``upperBound``    Returns a histogram of the specified agent variable, with evenly spaced bins in the range [lowerBounds, upperBound)
+========================= ================================================================== ===================================================================================================================
 
 As with most variable operations, these require the variable type to be specified as a template argument (appended to the method name in Python). The C++ interface optionally the output type for ``sum`` and ``histogramEven`` to be specified too.
 
@@ -203,6 +203,10 @@ As with most variable operations, these require the variable type to be specifie
         unsigned int empty_health = sheep.count<float>("health", 0.0f);
         // Create a histogram of sheep health
         std::vector<unsigned int> health_hist = sheep.histogramEven<float>("health", 5, 0.0f, 100.001f);
+        // Fetch the mean and standard deviation of sheep health
+        std::pair<double, double> mean_sd = sheep.meanStandardDeviation<float>("health");
+        double mean_health = mean_sd.first;
+        double standard_dev_health = mean_sd.second;
     }
 
   .. code-tab:: python
@@ -220,6 +224,8 @@ As with most variable operations, these require the variable type to be specifie
         empty_health = sheep.countFloat("health", 0);
         # Create a histogram of sheep health
         health_hist = sheep.histogramEven("health", 5, 0, 100.001);
+        # Fetch the mean and standard deviation of sheep health
+        mean_health, standard_dev_health = sheep.meanStandardDeviationFloat("health");
 
 The C++ API also has access to custom reduction and transform-reduction operations:
 
