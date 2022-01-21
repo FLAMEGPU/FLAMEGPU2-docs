@@ -9,8 +9,7 @@ This user guide provides a clear introduction to the core features of FLAME GPU 
    :caption: Sections:
    
    1-defining-execution-order.rst
-   2-launching-a-sim.rst
+   2-creating-a-sim.rst
    3-end-conditions.rst
    4-collecting-data.rst
-
-.. 5-custom-args.rst "Custom Simulation Arguments" removed as this is not yet implemented, so not yet documented
+   5-configuring-execution.rst
