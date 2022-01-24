@@ -1,9 +1,11 @@
+.. _Initialisation from Disk:
+
 Initialisation from Disk
 ========================
 
 FLAMEGPU2 simulations can be initialised from disk using either the XML or JSON format. The XML format is compatible with the previous FLAMEGPU1 input/output files, whereas the JSON format is new to FLAMEGPU2. In both cases, the input and output file formats are the same.
 
-Loading simulation state (agent data and environment properties) from file can be achieved via either command line specification, or explicit specification within the code for the model. (See the full `Configuring Execution`_ guide for more information)
+Loading simulation state (agent data and environment properties) from file can be achieved via either command line specification, or explicit specification within the code for the model. (See the :ref:`full guide <Configuring Execution>` guide for more information)
 
 
 In most cases, the input file will be taken from command line which can be passed using ``-i <input file>``.
@@ -22,7 +24,7 @@ File Format
 Block               Description
 =================== ==============================================
 ``itno``            **XML Only** This block provides the step number in XML output files, it is included for backwards compatibility with FLAMEGPU 1. It has no use for input.
-``config``          This block is split into sub-blocks ``simulation`` and ``cuda``, the members of each sub-block align with ``SimulationConfig`` and ``CUDAConfig`` members of the same name respectively. These values are output to log the configuration, and can optionally be used to set the configuration via input file.
+``config``          This block is split into sub-blocks ``simulation`` and ``cuda``, the members of each sub-block align with ``SimulationConfig`` and ``CUDAConfig`` members of the same name respectively. These values are output to log the configuration, and can optionally be used to set the configuration via input file. (See the :ref:`Configuring Execution` guide for details of each individual member)
 ``stats``           This block includes statistics collected by FLAME GPU 2 during execution. It has no purpose on input.
 ``environment``     This block includes members of the environment, and can be used to configure the environment via input file. Members which begin with ``_`` are automatically created internal properties, which can be set via input file.
 ``xagent``          **XML Only** Each ``xagent`` block represents a single agent, and the ``name`` and ``state`` values must match an agent state within the loaded model description hierarchy. Members which begin with ``_`` are automatically created internal variables, which can be set via input file.
@@ -35,8 +37,6 @@ The below code block displays example files output from FLAME GPU 2 in both XML 
 
   .. code-tab:: xml
 
-    # Run the simulation
-    simulation.simulate()
     <states>
         <itno>100</itno>
         <config>

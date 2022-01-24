@@ -1,3 +1,5 @@
+.. _Configuring Execution:
+
 Configuring Execution
 =====================
 
@@ -50,7 +52,9 @@ In order for the command line arguments to be processed ``argc`` and ``argv`` mu
 
 To configure the simulation in code the variables must be updated via the ``SimulationConfig()`` and ``CUDAConfig()`` structures. Subsequently ``applyConfig()`` must be called, to implement any changes to the configuration. A short example of this workflow is shown below.
 
-*Note: At current, unlike ``CUDAEnsemble`` it is not possible to configure defaults to the ``CUDASimulation`` command line interface. Calling `initialise()` will reset the configuration before parsing command line arguments. `(issue) <https://github.com/FLAMEGPU/FLAMEGPU2/issues/755>`_.*
+
+.. note ::
+  At current, unlike ``CUDAEnsemble`` it is not possible to configure defaults to the ``CUDASimulation`` command line interface. Calling ``initialise()`` will reset the configuration before parsing command line arguments. `(issue) <https://github.com/FLAMEGPU/FLAMEGPU2/issues/755>`_.
 
 .. tabs::
 
