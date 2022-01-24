@@ -70,3 +70,8 @@ code, kbd, pre, samp {
 .rst-content tt.literal {
     color: #aa0000;
 }
+
+/* Allow text inside long table rows to wrap */
+.wy-table-responsive table td, .wy-table-responsive table th {
+	white-space: normal;
+}
