@@ -11,7 +11,7 @@ Config Variable        Long Argument              Short Argument     Description
 ``exit_log_file``      ``--out-exit <file path>`` n/a                Path to a JSON/XML file to store exit logging data.
 ``common_log_file``    ``--out-log <file path>``  n/a                Path to a JSON/XML file to store both step and exit logging data.
 ``truncate_log_files`` n/a                        n/a                If true, log files will overwrite any pre-existing file with the same path/name. Default value true.
-``random_seed``        ``--random <int>``         ``-r <int>``       Random seed
+``random_seed``        ``--random <int>``         ``-r <int>``       Random seed. Default value is sample from the clock (e.g. it will change each run).
 ``steps``              ``--steps <int>``          ``-s <int>``       Number of simulation steps to execute. 0 will run indefinitely, or until an exit function causes the simulation to end. Default value 1.    
 ``verbose``             ``--verbose``             ``-v``             Enable verbose simulation output to console. Default value false.
 ``timing``              ``--timing``              ``-t``             Output simulation timing detail to console. Default value false.
