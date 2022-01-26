@@ -2,7 +2,7 @@ Agent Populations
 =================
 To initialise your model it is necessary to create the initial agent populations. These can either be statically defined in
 a flat file, or dynamically generated. This section deals with dynamically generating agents which is the recommended default
-method. For information on loading from files, please see **TODO: link to initialise from disk**
+method. For information on loading from files, please see :ref:`Initialisation from Disk`
 
 Creating an Agent Population
 ----------------------------
