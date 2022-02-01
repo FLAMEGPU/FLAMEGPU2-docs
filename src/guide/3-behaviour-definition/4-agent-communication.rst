@@ -21,6 +21,7 @@ Array 2D       :class:`MessageArray2D<flamegpu::MessageArray2D>`       Directly 
 Array 3D       :class:`MessageArray3D<flamegpu::MessageArray3D>`       Directly access messages via a 3 dimensional array
 ============== ======================================================= ======================================================
 
+
 A new message type can be defined using one of the above symbols:
 
 .. tabs::
@@ -306,11 +307,34 @@ Messages can be accessed from a specific array index:
         return flamegpu::ALIVE;
       }
       
-Similar to spatial messaging, array messages can be used to iterate the exclusive Moore neighbourhood around a target index (the specified index's message is not returned) by calling ``operator()`` (:func:`1D<flamegpu::MessageArray::In::operator()>`, :func:`2D<flamegpu::MessageArray2D::In::operator()>`, :func:`3D<flamegpu::MessageArray3D::In::operator()>`):
+
+Similar to spatial messaging, array messages provide several iterators for accessing a collection of messages localised to a specific location (normally a discrete agent's position).``operator()`` (:func:`1D<flamegpu::MessageArray::In::operator()>`, :func:`2D<flamegpu::MessageArray2D::In::operator()>`, :func:`3D<flamegpu::MessageArray3D::In::operator()>`):
+
+
+================================= =============================================== ==================================
+Iterator                          Usage                                           API Docs
+================================= =============================================== ==================================
+Moore Neighbourhood               ``FLAMEGPU->message_in(<arguments>)``           :func:`1D<flamegpu::MessageArray::In::operator()>`, :func:`2D<flamegpu::MessageArray2D::In::operator()>`, :func:`3D<flamegpu::MessageArray3D::In::operator()>`
+Wrapped Moore Neighbourhood       ``FLAMEGPU->message_in.wrap(<arguments>)``      :func:`1D<flamegpu::MessageArray::In::wrap()>`, :func:`2D<flamegpu::MessageArray2D::In::wrap()>`, :func:`3D<flamegpu::MessageArray3D::In::wrap()>`
+Von Neumann Neighbourhood         ``FLAMEGPU->message_in.vn(<arguments>)``        :func:`2D<flamegpu::MessageArray2D::In::vn()>`, :func:`3D<flamegpu::MessageArray3D::In::vn()>`
+Wrapped Von Neumann Neighbourhood ``FLAMEGPU->message_in.vn_wrap(<arguments>)``   :func:`2D<flamegpu::MessageArray2D::In::vn_wrap()>`, :func:`3D<flamegpu::MessageArray3D::In::vn_wrap()>`
+================================= =============================================== ==================================
+
+The *arguments* for each of these methods are identical. They simply require the search origin to be specified, and optionally a radius (by default a radius of 1 is used). In all cases, the radius must be a positive integer. Hence taking the form ``(x_pos, y_pos, z_pos, radius=1)`` in 3D, 2D and 1D lack the ``z_pos`` and ``y_pos`` arguments. 
+
+Wrapped iterators will return messages over the exclusive neighbourhood of the selected type, hence the message at the search origin is not returned.
+
+.. note::
+  * For radii greater than 1, the Von Neumann iterator returns cells with a Manhattan distance ``<= R``.
+  * The Von Neumann iterator does not support the 1 dimensional :class:`MessageArray<flamegpu::MessageArray>`, the Moore iterators or a simple for loop can be used for this case.
+  * The Von Neumann iterator is generalised to support any radius. For this reason, if requiring radius 1, performance may be improved by accessing the 4 messages explicitly rather than using the iterator.
+
+
+Below are some examples using each of the iterators:
 
 .. tabs::
 
-    .. code-tab:: cuda CUDA C++
+    .. code-tab:: cuda Moore
 
       // Define an agent function, "inputdata" which has accepts an input message using the "MessageSpatial3D" communication strategy and inputs no messages
       FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageArray3D, flamegpu::MessageNone) {
@@ -325,14 +349,23 @@ Similar to spatial messaging, array messages can be used to iterate the exclusiv
         }
         return flamegpu::ALIVE;
       }
+      
+    .. code-tab:: cuda Wrapped Moore
 
-Moore iteration supports radii of any suitable positive integer. Whilst the default is ``1``, bespoke values can optionally be passed as the final argument during iteration.
-
-If wrapping of array bounds is required, then an alternate iterator method ``wrap()`` (:func:`1D<flamegpu::MessageArray::In::wrap>`, :func:`2D<flamegpu::MessageArray2D::In::wrap>`, :func:`3D<flamegpu::MessageArray3D::In::wrap>`) is called.
-
-.. tabs::
-
-    .. code-tab:: cuda CUDA C++
+      // Define an agent function, "inputdata" which has accepts an input message using the "MessageSpatial2D" communication strategy and inputs no messages
+      FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageArray2D, flamegpu::MessageNone) {
+        // Get this agent's x, y variables
+        const unsigned int x = FLAMEGPU->getVariable<unsigned int>("x");
+        const unsigned int y = FLAMEGPU->getVariable<unsigned int>("y");
+         // For each message in the exclusive wrapped Moore neighbourhood of radius 2
+        for (const auto& message : FLAMEGPU->message_in.wrap(x, y, 2)) {        
+          // Process the message's variables
+          int idFromMessage = message->getVariable<int>("id");
+        }
+        return flamegpu::ALIVE;
+      }
+      
+    .. code-tab:: cuda Von Neumann
 
       // Define an agent function, "inputdata" which has accepts an input message using the "MessageSpatial3D" communication strategy and inputs no messages
       FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageArray3D, flamegpu::MessageNone) {
@@ -340,8 +373,23 @@ If wrapping of array bounds is required, then an alternate iterator method ``wra
         const unsigned int x = FLAMEGPU->getVariable<unsigned int>("x");
         const unsigned int y = FLAMEGPU->getVariable<unsigned int>("y");
         const unsigned int z = FLAMEGPU->getVariable<unsigned int>("z");
-         // For each message in the wrapped exclusive Moore neighbourhood of radius 2
-        for (const auto& message : FLAMEGPU->message_in.wrap(x, y, z, 2)) {        
+         // For each message in the exclusive Von Neumann neighbourhood of radius 2
+        for (const auto& message : FLAMEGPU->message_in.vn(x, y, z, 2)) {        
+          // Process the message's variables
+          int idFromMessage = message->getVariable<int>("id");
+        }
+        return flamegpu::ALIVE;
+      }
+      
+    .. code-tab:: cuda Wrapped Von Neumann
+
+      // Define an agent function, "inputdata" which has accepts an input message using the "MessageSpatial2D" communication strategy and inputs no messages
+      FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageArray2D, flamegpu::MessageNone) {
+        // Get this agent's x, y, z variables
+        const unsigned int x = FLAMEGPU->getVariable<unsigned int>("x");
+        const unsigned int y = FLAMEGPU->getVariable<unsigned int>("y");
+         // For each message in the exclusive wrapped Von Neumann neighbourhood of radius 1
+        for (const auto& message : FLAMEGPU->message_in.vn_wrap(x, y)) {        
           // Process the message's variables
           int idFromMessage = message->getVariable<int>("id");
         }
@@ -374,3 +422,4 @@ More Info
 
   * Game of Life (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/game_of_life/src/main.cu>`__)
   * Sugarscape (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/sugarscape/src/main.cu>`__)
+  * Diffusion (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/diffusion/src/main.cu>`__)
