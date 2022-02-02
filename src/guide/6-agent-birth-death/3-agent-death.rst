@@ -41,17 +41,3 @@ conditionals to only have agents die according to a certain condition:
             return flamegpu::ALIVE;
         }
     }
-
-More Info 
----------
-
-* Related User Guide Pages
-
-  * `Interacting with the Environment <../3-behaviour-definition/3-interacting-with-environment.html>`_
-  * `Random Number Generation <../8-advanced-sim-management/2-rng-seeds.html>`_
-
-* Full API documentation for the ``EnvironmentDescription``: link
-* Examples which demonstrate creating an environment
-
-  * Boids Brute Force (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/boids_bruteforce/src/main.cu>`__)
-  * Ensemble (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/ensemble/src/main.cu>`__)

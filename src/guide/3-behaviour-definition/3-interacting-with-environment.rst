@@ -7,7 +7,7 @@ Environment Properties
 Agent functions can only read environmental properties. If you wish to modify an environmental property, this must be done
 through :ref:`Host Functions`.
 
-Environmental properties are accessed as follows:
+Environmental properties are accessed, using :class:`DeviceEnvironment<flamegpu::DeviceEnvironment>`, as follows:
 
 .. tabs::
 
@@ -27,7 +27,7 @@ Environment Macro Properties
 
 Agent functions have much greater access to environmental macroscopic properties, however they still cannot be directly written to, or both updated and read in the same layer.
 
-Environmental macro properties can be read as follows:
+Environmental macro properties can be read, via the returned :class:`DeviceMacroProperty<flamegpu::DeviceMacroProperty>`, as follows:
 
 .. tabs::
 
@@ -45,22 +45,22 @@ Environmental macro properties can be read as follows:
         ...
     }
     
-They can also be updated with a selection of functions, which execute atomically. These functions will update a single variable and return information related to it's old or new state. This can be useful, for simple actions such as conflict resolution and counting. However, if a basic read is subsequently required, a separate host or agent function in a following layer must be used (otherwise there would be a race condition). If running with ``SEATBELTS`` mode enabled, an exception should be thrown where potential race conditions are detected.
+They can also be updated with a selection of functions, which execute atomically. These functions will update a single variable and return information related to it's old or new state. This can be useful, for simple actions such as conflict resolution and counting. However, if a basic read is subsequently required, a separate host or agent function in a following layer must be used (otherwise there would be a race condition). If running with `SEATBELTS` mode enabled, an exception should be thrown where potential race conditions are detected.
 
-Macro properties support the normal ``+``, ``-``, ``+=``, ``-=``, ``++``, ``--`` operations. They also have access to a limited set of additional functions, explained in the table below.
+Macro properties support the normal :func:`+<flamegpu::DeviceMacroProperty::operator+>`, :func:`-<flamegpu::DeviceMacroProperty::operator->`, :func:`+=<flamegpu::DeviceMacroProperty::operator+=>`, :func:`-=<flamegpu::DeviceMacroProperty::operator-=>`, :func:`++<flamegpu::DeviceMacroProperty::operator++>`, :func:`--<flamegpu::DeviceMacroProperty::operator-->` operations. They also have access to a limited set of additional functions, explained in the table below.
 
 .. note::
 
-  ``DeviceMacroProperty`` update support is limited to specific variable types. This varies between functions however ``uint32_t`` has the widest support, for full explanation check the API docs.
+  :class:`DeviceMacroProperty<flamegpu::DeviceMacroProperty>` update support is limited to specific variable types. This varies between functions however ``uint32_t`` has the widest support, for full explanation check the API docs.
 
-===================== ===================================================== ============================
-Method                Supported Types                                       Description
-===================== ===================================================== ============================
-``min(val)``          ``int32_t``, ``uint32_t``, ``uint64_t``               Update property according to ``val < old ? val : old`` and return it's new value.
-``max(val)``          ``int32_t``, ``uint32_t``, ``uint64_t``               Update property according to ``val > old ? val : old`` and return it's new value.
-``CAS(compare, val)`` ``int32_t``, ``uint32_t``, ``uint64_t``, ``uint16_t`` Update property according to ``old == compare ? val : old`` and return ``old``.
-``exchange(val)``     ``int32_t``, ``uint32_t``, ``float``                  Update property to match val, and return ``old``.
-===================== ===================================================== ============================
+================================================================== ===================================================== ============================
+Method                                                             Supported Types                                       Description
+================================================================== ===================================================== ============================
+:func:`min(val)<flamegpu::DeviceMacroProperty::min>`           ``int32_t``, ``uint32_t``, ``uint64_t``               Update property according to ``val < old ? val : old`` and return it's new value.
+:func:`max(val)<flamegpu::DeviceMacroProperty::max>`           ``int32_t``, ``uint32_t``, ``uint64_t``               Update property according to ``val > old ? val : old`` and return it's new value.
+:func:`CAS(compare, val)<flamegpu::DeviceMacroProperty::CAS>`  ``int32_t``, ``uint32_t``, ``uint64_t``, ``uint16_t`` Update property according to ``old == compare ? val : old`` and return ``old``.
+:func:`exchange(val)<flamegpu::DeviceMacroProperty::exchange>` ``int32_t``, ``uint32_t``, ``float``                  Update property to match val, and return ``old``.
+================================================================== ===================================================== ============================
 
 Example usage is shown below:
 
@@ -87,3 +87,14 @@ Example usage is shown below:
         // Other behaviour code
         ...
     }
+
+More Info 
+---------
+
+
+* Full API documentation for :class:`DeviceEnvironment<flamegpu::DeviceEnvironment>`
+* Full API documentation for :class:`DeviceMacroProperty<flamegpu::DeviceMacroProperty>`
+* Examples which demonstrate creating agent functions
+
+  * Boids Brute Force (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/boids_bruteforce/src/main.cu>`__)
+  * Ensemble (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/ensemble/src/main.cu>`__)

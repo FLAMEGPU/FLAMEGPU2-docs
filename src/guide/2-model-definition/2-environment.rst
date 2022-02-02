@@ -6,12 +6,12 @@ What is an Environment?
 
 In FLAMEGPU2, an environment represents simulation parameters which are not tied to any particular instance of an agent. 
 The model environment is represented as a set of properties. FLAMEGPU2 environments are represented by
-an ``EnvironmentDescription`` object.
+an :class:`EnvironmentDescription<flamegpu::EnvironmentDescription>` object.
 
 Creating an EnvironmentDescription Object
 -----------------------------------------
 
-An ``EnvironmentDescription`` is owned by the ``ModelDescription``, you can get access as shown below:
+An :class:`EnvironmentDescription<flamegpu::EnvironmentDescription>` is owned by the :class:`ModelDescription<flamegpu::ModelDescription>`, you can get access as shown below:
 
 .. tabs::
 
@@ -36,7 +36,7 @@ Defining Environmental Properties
 
 Environment properties are values which are the same across the whole
 simulation, these can be useful for storing mathematical constants and
-system state information. Enviornment properties can only be updated
+system state information. Environment properties can only be updated
 during host functions, however they can be read during agent functions.
 
 To define Environment properties, they must be added to an
@@ -134,7 +134,7 @@ More Info
   * `Interacting with the Environment <../3-behaviour-definition/3-interacting-with-environment.html>`_
   * `Random Number Generation <../8-advanced-sim-management/2-rng-seeds.html>`_
 
-* Full API documentation for the ``EnvironmentDescription``: link
+* Full API documentation for :class:`flamegpu::EnvironmentDescription`
 * Examples which demonstrate creating an environment
 
   * Boids Brute Force (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/boids_bruteforce/src/main.cu>`__)
