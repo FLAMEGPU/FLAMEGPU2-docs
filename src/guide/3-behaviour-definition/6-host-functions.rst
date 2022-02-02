@@ -41,7 +41,7 @@ Adding Host Functions to a Model
 
 There are several ways that host functions can be added to a model; init, exit, step and layer.
 
-They can be added as init functions, which execute once at the start when ``CUDASimulation::simulate()`` is called.
+They can be added as init functions, which execute once at the start when :func:`CUDASimulation::simulate()<flamegpu::CUDASimulation::simulate>` is called.
 
 If multiple init functions are added to a model, they will be executed in the order that they were added to the model.
 
@@ -66,7 +66,7 @@ If multiple init functions are added to a model, they will be executed in the or
 
 
 
-They can be added as exit functions, which execute once after all steps have completed when ``CUDASimulation::simulate()`` is called.
+They can be added as exit functions, which execute once after all steps have completed when :func:`CUDASimulation::simulate()<flamegpu::CUDASimulation::simulate>` is called.
 
 If multiple exit functions are added to a model, they will be executed in the order that they were added to the model.
 
@@ -144,7 +144,7 @@ Host functions must be the only functions within a layer.
 
 Writing Host Functions
 ---------------------------------
-Host functions have access to the ``HostAPI``. This has similarities to the ``DeviceAPI`` available within agent functions, however different functionality is available.
+Host functions have access to the :class:`HostAPI<flamegpu::HostAPI>`. This has similarities to the :class:`DeviceAPI<flamegpu::DeviceAPI>` available within agent functions, however different functionality is available.
 
 **Agent Tools**
 
@@ -278,9 +278,9 @@ Agent populations can also be sorted according to a variable, the C++ API can ad
         sheep.sortFloat("health", flamegpu.ASC);
 
 
-It's also possible to create new agents with the ``HostAgentAPI``, this is covered in :ref:`Agent Birth from Host Functions`. These agents are not created until after the layer has completed execution, so they will not affect reductions or sorts carried out in the same host function. This is the preferred method of host agent birth as it performs a single host-device memory copy.
+It's also possible to create new agents with the :class:`HostAgentAPI<flamegpu::HostAgentAPI>`, this is covered in :ref:`Agent Birth from Host Functions`. These agents are not created until after the layer has completed execution, so they will not affect reductions or sorts carried out in the same host function. This is the preferred method of host agent birth as it performs a single host-device memory copy.
 
-For raw access to agent data, ``DeviceAgentVector`` can be used. This has an interface similar to ``AgentVector``, however automatically synchronises data movement between host and device. This should only be used in limited circumstances as copying memory between host and device has high latency.
+For raw access to agent data, :class:`DeviceAgentVector<flamegpu::DeviceAgentVector>` can be used. This has an interface similar to :class:`AgentVector<flamegpu::AgentVector>`, however automatically synchronises data movement between host and device. This should only be used in limited circumstances as copying memory between host and device has high latency.
 
 .. tabs::
 
@@ -312,7 +312,7 @@ For raw access to agent data, ``DeviceAgentVector`` can be used. This has an int
 
 **Environment Properties**
 
-``HostAPI`` access to environment properties goes further than the ``DeviceAPI``, allowing environment properties to be updated too. Only environment properties marked const, during model definition cannot be updated.
+:class:`HostAPI<flamegpu::HostAPI>` access to environment properties goes further than the :class:`DeviceAPI<flamegpu::DeviceAPI>`, allowing environment properties to be updated too. Only environment properties marked const, during model definition cannot be updated.
 
 Reading environment properties:
 
@@ -364,7 +364,7 @@ Updating environment properties:
           
 **Macro Environment Properties**
 
-Similar to regualr environment properties, macro environment properties can be read and updated within host functions. However, there is an additional limitation that any accessed macro environment property must not being accessed by an agent function in the same layer, as this may cause a race condition.
+Similar to regular environment properties, macro environment properties can be read and updated within host functions. However, there is an additional limitation that any accessed macro environment property must not being accessed by an agent function in the same layer, as this may cause a race condition.
 
 Reading environment macro properties:
 
@@ -394,9 +394,10 @@ Reading environment macro properties:
 
 Macro properties in host functions are designed to behave as closely to their representative data type as possible. So most assignment and arithmetic operations should behave as expected.
 
-Python has several exceptions to this rule; 
-* The assignment operator is only avaialable when it maps to ``__setitem__(index, val)`` (e.g. ``foo[0] = 10``)
-* The increment/decrement operators are not available, as they cannot be overriden.
+Python has several exceptions to this rule:
+
+* The assignment operator is only available when it maps to ``__setitem__(index, val)`` (e.g. ``foo[0] = 10``)
+* The increment/decrement operators are not available, as they cannot be overridden.
 
 Updating environment macro properties:
 
@@ -431,11 +432,11 @@ Updating environment macro properties:
       foo[0] = 12.0; # This is the same as calling set()
       bar[0][0][0]+=1;
       bar[0][1][0] = 5;
-      # ++bar[0][0][2]; # Python does not allow the increment operator to be overriden
+      # ++bar[0][0][2]; # Python does not allow the increment operator to be overridden
 
 **Random Generation**
 
-Usage of the ``HostAPI`` random methods matches that of the ``DeviceAPI``.
+Usage of the :class:`HostAPI<flamegpu::HostAPI>` random methods matches that of the :class:`DeviceAPI<flamegpu::DeviceAPI>`.
 
 =================== ==================== =======================================================================================================
 Name                Arguments            Description
@@ -446,7 +447,7 @@ Name                Arguments            Description
 ``logNormal``       ``mean``, ``stddev`` Returns a log-normally distributed floating point number with the specified mean and standard deviation
 =================== ==================== =======================================================================================================
 
-When calling any of these methods the type must be specified. Most methods only support floating point types (e.g. ``float``, ``double``), with the exception of tha parameterised `uniform`` method which is restricted to integer types:
+When calling any of these methods the type must be specified. Most methods only support floating point types (e.g. ``float``, ``double``), with the exception of the parametrised ``uniform`` method which is restricted to integer types:
 
 .. tabs::
 
@@ -470,7 +471,7 @@ When calling any of these methods the type must be specified. Most methods only 
         # Generate a uniform random integer [1, 10]
         uniform_int = FLAMEGPU.random.uniformInt(1, 10);
 
-Additionally the ``HostAPI`` random object has the ability to retrieve and update the seed used for random generation during the current model execution. However, for most users this will likely be unnecessary as the random seed can be configured before simulations are executed.
+Additionally the :class:`HostAPI<flamegpu::HostAPI>` random object has the ability to retrieve and update the seed used for random generation during the current model execution. However, for most users this will likely be unnecessary as the random seed can be configured before simulations are executed.
 
 .. tabs::
 
@@ -496,10 +497,10 @@ Additionally the ``HostAPI`` random object has the ability to retrieve and updat
 
 **Misc**
 
-These other methods are also available within ``HostAPI`` for use within host functions:
+These other methods are also available within :class:`HostAPI<flamegpu::HostAPI>` for use within host functions:
 
-===================== =========================== ===========================================================
-Method                Return                      Description
-===================== =========================== ===========================================================
-``getStepCounter()``  ``unsigned int``            Returns the current step index, the first step has index 0.
-===================== =========================== ===========================================================
+============================================================ =========================== ===========================================================
+Method                                                       Return                      Description
+============================================================ =========================== ===========================================================
+:func:`getStepCounter()<flamegpu::HostAPI::getStepCounter>`  ``unsigned int``            Returns the current step index, the first step has index 0.
+============================================================ =========================== ===========================================================

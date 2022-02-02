@@ -6,7 +6,7 @@ What is a Model?
 
 A model in FLAMEGPU2 is equivalent to a model in agent-based modelling terms. It is composed of agents, environmental properties,
 a set of behaviours which govern how the simulation evolves, and a dependency graph specifying which order the behaviours should occur in.
-In FLAMEGPU2, models are represented by a ``ModelDescription`` object.
+In FLAMEGPU2, models are represented by a :class:`ModelDescription<flamegpu::ModelDescription>` object.
 
 Creating a ModelDescription Object
 ----------------------------------
@@ -28,7 +28,7 @@ A ``ModelDescription`` is initialised with a name:
 
 More Info 
 ---------
-* Full API documentation for the ``ModelDescription``: link
+* Full API documentation for :class:`flamegpu::ModelDescription`
 * Examples which demonstrate creating a model
 
   * Boids Brute Force (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/boids_bruteforce/src/main.cu>`__)

@@ -2,12 +2,12 @@ Defining Agents
 ===============
 
 Agents are the central component of FLAME GPU simulations, and are directly equivalent to agent-based modelling agents. However, 
-they can also be used to represent other things such as scalar fields across the environment. Agents are represented by an ``AgentDescription``
+they can also be used to represent other things such as scalar fields across the environment. Agents are represented by an :class:`AgentDescription<flamegpu::AgentDescription>`
 object
 
 Defining a New Agent Type
 -------------------------
-FLAMEGPU2 agents are associated with a particular model. As such they are created via a `ModelDescription` object and are initialised with a name:
+FLAMEGPU2 agents are associated with a particular model. As such they are created via a :class:`ModelDescription<flamegpu::ModelDescription>` object and are initialised with a name:
 
 .. tabs::
 
@@ -80,7 +80,7 @@ Agent States
 ------------
 Agent states are usually used to group sets of behaviours. For example, a predator in a predator-prey simulation may have a resting state and a hunting state.
 All newly defined agent types will have a default state, but you can add additional states if you wish to. States can be defined through the 
-``AgentDescription`` object:
+:class:`AgentDescription<flamegpu::AgentDescription>` object:
 
 .. tabs::
 
@@ -149,8 +149,8 @@ More Info
   * `Interacting with the Environment <../3-behaviour-definition/3-interacting-with-environment.html>`_
   * `Random Number Generation <../8-advanced-sim-management/2-rng-seeds.html>`_
 
-* Full API documentation for the ``EnvironmentDescription``: link
-* Examples which demonstrate creating an environment
+* Full API documentation for :class:`flamegpu::AgentDescription`
+* Examples which demonstrate defining agent types
 
   * Boids Brute Force (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/boids_bruteforce/src/main.cu>`__)
   * Ensemble (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/ensemble/src/main.cu>`__)

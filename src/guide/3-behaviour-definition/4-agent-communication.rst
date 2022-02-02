@@ -5,23 +5,23 @@ Communication between agents in FLAMEGPU2 is handled through messages. Messages 
 
 Defining Messages
 -----------------
-Defining a message type in FLAMEGPU2 requires selection of a communication strategy and specification of the data the message will contain. FLAME GPU comes 
+Defining a message type in FLAMEGPU2 requires selection of a communication strategy and specification of the data the message will contain. FLAMEGPU2 comes 
 with several built-in communication strategies, described below. It can also be extended to support bespoke messaging types. For guidance on this see the file 
 ``include/flamegpu/runtime/messaging.h``. For each message type, the communication strategy defines how the messages will be accessed.
 
-============== =========================== ======================================================
-Type           Symbol                       Description
-============== =========================== ======================================================
-Brute Force    ``MessageBruteForce``           Access all messages
-Bucket         ``MessageBucket``               Access all messages with a specified integer key
-Spatial 2D     ``MessageSpatial2D``            Access all messages within a radius in 2D
-Spatial 3D     ``MessageSpatial3D``            Access all messages within a radius in 3D
-Array 1D       ``MessageArray1D``              Directly access messages via a 1 dimensional array
-Array 2D       ``MessageArray2D``              Directly access messages via a 2 dimensional array
-Array 3D       ``MessageArray3D``              Directly access messages via a 3 dimensional array
-============== =========================== ======================================================
+============== ======================================================= ======================================================
+Type           Symbol                                                  Description
+============== ======================================================= ======================================================
+Brute Force    :class:`MessageBruteForce<flamegpu::MessageBruteForce>` Access all messages
+Bucket         :class:`MessageBucket<flamegpu::MessageBucket>`         Access all messages with a specified integer key
+Spatial 2D     :class:`MessageSpatial2D<flamegpu::MessageSpatial2D>`   Access all messages within a radius in 2D
+Spatial 3D     :class:`MessageSpatial3D<flamegpu::MessageSpatial3D>`   Access all messages within a radius in 3D
+Array 1D       :class:`MessageArray<flamegpu::MessageArray>`           Directly access messages via a 1 dimensional array
+Array 2D       :class:`MessageArray2D<flamegpu::MessageArray2D>`       Directly access messages via a 2 dimensional array
+Array 3D       :class:`MessageArray3D<flamegpu::MessageArray3D>`       Directly access messages via a 3 dimensional array
+============== ======================================================= ======================================================
 
-A new message type can defined using one of the above symbols:
+A new message type can be defined using one of the above symbols:
 
 .. tabs::
 
@@ -67,7 +67,7 @@ and must match that of the message type:
         ...
       }
 
-To specify the type of message the function should output, the ``setMessageOutput`` method of the ``AgentFunctionDescription`` object is used:
+To specify the type of message the function should output, the :func:`setMessageOutput()<flamegpu::AgentFunctionDescription::setMessageOutput>` method of the :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription>` object is used:
 
 .. tabs::
     .. code-tab:: cuda CUDA C++
@@ -95,7 +95,7 @@ The agent function will now output a message of type "location_message". The var
 
 **Bucket Messaging**
 Bucket Messages each have an associated bucket index, of an integer type such as ``int`` or ``unsigned int``.
-The Bucket indices are a sequential set of integers, between a configurable lower and upper bound, using the ``setUpperBound``, ``setLowerBound`` and ``setBounds`` methods on the ``BucketMessage::Description`` class.
+The Bucket indices are a sequential set of integers, between a configurable lower and upper bound, using the :func:`setUpperBound()<flamegpu::MessageBucket::Description::setUpperBound>`, :func:`setLowerBound()<flamegpu::MessageBucket::Description::setLowerBound>` and :func:`setBounds()<flamegpu::MessageBucket::Description::setBounds>` methods on the :class:`BucketMessage::Description<flamegpu::MessageBucket::Description>` class.
 
 .. tabs::
     
@@ -119,7 +119,7 @@ The Bucket indices are a sequential set of integers, between a configurable lowe
     # Or set them both at the same time
     message.setBounds(2, 12);
 
-When outputting bucket messages, the bucket index for the message must be set, using the ``FLAMEGPU->mesasage_out.setKey`` method.
+When outputting bucket messages, the bucket index for the message must be set, using the :func:`setKey()<flamegpu::MessageBucket::Out::setKey>` method.
 
 .. tabs::
 
@@ -134,7 +134,7 @@ When outputting bucket messages, the bucket index for the message must be set, u
       }
 
 **Spatial Messaging**
-If you are using ``MessageSpatial2D`` or ``MessageSpatial3D`` then your message type will automatically have ``float`` variables ``x``, ``y`` (and ``z`` for 3D) added to the message. These correspond to the message's spatial location and must be set in your agent function. 
+If you are using :class:`MessageSpatial2D` or :class:`MessageSpatial3D` then your message type will automatically have ``float`` variables ``x``, ``y`` (and ``z`` for 3D) added to the message. These correspond to the message's spatial location and must be set in your agent function. 
 
 .. tabs::
 
@@ -149,7 +149,7 @@ If you are using ``MessageSpatial2D`` or ``MessageSpatial3D`` then your message 
         return flamegpu::ALIVE;
       }
 
-You must also specify the interaction radius via the ``MessageDescription`` object:
+You must also specify the interaction radius via the ``MessageDescription`` (:class:`2D<flamegpu::MessageSpatial2D::Description>`, :class:`3D<flamegpu::MessageSpatial3D::Description>`) object:
 
 .. tabs::
     
@@ -165,7 +165,7 @@ You must also specify the interaction radius via the ``MessageDescription`` obje
 
       
 **Array Messaging**
-If you are using ``MessageArray1D``, ``MessageArray2D`` or ``MessageArray3D`` then you must specify the corresponding array index when outputting a message. It is important that only 1 agent writes a message to each index (if ``SEATBELTS`` is enabled then multiple outputs to the same index will raise an exception).
+If you are using :class:`MessageArray<flamegpu::MessageArray>`, :class:`MessageArray2D<flamegpu::MessageArray2D>` or :class:`MessageArray3D<flamegpu::MessageArray3D>` then you must specify the corresponding array index when outputting a message. It is important that only 1 agent writes a message to each index (if `SEATBELTS` is enabled then multiple outputs to the same index will raise an exception).
 
 .. tabs::
 
@@ -195,7 +195,7 @@ Reading a message is very similar to sending one. The second argument in the age
         ...
       }
 
-The input message type is specified using the ``setMessageInput`` method of the ``AgentFunctionDescription`` object:
+The input message type is specified using the :func:`setMessageInput()<flamegpu::AgentFunctionDescription::setMessageInput>` method of the :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription>` object:
 
 
 .. tabs::
@@ -228,7 +228,7 @@ With the input message type specified, the message list will be available in the
 **Bucket Messaging**
 
 If you are using the Bucket messaging strategy, you will also need to supply the bucket index/key to access the messages from the specific bucket.
-If an invalid bucket index is provided (based on the bounds), then either a device exception will be thrown if available (``SEATBELTS=ON``), or no messages will be returned.
+If an invalid bucket index is provided (based on the bounds), then either a device exception will be thrown if available (`SEATBELTS=ON<SEATBELTS>`), or no messages will be returned.
 
 .. tabs::
 
@@ -306,7 +306,7 @@ Messages can be accessed from a specific array index:
         return flamegpu::ALIVE;
       }
       
-Similar to spatial messaging, array messages can be used to iterate the exclusive Moore neighbourhood around a target index (the specified index's message is not returned):
+Similar to spatial messaging, array messages can be used to iterate the exclusive Moore neighbourhood around a target index (the specified index's message is not returned) by calling ``operator()`` (:func:`1D<flamegpu::MessageArray::In::operator()>`, :func:`2D<flamegpu::MessageArray2D::In::operator()>`, :func:`3D<flamegpu::MessageArray3D::In::operator()>`):
 
 .. tabs::
 
@@ -328,7 +328,7 @@ Similar to spatial messaging, array messages can be used to iterate the exclusiv
 
 Moore iteration supports radii of any suitable positive integer. Whilst the default is ``1``, bespoke values can optionally be passed as the final argument during iteration.
 
-If wrapping of array bounds is required, then an alternate iterator method ``wrap()`` is called.
+If wrapping of array bounds is required, then an alternate iterator method ``wrap()`` (:func:`1D<flamegpu::MessageArray::In::wrap>`, :func:`2D<flamegpu::MessageArray2D::In::wrap>`, :func:`3D<flamegpu::MessageArray3D::In::wrap>`) is called.
 
 .. tabs::
 
@@ -347,3 +347,30 @@ If wrapping of array bounds is required, then an alternate iterator method ``wra
         }
         return flamegpu::ALIVE;
       }
+      
+More Info 
+---------
+
+
+* Full API documentation for :class:`MessageBruteForce<flamegpu::MessageBruteForce>`, :class:`MessageBruteForce::Description<flamegpu::MessageBruteForce::Description>`, :class:`MessageBruteForce::Out<flamegpu::MessageBruteForce::Out>`, :class:`MessageBruteForce::In<flamegpu::MessageBruteForce::In>`
+* Full API documentation for :class:`MessageBucket<flamegpu::MessageBucket>` :class:`MessageBucket::Description<flamegpu::MessageBucket::Description>`, :class:`MessageBucket::Out<flamegpu::MessageBucket::Out>`, :class:`MessageBucket::In<flamegpu::MessageBucket::In>`
+* Full API documentation for :class:`MessageSpatial2D<flamegpu::MessageSpatial2D>` :class:`MessageSpatial2D::Description<flamegpu::MessageSpatial2D::Description>`, :class:`MessageSpatial2D::Out<flamegpu::MessageSpatial2D::Out>`, :class:`MessageSpatial2D::In<flamegpu::MessageSpatial2D::In>`
+* Full API documentation for :class:`MessageSpatial3D<flamegpu::MessageSpatial3D>` :class:`MessageSpatial3D::Description<flamegpu::MessageSpatial3D::Description>`, :class:`MessageSpatial3D::Out<flamegpu::MessageSpatial3D::Out>`, :class:`MessageSpatial3D::In<flamegpu::MessageSpatial3D::In>`
+* Full API documentation for :class:`MessageArray<flamegpu::MessageArray>` :class:`MessageArray::Description<flamegpu::MessageArray::Description>`, :class:`MessageArray::Out<flamegpu::MessageArray::Out>`, :class:`MessageArray::In<flamegpu::MessageArray::In>`
+* Full API documentation for :class:`MessageArray2D<flamegpu::MessageArray2D>` :class:`MessageArray2D::Description<flamegpu::MessageArray2D::Description>`, :class:`MessageArray2D::Out<flamegpu::MessageArray2D::Out>`, :class:`MessageArray2D::In<flamegpu::MessageArray2D::In>`
+* Full API documentation for :class:`MessageArray3D<flamegpu::MessageArray3D>` :class:`MessageArray3D::Description<flamegpu::MessageArray3D::Description>`, :class:`MessageArray3D::Out<flamegpu::MessageArray3D::Out>`, :class:`MessageArray3D::In<flamegpu::MessageArray3D::In>`
+* Examples which demonstrate brute force messaging
+
+  * Boids Brute Force (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/boids_bruteforce/src/main.cu>`__)
+  * Circles Brute Force (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/circles_bruteforce/src/main.cu>`__)
+  
+* Examples which demonstrate spatial 3D messaging
+
+  * Boids Spatial 3D (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/boids_spatial3D/src/main.cu>`__)
+  * Boids Spatial 3D (Python) (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/swig_boids_spatial3D/boids_spatial3D.py>`__)
+  * Circles Spatial 3D (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/circles_spatial3D/src/main.cu>`__)
+  
+* Examples which demonstrate array 2D messaging
+
+  * Game of Life (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/game_of_life/src/main.cu>`__)
+  * Sugarscape (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/sugarscape/src/main.cu>`__)

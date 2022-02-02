@@ -1,10 +1,10 @@
 Modifying Agent Variables
 =========================
 
-Each instance of an agent will have its own copy of each of the agent variables specified in the agent type defintion.
+Each instance of an agent will have its own copy of each of the agent variables specified in the agent type definition.
 These can be accessed and modified within agent functions. 
 
-Within an agent function, variables can be read with ``getVariable`` and written to with ``setVariable``.
+Within an agent function, variables can be read via the :class:`DeviceAPI<flamegpu::DeviceAPI>` with :func:`getVariable()<flamegpu::DeviceAPI::getVariable>` and written to with :func:`setVariable()<flamegpu::DeviceAPI::setVariable>`.
 These variables are accessed from higher latency device memory, so for the best performance, we recommended
 that you avoid multiple reads or writes to the same variable in any agent functions and do as much as possible
 with the local copy. The agent ID built-in variable can be accessed via the `getID` method.
@@ -50,3 +50,14 @@ in a single function call, during agent functions, elements must be accessed ind
         // Other behaviour code
         ...
     }
+    
+More Info 
+---------
+
+
+* Full API documentation for :class:`DeviceAPI<flamegpu::DeviceAPI>`
+* Full API documentation for :c:macro:`FLAMEGPU_AGENT_FUNCTION`
+* Examples which demonstrate creating agent functions
+
+  * Boids Brute Force (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/boids_bruteforce/src/main.cu>`__)
+  * Ensemble (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/ensemble/src/main.cu>`__)

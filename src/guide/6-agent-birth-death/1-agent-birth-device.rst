@@ -137,17 +137,3 @@ Full Example Code From This Page
         // Other agent function code
         ...
       }
-
-
-More Info 
----------
-* Related User Guide Pages
-
-  * `Interacting with the Environment <../3-behaviour-definition/3-interacting-with-environment.html>`_
-  * `Random Number Generation <../8-advanced-sim-management/2-rng-seeds.html>`_
-
-* Full API documentation for the ``EnvironmentDescription``: link
-* Examples which demonstrate creating an environment
-
-  * Boids Brute Force (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/boids_bruteforce/src/main.cu>`__)
-  * Ensemble (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/ensemble/src/main.cu>`__)

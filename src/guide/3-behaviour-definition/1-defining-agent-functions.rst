@@ -10,7 +10,7 @@ Most behaviours within your model will be implemented using agent functions. Age
 and interact with the environment or other agents. Each agent function in FLAMEGPU2 is associated with a particular agent type and is represented
 by an ``AgentFunctionDescription`` object. This object describes the name of the function, the agent state in which it should be active, and any
 state transitions it should apply to the agent. The implementation code for the behaviour is written separately and is identified by using the
-``FLAMEGPU_AGENT_FUNCTION`` macro to label the code. Alternatively, the implementations can be written in strings and loaded at runtime. The latter
+:c:macro:`FLAMEGPU_AGENT_FUNCTION` macro to label the code. Alternatively, the implementations can be written in strings and loaded at runtime. The latter
 method is the only method supported for the python version of FLAMEGPU2.
 
 Defining an Agent Function
@@ -18,11 +18,11 @@ Defining an Agent Function
 
 Agent Functions can be specified as C++ functions, built at compile time when using the C++ interface, or they can be specified as Run-Time Compiled (RTC) functions when using the C++ interface, or the Python interface.
 
-An agent function is defined using the ``FLAMEGPU_AGENT_FUNCTION`` macro. 
+An agent function is defined using the :c:macro:`FLAMEGPU_AGENT_FUNCTION` macro. 
 This takes three arguments: a unique name identifying the function, an input message communication strategy, and an output message communication strategy.
 We will discuss messages in more detail later, so for now don't worry about the second and third parameters.
 
-For Non-RTC functions, when using the C++ interface, the ``FLAMEGPU_AGENT_FUNCTION`` macro can be used to declare and define the agent function, which can then be associated with the ``flamegpu::AgentDescription`` object using the ``newFunction`` method.
+For Non-RTC functions, when using the C++ interface, the :c:macro:`FLAMEGPU_AGENT_FUNCTION` macro can be used to declare and define the agent function, which can then be associated with the :class:`AgentDescription<flamegpu::AgentDescription>` object using the :func:`newFunction()<flamegpu::AgentDescription::newFunction>` method.
 
 
 .. tabs::
@@ -43,7 +43,7 @@ For Non-RTC functions, when using the C++ interface, the ``FLAMEGPU_AGENT_FUNCTI
         // ...
     }
 
-When using the Run-Time Compiled (RTC) functions, optionally in the C++ interface or required by the Python interface, the function must be defined in a string and associated with the AgentDescription using the ``newRTCFunction`` method.
+When using the Run-Time Compiled (RTC) functions, optionally in the C++ interface or required by the Python interface, the function must be defined in a string and associated with the `AgentDescription<flamegpu::AgentDescription>` using the :func:`newRTCFunction()<flamegpu::AgentDescription::newRTCFunction>` method.
 
 .. cpp syntax highlighting due to issues with the cuda highlighter and raw strings.
 .. tabs::
@@ -86,7 +86,7 @@ When using the Run-Time Compiled (RTC) functions, optionally in the C++ interfac
 FLAMEGPU Device Functions
 -------------------------
 
-If you wish to define regular functions which can be used within agent function definitions, you can use the `FLAMEGPU_DEVICE_FUNCTION` macro:
+If you wish to define regular functions which can be used within agent function definitions, you can use the :c:macro:`FLAMEGPU_DEVICE_FUNCTION` macro:
 
 .. tabs::
 
@@ -100,7 +100,7 @@ If you wish to define regular functions which can be used within agent function 
 FLAMEGPU Host Device Functions
 ------------------------------
 
-If you wish to define regular functions which can be used within agent function definitions and in host code, you can use the `FLAMEGPU_HOST_DEVICE_FUNCTION` macro:
+If you wish to define regular functions which can be used within agent function definitions and in host code, you can use the :c:macro:`FLAMEGPU_HOST_DEVICE_FUNCTION` macro:
 
 .. tabs::
 
@@ -162,13 +162,11 @@ Full Example Code From This Page
 
 More Info 
 ---------
-* Related User Guide Pages
 
-  * `Interacting with the Environment <../3-behaviour-definition/3-interacting-with-environment.html>`_
-  * `Random Number Generation <../8-advanced-sim-management/2-rng-seeds.html>`_
 
-* Full API documentation for the ``EnvironmentDescription``: link
-* Examples which demonstrate creating an environment
+* Full API documentation for :c:macro:`FLAMEGPU_AGENT_FUNCTION`
+* Full API documentation for :class:`flamegpu::AgentDescription`
+* Examples which demonstrate creating agent functions
 
   * Boids Brute Force (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/boids_bruteforce/src/main.cu>`__)
   * Ensemble (`View on github <https://github.com/FLAMEGPU/FLAMEGPU2/blob/master/examples/ensemble/src/main.cu>`__)
