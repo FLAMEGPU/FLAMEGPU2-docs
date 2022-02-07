@@ -53,13 +53,13 @@ jobs:
     - name: Create Archive on PR
       if: ${{ github.event_name == 'pull_request' }}
       working-directory: FLAMEGPU2-docs/build
-      run: zip userguide.zip -r userguide/ 
+      run: zip html.zip -r userguide/ 
 
     - name: Upload Artifact on PR
       if: ${{ github.event_name == 'pull_request' }}
       uses: actions/upload-artifact@v2
       with:
         name: userguide
-        path: FLAMEGPU2-docs/build/userguide.zip
+        path: FLAMEGPU2-docs/build/html.zip
         if-no-files-found: error
         retention-days: 14
