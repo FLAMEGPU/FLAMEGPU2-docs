@@ -7,14 +7,14 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     env:
       build_api_docs: "ON"
     steps:
-    - name: Checkout FLAMEGPU2/FLAMEGPU2-userguide
+    - name: Checkout FLAMEGPU2/FLAMEGPU2-docs
       uses: actions/checkout@v2
       with:
-        path: FLAMEGPU2-userguide
+        path: FLAMEGPU2-docs
 
     - name: Checkout FLAMEGPU2/FLAMEGPU2
       if: env.build_api_docs == 'ON'
@@ -33,7 +33,7 @@ jobs:
       run: sudo apt -y install doxygen
 
     - name: Install python packages
-      working-directory: FLAMEGPU2-userguide
+      working-directory: FLAMEGPU2-docs
       run: |
         mkdir -p -m 700 .venv
         python3 -m venv .venv
@@ -41,11 +41,25 @@ jobs:
         python3 -m pip install -r requirements.txt
 
     - name: Configure
-      working-directory: FLAMEGPU2-userguide
+      working-directory: FLAMEGPU2-docs
       run: |
         source .venv/bin/activate
         cmake . -B build
 
     - name: Build
-      working-directory: FLAMEGPU2-userguide/build
+      working-directory: FLAMEGPU2-docs/build
       run: cmake --build . --target all --verbose -j `nproc`
+
+    - name: Create Archive on PR
+      if: ${{ github.event_name == 'pull_request' }}
+      working-directory: FLAMEGPU2-docs/build
+      run: zip userguide.zip -r userguide/ 
+
+    - name: Upload Artifact on PR
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: userguide
+        path: FLAMEGPU2-docs/build/userguide.zip
+        if-no-files-found: error
+        retention-days: 14

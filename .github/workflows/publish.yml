@@ -9,12 +9,12 @@ on:
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       build_api_docs: "ON"
     steps:
     # Chekout this repository into specified path
-    - name: Checkout FLAMEGPU2/FLAMEGPU2-userguide
+    - name: Checkout FLAMEGPU2/FLAMEGPU2-docs
       uses: actions/checkout@v2
       with:
         path: FLAMEGPU2-docs
