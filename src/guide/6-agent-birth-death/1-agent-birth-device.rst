@@ -32,49 +32,17 @@ Creating the New Agent
 When agent output has been enabled for an agent function, the ``FLAMEGPU->agent_out`` object will become available within agent
 function definitions. This can be used to initialise the properties of the newly created agent.
 
-Agent Output from Device:
+Agent creation is always optional once enabled, a new agent will only be created when one of the ``FLAMEGPU->agent_out`` variables is set using ``setVariable()`` or :func:`FLAMEGPU->agent_out.getID()<flamegpu::DeviceAPI::AgentOut::getID()>` is called.
 
-.. tabs::
-
-  .. code-tab:: cuda CUDA C++
-  
-      FLAMEGPU_AGENT_FUNCTION(ExampleAgentOutputFn, flamegpu::MessageNone, flamegpu::MessageNone) {
-          // The output agent's 'x' variable is set
-          FLAMEGPU->agent_out.setVariable<float>("x", 12.0f);
-  
-          // Other agent function code
-          ...
-      }
-
-Agent variables which are not manually set will be initialised with their default values.
-
-Conditional Agent Creation
---------------------------
-
-By default, agent creation is mandatory for an agent function which has agent output enabled. If you don't want all the agents the 
-function runs for to output an agent, you can enable optional agent output:
-
-.. tabs::
-
-  .. code-tab:: cuda CUDA C++
-
-    // Enable optional agent output
-    agent_fn1_description.setAgentOutputOptional(true);
-
-  .. code-tab:: python
-
-    # Enable optional agent output
-    agent_fn1_description.setAgentOutputOptional(true)
-
-With this set, a new agent will only be created if one of the ``FLAMEGPU->agent_out`` variables is set manually.
 As an example:
 
 .. tabs::
+
   .. code-tab:: cuda CUDA C++
   
     FLAMEGPU_AGENT_FUNCTION(OptionalOutput, flamegpu::MessageNone, flamegpu::MessageNone) {
         // Fetch this agent's id
-        unsigned int id = FLAMEGPU->getVariable<unsigned int>("id");
+        flamegpu::id_t id = FLAMEGPU->getID();
   
         // If its id is even, output a new agent, otherwise do nothing
         if (id % 2 == 0) {
@@ -85,6 +53,8 @@ As an example:
         // Other agent function code
         ...
     }
+
+Agent variables which are not manually set will be initialised with their default values.
 
 Full Example Code From This Page
 --------------------------------
@@ -116,17 +86,9 @@ Full Example Code From This Page
 
   .. code-tab:: cuda CUDA C++
   
-      FLAMEGPU_AGENT_FUNCTION(ExampleAgentOutputFn, flamegpu::MessageNone, flamegpu::MessageNone) {
-          // The output agent's 'x' variable is set
-          FLAMEGPU->agent_out.setVariable<float>("x", 12.0f);
-  
-          // Other agent function code
-          ...
-      }
-
-      FLAMEGPU_AGENT_FUNCTION(OptionalOutput, flamegpu::MessageNone, flamegpu::MessageNone) {
+    FLAMEGPU_AGENT_FUNCTION(OptionalOutput, flamegpu::MessageNone, flamegpu::MessageNone) {
         // Fetch this agent's id
-        unsigned int id = FLAMEGPU->getVariable<unsigned int>("id");
+        flamegpu::id_t id = FLAMEGPU->getID();
   
         // If its id is even, output a new agent, otherwise do nothing
         if (id % 2 == 0) {
@@ -136,4 +98,4 @@ Full Example Code From This Page
   
         // Other agent function code
         ...
-      }
+    }
