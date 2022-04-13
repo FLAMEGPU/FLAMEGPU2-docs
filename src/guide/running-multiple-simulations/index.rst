@@ -188,7 +188,7 @@ Long Argument                  Short Argument              Description
 ``--timing``                   ``-t``                      Output timing information to console at exit.
 ============================== =========================== ========================================================
 
-You may also wish to specify your own defaults, by setting the values prior to calling :func:`initialise()<flamegpu::CUDAEnsemble::initialise`:
+You may also wish to specify your own defaults, by setting the values prior to calling :func:`initialise()<flamegpu::CUDAEnsemble::initialise>`:
 
 .. tabs::
 
