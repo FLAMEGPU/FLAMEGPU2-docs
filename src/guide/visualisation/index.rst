@@ -10,8 +10,8 @@ This chapter has been broken up into several sections:
 .. toctree::
    :maxdepth: 1 
    
-   1-building-with-vis.rst
-   2-setting-up-vis.rst
-   3-visualising-agents.rst
-   4-adding-details.rst
-   5-visualisation-controls.rst
+   building-with-vis.rst
+   setting-up-vis.rst
+   visualising-agents.rst
+   adding-details.rst
+   visualisation-controls.rst

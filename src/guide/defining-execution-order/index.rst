@@ -11,7 +11,7 @@ This chapter has been broken up into several sections:
 .. toctree::
    :maxdepth: 1
    
-   1-dependency-graph.rst
-   2-layers.rst
-   3-exit-conditions.rst
-   4-submodels.rst
+   dependency-graph.rst
+   layers.rst
+   exit-conditions.rst
+   submodels.rst

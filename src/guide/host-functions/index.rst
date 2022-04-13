@@ -14,11 +14,11 @@ This chapter has been broken up into several sections:
 .. toctree::
    :maxdepth: 1
    
-   1-defining-host-functions.rst
-   2-interacting-with-environment.rst   
-   3-agent-operations.rst   
-   4-random-numbers.rst
-   5-miscellaneous.rst
+   defining-host-functions.rst
+   interacting-with-environment.rst   
+   agent-operations.rst   
+   random-numbers.rst
+   miscellaneous.rst
 
 .. note:
   Currently **custom** reductions and transformations of agent variables are not supported via the Python API.

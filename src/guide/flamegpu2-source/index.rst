@@ -9,6 +9,6 @@ This chapter has been broken up into several sections:
 .. toctree::
    :maxdepth: 1
    
-   1-build-from-source.rst
-   2-request-a-new-feature.rst
-   3-contribute.rst   
+   build-from-source.rst
+   request-a-new-feature.rst
+   contribute.rst   

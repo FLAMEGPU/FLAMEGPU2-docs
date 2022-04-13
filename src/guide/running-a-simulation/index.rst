@@ -47,9 +47,9 @@ This chapter has been broken up into several sections detailing these features:
 .. toctree::
    :maxdepth: 1
    
-   1-configuring-execution.rst
-   2-initial-state.rst
-   3-collecting-data.rst
+   configuring-execution.rst
+   initial-state.rst
+   collecting-data.rst
    
 
 Additionally, a visualisation can be configured, however that is covered in it's :ref:`own chapter<Visualisation>`.

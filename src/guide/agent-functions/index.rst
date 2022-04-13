@@ -14,11 +14,11 @@ This chapter has been broken up into several sections:
 .. toctree::
    :maxdepth: 1
    
-   1-defining-agent-functions.rst
-   2-modifying-agent-variables.rst   
-   3-interacting-with-environment.rst   
-   4-agent-communication.rst
-   5-agent-birth-death.rst
-   6-random-numbers.rst
-   7-conditional-behaviours.rst
-   8-miscellaneous.rst
+   defining-agent-functions.rst
+   modifying-agent-variables.rst   
+   interacting-with-environment.rst   
+   agent-communication.rst
+   agent-birth-death.rst
+   random-numbers.rst
+   conditional-behaviours.rst
+   miscellaneous.rst
