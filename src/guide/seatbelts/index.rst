@@ -31,4 +31,3 @@ Related Links
 
 * User Guide Page: :ref:`Building From Source<q-compiling flamegpu>` (C++)
 * User Guide Page: :ref:`Building From Source<q-python-building-from-source>` (Python)
-* User Guide Page: :ref:`What is SEATBELTS?<SEATBELTS>`
