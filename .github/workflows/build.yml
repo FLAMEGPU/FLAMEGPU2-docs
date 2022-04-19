@@ -40,15 +40,8 @@ jobs:
         source .venv/bin/activate
         python3 -m pip install -r requirements.txt
 
-    - name: debug
-      working-directory: FLAMEGPU2-docs
-      run: |
-        pwd
-        ls
-        find . -type f -name "*.json"
     - name: Add custom problem matchers for annotations
-      working-directory: FLAMEGPU2-docs
-      run: echo "::add-matcher::.github/problem-matchers.json"
+      run: echo "::add-matcher::FLAMEGPU2-docs.github/problem-matchers.json"
 
     - name: Configure
       working-directory: FLAMEGPU2-docs
