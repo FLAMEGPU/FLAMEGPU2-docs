@@ -41,6 +41,7 @@ jobs:
         python3 -m pip install -r requirements.txt
 
     - name: Add custom problem matchers for annotations
+      working-directory: FLAMEGPU2-docs
       run: echo "::add-matcher::.github/problem-matchers.json"
 
     - name: Configure
