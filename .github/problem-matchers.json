@@ -1,0 +1,16 @@
+{
+    "problemMatcher": [
+        {
+            "owner": "sphinx-build",
+            "pattern": [
+                {
+                    "regexp": "^(?:\\s+\\d+\\>)?([^\\s].*):(\\d+):\\s+(WARNING|ERROR)\\s*:\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "severity": 3,
+                    "message": 4
+                }
+            ]
+        }
+    ]
+}
