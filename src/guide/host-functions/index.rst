@@ -1,4 +1,5 @@
 .. _Host Functions and Conditions:
+
 Host Functions & Conditions
 ===========================
 Not all model behaviours can be achieved with :ref:`agent functions<Agent Functions>`. Some behaviours need to operate over at a level above agents, host functions provide this functionality. If you need to perform a reduction over an agent population, sort agents or update environment properties a host function can deliver.

@@ -1,4 +1,5 @@
 .. _quickstart:
+
 Quickstart
 ==========
 
@@ -8,6 +9,7 @@ Details are provided for both the :ref:`C++ <q-cudacpp-quickstart>` and :ref:`Py
 
 
 .. _quickstart-prerequisites:
+
 Prerequisites
 -------------
 
@@ -71,6 +73,7 @@ You can either:
 See the template project's ``README.md`` for more information related to using and customising this template.
 
 .. _q-compiling flamegpu:
+
 Compiling Your Project
 ^^^^^^^^^^^^^^^^^^^^^^
 

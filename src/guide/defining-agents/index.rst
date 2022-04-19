@@ -1,4 +1,5 @@
 .. _Defining Agents:
+
 Defining Agents
 ===============
 
@@ -65,6 +66,7 @@ The type and name the variables must be specified, array variables additionally 
   Variable names must not begin with ``_``, this is reserved for internal variables.
 
 .. _Agent States:
+
 Agent States
 ^^^^^^^^^^^^
 

@@ -1,4 +1,5 @@
 .. _Host Agent Operations:
+
 Agent Operations
 ^^^^^^^^^^^^^^^^
 
@@ -26,6 +27,7 @@ Host agent operations are performed on a single agent state, via :class:`HostAge
 
 
 .. _Agent Variable Reductions:
+
 Variable Reductions
 -------------------
 
@@ -158,6 +160,7 @@ Agent populations can also be sorted according to a variable, the C++ API can ad
         sheep.sortFloat("health", pyflamegpu.ASC);
 
 .. _Host Agent Creation:
+
 Agent Creation
 --------------
 
@@ -201,6 +204,7 @@ It's also possible to create new agents with the :class:`HostAgentAPI<flamegpu::
             new_sheep.setVariableArrayInt("genes", [12, 2, 45])
 
 .. _Direct Agent Access:
+
 Direct Agent Access
 -------------------
 

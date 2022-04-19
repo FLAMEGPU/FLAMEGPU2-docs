@@ -10,6 +10,7 @@ Overriding initial states in code is more flexible than from state files, allowi
 
 
 .. _RunPlan:
+
 Overriding the Initial Environment
 ==================================
 
@@ -154,6 +155,7 @@ Once the :class:`AgentVector<flamegpu::AgentVector>` is ready, it can be passed 
         
     
 .. _Initial State From File:
+
 From File
 ---------
 

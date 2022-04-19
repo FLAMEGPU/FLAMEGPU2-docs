@@ -1,4 +1,5 @@
 .. _defining environmental properties:
+
 Environmental Properties
 ========================
 
@@ -73,6 +74,7 @@ The type, name and initial value of the property are all specified, array proper
 
 
 .. _Define Macro Environmental Properties:
+
 Defining Macro Properties
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 

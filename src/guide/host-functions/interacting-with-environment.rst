@@ -1,4 +1,5 @@
 .. _host environment:
+
 Accessing the Environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -61,6 +62,7 @@ Environmental properties are accessed, using :class:`HostEnvironment<flamegpu::H
   It is only required here when accessing a whole array via the C++ API.
     
 .. _host macro property:
+
 Environment Macro Properties
 ----------------------------
 

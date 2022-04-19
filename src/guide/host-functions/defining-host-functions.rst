@@ -1,4 +1,5 @@
 .. _Defining Host Functions:
+
 Defining Host Functions
 ^^^^^^^^^^^^^^^^^^^^^^^
 

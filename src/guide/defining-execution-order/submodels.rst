@@ -1,4 +1,5 @@
 .. _Defining a Submodel:
+
 Submodels
 ^^^^^^^^^
 A submodel acts as a full model nested inside a parent model, the only requirement is that the submodel contains atleast one :ref:`exit condition<Defining Host Functions>`. Agent variables can be mapped between the two models, with each model also having private agent variables (or even private agents). The agent ID of bound agents will always be mapped. Unbound agents which are recreated in each time the submodel is executed are not guaranteed to have the same ID between runs. Environment properties can also be shared with submodels, with the ability to mark them as constant within the submodel.

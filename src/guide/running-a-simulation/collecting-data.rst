@@ -1,4 +1,5 @@
 .. _Collecting Data:
+
 Collecting Data
 ^^^^^^^^^^^^^^^
 
@@ -10,6 +11,7 @@ Logging
 As Simulations are likely to involve thousands to millions of agents, logging the full simulation state would produce large amounts of output most of which is not required. As such, FLAME GPU provides the ability to specify a collection of population level reductions and environment properties to be logged each step or at simulation exit.
 
 .. _Configuring Data to be Logged:
+
 Configuring Data to be Logged
 =============================
 

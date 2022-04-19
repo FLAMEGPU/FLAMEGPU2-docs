@@ -1,10 +1,12 @@
 .. _Device Agent Communication:
+
 Agent Communication
 ^^^^^^^^^^^^^^^^^^^
 
 Each agent function is able to output a single message, and read from a single message list. In order to achieve either of these, the agent function must be configured to specify the message which should be input and/or output. First the message type must have been defined, as covered in the earlier chapter on :ref:`defining messages<Defining Messages>`.
 
 .. _Sending Messages:
+
 Sending Messages
 ----------------
 Messages can be output by agent functions. Each agent function can output a single message. To output a message from an agent function, the communication strategy and message type must be specified. The communication strategy is set in the third parameter of the agent function definition, and must match that of the message type:

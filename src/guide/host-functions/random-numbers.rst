@@ -1,4 +1,5 @@
 .. _host random:
+
 Random Numbers
 ^^^^^^^^^^^^^^
 
@@ -41,6 +42,7 @@ When calling any of these methods the type must be specified. Most methods only 
 
 
 .. _host seed random:
+
 Seeding the Random State
 ------------------------
         
