@@ -186,6 +186,8 @@ Long Argument                  Short Argument              Description
 ``--out`` <directory> <format> ``-o`` <directory> <format> Directory and format (JSON/XML) for ensemble logging.
 ``--quiet``                    ``-q``                      Don't print ensemble progress to console.
 ``--timing``                   ``-t``                      Output timing information to console at exit.
+``--error``                    ``-e`` <error level>        The :enum:`ErrorLevel<flamegpu::CUDAEnsemble::EnsembleConfig::ErrorLevel>` to use: 0, 1, 2, "off", "slow" or "fast".
+                                                           By default the :enum:`ErrorLevel<flamegpu::CUDAEnsemble::EnsembleConfig::ErrorLevel>` will be set to "slow" (1).
 ============================== =========================== ========================================================
 
 You may also wish to specify your own defaults, by setting the values prior to calling :func:`initialise()<flamegpu::CUDAEnsemble::initialise>`:
@@ -213,7 +215,7 @@ You may also wish to specify your own defaults, by setting the values prior to c
     cuda_ensemble.setExitLog(exit_log_cfg);
     
     // Execute the ensemble using the specified RunPlans
-    ensemble.simulate(runs);
+    const unsigned int errs = ensemble.simulate(runs);
 
   .. code-tab:: py Python
     
@@ -236,10 +238,28 @@ You may also wish to specify your own defaults, by setting the values prior to c
     cuda_ensemble.setExitLog(exit_log_cfg)
     
     # Execute the ensemble using the specified RunPlans
-    ensemble.simulate(runs)
+    errs = ensemble.simulate(runs)
     
 .. note ::
   At current :class:`CUDASimulation<flamegpu::CUDASimulation>` differs to :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>`, it is not currently possible to specify your own defaults for the :class:`CUDASimulation<flamegpu::CUDASimulation>` command line interface. Calling :func:`initialise()<flamegpu::Simulation::initialise>` resets the configuration before parsing command line arguments. `(issue) <https://github.com/FLAMEGPU/FLAMEGPU2/issues/755>`_
+  
+Error Handling Within Ensembles
+-------------------------------
+
+:class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` has three supported levels of error handling.
+
+====== ===== ==========================================================================================================
+Level  Name  Description
+====== ===== ==========================================================================================================
+0      Off   Runs which fail do not cause an exception to be raised.
+1      Slow  If any runs fail, an :class:`EnsembleException<flamegpu::exception::EnsembleException>` will be raised after all runs have been attempted.
+2      Fast  An :class:`EnsembleException<flamegpu::exception::EnsembleException>` will be raised as soon as a failed run is detected, cancelling remaining runs.
+====== ===== ==========================================================================================================
+
+The default error level is "Slow" (1), which will cause an exception to be raised if any of the simulations fail to complete. However, all simulations will be attempted first, so partial results will be available.
+
+Alternatively, calls to :func:`simulate()<flamegpu::CUDAEnsemble::simulate>` return the number of errors, when the error level is set to "Off" (0). Therefore, failed runs can be probed manually via checking that the return value of :func:`simulate()<flamegpu::CUDAEnsemble::simulate>` does not equal zero.
+
   
 Related Links
 -------------
