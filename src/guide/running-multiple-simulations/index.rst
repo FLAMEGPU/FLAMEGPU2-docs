@@ -252,8 +252,8 @@ Error Handling Within Ensembles
 Level  Name  Description
 ====== ===== ==========================================================================================================
 0      Off   Runs which fail do not cause an exception to be raised.
-1      Slow  If any runs fail, an :class:`EnsembleException<flamegpu::exception::EnsembleException>` will be raised after all runs have been attempted.
-2      Fast  An :class:`EnsembleException<flamegpu::exception::EnsembleException>` will be raised as soon as a failed run is detected, cancelling remaining runs.
+1      Slow  If any runs fail, an :class:`EnsembleError<flamegpu::exception::EnsembleError>` will be raised after all runs have been attempted.
+2      Fast  An :class:`EnsembleError<flamegpu::exception::EnsembleError>` will be raised as soon as a failed run is detected, cancelling remaining runs.
 ====== ===== ==========================================================================================================
 
 The default error level is "Slow" (1), which will cause an exception to be raised if any of the simulations fail to complete. However, all simulations will be attempted first, so partial results will be available.
