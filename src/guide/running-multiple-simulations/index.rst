@@ -71,6 +71,9 @@ It is also possible to specify subdirectories for a particular runs' logging out
         // Initialise environment property 'random_double' with values from the log normal dist (mean: 2, stddev: 1)
         runs_control.setPropertyLogNormalRandom<double>("random_double", 2.0, 1.0);
         
+        // Initialise environment property array 'int_array_3' with [1, 3, 5]
+        runs_control.setProperty<int, 3>("int_array_3", {1, 3, 5});
+        
         // Iterate vector to manually assign properties
         for (RunPlan &plan:runs_control) {
             // e.g. manually set all 'manual_float' to 32
@@ -103,12 +106,17 @@ It is also possible to specify subdirectories for a particular runs' logging out
     runs_control.setRandomSimulationSeed(12, 1)
     # Initialise environment property 'lerp_float' with values uniformly distributed between 1 and 128
     runs_control.setPropertyUniformDistributionFloat("lerp_float", 1.0, 128.0)
+    
     # Initialise environment property 'random_int' with values uniformly distributed in the range [0, 10]
     runs_control.setPropertyUniformRandomInt("random_int", 0, 10)
     # Initialise environment property 'random_float' with values from the normal dist (mean: 1, stddev: 2)
     runs_control.setPropertyNormalRandomFloat("random_float", 1.0, 2.0)
     # Initialise environment property 'random_double' with values from the log normal dist (mean: 2, stddev: 1)
     runs_control.setPropertyLogNormalRandomDouble("random_double", 2.0, 1.0)
+    
+    # Initialise environment property array 'int_array_3' with [1, 3, 5]
+    runs_control.setPropertyArrayInt("int_array_3", (1, 3, 5))
+    
     # Iterate vector to manually assign properties
     for plan in runs_control:
         # e.g. manually set all 'manual_float' to 32

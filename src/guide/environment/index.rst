@@ -63,10 +63,10 @@ The type, name and initial value of the property are all specified, array proper
     # Declare an int property named 'foo', with a default value 12
     env.newPropertyInt("foo", 12)
     # Declare a float array property of length 3 named 'bar', with a default value [4.0, 5.0, 6.0]
-    env.newPropertyArrayFloat("bar", 3, [4.0, 5.0, 6.0])
+    env.newPropertyArrayFloat("bar", [4.0, 5.0, 6.0])
 
 .. note::
-  Under the C/C++ API, the type and array length arguments are specified via template args. Under the Python API, the type is included in the method's identifier, and the array length is passed as an argument to the function. This pattern is a consistent difference between the two APIs.
+  Under the C/C++ API, the type and array length arguments are specified via template args. Under the Python API, the type is included in the method's identifier, and the array length is normally not required to be explicitly specified. This pattern is a consistent difference between the two APIs, however code in agent functions follow the C/C++ format.
 
 .. note:
   
