@@ -203,8 +203,12 @@ You may also wish to specify your own defaults, by setting the values prior to c
     flamegpu::CUDAEnsemble ensemble(model);
     
     // Override config defaults
+    ensemble.Config().out_directory = "results";
+    ensemble.Config().out_format = "json";
     ensemble.Config().concurrent_runs = 1;
     ensemble.Config().timing = true;
+    ensemble.Config().error_level = CUDAEnsemble::EnsembleConfig::Fast;
+    ensemble.Config().devices = {0};
     
     // Handle any runtime args 
     // If this is instead performed before overriding defaults, overridden args will be ignored from command line
@@ -226,8 +230,12 @@ You may also wish to specify your own defaults, by setting the values prior to c
     ensemble = pyflamegpu.CUDAEnsemble(model);
     
     # Override config defaults
+    ensemble.Config().out_directory = "results"
+    ensemble.Config().out_format = "json"
     ensemble.Config().concurrent_runs = 1
-    ensemble.Config().timing = true
+    ensemble.Config().timing = True
+    ensemble.Config().error_level = pyflamegpu.CUDAEnsembleConfig.Fast
+    ensemble.Config().devices = pyflamegpu.IntSet([0])
     
     # Handle any runtime args 
     # If this is instead performed before overriding defaults, overridden args will be ignored from command line
