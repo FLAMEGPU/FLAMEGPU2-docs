@@ -248,9 +248,6 @@ You may also wish to specify your own defaults, by setting the values prior to c
     # Execute the ensemble using the specified RunPlans
     errs = ensemble.simulate(runs)
     
-.. note ::
-  At current :class:`CUDASimulation<flamegpu::CUDASimulation>` differs to :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>`, it is not currently possible to specify your own defaults for the :class:`CUDASimulation<flamegpu::CUDASimulation>` command line interface. Calling :func:`initialise()<flamegpu::Simulation::initialise>` resets the configuration before parsing command line arguments. `(issue) <https://github.com/FLAMEGPU/FLAMEGPU2/issues/755>`_
-  
 Error Handling Within Ensembles
 -------------------------------
 
