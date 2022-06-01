@@ -25,6 +25,8 @@ n/a                     ``--help``                 ``-h``             Print help
 
 In order for the command line arguments to be processed ``argc`` and ``argv`` (Python: ``argv`` only) must be passed to :func:`initialise()<flamegpu::Simulation::initialise>`.
 
+You may also wish to specify your own defaults, by setting the values prior to calling :func:`initialise()<flamegpu::Simulation::initialise>`:
+
 .. tabs::
 
   .. code-tab:: cpp C++
@@ -35,6 +37,9 @@ In order for the command line arguments to be processed ``argc`` and ``argv`` (P
         
         // Create a simulation object from the model
         flamegpu::CUDASimulation simulation(model);
+        
+        // Change the default config
+        simulation.SimulationConfig().random_seed = 12;
         
         // Initialise the model with the supplied command line parameters
         simulation.initialise(argc, argv);
@@ -51,6 +56,9 @@ In order for the command line arguments to be processed ``argc`` and ``argv`` (P
 
     # Create a simulation object from the model
     simulation = pyflamegpu.CUDASimulation(model)
+        
+    # Change the default config
+    simulation.SimulationConfig().random_seed = 12;
     
     # Initialise the model with the supplied command line parameters
     simulation.initialise(sys.argv)
@@ -60,10 +68,6 @@ In order for the command line arguments to be processed ``argc`` and ``argv`` (P
 
 
 To configure the simulation in code the variables must be updated via the :class:`Simulation::Config<flamegpu::Simulation::Config>` and :class:`CUDASimulation::Config<flamegpu::CUDASimulation::Config>` structures, these are accessed via :func:`SimulationConfig()<flamegpu::Simulation::SimulationConfig>` and :func:`CUDAConfig()<flamegpu::CUDASimulation::CUDAConfig>` respectively on the :class:`CUDASimulation<flamegpu::CUDASimulation>` instance. Subsequently :func:`applyConfig()<flamegpu::Simulation::applyConfig>` must be called, to implement any changes to the configuration.
-
-
-.. note ::
-  At current, unlike :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>`, it is not possible to configure defaults to the :class:`CUDASimulation<flamegpu::CUDASimulation>` command line interface. Calling :func:`initialise()<flamegpu::Simulation::initialise>` resets the configuration before parsing command line arguments. `(issue) <https://github.com/FLAMEGPU/FLAMEGPU2/issues/755>`_
 
 .. tabs::
 
