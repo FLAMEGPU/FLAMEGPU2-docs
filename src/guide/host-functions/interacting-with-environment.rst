@@ -79,7 +79,7 @@ Environmental macro properties can be read via the returned :class:`HostMacroPro
         // Retrieve the environment macro property foo of type float
         const float foo = FLAMEGPU->environment.getMacroProperty<float>("foo");
         // Retrieve the environment macro property bar of type int array[3][3][3]
-        auto bar = FLAMEGPU->environment.getProperty<int, 3, 3, 3>("bar");
+        auto bar = FLAMEGPU->environment.getMacroProperty<int, 3, 3, 3>("bar");
         const int bar_1_1_1 = bar[1][1][1];
     }
 
@@ -91,7 +91,7 @@ Environmental macro properties can be read via the returned :class:`HostMacroPro
         # Retrieve the environment macro property foo of type float
         foo = FLAMEGPU->environment.getMacroPropertyFloat("foo");
         # Retrieve the environment macro property bar of type int array[3][3][3]
-        bar = FLAMEGPU.environment.getPropertyInt("bar");
+        bar = FLAMEGPU.environment.getMacroPropertyInt("bar");
         bar_1_1_1 = bar[1][1][1];
 
 Macro properties in host functions are designed to behave as closely to their representative data type as possible. So most assignment and arithmetic operations should behave as expected.
@@ -109,8 +109,10 @@ Below are several examples of how environment macro properties can be updated in
   
     // Define an host function called write_env_hostfn
     FLAMEGPU_HOST_FUNCTION(write_env_hostfn) {
+        // Retrieve the environment macro property foo of type float
+        auto foo = FLAMEGPU->environment.getMacroProperty<float>("foo");
         // Retrieve the environment macro property bar of type int array[3][3][3]
-        auto bar = FLAMEGPU->environment.getProperty<int, 3, 3, 3>("bar");
+        auto bar = FLAMEGPU->environment.getMacroProperty<int, 3, 3, 3>("bar");
         // Update some of the values
         foo = 12.0f;
         bar[0][0][0]+= 1;
@@ -126,7 +128,7 @@ Below are several examples of how environment macro properties can be updated in
       # Retrieve the environment macro property foo of type float
       foo = FLAMEGPU->environment.getMacroPropertyFloat("foo");
       # Retrieve the environment macro property bar of type int array[3][3][3]
-      bar = FLAMEGPU.environment.getPropertyInt("bar");
+      bar = FLAMEGPU.environment.getMacroPropertyInt("bar");
       # Update some of the values
       # foo = 12.0; is not allowed
       foo.set(12.0);
