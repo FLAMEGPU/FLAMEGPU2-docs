@@ -136,6 +136,9 @@ Below are several examples of how environment macro properties can be updated in
       bar[0][0][0]+= 1;
       bar[0][1][0] = 5;
       bar[0][0][2]+= 1; # Python does not allow the increment operator to be overridden
+      
+.. warning::
+  Be careful when using :class:`HostMacroProperty<flamegpu::HostMacroProperty>` via the C++ API. When you retrieve an element e.g. ``bar[0][0][0]`` (from the example above), it is of type :class:`HostMacroProperty<flamegpu::HostMacroProperty>` not ``int``. Therefore you cannot pass it directly to functions which take generic arguments such as ``printf()``, as it will be interpreted incorrectly. You must either store it in a variable of the correct type which you instead pass, or explicitly cast it to the correct type when passing it e.g. ``(int)bar[0][0][0]`` or ``static_cast<int>(bar[0][0][0])``.
     
 Related Links
 -------------
