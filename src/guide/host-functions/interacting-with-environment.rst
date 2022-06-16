@@ -11,7 +11,7 @@ The :class:`HostEnvironment<flamegpu::HostEnvironment>` instance can be accessed
 Environment Properties
 ----------------------
 
-Host functions can both read and update environment properties using :func:`setProperty()<flamegpu::HostEnvironment::setProperty>` and :func:'getProperty()<flamegpu::HostEnvironment::getProperty>' respectively.
+Host functions can both read and update environment properties using :func:`setProperty()<flamegpu::HostEnvironment::setProperty>` and :func:`getProperty()<flamegpu::HostEnvironment::getProperty>` respectively.
 
 Unlike agent functions, host functions are able to access environment property arrays in a single transaction, rather than individually accessing each element. Otherwise, the syntax matches that found in agent functions.
 
