@@ -945,6 +945,7 @@ If you have included the visualisation, however wish to block it from running yo
 If you wish to continue learning with the Circles model try one of these extensions:
 
 * Extend the model to operate in 3D.
+* Extend the model to operate in a wrapped 2D (toroidal) environment.
 * Extend the visualisation to colour agents according to their ``drift`` variable, or number of messages read.
 * Extend the model by giving agents a weight that affects the force they apply/receive to/from other agents.
 

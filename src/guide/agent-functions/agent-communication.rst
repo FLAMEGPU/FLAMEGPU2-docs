@@ -119,6 +119,10 @@ Spatial Messaging
 
 If you are using :class:`MessageSpatial2D<flamegpu::MessageSpatial2D>` or :class:`MessageSpatial3D<flamegpu::MessageSpatial3D>` then your message type will automatically have ``float`` variables ``x``, ``y`` (and ``z`` for 3D) added to the message. These correspond to the message's spatial location and must be set in your agent function. 
 
+.. note::
+
+  If spatial messages will be accessed via the wrapped iterator, all messages must be output within the environment bounds defined for the message list. Accessing out of bounds messages with the wrapped iterator is undefined behaviour. 
+
 .. tabs::
 
     .. code-tab:: cuda Agent C++
@@ -146,6 +150,7 @@ If you are using :class:`MessageSpatial2D<flamegpu::MessageSpatial2D>` or :class
           # Set any tertiary message variables
           pyflamegpu.message_out.setVariableInt("count", pyflamegpu.getVariableInt("count"))
           return pyflamegpu.ALIVE
+
 
 Array Messaging
 ===============
@@ -291,13 +296,29 @@ If an invalid bucket key is specified (based on the bounds provided when the mes
 
 Spatial Messaging
 =================
-If you are using one of the spatial messaging strategies, you will also need to supply the x, y (and z) coordinates of the agent, or the central location about which you wish to access messages.
+If you are using one of the spatial messaging strategies, you will need to supply the x, y (and z) coordinates of the agent, or the central location about which you wish to access messages.
+
+Spatial messaging has two available iterators.
+
+================================= =============================================== ==================================
+Iterator                          Usage                                           API Docs
+================================= =============================================== ==================================
+Spatial Neighbourhood               ``FLAMEGPU->message_in(<arguments>)``           :func:`2D<flamegpu::MessageSpatial2D::In::operator()>`, :func:`3D<flamegpu::MessageSpatial3D::In::operator()>`
+Wrapped Spatial Neighbourhood       ``FLAMEGPU->message_in.wrap(<arguments>)``      :func:`2D<flamegpu::MessageSpatial2D::In::wrap()>`, :func:`3D<flamegpu::MessageSpatial3D::In::wrap()>`
+================================= =============================================== ==================================
+
+The regular spatial neighbourhood does not wrap the environment bounds and is the easiest to use. Whereas the wrapped spatial neighbourhood will also return messages that would be in bounds were the environment tiled with itself. Correctly deploying a wrapped continuous space model can be challenging, as the modeller is responsible for ensuring that each agent remains within the environment by wrapping their location
 
 Spatial messaging will return all messages within the radius specified at the model description time, however it can also return some messages which fall outside of this radius. So it is important that messages are distance checked to ensure they fall within the radius.
 
+
+.. note::
+  When spatial messages will be accessed via the wrapped iterator, all messages locations must be within the environment bounds defined for the message list. Accessing out of bounds messages with the wrapped iterator is undefined behaviour. 
+  If using ``SEATBELTS`` error checking an error may be raised whilst using the wrapped iterator if an out of bounds message is read.
+
 .. tabs::
 
-    .. code-tab:: cuda Agent C++
+    .. code-tab:: cuda Agent C++ (Spatial)
 
       // Define an agent function, "inputdata" which has accepts an input message using the "MessageSpatial3D" communication strategy
       FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageSpatial3D, flamegpu::MessageNone) {
@@ -316,7 +337,7 @@ Spatial messaging will return all messages within the radius specified at the mo
               float x21 = x2 - x1;
               float y21 = y2 - y1;
               float z21 = z2 - z1;
-              const float separation = cbrt(x21*x21 + y21*y21 + z21*z21);
+              const float separation = sqrt(x21*x21 + y21*y21 + z21*z21);
               if (separation < RADIUS && separation > 0.0f) {
                   // Process the message's variables e.g.
                   // const T var = message.getVariable<T>(...);
@@ -326,7 +347,7 @@ Spatial messaging will return all messages within the radius specified at the mo
           ...
       }
 
-    .. code-tab:: py Agent Python
+    .. code-tab:: py Agent Python (Spatial)
 
       # Define an agent function, "inputdata" which has an input message using the "MessageSpatial3D" communication strategy
       @pyflamegpu.agent_function
@@ -346,15 +367,69 @@ Spatial messaging will return all messages within the radius specified at the mo
               x21 = x2 - x1
               y21 = y2 - y1
               z21 = z2 - z1
-              separation = math.cbrt(x21*x21 + y21*y21 + z21*z21)
+              separation = math.sqrt(x21*x21 + y21*y21 + z21*z21)
               if separation < RADIUS and separation > 0 :
                   # Process the message's variables e.g.
                   # var = message.getVariableInt(...)
                   ...
           ...
       
-.. note::
-    Spatial messaging does not return messaging wrapping the environment bounds.
+    .. code-tab:: cuda Agent C++ (Spatial Wrapped)
+
+      // Define an agent function, "inputdata" which has accepts an input message using the "MessageSpatial3D" communication strategy
+      FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageSpatial3D, flamegpu::MessageNone) {
+          const float RADIUS = FLAMEGPU->message_in.radius();
+          // Get this agent's x, y, z variables
+          const float x = FLAMEGPU->getVariable<float>("x");
+          const float y = FLAMEGPU->getVariable<float>("y");
+          const float z = FLAMEGPU->getVariable<float>("z");
+          
+          // For each message in the message list which was output by a nearby agent
+          for (const auto& message : FLAMEGPU->message_in.wrap(x, y, z)) {
+              const float x2 = message.getVirtualX();
+              const float y2 = message.getVirtualY();
+              const float z2 = message.getVirtualZ();
+              // Calculate the distance to check the message is in range
+              float x21 = x2 - x1;
+              float y21 = y2 - y1;
+              float z21 = z2 - z1;
+              const float separation = sqrt(x21*x21 + y21*y21 + z21*z21);
+              if (separation < RADIUS && separation > 0.0f) {
+                  // Process the message's variables e.g.
+                  // const T var = message.getVariable<T>(...);
+                  ...
+              }
+          }
+          ...
+      }
+
+    .. code-tab:: py Agent Python (Spatial Wrapped)
+
+      # Define an agent function, "inputdata" which has an input message using the "MessageSpatial3D" communication strategy
+      @pyflamegpu.agent_function
+      def inputdata(message_in: pyflamegpu.MessageSpatial3D, message_out: pyflamegpu.MessageNone):
+          RADIUS = pyflamegpu.message_in.radius()
+          # Get this agent's x, y, z variables
+          x = pyflamegpu.getVariableFloat("x")
+          y = pyflamegpu.getVariableFloat("y")
+          z = pyflamegpu.getVariableFloat("z")
+          
+          # For each message in the message list which was output by a nearby agent
+          for message in pyflamegpu.message_in. wrap(x, y, z):
+              x2 = message.getVirtualX()
+              y2 = message.getVirtualY()
+              z2 = message.getVirtualZ()
+              # Calculate the distance to check the message is in range
+              x21 = x2 - x1
+              y21 = y2 - y1
+              z21 = z2 - z1
+              separation = math.sqrt(x21*x21 + y21*y21 + z21*z21)
+              if separation < RADIUS and separation > 0 :
+                  # Process the message's variables e.g.
+                  # var = message.getVariableInt(...)
+                  ...
+          ...
+      
 
 Array Messaging
 ===============
