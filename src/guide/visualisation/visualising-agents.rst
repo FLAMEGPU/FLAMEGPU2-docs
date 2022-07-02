@@ -33,9 +33,11 @@ Model Name             Description
 ====================== ========================================================
 ``SPHERE``             A sphere constructed from slices and segments
 ``ICOSPHERE``          A lower-poly sphere constructed from triangles
-``CUBE``               A simple 12-poly cube.
+``CUBE``               A simple 12-poly cube
 ``TEAPOT``             The traditional graphics example model, Utah teapot
 ``STUNTPLANE``         A low-poly model of a plane, useful for representing agents with rotation in all 3 planes
+``PYRAMID``            A 4-poly equilateral triangular pyramid
+``ARROWHEAD``          A 4-poly triangular pyramid for indicating 3D orientation
 ====================== ========================================================
 
 Examples of setting the agent model are shown below
