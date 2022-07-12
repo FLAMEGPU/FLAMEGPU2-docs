@@ -60,7 +60,7 @@ Example definition of how the above agent function condition would be attached t
       # Only agents that pass function condition 'x_is_1' may execute the function and transition
       af1.setRTCFunctionCondition(x_is_1_source)
       
-.. note:
+.. note::
   
     If you wish to store RTC agent function conditions in separate files :func:`setRTCFunctionCondition()<flamegpu::AgentFunctionDescription::setRTCFunctionCondition>` can be replaced with :func:`setRTCFunctionConditionFile()<flamegpu::AgentFunctionDescription::setRTCFunctionConditionFile>`, instead passing the path to the agent function conditions source file (relative to the working directory at runtime). This will allow them to be developed in a text editor with C++/CUDA syntax highlighting.
       

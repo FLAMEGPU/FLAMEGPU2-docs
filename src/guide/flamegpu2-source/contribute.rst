@@ -61,7 +61,7 @@ As detailed within the main `README <https://github.com/FLAMEGPU/FLAMEGPU2/blob/
 
 This can be executed using ``make lint_all`` or building the ``lint_all`` project.
 
-.. Note::
+.. note::
    If adding new files, they will first need to be added to ``CMakeLists.txt`` and CMake configure re-ran.
 
 Updating CMakeLists.txt
