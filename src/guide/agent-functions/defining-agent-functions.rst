@@ -72,7 +72,7 @@ When using the Run-Time Compiled (RTC) functions, optionally in the C++ API or r
 
     ...
     
-.. note:
+.. note::
 
     If you wish to store RTC agent functions in separate files :func:`newRTCFunction()<flamegpu::AgentDescription::newRTCFunction>` can be replaced with :func:`newRTCFunctionFile()<flamegpu::AgentDescription::newRTCFunctionFile>`, instead passing the path to the agent function's source file (relative to the working directory at runtime). This will allow them to be developed in a text editor with C++/CUDA syntax highlighting.
 

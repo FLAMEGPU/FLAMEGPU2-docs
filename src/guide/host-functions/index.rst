@@ -21,5 +21,5 @@ This chapter has been broken up into several sections:
    random-numbers.rst
    miscellaneous.rst
 
-.. note:
+.. note::
   Currently **custom** reductions and transformations of agent variables are not supported via the Python API.

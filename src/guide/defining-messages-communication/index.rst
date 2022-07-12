@@ -64,7 +64,7 @@ This function works similarly to that previously introduced for defining agent v
       # Add a variable of type "float" with name "bar" to the "bf_message" type
       bf_message.newVariableFloat("bar")
 
-.. note:
+.. note::
   
   Variable names must not begin with ``_``, this is reserved for internal variables.
 

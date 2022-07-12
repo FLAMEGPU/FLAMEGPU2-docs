@@ -61,7 +61,7 @@ The type and name the variables must be specified, array variables additionally 
     predator.newVariableArrayFloat("foobar", 3, [4.0, 5.0, 6.0])
 
 
-.. note:
+.. note::
   
   Variable names must not begin with ``_``, this is reserved for internal variables.
 
