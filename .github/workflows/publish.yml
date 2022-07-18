@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       build_api_docs: "ON"
+      python: "3.9"
     steps:
     # Chekout this repository into specified path
     - name: Checkout FLAMEGPU2/FLAMEGPU2-docs
@@ -36,7 +37,13 @@ jobs:
       if: env.build_api_docs == 'ON'
       run: sudo apt -y install doxygen
 
-    # Install pythoon dependencies via pip into a venv
+    - name: Select Python
+      if: ${{ env.python != '' }} 
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ env.python }}
+
+    # Install python dependencies via pip into a venv
     - name: Install python packages
       working-directory: FLAMEGPU2-docs
       run: |
