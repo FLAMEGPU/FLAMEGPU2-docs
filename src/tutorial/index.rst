@@ -100,7 +100,7 @@ FLAME GPU 2 uses CMake to manage the build process, so we use CMake to generate 
 
 The basic commands required differ slightly between Linux and Windows, however in both cases they should be executed in the directory which the template was cloned into:
 
-*A more detailed guide, regarding building FLAME GPU 2 from source can be found :ref:`here<q-compiling flamegpu>`.*
+A more detailed guide, regarding building FLAME GPU 2 from source can be found :ref:`here<q-compiling flamegpu>`.
 
 .. tabs::
 
