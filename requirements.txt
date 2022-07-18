@@ -1,6 +1,6 @@
-sphinx >=2.0,< 4.1.0 # https://github.com/sphinx-doc/sphinx/issues/9433, https://github.com/michaeljones/breathe/pull/711
-breathe >= 4.13.0
-docutils == 0.16
+sphinx >= 5.0
+breathe >= 4.31.0
+docutils
 exhale
 sphinx_rtd_theme
 sphinx_tabs

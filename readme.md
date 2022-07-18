@@ -12,11 +12,11 @@ The FLAME GPU 2 userguide and API docs can be found at [docs.flamegpu.com](https
 ## Requirements
 
 * [CMake](https://cmake.org/)
-* [Python3](https://www.python.org/downloads/)
+* [Python3](https://www.python.org/downloads/) `>= 3.7`
 * [Graphviz](https://graphviz.org/)
-* Python Packages:
-  * [Sphinx](http://www.sphinx-doc.org/en/master/) >= 2.0, < 4.1.0
-  * [Breathe](https://breathe.readthedocs.io/en/latest/) >= 4.13.0
+* Python Packages (see `requirements.txt`):
+  * [Sphinx](http://www.sphinx-doc.org/en/master/)
+  * [Breathe](https://breathe.readthedocs.io/en/latest/)
   * [Exhale](https://exhale.readthedocs.io/en/latest/)
   * [sphinx_rtd_theme](https://sphinx-rtd-theme.readthedocs.io/en/stable/)
 
