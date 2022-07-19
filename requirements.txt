@@ -1,5 +1,5 @@
 sphinx >= 5.0
-breathe >= 4.31.0
+breathe >= 4.34.0
 docutils
 exhale
 sphinx_rtd_theme
