@@ -8,8 +8,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        python:
+          - '3.x'
+          - '3.10'
+          # - '3.9'
+          # - '3.8'
+          - '3.7'
     env:
       build_api_docs: "ON"
+      python: ${{ matrix.python }}
     steps:
     - name: Checkout FLAMEGPU2/FLAMEGPU2-docs
       uses: actions/checkout@v2
@@ -31,6 +41,12 @@ jobs:
     - name: Install doxygen
       if: env.build_api_docs == 'ON'
       run: sudo apt -y install doxygen
+
+    - name: Select Python
+      if: ${{ env.python != '' }} 
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ env.python }}
 
     - name: Install python packages
       working-directory: FLAMEGPU2-docs
