@@ -37,6 +37,8 @@ For compile time (i.e. non-RTC functions), when using the C++ API, the :c:macro:
         // ...
     }
 
+.. _Runtime Compiled Agent Functions:
+
 C++ and Python Runtime Compiled Agent Functions
 -----------------------------------------------
 
