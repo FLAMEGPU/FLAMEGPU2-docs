@@ -18,6 +18,6 @@ This user guide provides a clear introduction to the core features of FLAME GPU 
    running-a-simulation/index.rst
    running-multiple-simulations/index.rst
    visualisation/index.rst
+   debugging-models/index.rst
    performance-troubleshooting/index.rst
    flamegpu2-source/index.rst
-   seatbelts/index.rst

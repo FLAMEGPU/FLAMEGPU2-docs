@@ -49,6 +49,19 @@ set(DOCS_SRC_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/agent-functions/modifying-agent-variables.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/agent-functions/random-numbers.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/creating-a-model/index.rst"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/debugging-models/index.rst"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/debugging-models/logging.rst"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/debugging-models/NB_cycle_stages_6x512.png"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/debugging-models/NB_living_countx512.png"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/debugging-models/NB_MYCNx512.png"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/debugging-models/NB_telo_countx512.png"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/debugging-models/print.rst"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/debugging-models/seatbelts.rst"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/debugging-models/using-a-debugger.rst"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/debugging-models/visual_studio_attach_to_process_dialog.png"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/debugging-models/visual_studio_build_config.png"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/debugging-models/visual_studio_startup_project.png"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/debugging-models/visual_studio_start_debugger.png"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/defining-agents/index.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/defining-execution-order/dependency-graph.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/defining-execution-order/exit-conditions.rst"
@@ -74,7 +87,6 @@ set(DOCS_SRC_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/running-a-simulation/index.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/running-a-simulation/initial-state.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/running-multiple-simulations/index.rst"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/seatbelts/index.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/visualisation/ui-full.png"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/visualisation/ui-collapsed.png"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/visualisation/adding-details.rst"
@@ -107,8 +119,8 @@ foreach(SRC_FILE IN LISTS DOCS_SRC_FILES)
     add_custom_command(
         OUTPUT  ${BUILD_SRC_FILE}
         DEPENDS ${SRC_FILE} ${CMAKE_CURRENT_BINARY_DIR}/src/index.rst
-        COMMAND ${CMAKE_COMMAND} -E copy ${SRC_FILE} ${BUILD_SRC_FILE}
-        COMMENT "Copying ${SRC_FILE} to ${BUILD_SRC_FILE}"
+        COMMAND ${CMAKE_COMMAND} -E copy "\"${SRC_FILE}\"" "\"${BUILD_SRC_FILE}\""
+        COMMENT "Copying '${SRC_FILE}' to '${BUILD_SRC_FILE}'"
     )
     list(APPEND BUILD_SRC_DEPENDS "${BUILD_SRC_FILE}")
     unset(BUILD_SRC_FILE)
