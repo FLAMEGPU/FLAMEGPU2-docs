@@ -64,7 +64,9 @@ if(FLAMEGPU2_FOUND AND DOXYGEN_FOUND)
         BYPRODUCTS ${EXHALE_CONTAINMENT_FOLDER_ABS} ${SPHINX_BUILD}
         )
     # Make Sphinx target depend on Doxygen target
-    add_dependencies(userguide api_docs_xml)
+    if(${BUILD_API_DOCUMENTATION})
+        add_dependencies(userguide api_docs_xml)
+    endif()
 else()
     # Set the var used when generating conf.py to disable breathe/exhale 
     set(USE_BREATHE_EXHALE "False")
