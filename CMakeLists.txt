@@ -37,7 +37,7 @@ file(RELATIVE_PATH RELPATH_CONFIG_TO_STATIC "${SPHINX_CONFIG_DIR}" "${SPHINX_SOU
 set(EXHALE_CONTAINMENT_FOLDER_ABS "${SPHINX_SOURCE}/api")
 file(RELATIVE_PATH EXHALE_CONTAINMENT_FOLDER "${SPHINX_CONFIG_DIR}" "${EXHALE_CONTAINMENT_FOLDER_ABS}")
 
-if(FLAMEGPU2_FOUND AND DOXYGEN_FOUND)
+if(FLAMEGPU2_FOUND AND DOXYGEN_FOUND AND ${BUILD_API_DOCUMENTATION})
     # Set the var used when generating conf.py to enable breathe/exhale 
     set(USE_BREATHE_EXHALE "True")
     # Decide path to temp store the xml output, used in conf.py generation.
@@ -50,11 +50,8 @@ if(FLAMEGPU2_FOUND AND DOXYGEN_FOUND)
         @ONLY
     )
 
-    # Disabling this setting might break stuff
-    if(${BUILD_API_DOCUMENTATION})
-        # Create Doxygen target 'userguide_docs_xml'
-        create_doxygen_target("${FLAMEGPU_ROOT}" "${CMAKE_CURRENT_BINARY_DIR}" "${API_DOCS_XML_PATH}")
-    endif()
+    # Create Doxygen target 'userguide_docs_xml'
+    create_doxygen_target("${FLAMEGPU_ROOT}" "${CMAKE_CURRENT_BINARY_DIR}" "${API_DOCS_XML_PATH}")
     # Create Sphinx target
     add_custom_target(userguide ALL
         COMMAND ${SPHINX_EXECUTABLE} -b html
@@ -64,9 +61,7 @@ if(FLAMEGPU2_FOUND AND DOXYGEN_FOUND)
         BYPRODUCTS ${EXHALE_CONTAINMENT_FOLDER_ABS} ${SPHINX_BUILD}
         )
     # Make Sphinx target depend on Doxygen target
-    if(${BUILD_API_DOCUMENTATION})
-        add_dependencies(userguide api_docs_xml)
-    endif()
+    add_dependencies(userguide api_docs_xml)
 else()
     # Set the var used when generating conf.py to disable breathe/exhale 
     set(USE_BREATHE_EXHALE "False")
