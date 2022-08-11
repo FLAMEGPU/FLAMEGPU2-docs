@@ -13,7 +13,7 @@ Welcome to FLAME GPU 2's documentation!
    tutorial/index.rst
    quickstart/index.rst
    guide/index.rst
-   api/library_root
+   @API_TOC_PATH@
    Forum <https://github.com/FLAMEGPU/FLAMEGPU2/discussions>
 
 
