@@ -5,6 +5,7 @@ Defining Messages (Communication)
 
 Communication between agents in FLAME GPU is handled through messages. Messages contain variables which are used to transmit information between agents. Agents may output a single message from an agent function, subsequent agent functions can then be configured to access messages of the same type according to the message's communication strategy.
 
+.. _Communication Strategies:
 
 Communication Strategies
 ^^^^^^^^^^^^^^^^^^^^^^^^

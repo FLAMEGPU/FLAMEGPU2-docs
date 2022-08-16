@@ -7,7 +7,7 @@ Agent function conditions are executed by all agents in the input state before t
 or ``false``. Agents which return ``true`` pass the condition and continue to execute the agent function and transition
 to the end state, agents which return ``false`` fail the condition, do not execute the agent function and remain in the input state.
 
-Agent function conditions are specified using the :c:macro:`FLAMEGPU_AGENT_FUNCTION_CONDITION`, this differs from the normal agent function macro as only the function condition name must be specified.
+Agent function conditions are specified using the :c:macro:`FLAMEGPU_AGENT_FUNCTION_CONDITION` in C++, this differs from the normal agent function macro as only the function condition name must be specified. Agent function conditions are not supported in the Python format (used for agent functions) but can be specified as C++ strings within the Python interface.
 
 Within agent function conditions a reduced read-only Device API, :class:`ReadOnlyDeviceAPI<flamegpu::ReadOnlyDeviceAPI>`, is available. This only permits reading agent variables, reading environment variables and random number generation.
 
@@ -15,7 +15,7 @@ Example definition of an agent function condition:
 
 .. tabs::
 
-  .. code-tab:: cuda CUDA C++
+  .. code-tab:: cuda Agent C++
 
       // This agent function condition only allows agents who's 'x' variable equals '1' to progress
       FLAMEGPU_AGENT_FUNCTION_CONDITION(x_is_1) {

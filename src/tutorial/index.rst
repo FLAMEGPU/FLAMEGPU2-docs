@@ -169,27 +169,28 @@ Before the model description, we will also define two (constant) variables, to d
 
   .. code-tab:: cpp C++
 
-    #include "flamegpu/flamegpu.h"
+    ...
+    // All code examples are assumed to be implemented within a main function.
+    // E.g. int main(int argc, const char *argv[])
+
+    // Define some useful constants
+    const unsigned int AGENT_COUNT = 16384;
+    const float ENV_WIDTH = static_cast<float>(floor(cbrt(AGENT_COUNT)));
     
-    int main(int argc, const char **argv) {
-        // Define some useful constants
-        const unsigned int AGENT_COUNT = 16384;
-        const float ENV_WIDTH = static_cast<float>(floor(cbrt(AGENT_COUNT)));
-        
-        // Define the FLAME GPU model
-        flamegpu::ModelDescription model("Circles Tutorial");
-    }
+    // Define the FLAME GPU model
+    flamegpu::ModelDescription model("Circles Tutorial");
+    ...
 
   .. code-tab:: py Python
 
-    import pyflamegpu
-    
+    ...
     # Define some useful constants
     AGENT_COUNT = 16384
     ENV_WIDTH = int(AGENT_COUNT**(1/3))
 
     # Define the FLAME GPU model
     model = pyflamegpu.ModelDescription("Circles Tutorial")
+    ...
 
 
 Message Description
@@ -209,7 +210,7 @@ In order to create a :class:`MessageSpatial2D::Description<flamegpu::MessageSpat
 
 .. note::
   
-    The Python interface does not support C++'s templates and nested classes so there are differences in naming style. In almost all cases the template argument is simply appended to the name.
+    The Python interface does not support C++'s templates and nested classes so there are differences in naming style. :ref:`In almost all cases the template argument is simply appended to the name.<Python Types>`.
       
       
     .. list-table::
@@ -251,29 +252,23 @@ FLAME GPU provides a special type for agent IDs, this is referred to as :type:`f
 
   .. code-tab:: cpp C++
 
-    ...
-        // Define the FLAME GPU model
-        flamegpu::ModelDescription model("Circles Tutorial");
-                
-        {   // (optional local scope block for cleaner grouping)
-            // Define a message of type MessageSpatial2D named location
-            flamegpu::MessageSpatial2D::Description &message = model.newMessage<flamegpu::MessageSpatial2D>("location");
-            // Configure the message list
-            message.setMin(0, 0);
-            message.setMax(ENV_WIDTH, ENV_WIDTH);
-            message.setRadius(1.0f);
-            // Add extra variables to the message
-            // X Y (Z) are implicit for spatial messages
-            message.newVariable<flamegpu::id_t>("id");
-        }
+    ...          
+    {   // (optional local scope block for cleaner grouping)
+        // Define a message of type MessageSpatial2D named location
+        flamegpu::MessageSpatial2D::Description &message = model.newMessage<flamegpu::MessageSpatial2D>("location");
+        // Configure the message list
+        message.setMin(0, 0);
+        message.setMax(ENV_WIDTH, ENV_WIDTH);
+        message.setRadius(1.0f);
+        // Add extra variables to the message
+        // X Y (Z) are implicit for spatial messages
+        message.newVariable<flamegpu::id_t>("id");
     }
+    ...
 
   .. code-tab:: py Python
 
     ...
-    # Define the FLAME GPU model
-    model = pyflamegpu.ModelDescription("Circles Tutorial")
-    
     # Define a message of type MessageSpatial2D named location
     message = model.newMessageSpatial2D("location")
     # Configure the message list
@@ -283,7 +278,7 @@ FLAME GPU provides a special type for agent IDs, this is referred to as :type:`f
     # Add extra variables to the message
     # X Y (Z) are implicit for spatial messages
     message.newVariableID("id")
-    
+    ...
     
 
 Agent Description
@@ -302,17 +297,15 @@ The Circles model requires a location, so we can add three ``float`` variables t
   .. code-tab:: cpp C++
 
     ...
-            message.newVariable<flamegpu::id_t>("id");
-        }
         
-        // Define an agent named point
-        flamegpu::AgentDescription &agent = model.newAgent("point");
-        // Assign the agent some variables (ID is implicit to agents, so we don't define it ourselves)
-        agent.newVariable<float>("x");
-        agent.newVariable<float>("y");
-        agent.newVariable<float>("z");
-        agent.newVariable<float>("drift", 0.0f);
-    }
+    // Define an agent named point
+    flamegpu::AgentDescription &agent = model.newAgent("point");
+    // Assign the agent some variables (ID is implicit to agents, so we don't define it ourselves)
+    agent.newVariable<float>("x");
+    agent.newVariable<float>("y");
+    agent.newVariable<float>("z");
+    agent.newVariable<float>("drift", 0.0f);
+    ...
 
   .. code-tab:: py Python
 
@@ -326,7 +319,8 @@ The Circles model requires a location, so we can add three ``float`` variables t
     agent.newVariableFloat("y")
     agent.newVariableFloat("z")
     agent.newVariableFloat("drift", 0)
-    
+    ...
+
 We'll return to this block of code when we work on the agent functions.
 
 Environment Description
@@ -350,28 +344,25 @@ Additionally, we will add the two constants we defined earlier so that they are 
 
   .. code-tab:: cpp C++
 
+    ...       
+    {   // (optional local scope block for cleaner grouping)
+        // Define environment properties
+        flamegpu::EnvironmentDescription &env = model.Environment();
+        env.newProperty<unsigned int>("AGENT_COUNT", AGENT_COUNT);
+        env.newProperty<float>("ENV_WIDTH", ENV_WIDTH);
+        env.newProperty<float>("repulse", 0.05f);
+    }       
     ...
-        agent.newVariable<float>("drift", 0.0f);
-        
-        {   // (optional local scope block for cleaner grouping)
-            // Define environment properties
-            flamegpu::EnvironmentDescription &env = model.Environment();
-            env.newProperty<unsigned int>("AGENT_COUNT", AGENT_COUNT);
-            env.newProperty<float>("ENV_WIDTH", ENV_WIDTH);
-            env.newProperty<float>("repulse", 0.05f);
-        }       
-    }
 
   .. code-tab:: py Python
 
-    ...
-    agent.newVariableFloat("drift", 0)
-        
+    ...       
     # Define environment properties
     env = model.Environment()
     env.newPropertyUInt("AGENT_COUNT", AGENT_COUNT)
     env.newPropertyFloat("ENV_WIDTH", ENV_WIDTH)
     env.newPropertyFloat("repulse", 0.05)
+    ...
 
 
 Agent Function Description & Implementation
@@ -379,37 +370,36 @@ Agent Function Description & Implementation
 
 Now that we've defined the messages, agents and environment for the Circles model, it's time to implement the behaviours of our agents and make use of them.
 
-In FLAME GPU 2, agent functions are implemented using the :c:macro:`FLAMEGPU_AGENT_FUNCTION(name, input_message, output_message)<FLAMEGPU_AGENT_FUNCTION>` macro function. It is expanded by the compiler, to produce the full definition of an agent function (see it's API documentation for an example of it's expansion). However, for our usage we simply need to provide it three parameters; the function's name, the function's message input style and the function's message output style. Then the function can be implemented from this, with the macro call being treated as the function's prototype.
 
-We will start by implementing the agent function, whereby each agent outputs a message sharing their location.
+In FLAME GPU 2, agent functions can be implemented using the C++ :c:macro:`FLAMEGPU_AGENT_FUNCTION(name, input_message, output_message)<FLAMEGPU_AGENT_FUNCTION>` macro function. It is expanded by the compiler, to produce the full definition of an agent function (see it's API documentation for an example of it's expansion). However, for our usage we simply need to provide it three parameters; the function's name, the function's message input style and the function's message output style. Then the function can be implemented from this, with the macro call being treated as the function's prototype.
 
-We will name the function ``output_message`` (the name should not be wrapped in quotes), it does not have a message input so :class:`flamegpu::MessageNone` is used for the input message argument and we're outputting the spatial 2D message we defined above so :class:`flamegpu::MessageSpatial2D` is used for the output message argument.
+The C++ format of agent function description can be compiled at runtime by specifying the function as a C++ string. This enables models specified in Python to compile on the fly. Runtime compilation adds a small additional cost to the initial execution of an agent function, due to compilation. However, FLAME GPU caches compiled agent functions to remove this for repeated runs (if the agent function/model has not changed). 
+
+When using Python it is possible to specify agent functions using the C++ format as well as via a native Python (a subset of Python referred to as *Agent Python*) description which is shown in this tutorial. Agent functions in Python must be defined as having a ``@pyflamegpu.agent_function`` decorator and using the following syntax ``def outputdata(message_in: pyflamegpu.MessageNone, message_out: pyflamegpu.MessageNone):`` which includes the specification of the name and type (using type annotations) of the output and input message. The Python implementation will translate the Python to C++ at runtime prior to compilation through a process known as transpiling.
+
+To describe our behaviour, we will start by implementing the agent function, whereby each agent outputs a message sharing their location.
+
+We will name the function ``output_message`` (the name should not be wrapped in quotes), it does not have a message input so :class:`flamegpu::MessageNone` (``pyflamegpu.MessageNone`` in Agent Python) is used for the input message argument and we're outputting the spatial 2D message we defined above so :class:`flamegpu::MessageSpatial2D` (``pyflamegpu.MessageSpatial2D`` in Agent Python) is used for the output message argument.
 
 Following this, we can implement the agent function body. Agent functions are provided a single input argument, ``FLAMEGPU`` which is a pointer to the :class:`DeviceAPI<flamegpu::DeviceAPI>`, this object provides access to all available FLAME GPU features (agent variables, message input/output, environment properties, agent output, random) within agent functions.
 
 To implement the output message agent function we need to read the agents location (``"x"``, ``"y"``) variables and ID, and then set the message's location and ``"id"`` variable.
 
-To read an agent's variables the :func:`FLAMEGPU->getVariable()<template<typename T, unsigned int N> __device__ T flamegpu::DeviceAPI::getVariable(const char(&)[N]) const>` function is used. As you may expect by now, the variable's type must be passed as a template argument, and it's name is the only argument. To read an agent's ID, :func:`FLAMEGPU->getID()<flamegpu::DeviceAPI::getID>` is called, this special function requires no additional arguments.
+To read an agent's variables the :func:`FLAMEGPU->getVariable()<template<typename T, unsigned int N> __device__ T flamegpu::DeviceAPI::getVariable(const char(&)[N]) const>` function is used in C++. As you may expect by now, the variable's type must be passed as a template argument, and it's name is the only argument. To read an agent's ID, :func:`FLAMEGPU->getID()<flamegpu::DeviceAPI::getID>` is called, this special function requires no additional arguments. The Python implementation uses the same format of appending types to the function name. The functions are accessible via the ``pyflamegpu`` module. E.g. ``pyflamegpu.getVariableInt()`` for an ``int`` type.
 
-Functionality for the message output is accessed via ``FLAMEGPU->message_out``, this object is specialised depending on the output message type originally specified in the :c:macro:`FLAMEGPU_AGENT_FUNCTION<FLAMEGPU_AGENT_FUNCTION>` macro. The spatial 2D specialisation, :class:`flamegpu::MessageSpatial2D::Out`, has two available functions; :func:`setVariable()<template<typename T, unsigned int N> __device__ void flamegpu::MessageBruteForce::Out::setVariable(const char(&)[N], T) const>` which is common to all message output types, and :func:`setLocation()<flamegpu::MessageSpatial2D::Out::setLocation>` which takes two ``float`` arguments specifying the location of the message in 2D space.
+Functionality for the message output is accessed via ``FLAMEGPU->message_out`` (or named ``message_out`` variable in Agent Python), this object is specialised depending on the output message type originally specified in the :c:macro:`FLAMEGPU_AGENT_FUNCTION<FLAMEGPU_AGENT_FUNCTION>` macro (or via the Python type annotation). The spatial 2D specialisation, :class:`flamegpu::MessageSpatial2D::Out`, has two available functions; :func:`setVariable()<template<typename T, unsigned int N> __device__ void flamegpu::MessageBruteForce::Out::setVariable(const char(&)[N], T) const>` which is common to all message output types, and :func:`setLocation()<flamegpu::MessageSpatial2D::Out::setLocation>` which takes two ``float`` arguments specifying the location of the message in 2D space. The Python equivalents are of the same format as in other places (e.g. ``setVariableInt`` for the ``int`` type).
 
-Finally, all agent functions must return either :enumerator:`flamegpu::ALIVE<flamegpu::AGENT_STATUS::ALIVE>` or :enumerator:`flamegpu::DEAD<flamegpu::AGENT_STATUS::DEAD>`. Unless the agent function is specified to support agent death inside the :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription>` via :func:`setAllowAgentDeath()<flamegpu::AgentFunctionDescription::setAllowAgentDeath>`, :enumerator:`flamegpu::ALIVE<flamegpu::AGENT_STATUS::ALIVE>` should be returned. If :enumerator:`flamegpu::DEAD<flamegpu::AGENT_STATUS::DEAD>` is returned, without agent death being enabled, an exception will be raised if ``SEATBELTS`` error checking is enabled.
+Finally, all agent functions must return either :enumerator:`flamegpu::ALIVE<flamegpu::AGENT_STATUS::ALIVE>` or :enumerator:`flamegpu::DEAD<flamegpu::AGENT_STATUS::DEAD>` (``pyflamegpu.ALIVE`` or ``pyflamegpu.DEAD`` respectively in Agent Python). Unless the agent function is specified to support agent death inside the :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription>` via :func:`setAllowAgentDeath()<flamegpu::AgentFunctionDescription::setAllowAgentDeath>`, :enumerator:`flamegpu::ALIVE<flamegpu::AGENT_STATUS::ALIVE>` should be returned. If :enumerator:`flamegpu::DEAD<flamegpu::AGENT_STATUS::DEAD>` is returned, without agent death being enabled, an exception will be raised if ``SEATBELTS`` error checking is enabled.
 
-.. note ::
-    
-    FLAME GPUs Python API performs runtime compilation of the CUDA agent functions. Therefore, in contrast to the C++ API, agent functions must be written as Python strings.
-    
-    Runtime compilation adds a small additional cost to the initial execution of an agent function, due to compilation. However, FLAME GPU caches compiled agent functions to remove this for repeated runs (if the agent function/model has not changed).
     
 
 Below you can see how the message output function may be assembled. Normally, agent functions would be implemented near the top of the source file directly after any includes.
 
 .. tabs::
 
-  .. code-tab:: cpp C++
+  .. code-tab:: cpp Agent C++
 
-    #include "flamegpu/flamegpu.h"
-    
+    ...
     // Agent Function to output the agents ID and position in to a 2D spatial message list
     FLAMEGPU_AGENT_FUNCTION(output_message, flamegpu::MessageNone, flamegpu::MessageSpatial2D) {
         FLAMEGPU->message_out.setVariable<int>("id", FLAMEGPU->getID());
@@ -420,10 +410,9 @@ Below you can see how the message output function may be assembled. Normally, ag
     }
     ...
 
-  .. code-tab:: py Python
+  .. code-tab:: py Python with Agent C++
 
-    import pyflamegpu
-    
+    ...
     # Agent Function to output the agents ID and position in to a 2D spatial message list
     output_message = r"""
     FLAMEGPU_AGENT_FUNCTION(output_message, flamegpu::MessageNone, flamegpu::MessageSpatial2D) {
@@ -435,30 +424,40 @@ Below you can see how the message output function may be assembled. Normally, ag
     }
     """
     ...
+
+  .. code-tab:: py Agent Python
+
+    ...
+    # Agent Function to output the agents ID and position in to a 2D spatial message list
+    @pyflamegpu.agent_function
+    def output_message(message_in: pyflamegpu.MessageNone, message_out: pyflamegpu.MessageSpatial2D):
+        message_out.setVariableUInt("id", pyflamegpu.getID())
+        message_out.setLocation(
+            pyflamegpu.getVariableFloat("x"),
+            pyflamegpu.getVariableFloat("y"))
+        return pyflamegpu.ALIVE
+    ...
     
 Next the message input agent function is implemented, two new concepts are introduced here: the message input iterator and accessing environment properties.
 
 Each FLAME GPU message type provides unique methods for accessing messages, in this case we are using the :class:`MessageSpatial2D<flamegpu::MessageSpatial2D>` type. Refer to the :ref:`agent communication guide<Device Agent Communication>` for details of other messaging format's usage.
 
-The only way to access spatial messaging types is via an iterator, which returns all messages in a Moore neighbourhood about the provided search location. This means, that all messages within the originally specified search radius will be returned, however it is necessary for the user to filter out the small number of messages which fall outside of this radius that will also be returned. Furthermore, agent's will also be returned their own message, so may wish to filter out that too.
+The only way to access spatial messaging types is via an iterator, which returns all messages in a Moore neighbourhood (discretised by the message radius) about the provided search location. This means, that all messages within the originally specified search radius will be returned, however it is necessary for the user to filter out messages which are contained within the Moore neighbour but fall outside of this radius. Furthermore, agents will also receive their own message, so may wish to filter the messages by checking the originating agent's id.
 
-The spatial message iterator is accessed using :func:`FLAMEGPU->message_in()<flamegpu::MessageSpatial2D::In::operator()>`, this takes two ``float`` parameters specifying the search origin. Normally this will be passed directly to a C++ range-based for loop (e.g. ``or (const auto &message : FLAMEGPU->message_in(my_x, my_y)) {``), allowing the returned messages to be iterated.
+The spatial message iterator is accessed using :func:`FLAMEGPU->message_in()<flamegpu::MessageSpatial2D::In::operator()>` (or via the ``message_in`` agent function argument in Agent Python), this takes two ``float`` parameters specifying the search origin. Normally this will be passed directly to a C++ range-based for loop, allowing the returned messages to be iterated.
 
-In the case of :class:`MessageSpatial2D<flamegpu::MessageSpatial2D>`, the returned :class:`Message<flamegpu::MessageSpatial2D::In::Filter::Message>` objects only provide :func:`getVariable()<template<typename T, unsigned int N> __device__ T flamegpu::MessageSpatial2D::In::Filter::Message::getVariable(const char(&)[N]) const>` methods for returning the variables and array variables stored within the message.
+In the case of :class:`MessageSpatial2D<flamegpu::MessageSpatial2D>`, the returned :class:`Message<flamegpu::MessageSpatial2D::In::Filter::Message>` objects only provide :func:`getVariable()<template<typename T, unsigned int N> __device__ T flamegpu::MessageSpatial2D::In::Filter::Message::getVariable(const char(&)[N]) const>` methods for returning the variables and array variables stored within the message. The Python equivalent requires the type and array length to be appended to the function name (e.g. ``getVariableIntArray3(...)``).
 
-Accessing environment properties is very similar to accessing agent and message variables, :func:`getProperty()<template<typename T, unsigned int N> T flamegpu::ReadOnlyDeviceEnvironment::getProperty(const char(&)[N]) const>` is called on :class:`FLAMEGPU->environment<flamegpu::DeviceEnvironment>`.
+Accessing environment properties is very similar to accessing agent and message variables, :func:`getProperty()<template<typename T, unsigned int N> T flamegpu::ReadOnlyDeviceEnvironment::getProperty(const char(&)[N]) const>` is called on :class:`FLAMEGPU->environment<flamegpu::DeviceEnvironment>`. The Python equivalent requires the type and array length to be appended to the function name (e.g. ``getVariableIntArray3(...)``).
 
 The remainder of the Circles model's message input agent function contains some model specific maths, so you should simply use the code provided below. However, give it a thorough read to check you understand how the messages are being read.
 
 
 .. tabs::
 
-  .. code-tab:: cpp C++
+  .. code-tab:: cpp Agent C++
 
     ...
-        return flamegpu::ALIVE;
-    }
-
     // Agent Function to read the location messages and decide how the agent should move
     FLAMEGPU_AGENT_FUNCTION(input_message, flamegpu::MessageSpatial2D, flamegpu::MessageNone) {
         const flamegpu::id_t ID = FLAMEGPU->getID();
@@ -475,7 +474,7 @@ The remainder of the Circles model's message input agent function contains some 
                 const float y2 = message.getVariable<float>("y");
                 float x21 = x2 - x1;
                 float y21 = y2 - y1;
-                const float separation = sqrt(x21*x21 + y21*y21);
+                const float separation = sqrtf(x21*x21 + y21*y21);
                 if (separation < RADIUS && separation > 0.0f) {
                     float k = sinf((separation / RADIUS)*3.141f*-2)*REPULSE_FACTOR;
                     // Normalise without recalculating separation
@@ -496,10 +495,9 @@ The remainder of the Circles model's message input agent function contains some 
     }
     ...
 
-  .. code-tab:: py Python
+  .. code-tab:: py Python with Agent C++
 
     ...
-    
     # Agent Function to read the location messages and decide how the agent should move
     input_message = r"""
     FLAMEGPU_AGENT_FUNCTION(input_message, flamegpu::MessageSpatial2D, flamegpu::MessageNone) {
@@ -517,7 +515,7 @@ The remainder of the Circles model's message input agent function contains some 
                 const float y2 = message.getVariable<float>("y");
                 float x21 = x2 - x1;
                 float y21 = y2 - y1;
-                const float separation = sqrt(x21*x21 + y21*y21);
+                const float separation = sqrtf(x21*x21 + y21*y21);
                 if (separation < RADIUS && separation > 0.0f) {
                     float k = sinf((separation / RADIUS)*3.141f*-2)*REPULSE_FACTOR;
                     // Normalise without recalculating separation
@@ -538,10 +536,49 @@ The remainder of the Circles model's message input agent function contains some 
     }
     """
     ...
+
+  .. code-tab:: py Agent Python
+    
+    ...
+    # Agent Function to read the location messages and decide how the agent should move
+    @pyflamegpu.agent_function
+    def input_message(message_in: pyflamegpu.MessageSpatial2D, message_out: pyflamegpu.MessageNone):
+        ID = pyflamegpu.getID()
+        REPULSE_FACTOR = pyflamegpu.environment.getPropertyFloat("repulse")
+        RADIUS = message_in.radius()
+        fx = 0.0
+        fy = 0.0
+        x1 = pyflamegpu.getVariableFloat("x")
+        y1 = pyflamegpu.getVariableFloat("y")
+        count = 0
+        for message in message_in(x1, y1) :
+            if message.getVariableUInt("id") != ID :
+                x2 = message.getVariableFloat("x")
+                y2 = message.getVariableFloat("y")
+                x21 = x2 - x1
+                y21 = y2 - y1
+                separation = math.sqrtf(x21*x21 + y21*y21)
+                if separation < RADIUS and separation > 0 :
+                    k = math.sinf((separation / RADIUS)*3.141*-2)*REPULSE_FACTOR
+                    # Normalise without recalculating separation
+                    x21 /= separation
+                    y21 /= separation
+                    fx += k * x21
+                    fy += k * y21
+                    count += 1
+        fx /= count if count > 0 else 1
+        fy /= count if count > 0 else 1
+        pyflamegpu.setVariableFloat("x", x1 + fx)
+        pyflamegpu.setVariableFloat("y", y1 + fy)
+        pyflamegpu.setVariableFloat("drift", math.sqrtf(fx*fx + fy*fy))
+        return pyflamegpu.ALIVE
+    ...
     
 Now that both agent functions have been implemented, they must be attached to the model.
 
-Returning to the earlier defined agent, first we use this to create an :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription>` for each of the two function's that we have defined using :func:`newFunction()<flamegpu::AgentDescription::newFunction>` (C++ API) or :func:`newRTCFunction()<flamegpu::AgentDescription::newRTCFunction>` (Python API). Both of these functions take two arguments, firstly a name to refer to the function, and secondly the function implementation that was defined above.
+Returning to the earlier defined agent, first we use this to create an :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription>` for each of the two function's that we have defined using :func:`newFunction()<flamegpu::AgentDescription::newFunction>` (C++ API) or :func:`newRTCFunction()<flamegpu::AgentDescription::newRTCFunction>` (Python or C++ Agent API). Both of these functions take two arguments, firstly a name to refer to the function, and secondly the function implementation that was defined above.
+
+If the agent function has been specified in Python then it will need to be translated using the ``pyflamegpu.codegen.translate()`` function. The resulting C++ agent code can then be passed to :func:`newRTCFunction()<flamegpu::AgentDescription::newRTCFunction>`.
 
 The returned :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription>` can then be used to configure the agent function, enabling support for agent birth and death and any message inputs or outputs that are used. As we are using messages, we must call :func:`setMessageOutput()<flamegpu::AgentFunctionDescription::setMessageOutput>` and :func:`setMessageInput()<flamegpu::AgentFunctionDescription::setMessageInput>` passing the name give to our message type (``"location"``).
 
@@ -550,23 +587,37 @@ The returned :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription
   .. code-tab:: cpp C++
 
     ...
-        agent.newVariable<float>("drift", 0.0f);
-        // Setup the two agent functions
-        flamegpu::AgentFunctionDescription &out_fn = agent.newFunction("output_message", output_message);
-        out_fn.setMessageOutput("location");
-        flamegpu::AgentFunctionDescription &in_fn = agent.newFunction("input_message", input_message);
-        in_fn.setMessageInput("location");
-        
+    // Setup the two agent functions
+    flamegpu::AgentFunctionDescription &out_fn = agent.newFunction("output_message", output_message);
+    out_fn.setMessageOutput("location");
+    flamegpu::AgentFunctionDescription &in_fn = agent.newFunction("input_message", input_message);
+    in_fn.setMessageInput("location");   
     ...
 
-  .. code-tab:: py Python
+  .. code-tab:: py Python (using C++ Agent API)
 
     ...
-    agent.newVariableFloat("drift", 0)
     # Setup the two agent functions
     out_fn = agent.newRTCFunction("output_message", output_message)
     out_fn.setMessageOutput("location")
     in_fn = agent.newRTCFunction("input_message", input_message)
+    in_fn.setMessageInput("location")
+    
+    ...
+
+  .. code-tab:: py Python (using Python Agent API)
+
+    #ensure to import the codegen module (usually at the top of your Python file)
+    import pyflamegpu.codegen
+    ...
+    agent.newVariableFloat("drift", 0)
+    # translate the agent functions from Python to C++
+    output_func_translated = pyflamegpu.codegen.translate(output_message)
+    input_func_translated = pyflamegpu.codegen.translate(input_message)
+    # Setup the two agent functions
+    out_fn = agent.newRTCFunction("output_message", output_func_translated)
+    out_fn.setMessageOutput("location")
+    in_fn = agent.newRTCFunction("input_message", input_func_translated)
     in_fn.setMessageInput("location")
     
     ...
@@ -588,25 +639,20 @@ This can be placed at the end of the file, following the previously defined envi
   .. code-tab:: cpp C++
 
     ...        
-            env.newProperty<float>("repulse", 0.05f);
-        }   
-        
-        {   // (optional local scope block for cleaner grouping)
-            // Dependency specification
-            // Message input depends on output
-            in_fn.dependsOn(out_fn);
-            flamegpu::DependencyGraph& dependencyGraph = model.getDependencyGraph();
-            // Output is the root of our graph
-            dependencyGraph.addRoot(out_fn);
-            dependencyGraph.generateLayers(model);
-        }
+    {   // (optional local scope block for cleaner grouping)
+        // Dependency specification
+        // Message input depends on output
+        in_fn.dependsOn(out_fn);
+        flamegpu::DependencyGraph& dependencyGraph = model.getDependencyGraph();
+        // Output is the root of our graph
+        dependencyGraph.addRoot(out_fn);
+        dependencyGraph.generateLayers(model);
     }
+    ...
 
   .. code-tab:: py Python
 
     ...
-    env.newPropertyFloat("repulse", 0.05)
-    
     # Message input depends on output
     in_fn.dependsOn(out_fn)
     # Dependency specification
@@ -614,6 +660,7 @@ This can be placed at the end of the file, following the previously defined envi
     # Output is the root of our graph
     dependencyGraph.addRoot(out_fn)
     dependencyGraph.generateLayers(model)
+    ...
 
 Initialisation Function
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -640,9 +687,6 @@ Putting all this together, we can use the below code to generate the initial age
   .. code-tab:: cpp C++
   
     ...
-        return flamegpu::ALIVE;
-    }
-
     FLAMEGPU_INIT_FUNCTION(create_agents) {
         // Fetch the desired agent count and environment width
         const unsigned int AGENT_COUNT = FLAMEGPU->environment.getProperty<unsigned int>("AGENT_COUNT");
@@ -655,14 +699,11 @@ Putting all this together, we can use the below code to generate the initial age
             t.setVariable<float>("y", FLAMEGPU->random.uniform<float>() * ENV_WIDTH);
         }
     }
+    ...
 
   .. code-tab:: py Python
 
-    ...
-        return flamegpu::ALIVE;
-    }
-    """
-    
+    ...   
     class create_agents(pyflamegpu.HostFunctionCallback):
         def run(self, FLAMEGPU):
             # Fetch the desired agent count and environment width
@@ -674,6 +715,7 @@ Putting all this together, we can use the below code to generate the initial age
                 t = t_pop.newAgent()
                 t.setVariableFloat("x", FLAMEGPU.random.uniformFloat() * ENV_WIDTH)
                 t.setVariableFloat("y", FLAMEGPU.random.uniformFloat() * ENV_WIDTH)
+    ...
                 
                 
 .. note ::
@@ -686,19 +728,16 @@ Similar to agent functions, the initialisation function must be attached to the 
 
   .. code-tab:: cpp C++
 
+    ...      
+    model.addInitFunction(create_agents);
     ...
-            dependencyGraph.generateLayers(model);
-        }
-        
-        model.addInitFunction(create_agents);
-    }
 
   .. code-tab:: py Python
 
     ...
     dependencyGraph.generateLayers(model)
-    
     model.addInitFunctionCallback(create_agents().__disown__())
+    ...
     
     
 .. warning ::
@@ -717,21 +756,16 @@ In most cases, this is simply a case of constructing the :class:`CUDASimulation<
 
   .. code-tab:: cpp C++
 
-    ...
-        model.addInitFunction(create_agents);
-        
-        // Create and run the simulation
-        flamegpu::CUDASimulation cuda_model(model, argc, argv);
-        cuda_model.simulate();
-    }
+    ...        
+    // Create and run the simulation
+    flamegpu::CUDASimulation cuda_model(model, argc, argv);
+    cuda_model.simulate();
 
   .. code-tab:: py Python
   
-    import pyflamegpu
-    # Import sys for access to run args
-    import sys
     ...
-    model.addInitFunctionCallback(create_agents().__disown__())
+    # Import sys for access to run args (this can be moved to the top of your Python file)
+    import sys
     
     # Create and run the simulation
     cuda_model = pyflamegpu.CUDASimulation(model)
@@ -756,30 +790,27 @@ After the :class:`StepLoggingConfig<flamegpu::StepLoggingConfig>` is fully defin
 
   .. code-tab:: cpp C++
 
-    ...
-        model.addInitFunction(create_agents);
-                
-        // Specify the desired StepLoggingConfig
-        flamegpu::StepLoggingConfig step_log_cfg(model);
-        // Log every step
-        step_log_cfg.setFrequency(1);
-        // Include the mean of the "point" agent population's variable 'drift'
-        step_log_cfg.agent("point").logMean<float>("drift");
-        
-        // Create the simulation
-        flamegpu::CUDASimulation cuda_model(model, argc, argv);
-        
-        // Attach the logging config
-        cuda_model.setStepLog(step_log_cfg);
-        
-        // Run the simulation
-        cuda_model.simulate();
-    }
+    ... // following on from  model.addInitFunction(create_agents);
+            
+    // Specify the desired StepLoggingConfig
+    flamegpu::StepLoggingConfig step_log_cfg(model);
+    // Log every step
+    step_log_cfg.setFrequency(1);
+    // Include the mean of the "point" agent population's variable 'drift'
+    step_log_cfg.agent("point").logMean<float>("drift");
+    
+    // Create the simulation
+    flamegpu::CUDASimulation cuda_model(model, argc, argv);
+    
+    // Attach the logging config
+    cuda_model.setStepLog(step_log_cfg);
+    
+    // Run the simulation
+    cuda_model.simulate();
 
   .. code-tab:: py Python
   
-    ...
-    model.addInitFunctionCallback(create_agents().__disown__())
+    ... # following on from model.addInitFunctionCallback(create_agents().__disown__())
     
     # Specify the desired StepLoggingConfig
     step_log_cfg = pyflamegpu.StepLoggingConfig(model)
@@ -827,8 +858,7 @@ In most cases, you will want the visualisation to persist after the simulation c
 
   .. code-tab:: cpp C++
 
-    ...
-        flamegpu::CUDASimulation cuda_model(model, argc, argv);
+    ... // following on from flamegpu::CUDASimulation cuda_model(model, argc, argv);
         
     // Only compile this block if being built with visualisation support    
     #ifdef VISUALISATION
@@ -863,13 +893,10 @@ In most cases, you will want the visualisation to persist after the simulation c
         // Keep the visualisation window active after the simulation has completed
         m_vis.join();
     #endif
-    }
 
   .. code-tab:: py Python
   
-    ...
-    # Create the simulation
-    cuda_model = pyflamegpu.CUDASimulation(model)
+    ... # following on from cuda_model = pyflamegpu.CUDASimulation(model)
         
     # Only run this block if pyflamegpu was built with visualisation support 
     if pyflamegpu.VISUALISATION:
@@ -1094,7 +1121,7 @@ If you have followed the complete tutorial, you should now have the following co
       #endif
       }
 
-  .. code-tab:: py Python
+  .. code-tab:: py Python (using C++ Agent API)
   
       import pyflamegpu
       # Import sys for access to run args
@@ -1252,6 +1279,169 @@ If you have followed the complete tutorial, you should now have the following co
       if pyflamegpu.VISUALISATION:
           # Keep the visualisation window active after the simulation has completed
           m_vis.join()
+
+  .. code-tab:: py Python (using Python Agent API)
+
+    from pyflamegpu import *
+    import pyflamegpu.codegen
+    import sys
+
+    # Define some useful constants
+    AGENT_COUNT = 16384
+    ENV_WIDTH = int(AGENT_COUNT**(1/3))
+
+    # Define the FLAME GPU model
+    model = pyflamegpu.ModelDescription("Circles Tutorial")
+
+    # Define a message of type MessageSpatial2D named location
+    message = model.newMessageSpatial2D("location")
+    # Configure the message list
+    message.setMin(0, 0)
+    message.setMax(ENV_WIDTH, ENV_WIDTH)
+    message.setRadius(1)
+    # Add extra variables to the message
+    # X Y (Z) are implicit for spatial messages
+    message.newVariableID("id")
+
+    # Define an agent named point
+    agent = model.newAgent("point")
+    # Assign the agent some variables (ID is implicit to agents, so we don't define it ourselves)
+    agent.newVariableFloat("x")
+    agent.newVariableFloat("y")
+    agent.newVariableFloat("z")
+    agent.newVariableFloat("drift", 0)
+
+    # Define environment properties
+    env = model.Environment()
+    env.newPropertyUInt("AGENT_COUNT", AGENT_COUNT)
+    env.newPropertyFloat("ENV_WIDTH", ENV_WIDTH)
+    env.newPropertyFloat("repulse", 0.05)
+
+    @pyflamegpu.agent_function
+    def output_message(message_in: pyflamegpu.MessageNone, message_out: pyflamegpu.MessageSpatial2D):
+        message_out.setVariableUInt("id", pyflamegpu.getID())
+        message_out.setLocation(
+            pyflamegpu.getVariableFloat("x"),
+            pyflamegpu.getVariableFloat("y"))
+        return pyflamegpu.ALIVE
+        
+    @pyflamegpu.agent_function
+    def input_message(message_in: pyflamegpu.MessageSpatial2D, message_out: pyflamegpu.MessageNone):
+        ID = pyflamegpu.getID()
+        REPULSE_FACTOR = pyflamegpu.environment.getPropertyFloat("repulse")
+        RADIUS = message_in.radius()
+        fx = 0.0
+        fy = 0.0
+        x1 = pyflamegpu.getVariableFloat("x")
+        y1 = pyflamegpu.getVariableFloat("y")
+        count = 0
+        for message in message_in(x1, y1):
+            if message.getVariableUInt("id") != ID :
+                x2 = message.getVariableFloat("x")
+                y2 = message.getVariableFloat("y")
+                x21 = x2 - x1
+                y21 = y2 - y1
+                separation = math.sqrtf(x21*x21 + y21*y21)
+                if separation < RADIUS and separation > 0 :
+                    k = math.sinf((separation / RADIUS)*3.141*-2)*REPULSE_FACTOR
+                    # Normalise without recalculating separation
+                    x21 /= separation
+                    y21 /= separation
+                    fx += k * x21
+                    fy += k * y21
+                    count += 1
+        fx /= count if count > 0 else 1
+        fy /= count if count > 0 else 1
+        pyflamegpu.setVariableFloat("x", x1 + fx)
+        pyflamegpu.setVariableFloat("y", y1 + fy)
+        pyflamegpu.setVariableFloat("drift", math.sqrtf(fx*fx + fy*fy))
+        return pyflamegpu.ALIVE
+        
+    # translate the agent functions from Python to C++
+    output_func_translated = pyflamegpu.codegen.translate(output_message)
+    input_func_translated = pyflamegpu.codegen.translate(input_message)
+    # Setup the two agent functions
+    out_fn = agent.newRTCFunction("output_message", output_func_translated)
+    out_fn.setMessageOutput("location")
+    in_fn = agent.newRTCFunction("input_message", input_func_translated)
+    in_fn.setMessageInput("location")
+
+    # Message input depends on output
+    in_fn.dependsOn(out_fn)
+    # Dependency specification
+    dependencyGraph = model.getDependencyGraph()
+    # Output is the root of our graph
+    dependencyGraph.addRoot(out_fn)
+    dependencyGraph.generateLayers()
+
+    class create_agents(pyflamegpu.HostFunctionCallback):
+        def run(self, FLAMEGPU):
+            # Fetch the desired agent count and environment width
+            AGENT_COUNT = FLAMEGPU.environment.getPropertyUInt("AGENT_COUNT")
+            ENV_WIDTH = FLAMEGPU.environment.getPropertyFloat("ENV_WIDTH")
+            # Create agents
+            t_pop = FLAMEGPU.agent("point")
+            for i in range(AGENT_COUNT):
+                t = t_pop.newAgent()
+                t.setVariableFloat("x", FLAMEGPU.random.uniformFloat() * ENV_WIDTH)
+                t.setVariableFloat("y", FLAMEGPU.random.uniformFloat() * ENV_WIDTH)
+                
+    model.addInitFunctionCallback(create_agents().__disown__())
+
+    # Specify the desired StepLoggingConfig
+    step_log_cfg = pyflamegpu.StepLoggingConfig(model)
+    # Log every step
+    step_log_cfg.setFrequency(1)
+    # Include the mean of the "point" agent population's variable 'drift'
+    step_log_cfg.agent("point").logMeanFloat("drift")
+
+    # Create the simulation
+    cuda_model = pyflamegpu.CUDASimulation(model)
+
+    # Attach the logging config
+    cuda_model.setStepLog(step_log_cfg)
+
+    # Init and run the simulation
+    cuda_model.initialise(sys.argv)
+    cuda_model.simulate()
+
+    # Create and run the simulation
+    cuda_model = pyflamegpu.CUDASimulation(model)
+
+    # Only run this block if pyflamegpu was built with visualisation support
+    if pyflamegpu.VISUALISATION:
+        # Create visualisation
+        m_vis = cuda_model.getVisualisation()
+        # Set the initial camera location and speed
+        INIT_CAM = ENV_WIDTH / 2
+        m_vis.setInitialCameraTarget(INIT_CAM, INIT_CAM, 0)
+        m_vis.setInitialCameraLocation(INIT_CAM, INIT_CAM, ENV_WIDTH)
+        m_vis.setCameraSpeed(0.01)
+        m_vis.setSimulationSpeed(25)
+        # Add "point" agents to the visualisation
+        point_agt = m_vis.addAgent("point")
+        # Location variables have names "x" and "y" so will be used by default
+        point_agt.setModel(pyflamegpu.ICOSPHERE);
+        point_agt.setModelScale(1/10.0);
+        # Mark the environment bounds
+        pen = m_vis.newPolylineSketch(1, 1, 1, 0.2)
+        pen.addVertex(0, 0, 0)
+        pen.addVertex(0, ENV_WIDTH, 0)
+        pen.addVertex(ENV_WIDTH, ENV_WIDTH, 0)
+        pen.addVertex(ENV_WIDTH, 0, 0)
+        pen.addVertex(0, 0, 0)
+        # Open the visualiser window
+        m_vis.activate()
+
+    # Init and run the simulation
+    cuda_model.initialise(sys.argv)
+    cuda_model.simulate()
+
+    if pyflamegpu.VISUALISATION:
+        # Keep the visualisation window active after the simulation has completed
+        m_vis.join()
+
+
 
 Related Links
 -------------
