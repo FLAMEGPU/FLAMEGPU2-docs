@@ -15,18 +15,18 @@ The main purpose of FLAME GPU visualisations is to display the agents. By defaul
   .. code-tab:: py Python
 
     # Configure the visualisation
-    visualisation = cudaSimulation.getVisualisation();
+    visualisation = cudaSimulation.getVisualisation()
     # Add agent 'boid' to the visualisation
-    boid_agt = visualisation.addAgent("boid");
+    boid_agt = visualisation.addAgent("boid")
     ...
 
 Agent Model
 -----------
-Currently FLAME GPU only supports loading static models from ``.obj`` (wavefront) format files.
+Currently FLAME GPU only supports loading models from ``.obj`` (wavefront) format files.
 
 It is suggested that low-poly models are used, as each model will be drawn once per agent. Which potentially multiplies the polygon count by millions, which can significantly impact the performance of the visualiser.
 
-Several stock models are provided alongside FLAME GPU.
+Several static stock models are provided alongside FLAME GPU.
 
 ====================== ========================================================
 Model Name             Description
@@ -56,12 +56,47 @@ Examples of setting the agent model are shown below
   .. code-tab:: py Python
 
     # Add agent 'boid' to the visualisation
-    boid_agt = visualisation.addAgent("boid");
+    boid_agt = visualisation.addAgent("boid")
     # Configure the agent to use the stock icosphere model
-    boid_agt.setModel(pyflamegpu.ICOSPHERE);
+    boid_agt.setModel(pyflamegpu.ICOSPHERE)
     # Or, configure the agent to use a custom model
-    boid_agt.setModel("my_files/person.obj");
+    boid_agt.setModel("my_files/person.obj")
+    
+KeyFrame Animated Models
+~~~~~~~~~~~~~~~~~~~~~~~~
+FLAME GPU also supports the use of model pairs, to provide basic animation by interpolating between the two models. Both models must have the same number of vertices/faces in the same order for this to work.
 
+A stock keyframe model pair ``PEDESTRIAN`` is avaiable, which represents a low-poly pedestrian.
+
+In order to use a keyframe model pair, it is also necessary to specify a ``float`` agent variable, which contains the interpolation position in the inclusive range ``[0, 1]`` which controls the contribution of each model to that which is rendered by the agent.
+
+Examples of setting a keyframe agent model are shown below
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+    // Add agent 'pedestrian' to the visualisation
+    flamegpu::visualiser::AgentVis &ped_agt = visualisation.addAgent("pedestrian");
+    // Configure the agent to use the stock pedestrian model, and "animate" variable to control animation
+    ped_agt.setKeyFrameModel(flamegpu::visualiser::Stock::Models::PEDESTRIAN, "animate");
+    // Or, configure the agent to use a custom model pair, and "animate" variable to control animation
+    ped_agt.setModel("my_files/ped_a.obj", "my_files/ped_a.obj", "animate");
+    
+  .. code-tab:: py Python
+
+    # Add agent 'pedestrian' to the visualisation
+    ped_agt = visualisation.addAgent("pedestrian")
+    # Configure the agent to use the stock pedestrian model, and "animate" variable to control animation
+    ped_agt.setModel(pyflamegpu.PEDESTRIAN, "animate")
+    # Or, configure the agent to use a custom model pair, and "animate" variable to control animation
+    ped_agt.setModel("my_files/ped_a.obj", "my_files/ped_a.obj", "animate")
+    
+The video below shows the Pedestrian Navigation example which demonstrates how keyframe animated agents appear.
+
+.. raw:: html
+
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/7Rm5n5yDDg4" title="Pedestrian Navigation Example in FLAME GPU 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Agent Position
 --------------
@@ -94,13 +129,13 @@ However, you can use other variables if you have used different variable names o
     boid_agt = visualisation.addAgent("boid");
     
     # Set agent position with upto 3 individual float variables
-    boid_agt.setXVariable("pos_x");
-    boid_agt.setYVariable("pos_y");
-    boid_agt.setZVariable("pos_z");
+    boid_agt.setXVariable("pos_x")
+    boid_agt.setYVariable("pos_y")
+    boid_agt.setZVariable("pos_z")
     # Or, set agent position with a single float[2] variable
-    boid_agt.setXYVariable("pos_xy");
+    boid_agt.setXYVariable("pos_xy")
     # Or, set agent position with a single float[3] variable
-    boid_agt.setXYZVariable("pos_xyz");
+    boid_agt.setXYZVariable("pos_xyz")
 
 
 Agent Direction
@@ -144,27 +179,27 @@ A few examples are provided below, for a complete understanding of the combinati
   .. code-tab:: py Python
 
     # Add agent 'boid' to the visualisation
-    boid_agt = visualisation.addAgent("boid");
+    boid_agt = visualisation.addAgent("boid")
     
     # Set agent forward and up vectors (yaw, pitch and roll) with individual float variables
-    boid_agt.setForwardXVariable("velocity_x");
-    boid_agt.setForwardYVariable("velocity_y");
-    boid_agt.setForwardZVariable("velocity_z");
-    boid_agt.setUpXVariable("up_x");
-    boid_agt.setUpYVariable("up_y");
-    boid_agt.setUpZVariable("up_z");
+    boid_agt.setForwardXVariable("velocity_x")
+    boid_agt.setForwardYVariable("velocity_y")
+    boid_agt.setForwardZVariable("velocity_z")
+    boid_agt.setUpXVariable("up_x")
+    boid_agt.setUpYVariable("up_y")
+    boid_agt.setUpZVariable("up_z")
     # Or, set agent forward vector xz (yaw) with a single float[2] variable
-    boid_agt.setForwardXZVariable("velocity_xz");
+    boid_agt.setForwardXZVariable("velocity_xz")
     # Or, set agent forward vector (yaw and pitch) with a single float[3] variable
-    boid_agt.setForwardXYZVariable("velocity_xyz");
+    boid_agt.setForwardXYZVariable("velocity_xyz")
     # Or, set agent yaw, pitch and roll angles with individual float variables
-    boid_agt.setYawVariable("yaw");
-    boid_agt.setPitchVariable("pitch");
-    boid_agt.setRollVariable("roll");
+    boid_agt.setYawVariable("yaw")
+    boid_agt.setPitchVariable("pitch")
+    boid_agt.setRollVariable("roll")
     # Or, set agent yaw, pitch with a single float[2] variable
-    boid_agt.setDirectionYPVariable("angles");
+    boid_agt.setDirectionYPVariable("angles")
     # Or, set agent yaw, pitch, roll with a single float[3] variable
-    boid_agt.setDirectionYPRVariable("angles");
+    boid_agt.setDirectionYPRVariable("angles")
 
 Agent Scale
 -----------
@@ -199,22 +234,22 @@ First you should set the base model scale (with :func:`setModelScale()<flamegpu:
   .. code-tab:: py Python
 
     # Add agent 'boid' to the visualisation
-    boid_agt = visualisation.addAgent("boid");
+    boid_agt = visualisation.addAgent("boid")
     # Uniformly scale the default model so that it is 1.5 units in it's longest axis
-    boid_agt.setModelScale(1.5);
+    boid_agt.setModelScale(1.5)
     # Or, scale each axis of the default model individually
-    boid_agt.setModelScale(1.0, 1.5, 1.0);
+    boid_agt.setModelScale(1.0, 1.5, 1.0)
     
     # Uniformly scale the model with a single float variable
-    boid_agt.setUniformScaleVariable("scale_xyz");
+    boid_agt.setUniformScaleVariable("scale_xyz")
     # Or, set agent scale multiplier with upto 3 individual float variables
-    boid_agt.setScaleXVariable("scale_x");
-    boid_agt.setScaleYVariable("scale_y");
-    boid_agt.setScaleZVariable("scale_z");
+    boid_agt.setScaleXVariable("scale_x")
+    boid_agt.setScaleYVariable("scale_y")
+    boid_agt.setScaleZVariable("scale_z")
     # Or, set agent scale multiplier with a single float[2] variable
-    boid_agt.setScaleXYVariable("scale_xy");
+    boid_agt.setScaleXYVariable("scale_xy")
     # Or, set agent scale multiplier with a single float[3] variable
-    boid_agt.setScaleXYZVariable("scale_xyz");
+    boid_agt.setScaleXYZVariable("scale_xyz")
 
     
 Agent Color
@@ -244,14 +279,14 @@ Agent colors can be specified as a static RGB color.
   .. code-tab:: py Python
 
     # Add agent 'boid' to the visualisation
-    boid_agt = visualisation.addAgent("boid");
+    boid_agt = visualisation.addAgent("boid")
     
     # Set the agent's color to a stock color
-    boid_agt.setColor(pyflamegpu.RED);
+    boid_agt.setColor(pyflamegpu.RED)
     # Set the agent's color with a HEX color code
-    boid_agt.setColor(pyflamegpu.Color("#ff0000"));
+    boid_agt.setColor(pyflamegpu.Color("#ff0000"))
     # Set the agent's color with floating point components
-    boid_agt.setColor(pyflamegpu.Color(1.0, 0.0, 0.0));
+    boid_agt.setColor(pyflamegpu.Color(1.0, 0.0, 0.0))
     
 Discrete Color Selection
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -294,13 +329,13 @@ Pastel (from seaborn)     *Viridis (from BIDS/MatPlotLib)*
   .. code-tab:: py Python
 
     # Add agent 'boid' to the visualisation
-    boid_agt = visualisation.addAgent("boid");
+    boid_agt = visualisation.addAgent("boid")
     
     # Map the agent's color to the value of 'i' as selected from a discrete stock palette
-    boid_agt.setColor(pyflamegpu.DiscreteColor("i", pyflamegpu.DARK2, pyflamegpu.WHITE));
+    boid_agt.setColor(pyflamegpu.DiscreteColor("i", pyflamegpu.DARK2, pyflamegpu.WHITE))
     # Or, map the agent's color to the value of 'i', as selected from a dynamic stock palette, using 10 uniformly spaced values from Viridis
     # Override the offset to 1, and stride to 2 (1,3,5,7..)
-    boid_agt.setColor(pyflamegpu.DiscreteColor("i", pyflamegpu.Viridis(10), pyflamegpu.WHITE, 1, 2));
+    boid_agt.setColor(pyflamegpu.DiscreteColor("i", pyflamegpu.Viridis(10), pyflamegpu.WHITE, 1, 2))
 
 Alternatively, you can construct a bespoke palette of discrete colors
 
@@ -326,13 +361,13 @@ Alternatively, you can construct a bespoke palette of discrete colors
     boid_agt = visualisation.addAgent("boid");
     
     # Construct a DiscreteColor map for integer variable "i" with fall-back White
-    cmap = pyflamegpu.iDiscreteColor("i", pyflamegpu.WHITE);
+    cmap = pyflamegpu.iDiscreteColor("i", pyflamegpu.WHITE)
     # Add desired key:color mappings
-    cmap[0] = pyflamegpu.RED;
-    cmap[1] = pyflamegpu.Color("#00ff00");
-    cmap[2] = pyflamegpu.Color(0.0, 0.0, 1.0);    
+    cmap[0] = pyflamegpu.RED
+    cmap[1] = pyflamegpu.Color("#00ff00")
+    cmap[2] = pyflamegpu.Color(0.0, 0.0, 1.0)
     # Bind cmap to the 'boid' agent
-    boid_agt.setColor(cmap);
+    boid_agt.setColor(cmap)
 
 Color Interpolation
 ^^^^^^^^^^^^^^^^^^^
@@ -361,13 +396,13 @@ By default interpolation clamps variables to the inclusive range [0, 1]. This ca
   .. code-tab:: py Python
 
     # Add agent 'boid' to the visualisation
-    boid_agt = visualisation.addAgent("boid");
+    boid_agt = visualisation.addAgent("boid")
     
     # Use the default red-green HSV interpolation over the agent variable i
     # With custom min/max bounds [0,100]
-    boid_agt.setColor(pyflamegpu.HSVInterpolation.REDGREEN("i", 0.0, 100.0));
+    boid_agt.setColor(pyflamegpu.HSVInterpolation.REDGREEN("i", 0.0, 100.0))
     # Or, use a custom HSV interpolation over the agent variable i
-    boid_agt.setColor(pyflamegpu.HSVInterpolation("i", 0.0, 360.0));
+    boid_agt.setColor(pyflamegpu.HSVInterpolation("i", 0.0, 360.0))
 
 
 :class:`ViridisInterpolation<flamegpu::visualiser::ViridisInterpolation>` works similarly, but interpolates over the fixed Viridis heatmap from BIDS/MatPlotLib.
@@ -385,10 +420,10 @@ By default interpolation clamps variables to the inclusive range [0, 1]. This ca
   .. code-tab:: py Python
 
     # Add agent 'boid' to the visualisation
-    boid_agt = visualisation.addAgent("boid");
+    boid_agt = visualisation.addAgent("boid")
     
     # Use Viridis interpolation over the agent variable i
-    boid_agt.setColor(pyflamegpu.ViridisInterpolation("i"));
+    boid_agt.setColor(pyflamegpu.ViridisInterpolation("i"))
 
 Agent States
 ------------
@@ -415,10 +450,10 @@ By default, this new agent will be assigned a different color from the default p
   .. code-tab:: py Python
 
     # Add agent 'boid' to the visualisation
-    boid_agt = visualisation.addAgent("boid");
+    boid_agt = visualisation.addAgent("boid")
     ...
     # Specialise the 'active' agent state
-    active_boid_agt = boid_agent.State("active");
+    active_boid_agt = boid_agent.State("active")
     ...
     
 Colors from Palettes
@@ -443,14 +478,14 @@ If you would rather use a palette to automatically assign agents in different st
   .. code-tab:: py Python
 
     # Add agent 'boid' to the visualisation
-    boid_agt = visualisation.addAgent("boid");
+    boid_agt = visualisation.addAgent("boid")
     # Assign a palette to the boid agent
-    boid_agt.setAutoPalette(pyflamegpu.DARK2);
+    boid_agt.setAutoPalette(pyflamegpu.DARK2)
     
     # Specialise the 'active' agent state, assigning it a unique color from the DARK2 palette
-    boid_agent.State("active");
+    boid_agent.State("active")
     # Specialise the 'waiting' agent state, assigning it a unique color from the DARK2 palette
-    boid_agent.State("waiting");
+    boid_agent.State("waiting")
     
 These colors are not locked, and can be further overridden with the normal color methods.
 
