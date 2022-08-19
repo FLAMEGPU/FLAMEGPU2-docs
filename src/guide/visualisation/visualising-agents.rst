@@ -63,7 +63,8 @@ Examples of setting the agent model are shown below
     boid_agt.setModel("my_files/person.obj")
     
 KeyFrame Animated Models
-~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^
+
 FLAME GPU also supports the use of model pairs, to provide basic animation by interpolating between the two models. Both models must have the same number of vertices/faces in the same order for this to work.
 
 A stock keyframe model pair ``PEDESTRIAN`` is avaiable, which represents a low-poly pedestrian.
