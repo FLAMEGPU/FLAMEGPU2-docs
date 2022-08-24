@@ -2,6 +2,8 @@ name: build
 
 on:
   push:
+    branches:
+      - master
   pull_request:
   workflow_dispatch:
 
@@ -14,12 +16,22 @@ jobs:
         python:
           - '3.x'
           - '3.10'
-          # - '3.9'
-          # - '3.8'
           - '3.7'
+        build_api_docs: ["ON"]
+        werror: ["OFF"]
+        include:
+          - python: '3.7'
+            build_api_docs: "OFF"
+            werror: "ON"
+          - python: '3.7'
+            build_api_docs: "OFF"
+            werror: "OFF"
+    # Set the job name, have to use horrible syntax to achieve nice names
+    name: build${{ fromJSON('{true:" API",false:""}')[matrix.build_api_docs == 'ON'] }}${{ fromJSON('{true:" Werror",false:""}')[matrix.werror == 'ON'] }}${{ fromJSON('{true:" annotated",false:""}')[matrix.werror == 'OFF' && matrix.build_api_docs == 'OFF'] }} ${{ matrix.python}}
     env:
-      build_api_docs: "ON"
       python: ${{ matrix.python }}
+      build_api_docs: ${{ matrix.build_api_docs }}
+      werror: ${{ matrix.werror }}
     steps:
     - name: Checkout FLAMEGPU2/FLAMEGPU2-docs
       uses: actions/checkout@v2
@@ -56,26 +68,31 @@ jobs:
         source .venv/bin/activate
         python3 -m pip install -r requirements.txt
 
+    # Annotations only enabled for non-API builds, with Werror=off, as werror changes the output format of sphinx messages...
+    - name: Add custom problem matchers for annotations
+      if: ${{ env.build_api_docs == 'OFF' && env.werror == 'OFF' }}
+      run: echo "::add-matcher::FLAMEGPU2-docs/.github/problem-matchers.json"
+
     - name: Configure
       working-directory: FLAMEGPU2-docs
       run: |
         source .venv/bin/activate
-        cmake . -B build
+        cmake . -B build -DWARNINGS_AS_ERRORS=${{ env.werror }}
 
     - name: Build
       working-directory: FLAMEGPU2-docs/build
       run: cmake --build . --target all --verbose -j `nproc`
 
     - name: Create Archive on PR
-      if: ${{ github.event_name == 'pull_request' }}
+      if: ${{ github.event_name == 'pull_request' && matrix.werror == 'OFF'}}
       working-directory: FLAMEGPU2-docs/build
       run: zip html.zip -r userguide/ 
 
     - name: Upload Artifact on PR
-      if: ${{ github.event_name == 'pull_request' }}
+      if: ${{ github.event_name == 'pull_request' && matrix.werror == 'OFF'}}
       uses: actions/upload-artifact@v2
       with:
-        name: userguide
+        name: userguide-py${{ env.python }}${{ fromJSON('{true:"-NOAPI",false:""}')[matrix.werror == 'OFF' && matrix.build_api_docs == 'OFF'] }}
         path: FLAMEGPU2-docs/build/html.zip
         if-no-files-found: error
         retention-days: 14

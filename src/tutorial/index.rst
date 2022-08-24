@@ -499,9 +499,6 @@ The remainder of the Circles model's message input agent function contains some 
   .. code-tab:: py Python
 
     ...
-        return flamegpu::ALIVE;
-    }
-    """
     
     # Agent Function to read the location messages and decide how the agent should move
     input_message = r"""

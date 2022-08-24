@@ -19,6 +19,9 @@ set(SPHINX_BUILD "${CMAKE_CURRENT_BINARY_DIR}/userguide")
 set(SPHINX_CONFIG_DIR "${CMAKE_CURRENT_BINARY_DIR}/src")
 # set(SPHINX_CAHCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/_doctrees")
 
+# Option to promote compilation warnings to error, useful for strict CI
+option(WARNINGS_AS_ERRORS "Promote compilation warnings to errors" OFF)
+
 # Find graphviz which is required for the user guide (sphinx graphviz plugin)
 find_package(Graphviz REQUIRED)
 
@@ -28,6 +31,8 @@ if(FLAMEGPU2_FOUND)
     # Load FLAMEGPU2s Doxygen config, implicitly calls find_package(doxygen)
     include(${FLAMEGPU_ROOT}/cmake/dependencies/doxygen.cmake)
     mark_as_advanced(FORCE BUILD_API_DOCUMENTATION)
+else()
+    set(BUILD_API_DOCUMENTATION "OFF")
 endif()
 
 # Define the list of known docs source files, so they can be copied into the build directory. 
@@ -108,12 +113,19 @@ foreach(SRC_FILE IN LISTS DOCS_SRC_FILES)
     unset(SRC_FILE_CLEAN)
 endforeach()
 
+
+# Set the warnings_is_errors value if enabeld.
+set(SPHINX_WARNING_IS_ERROR_FLAG "")
+if (WARNINGS_AS_ERRORS)
+    set(SPHINX_WARNING_IS_ERROR_FLAG "-W")
+endif()
 if(FLAMEGPU2_FOUND AND DOXYGEN_FOUND AND ${BUILD_API_DOCUMENTATION})
     # Set the var used when generating conf.py to enable breathe/exhale 
     set(USE_BREATHE_EXHALE "True")
     set(EXCLUDE_API_PATTERN "") # Do not exlude the api dir
     # Decide path to temp store the xml output, used in conf.py generation.
     set(API_DOCS_XML_PATH "api_xml")
+
     # Generate conf.py in the build directory
     configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/src/conf.py.in"
@@ -137,6 +149,7 @@ if(FLAMEGPU2_FOUND AND DOXYGEN_FOUND AND ${BUILD_API_DOCUMENTATION})
     # Create Sphinx target
     add_custom_target(userguide ALL
         COMMAND ${SPHINX_EXECUTABLE} -b html
+        ${SPHINX_WARNING_IS_ERROR_FLAG}
         -c "${SPHINX_CONFIG_DIR}"
         ${SPHINX_SOURCE} ${SPHINX_BUILD}
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
@@ -170,6 +183,7 @@ else()
     # Create the custom target with appropriate command.
     add_custom_target(userguide ALL
         COMMAND ${SPHINX_EXECUTABLE} -b html
+        ${SPHINX_WARNING_IS_ERROR_FLAG}
         -c "${SPHINX_CONFIG_DIR}"
         ${SPHINX_SOURCE} ${SPHINX_BUILD}
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
