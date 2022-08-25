@@ -143,7 +143,7 @@ Example usage is shown below:
     }
     
 .. warning::
-  Be careful when using :class:`DeviceMacroProperty<flamegpu::DeviceMacroProperty>`. When you retrieve an element e.g. ``location[0][0][0]`` (from the example above), it is of type :class:`DeviceMacroProperty<flamegpu::DeviceMacroProperty>` not ``unsigned int``. Therefore you cannot pass it directly to functions which take generic arguments such as ``printf()``, as it will be interpreted incorrectly. You must either store it in a variable of the correct type which you instead pass, or explicitly cast it to the correct type when passing it e.g. ``(unsigned int)location[0][0][0]`` or ``static_cast<unsigned int>(location[0][0][0])`` (or ``int(location[0][0][0])`` in Python).
+  Be careful when using :class:`DeviceMacroProperty<flamegpu::DeviceMacroProperty>`. When you retrieve an element e.g. ``location[0][0][0]`` (from the example above), it is of type :class:`DeviceMacroProperty<flamegpu::DeviceMacroProperty>` not ``unsigned int``. Therefore you cannot pass it directly to functions which take generic arguments such as ``printf()``, as it will be interpreted incorrectly. You must either store it in a variable of the correct type which you instead pass, or explicitly cast it to the correct type when passing it e.g. ``(unsigned int)location[0][0][0]`` or ``static_cast<unsigned int>(location[0][0][0])`` (or ``numpy.uint(location[0][0][0])`` in Python).
     
     
 Related Links
