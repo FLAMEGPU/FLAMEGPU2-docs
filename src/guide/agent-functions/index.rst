@@ -10,6 +10,7 @@ Each agent has one or more agent functions, which allow agents to interact with 
 Each agent function in FLAME GPU 2 is associated with a particular agent type and is represented by an :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription>` object. This object describes the name of the function, the agent state in which it should be active, and any state transitions it should apply to the agent. 
 
 The implementation code for the behaviour (the actual agent function) can be specified in three alternative ways;
+
 * As a globally scoped (CUDA) C++ function, labelled with the :c:macro:`FLAMEGPU_AGENT_FUNCTION` macro
 * As a C++ function labelled with teh :c:macro:`FLAMEGPU_AGENT_FUNCTION` macro but written as a string (supported in either a C++ or Python 3)
 * As a global scoped Python 3 function annotated as `@pyflamegpu.agent_function` which will be transpiled to equivalent C++ and which is compiled at runtime
