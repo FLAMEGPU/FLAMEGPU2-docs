@@ -75,6 +75,8 @@ set(DOCS_SRC_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/running-a-simulation/initial-state.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/running-multiple-simulations/index.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/seatbelts/index.rst"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/visualisation/ui-full.png"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/visualisation/ui-collapsed.png"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/visualisation/adding-details.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/visualisation/building-with-vis.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/visualisation/index.rst"

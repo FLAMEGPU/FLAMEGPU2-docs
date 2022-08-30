@@ -14,6 +14,7 @@ Keyboard Key    Controller Button  Description
 ``P``           ``Start``          Toggle Simulation Pause
 ``L``           ``DPad Left``      Toggle Line Visibility
 ``F1``                             Toggle Debug Menu (contains information such as agent counts)
+``F2``                             Toggle UI Visibility
 ``F5``          ``DPad Right``     Reload Shaders
 ``F8``          ``Back``           Toggle Display of FPS/SPS/Step Count
 ``F10``                            Toggle MSAA (Multi Sample Anti Aliasing)

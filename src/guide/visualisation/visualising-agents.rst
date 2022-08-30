@@ -97,7 +97,7 @@ The video below shows the Pedestrian Navigation example which demonstrates how k
 
 .. raw:: html
 
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/7Rm5n5yDDg4" title="Pedestrian Navigation Example in FLAME GPU 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/9jPfBs81XmE" title="Pedestrian Navigation Example in FLAME GPU 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Agent Position
 --------------
