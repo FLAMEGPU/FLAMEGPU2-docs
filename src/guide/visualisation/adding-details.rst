@@ -129,7 +129,7 @@ It is not currently possible to update these line drawings during a model's exec
 
 Models
 ------
-If your environment is instead represented by a 3D model, it is possible to load it into the visualisation using :func:`addStaticModel()<flamegpu::visualiser::ModelVis::addStaticModel>` which returns a :class:`StaticModelVis<flamegpu::visualiser::StaticModelVis>`.  
+If your environment is instead represented by a 3D model, it is possible to load it into the visualisation using :func:`newStaticModel()<flamegpu::visualiser::ModelVis::newStaticModel>` which returns a :class:`StaticModelVis<flamegpu::visualiser::StaticModelVis>`.  
 This can then be used to specify the model's location scale and rotation as required.
 
 Like the models representing agents, currently only the ``.obj`` (wavefront) format is supported.
@@ -142,7 +142,7 @@ Like the models representing agents, currently only the ``.obj`` (wavefront) for
     // Configure the visualisation
     flamegpu::visualiser::ModelVis &m_vis = cudaSimulation.getVisualisation();
     // Add the environment's model
-    flamegpu::visualiser::StaticModelVis env_model = m_vis.addStaticModel("myfiles/town.obj");
+    flamegpu::visualiser::StaticModelVis env_model = m_vis.newStaticModel("myfiles/town.obj");
     // Configure the model
     env_model.setModelScale(10.0f, 5.0f, 1.0f);
     env_model.setModelLocation(0.0f, -5.0f, 0.0f);
@@ -153,7 +153,7 @@ Like the models representing agents, currently only the ``.obj`` (wavefront) for
     # Configure the visualisation
     m_vis = cudaSimulation.getVisualisation();
     # Add the environment's model
-    env_model = m_vis.addStaticModel("myfiles/town.obj");
+    env_model = m_vis.newStaticModel("myfiles/town.obj");
     # Configure the model
     env_model.setModelScale(10.0f, 5.0f, 1.0f);
     env_model.setModelLocation(0.0f, -5.0f, 0.0f);
