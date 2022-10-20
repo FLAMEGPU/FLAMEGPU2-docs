@@ -82,16 +82,16 @@ Examples of setting a keyframe agent model are shown below
     // Configure the agent to use the stock pedestrian model, and "animate" variable to control animation
     ped_agt.setKeyFrameModel(flamegpu::visualiser::Stock::Models::PEDESTRIAN, "animate");
     // Or, configure the agent to use a custom model pair, and "animate" variable to control animation
-    ped_agt.setModel("my_files/ped_a.obj", "my_files/ped_a.obj", "animate");
+    ped_agt.setKeyFrameModel("my_files/ped_a.obj", "my_files/ped_a.obj", "animate");
     
   .. code-tab:: py Python
 
     # Add agent 'pedestrian' to the visualisation
     ped_agt = visualisation.addAgent("pedestrian")
     # Configure the agent to use the stock pedestrian model, and "animate" variable to control animation
-    ped_agt.setModel(pyflamegpu.PEDESTRIAN, "animate")
+    ped_agt.setKeyFrameModel(pyflamegpu.PEDESTRIAN, "animate")
     # Or, configure the agent to use a custom model pair, and "animate" variable to control animation
-    ped_agt.setModel("my_files/ped_a.obj", "my_files/ped_a.obj", "animate")
+    ped_agt.setKeyFrameModel("my_files/ped_a.obj", "my_files/ped_a.obj", "animate")
     
 The video below shows the Pedestrian Navigation example which demonstrates how keyframe animated agents appear.
 
