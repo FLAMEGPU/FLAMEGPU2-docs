@@ -16,14 +16,14 @@ jobs:
     steps:
     # Chekout this repository into specified path
     - name: Checkout FLAMEGPU2/FLAMEGPU2-docs
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         path: FLAMEGPU2-docs
 
     # If API docs are being built, check them out into a subfolder.
     - name: Checkout FLAMEGPU2/FLAMEGPU2
       if: env.build_api_docs == 'ON'
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: FLAMEGPU/FLAMEGPU2
         path: FLAMEGPU2
@@ -39,7 +39,7 @@ jobs:
 
     - name: Select Python
       if: ${{ env.python != '' }} 
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ env.python }}
 
