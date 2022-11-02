@@ -198,6 +198,8 @@ Long Argument                  Short Argument              Description
 ``--timing``                   ``-t``                      Output timing information to console at exit.
 ``--error``                    ``-e`` <error level>        The :enum:`ErrorLevel<flamegpu::CUDAEnsemble::EnsembleConfig::ErrorLevel>` to use: 0, 1, 2, "off", "slow" or "fast".
                                                            By default the :enum:`ErrorLevel<flamegpu::CUDAEnsemble::EnsembleConfig::ErrorLevel>` will be set to "slow" (1).
+``--standby``                                              Allow the operating system to enter standby during ensemble execution.
+                                                           The standby blocking feature is currently only supported on Windows, where it is enabled by default.
 ============================== =========================== ========================================================
 
 You may also wish to specify your own defaults, by setting the values prior to calling :func:`initialise()<flamegpu::CUDAEnsemble::initialise>`:
