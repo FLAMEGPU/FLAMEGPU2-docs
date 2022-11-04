@@ -195,6 +195,7 @@ Long Argument                  Short Argument              Description
                                                            By default 4 concurrent simulations will run per GPU.
 ``--out`` <directory> <format> ``-o`` <directory> <format> Directory and format (JSON/XML) for ensemble logging.
 ``--quiet``                    ``-q``                      Don't print ensemble progress to console.
+``--verbose``                  ``-v``                      Print config, progress and timing (-t) information to console.
 ``--timing``                   ``-t``                      Output timing information to console at exit.
 ``--error``                    ``-e`` <error level>        The :enum:`ErrorLevel<flamegpu::CUDAEnsemble::EnsembleConfig::ErrorLevel>` to use: 0, 1, 2, "off", "slow" or "fast".
                                                            By default the :enum:`ErrorLevel<flamegpu::CUDAEnsemble::EnsembleConfig::ErrorLevel>` will be set to "slow" (1).
