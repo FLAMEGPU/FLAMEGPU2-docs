@@ -3,7 +3,7 @@
 Host Layer Functions
 ^^^^^^^^^^^^^^^^^^^^
 
-In order to add a host layer function to the dependency graph, a :class:`HostFunctionDescription` object must be created to wrap it:
+In order to add a host layer function to the dependency graph, a :class:`HostFunctionDescription<flamegpu::HostFunctionDescription>` object must be created to wrap it:
 
 .. tabs::
 

@@ -92,7 +92,7 @@ When you have specified all your dependencies and roots, you must instruct the m
     # Generate the actual execution layers from the dependency graph
     model.generateLayers()
 
-If you wish to see the actual layers generated, you can use the :func:`getConstructedLayersString()<flamegpu::DependencyGraph::getConstructedLayersString>` method of the model description to obtain a string representation of the layers:
+If you wish to see the actual layers generated, you can use the :func:`getConstructedLayersString()<flamegpu::ModelDescription::getConstructedLayersString>` method of the model description to obtain a string representation of the layers:
 
 .. tabs::
 
