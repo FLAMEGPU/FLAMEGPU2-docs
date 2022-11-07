@@ -15,7 +15,8 @@ Config Variable         Long Argument              Short Argument     Descriptio
 ``truncate_log_files``  n/a                        n/a                If true, log files will overwrite any pre-existing file with the same path/name. Default value true.
 ``random_seed``         ``--random <int>``         ``-r <int>``       Random seed. Default value is sample from the clock (e.g. it will change each run).
 ``steps``               ``--steps <int>``          ``-s <int>``       Number of simulation steps to execute. 0 will run indefinitely, or until an exit function causes the simulation to end. Default value 1.    
-``verbose``             ``--verbose``              ``-v``             Enable verbose simulation output to console. Default value false.
+``quiet``               ``--quiet``                ``-q``             Don't print ensemble progress to console.
+``verbose``             ``--verbose``              ``-v``             Print config, progress and timing (-t) information to console.
 ``timing``              ``--timing``               ``-t``             Output simulation timing detail to console. Default value false.
 ``console_mode``        ``--console``              ``-c``             Visualisation builds only, disable the visualisation. Default value false.
 ``device_id``           ``--device <device id>``   ``-d <device id>`` The CUDA device id of the GPU to use. Default value 0 (Note this is found within :class:`CUDASimulation::Config<flamegpu::CUDASimulation::Config>`)

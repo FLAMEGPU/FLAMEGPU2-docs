@@ -203,7 +203,7 @@ The below code block displays example files output from FLAME GPU 2 in both XML 
                 <truncate_log_files>true</truncate_log_files>
                 <random_seed>1643029170</random_seed>
                 <steps>1</steps>
-                <verbose>false</verbose>
+                <verbosity>1</verbosity>
                 <timing>false</timing>
                 <console_mode>false</console_mode>
             </simulation>
@@ -254,7 +254,7 @@ The below code block displays example files output from FLAME GPU 2 in both XML 
           "truncate_log_files": true,
           "random_seed": 1643029117,
           "steps": 1,
-          "verbose": false,
+          "verbosity": 1,
           "timing": false,
           "console_mode": false
         },
