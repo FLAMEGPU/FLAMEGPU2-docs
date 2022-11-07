@@ -629,7 +629,7 @@ Finally, the model's execution flow must be setup. This can be achieved using ei
 
 To define the order in which functions are executed during the model, their dependencies must be specified. :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription>`, :class:`HostFunctionDescription<flamegpu::HostFunctionDescription>` and :class:`SubModelDescription<flamegpu::SubModelDescription>` objects all implement :func:`dependsOn()<template<typename A> void flamegpu::DependencyNode::dependsOn(A&)>`. This is used to specify dependencies between the functions of the model.
 
-Next, the dependency graph must be retrieved with :func:`ModelDescription::getDependencyGraph()<flamegpu::ModelDescription::getDependencyGraph>`. The root of the graph specified with :func:`DependencyGraph::addRoot()<flamegpu::DependencyGraph::addRoot>`, and finally the dependency graph converted to layers via :func:`DependencyGraph::generateLayers()<flamegpu::DependencyGraph::generateLayers>`.
+The root of the graph specified with :func:`ModelDescription::addRoot()<flamegpu::ModelDescription::addRoot>`, and finally the dependency graph converted to layers via :func:`ModelDescription::generateLayers()<flamegpu::ModelDescription::generateLayers>`.
 
 
 This can be placed at the end of the file, following the previously defined environment properties.
@@ -643,10 +643,9 @@ This can be placed at the end of the file, following the previously defined envi
         // Dependency specification
         // Message input depends on output
         in_fn.dependsOn(out_fn);
-        flamegpu::DependencyGraph& dependencyGraph = model.getDependencyGraph();
         // Output is the root of our graph
-        dependencyGraph.addRoot(out_fn);
-        dependencyGraph.generateLayers(model);
+        model.addRoot(out_fn);
+        model.generateLayers();
     }
     ...
 
@@ -656,10 +655,9 @@ This can be placed at the end of the file, following the previously defined envi
     # Message input depends on output
     in_fn.dependsOn(out_fn)
     # Dependency specification
-    dependencyGraph = model.getDependencyGraph()
     # Output is the root of our graph
-    dependencyGraph.addRoot(out_fn)
-    dependencyGraph.generateLayers(model)
+    model.addRoot(out_fn)
+    model.generateLayers()
     ...
 
 Initialisation Function
@@ -1066,10 +1064,9 @@ If you have followed the complete tutorial, you should now have the following co
               // Message input depends on output
               in_fn.dependsOn(out_fn);
               // Dependency specification
-              flamegpu::DependencyGraph& dependencyGraph = model.getDependencyGraph();
               // Output is the root of our graph
-              dependencyGraph.addRoot(out_fn);
-              dependencyGraph.generateLayers(model);
+              model.addRoot(out_fn);
+              model.generateLayers();
           }
 
           model.addInitFunction(create_agents);
@@ -1228,10 +1225,9 @@ If you have followed the complete tutorial, you should now have the following co
       # Message input depends on output
       in_fn.dependsOn(out_fn)
       # Dependency specification
-      dependencyGraph = model.getDependencyGraph()
       # Output is the root of our graph
-      dependencyGraph.addRoot(out_fn)
-      dependencyGraph.generateLayers(model)
+      model.addRoot(out_fn)
+      model.generateLayers()
 
       model.addInitFunctionCallback(create_agents().__disown__())
 
@@ -1370,10 +1366,9 @@ If you have followed the complete tutorial, you should now have the following co
     # Message input depends on output
     in_fn.dependsOn(out_fn)
     # Dependency specification
-    dependencyGraph = model.getDependencyGraph()
     # Output is the root of our graph
-    dependencyGraph.addRoot(out_fn)
-    dependencyGraph.generateLayers()
+    model.addRoot(out_fn)
+    model.generateLayers()
 
     class create_agents(pyflamegpu.HostFunctionCallback):
         def run(self, FLAMEGPU):
