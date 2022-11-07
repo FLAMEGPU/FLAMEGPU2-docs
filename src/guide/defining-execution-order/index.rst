@@ -13,6 +13,7 @@ This chapter has been broken up into several sections:
    :maxdepth: 1
    
    dependency-graph.rst
+   host-layer-functions.rst
    layers.rst
    exit-conditions.rst
    submodels.rst

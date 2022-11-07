@@ -64,6 +64,7 @@ set(DOCS_SRC_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/debugging-models/visual_studio_start_debugger.png"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/defining-agents/index.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/defining-execution-order/dependency-graph.rst"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/defining-execution-order/host-layer-functions.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/defining-execution-order/exit-conditions.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/defining-execution-order/index.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/defining-execution-order/layers.rst"
