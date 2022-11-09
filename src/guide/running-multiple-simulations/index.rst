@@ -197,6 +197,7 @@ Long Argument                  Short Argument              Description
 ``--quiet``                    ``-q``                      Don't print ensemble progress to console.
 ``--verbose``                  ``-v``                      Print config, progress and timing (-t) information to console.
 ``--timing``                   ``-t``                      Output timing information to console at exit.
+``--silence-unknown-args``     ``-u``                      Silence warnings for unknown arguments passed after this flag.
 ``--error``                    ``-e`` <error level>        The :enum:`ErrorLevel<flamegpu::CUDAEnsemble::EnsembleConfig::ErrorLevel>` to use: 0, 1, 2, "off", "slow" or "fast".
                                                            By default the :enum:`ErrorLevel<flamegpu::CUDAEnsemble::EnsembleConfig::ErrorLevel>` will be set to "slow" (1).
 ``--standby``                                              Allow the operating system to enter standby during ensemble execution.

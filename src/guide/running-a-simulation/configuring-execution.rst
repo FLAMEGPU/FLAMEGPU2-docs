@@ -18,6 +18,7 @@ Config Variable         Long Argument              Short Argument     Descriptio
 ``quiet``               ``--quiet``                ``-q``             Don't print ensemble progress to console.
 ``verbose``             ``--verbose``              ``-v``             Print config, progress and timing (-t) information to console.
 ``timing``              ``--timing``               ``-t``             Output simulation timing detail to console. Default value false.
+``unknown args``        ``--silence-unknown-args`` ``-u``             Silence warnings for unknown arguments passed after this flag.
 ``console_mode``        ``--console``              ``-c``             Visualisation builds only, disable the visualisation. Default value false.
 ``device_id``           ``--device <device id>``   ``-d <device id>`` The CUDA device id of the GPU to use. Default value 0 (Note this is found within :class:`CUDASimulation::Config<flamegpu::CUDASimulation::Config>`)
 ``inLayerConcurrency``  n/a                        n/a                Enables the use of concurrency within layers. Default value ``true``. (Note this is found within :class:`CUDASimulation::Config<flamegpu::CUDASimulation::Config>`)
