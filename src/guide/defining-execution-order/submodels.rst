@@ -26,11 +26,11 @@ When calling :func:`bindAgent()<flamegpu::SubModelDescription::bindAgent>`, it i
       flamegpu::ModelDescription sub_m("submodel");
       {
           // Define a simple agent with variable 'x' and state 'foo'
-          flamegpu::AgentDescription &a = sub_m.newAgent("subagent");
+          flamegpu::AgentDescription a = sub_m.newAgent("subagent");
           a.newVariable<int>("x");
           a.newState("foo");
           // Add an agent function to the model
-          flamegpu::AgentFunctionDescription &af1 = a.newFunction("example_function", ExampleFn);
+          flamegpu::AgentFunctionDescription af1 = a.newFunction("example_function", ExampleFn);
           sub_m.newLayer().addFunction(af1);
           // Give the model an exit condition, this is required for all submodels
           sub_m.addExitCondition(ExitCdn);
@@ -39,14 +39,14 @@ When calling :func:`bindAgent()<flamegpu::SubModelDescription::bindAgent>`, it i
       flamegpu::ModelDescription m("model");
       {
           // Define a simple agent with variable 'y' and state 'bar'
-          flamegpu::AgentDescription &a = m.newAgent("agent");
+          flamegpu::AgentDescription a = m.newAgent("agent");
           a.newVariable<int>("y");
           a.newState("bar");
           // Add the submodel
-          flamegpu::SubModelDescription &smd = m.newSubModel("sub", sub_m);
+          flamegpu::SubModelDescription smd = m.newSubModel("sub", sub_m);
           // Map agent's foo and bar
           // We pass false, as we don't wish for matching variables and states to be automatically mapped
-          flamegpu::SubAgentDescription &agent_map = smd.bindAgent("subagent", "agent", false, false);
+          flamegpu::SubAgentDescription agent_map = smd.bindAgent("subagent", "agent", false, false);
           // Map the agent variables and states
           agent_map.mapState("foo", "bar");
           agent_map.mapVariable("x", "y");
@@ -107,8 +107,8 @@ It is not possible to map a non-const environment property within a submodel, to
       m.Environment().newProperty<float>("bar2", 21.0f);
       
       // Setup the mapping
-      flamegpu::SubModelDescription &smd = m.newSubModel("sub", sub_m);
-      flamegpu::SubEnvironmentDescription &senv = smd.SubEnvironment();
+      flamegpu::SubModelDescription smd = m.newSubModel("sub", sub_m);
+      flamegpu::SubEnvironmentDescription senv = smd.SubEnvironment();
       senv.mapProperty("foo", "bar");
       senv.mapProperty("foo2", "bar2");
 

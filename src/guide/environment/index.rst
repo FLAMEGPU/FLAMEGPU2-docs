@@ -24,7 +24,7 @@ A model's :class:`EnvironmentDescription<flamegpu::EnvironmentDescription>` is r
     // Define a new FLAME GPU model
     flamegpu::ModelDescription model("My Model");
     // Fetch the model's environment
-    flamegpu::EnvironmentDescription &env = model.Environment();
+    flamegpu::EnvironmentDescription env = model.Environment();
 
   .. code-tab:: py Python
 
@@ -50,7 +50,7 @@ The type, name and initial value of the property are all specified, array proper
   .. code-tab:: cpp C++
 
     // Fetch the model's environment
-    flamegpu::EnvironmentDescription &env = model.Environment();
+    flamegpu::EnvironmentDescription env = model.Environment();
     // Declare an int property named 'foo', with a default value 12
     env.newProperty<int>("foo", 12);
     // Declare a float array property of length 3 named 'bar', with a default value [4.0, 5.0, 6.0]
@@ -89,7 +89,7 @@ The type, dimensions and name of the macro property are all specified. The macro
   .. code-tab:: cpp C++
 
     // Fetch the model's environment
-    flamegpu::EnvironmentDescription &env = model.Environment();
+    flamegpu::EnvironmentDescription env = model.Environment();
     // Declare an int macro property named 'foobar', with array dimensions [5, 5, 5, 3]
     env.newMacroProperty<int, 5, 5, 5, 3>("foobar");
 

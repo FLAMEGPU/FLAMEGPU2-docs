@@ -35,7 +35,7 @@ The below example demonstrates adding an agent and host function to separate lay
     ... // Full model definition, including the agent function 'outputdata'
 
     // Create a new layer for the model 'model'
-    flamegpu::LayerDescription &layer = model.newLayer();    
+    flamegpu::LayerDescription layer = model.newLayer();    
     // Add the agent function 'outputdata' to the layer
     layer.addAgentFunction(outputdata);
     

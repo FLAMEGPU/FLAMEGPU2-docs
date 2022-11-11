@@ -41,12 +41,12 @@ Example definition of how the above agent function condition would be attached t
       // A model is defined
       ModelDescription m("model");
       // It contains an agent with 'variable 'x' and two states 'foo' and 'bar'
-      AgentDescription &a = m.newAgent("agent");
+      AgentDescription a = m.newAgent("agent");
       a.newVariable<int>("x");
       a.newState("foo");
       a.newState("bar");
       // The agent has an agent function which transitions agents from state 'foo' to 'bar'
-      AgentFunctionDescription &af1 = a.newFunction("example_function", ExampleFn);
+      AgentFunctionDescription af1 = a.newFunction("example_function", ExampleFn);
       af1.setInitialState("foo");
       af1.setEndState("bar");
       // Only agents that pass function condition 'x_is_1' may execute the function and transition
