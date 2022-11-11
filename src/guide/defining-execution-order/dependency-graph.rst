@@ -54,22 +54,6 @@ Any of the objects can depend on multiple other objects:
 
 
 
-Accessing the DependencyGraph
------------------------------
-
-Each model has an associated dependency graph which is accessed via a :class:`ModelDescription<flamegpu::ModelDescription>` as follows:
-
-.. tabs::
-  
-  .. code-tab:: cpp C++
-
-    // Access the DependencyGraph of model
-    flamegpu::DependencyGraph& graph = model.getDependencyGraph();
-
-  .. code-tab:: py Python
-
-    # Access the DependencyGraph of model
-    graph = model.getDependencyGraph()
 
 Specifying Roots
 ----------------
@@ -81,15 +65,63 @@ Any functions or submodels which have no dependencies are *roots*. These must be
   .. code-tab:: cpp C++
 
     // Add agent_fn1 as a root
-    graph.addRoot(agent_fn1);
+    model.addRoot(agent_fn1);
 
   .. code-tab:: py Python
 
     # Add agent_fn1 as a root
-    graph.addRoot(agent_fn1)
+    model.addRoot(agent_fn1)
 
 You do not need to manually add every function or submodel to the graph. Adding the roots is enough, as the others will be included
 as a result of the dependency specifications.
+
+
+
+Host Layer Functions
+--------------------
+
+In order to add a host layer function to the dependency graph, a :class:`HostFunctionDescription<flamegpu::HostFunctionDescription>` object must be created to wrap it:
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+    // Define a host function called host_fn1
+    FLAMEGPU_HOST_FUNCTION(host_fn1) {
+        // Behaviour goes here
+    }
+
+    // ... other code ...
+
+    // Wrap it in a HostFunctionDescription, giving it the name "HostFunction1"
+    HostFunctionDescription hf("HostFunction1", host_fn1);
+
+    // Specify that it depends on an agent function "f"
+    hf.dependsOn(f);
+
+
+  .. code-tab:: py Python
+
+    # Define a host function called host_fn1
+    class host_fn1(pyflamegpu.HostFunctionCallback):
+      '''
+         The explicit __init__() is optional, however if used the superclass __init__() must be called
+      '''
+      def __init__(self):
+        super().__init__()
+
+      def run(self,FLAMEGPU):
+        # Behaviour goes here
+
+    # ... other code ...
+
+    # Wrap it in a HostFunctionDescription, giving it the name "HostFunction1"
+    hf = pyflamegpu.HostFunctionDescription("HostFunction1", host_fn1)
+
+    # Specify that it depends on an agent function "f"
+    hf.dependsOn(f)
+
+If you are using the layers API directly, you do not need to wrap your host layer functions in :class:`HostFunctionDescription` objects.
 
 Generating Layers
 -----------------
@@ -108,14 +140,14 @@ When you have specified all your dependencies and roots, you must instruct the m
     # Generate the actual execution layers from the dependency graph
     model.generateLayers()
 
-If you wish to see the actual layers generated, you can use the :func:`getConstructedLayersString()<flamegpu::DependencyGraph::getConstructedLayersString>` method of the dependency graph to obtain a string representation of the layers:
+If you wish to see the actual layers generated, you can use the :func:`getConstructedLayersString()<flamegpu::ModelDescription::getConstructedLayersString>` method of the model description to obtain a string representation of the layers:
 
 .. tabs::
 
   .. code-tab:: cpp C++
 
     // Get the constructed layers and store them in variable actualLayers
-    std::string actualLayers = graph.getConstructedLayersString();
+    std::string actualLayers = model.getConstructedLayersString();
 
     // Print the layers to the console
     std::cout << actualLayers << std::endl;
@@ -123,7 +155,7 @@ If you wish to see the actual layers generated, you can use the :func:`getConstr
   .. code-tab:: py Python
 
     # Get the constructed layers and store them in variable actualLayers
-    actualLayers = graph.getConstructedLayersString()
+    actualLayers = model.getConstructedLayersString()
 
     # Print the layers to the console
     print(actualLayers)
@@ -139,12 +171,12 @@ will be happening in the order you expect them to.
   .. code-tab:: cpp C++
 
     // Produce a diagram of the dependency graph, saved as graphdiagram.gv
-    graph.generateDOTDiagram("graphdiagram.gv");
+    model.generateDependencyGraphDOTDiagram("graphdiagram.gv");
 
   .. code-tab:: py Python
 
     # Produce a diagram of the dependency graph, saved as graphdiagram.gv
-    graph.generateDOTDiagram("graphdiagram.gv")
+    model.generateDependencyGraphDOTDiagram("graphdiagram.gv")
 
 As an example, the following code would produce the graph below in a file named *diamond.gv*:
 
@@ -155,9 +187,8 @@ As an example, the following code would produce the graph below in a file named 
     f2.dependsOn(f);
     f3.dependsOn(f);
     f4.dependsOn(f2, f3);
-    graph = model.getDependencyGraph();
-    graph.addRoot(f);
-    graph.generateDOTDiagram("diamond.gv");
+    model.addRoot(f);
+    model.generateDependencyGraphDOTDiagram("diamond.gv");
 
   .. code-tab:: py Python
 
@@ -165,9 +196,8 @@ As an example, the following code would produce the graph below in a file named 
     f3.dependsOn(f)
     f4.dependsOn(f2)
     f4.dependsOn(f3)
-    graph = model.getDependencyGraph()
-    graph.addRoot(f)
-    graph.generateDOTDiagram("diamond.gv")
+    model.addRoot(f)
+    model.generateDependencyGraphDOTDiagram("diamond.gv")
 
 .. graphviz::
 
@@ -184,6 +214,23 @@ As an example, the following code would produce the graph below in a file named 
   }
 
 
+Accessing the DependencyGraph
+-----------------------------
+
+In general you should not need to directly access the dependency graph as all relevant functionality can be accessed via the model description. If 
+for some reason you do need direct access, you can request it from via a :class:`ModelDescription<flamegpu::ModelDescription>` as follows:
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+    // Access the DependencyGraph of model
+    flamegpu::DependencyGraph& graph = model.getDependencyGraph();
+
+  .. code-tab:: py Python
+
+    # Access the DependencyGraph of model
+    graph = model.getDependencyGraph()
 
 Related Links
 -------------
