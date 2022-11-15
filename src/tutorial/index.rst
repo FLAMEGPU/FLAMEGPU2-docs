@@ -734,13 +734,9 @@ Similar to agent functions, the initialisation function must be attached to the 
 
     ...
     dependencyGraph.generateLayers(model)
-    model.addInitFunctionCallback(create_agents().__disown__())
+    model.addInitFunctionCallback(create_agents())
     ...
     
-    
-.. warning ::
-    
-    It is important that ``__disown__()`` is called when creating the instance of the Python init (host) function callbacks. Without this, Python may decide to deallocate the instance early, leading to undefined behaviour. We are not yet able to detect, or prevent this automatically within FLAME GPU.
 
 Configuring the Simulation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -808,7 +804,7 @@ After the :class:`StepLoggingConfig<flamegpu::StepLoggingConfig>` is fully defin
 
   .. code-tab:: py Python
   
-    ... # following on from model.addInitFunctionCallback(create_agents().__disown__())
+    ... # following on from model.addInitFunctionCallback(create_agents())
     
     # Specify the desired StepLoggingConfig
     step_log_cfg = pyflamegpu.StepLoggingConfig(model)
@@ -1229,7 +1225,7 @@ If you have followed the complete tutorial, you should now have the following co
       model.addRoot(out_fn)
       model.generateLayers()
 
-      model.addInitFunctionCallback(create_agents().__disown__())
+      model.addInitFunctionCallback(create_agents())
 
       # Specify the desired StepLoggingConfig
       step_log_cfg = pyflamegpu.StepLoggingConfig(model)
@@ -1382,7 +1378,7 @@ If you have followed the complete tutorial, you should now have the following co
                 t.setVariableFloat("x", FLAMEGPU.random.uniformFloat() * ENV_WIDTH)
                 t.setVariableFloat("y", FLAMEGPU.random.uniformFloat() * ENV_WIDTH)
                 
-    model.addInitFunctionCallback(create_agents().__disown__())
+    model.addInitFunctionCallback(create_agents())
 
     # Specify the desired StepLoggingConfig
     step_log_cfg = pyflamegpu.StepLoggingConfig(model)

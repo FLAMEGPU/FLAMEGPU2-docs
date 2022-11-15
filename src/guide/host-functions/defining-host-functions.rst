@@ -50,6 +50,12 @@ In the Python API a host function is defined as a subclass of :class:`HostFuncti
       def run(self, FLAMEGPU):
         # Behaviour goes here
         return pyflamegpu.CONTINUE
+        
+        
+.. warning::
+
+    Although python Host functions and conditions are classes, the class should not utilise any additional stateful information (e.g. `self`). When executed via ensembles, Python host function instances are shared between concurrent simulation runs, which may lead to race conditions where stateful information is present.
+    
 
 Types of Host Function
 ----------------------
@@ -130,14 +136,9 @@ The below example shows how an init function would be added to a model:
     model = pyflamegpu.ModelDescription("Test Model")
     ... # Rest of model definition
     # Add the exit function init_fn to Test Model
-    model.addInitFunctionCallback(init_fn().__disown__())
+    model.addInitFunctionCallback(init_fn())
     ...
 
-.. warning::
-
-    The above Python example calls ``__disown__()`` on the instance of ``init_fn`` created inline. Python host functions are created and owned by Python, only a reference to them is passed to the C++ internals. Calling ``__disown__()`` ensures that the Python owned host function will not go out of scope and be deallocated during the program's lifetime. Failing to call ``__disown__()`` can lead to undefined behaviour.
-    
-    For updates on this see the `issue on GitHub <https://github.com/FLAMEGPU/FLAMEGPU2/issues/498>`
 
 Related Links
 -------------

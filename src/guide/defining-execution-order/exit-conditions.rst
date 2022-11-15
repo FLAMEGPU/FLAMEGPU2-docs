@@ -44,7 +44,7 @@ In particular, submodels which are introduced in the :ref:`following section<Def
     ...
     
     # Add 'my_exit_condition' to 'model'
-    model.addExitConditionCallback(my_exit_condition().__disown__())
+    model.addExitConditionCallback(my_exit_condition())
 
 If a model has multiple exit conditions, they will be executed in the order that they were added to the model. 
 When multiple exit conditions are defined, conditions are only executed if earlier exit condition functions return :enumerator:`CONTINUE<flamegpu::CONDITION_RESULT::CONTINUE>`.
