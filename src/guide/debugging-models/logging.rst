@@ -151,7 +151,7 @@ A step function must also be added, to both copy the macro property to the envir
             nb_cycle_counter.zero()
             
     // Attach the step function to the model
-    model.addStepFunctionCallback(reset_counters().__disown__())
+    model.addStepFunctionCallback(reset_counters())
 
 Now the agent function can be updated to increment the counters at each branch
 

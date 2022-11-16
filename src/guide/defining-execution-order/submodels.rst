@@ -66,7 +66,7 @@ When calling :func:`bindAgent()<flamegpu::SubModelDescription::bindAgent>`, it i
       s_af1 = s_a.newRTCFunction("example_function", ExampleFn)
       sub_m.newLayer().addFunction(s_af1)
       # Give the model an exit condition, this is required for all submodels
-      sub_m.addExitConditionCallback(ExitCdn().__disown__());
+      sub_m.addExitConditionCallback(ExitCdn());
 
       # Define the parent model
       m = pyflamegpu.ModelDescription("model")

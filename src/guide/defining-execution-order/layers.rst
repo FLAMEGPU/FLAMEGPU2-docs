@@ -66,7 +66,7 @@ The below example demonstrates adding an agent and host function to separate lay
     layer.addAgentFunction(outputdata_desc)
     
     # Create a new layer for the host function 'validation'
-    model.newLayer().addHostFunctionCallback(validation().__disown__())
+    model.newLayer().addHostFunctionCallback(validation())
 
 
 Layer Specification Rules
