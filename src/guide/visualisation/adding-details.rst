@@ -16,7 +16,7 @@ Environment properties marked as constant within the model, cannot be updated vi
   .. code-tab:: cpp C++
 
     // Configure the visualisation
-    flamegpu::visualiser::ModelVis &m_vis = cudaSimulation.getVisualisation();
+    flamegpu::visualiser::ModelVis m_vis = cudaSimulation.getVisualisation();
     // Create a new UI panel named "Settings
     flamegpu::visualiser::PanelVis ui = m_vis.newUIPanel("Settings");
     // Create a named collapsible section "Sliders"
@@ -91,7 +91,7 @@ These can be useful to denote the bounding area of the environment, or other det
   .. code-tab:: cpp C++
 
     // Configure the visualisation
-    flamegpu::visualiser::ModelVis &m_vis = cudaSimulation.getVisualisation();
+    flamegpu::visualiser::ModelVis m_vis = cudaSimulation.getVisualisation();
     // Draw a square out of line segments, white 20% alpha
     flamegpu::visualiser::LineVis pen = m_vis.newLineSketch(1.0f, 1.0f, 1.0f, 0.2f);
     pen.addVertex(0.0f, 0.0f, 0.0f); pen.addVertex(1.0f, 0.0f, 0.0f);
@@ -140,7 +140,7 @@ Like the models representing agents, currently only the ``.obj`` (wavefront) for
   .. code-tab:: cpp C++
 
     // Configure the visualisation
-    flamegpu::visualiser::ModelVis &m_vis = cudaSimulation.getVisualisation();
+    flamegpu::visualiser::ModelVis m_vis = cudaSimulation.getVisualisation();
     // Add the environment's model
     flamegpu::visualiser::StaticModelVis env_model = m_vis.newStaticModel("myfiles/town.obj");
     // Configure the model

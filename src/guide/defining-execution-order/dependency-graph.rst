@@ -65,12 +65,12 @@ Any functions or submodels which have no dependencies are *roots*. These must be
   .. code-tab:: cpp C++
 
     // Add agent_fn1 as a root
-    model.addRoot(agent_fn1);
+    model.addExecutionRoot(agent_fn1);
 
   .. code-tab:: py Python
 
     # Add agent_fn1 as a root
-    model.addRoot(agent_fn1)
+    model.addExecutionRoot(agent_fn1)
 
 You do not need to manually add every function or submodel to the graph. Adding the roots is enough, as the others will be included
 as a result of the dependency specifications.
@@ -187,7 +187,7 @@ As an example, the following code would produce the graph below in a file named 
     f2.dependsOn(f);
     f3.dependsOn(f);
     f4.dependsOn(f2, f3);
-    model.addRoot(f);
+    model.addExecutionRoot(f);
     model.generateDependencyGraphDOTDiagram("diamond.gv");
 
   .. code-tab:: py Python
@@ -196,7 +196,7 @@ As an example, the following code would produce the graph below in a file named 
     f3.dependsOn(f)
     f4.dependsOn(f2)
     f4.dependsOn(f3)
-    model.addRoot(f)
+    model.addExecutionRoot(f)
     model.generateDependencyGraphDOTDiagram("diamond.gv")
 
 .. graphviz::

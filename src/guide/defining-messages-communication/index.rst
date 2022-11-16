@@ -34,9 +34,9 @@ A new message type can be defined using one of the above symbols, two examples a
     .. code-tab:: cpp C++
 
       // Create a new message called "brute_force" which uses the brute force communication strategy
-      flamegpu::MessageBruteForce::Description &bf_message = model.newMessage<flamegpu::MessageBruteForce>("brute_force");
+      flamegpu::MessageBruteForce::Description bf_message = model.newMessage<flamegpu::MessageBruteForce>("brute_force");
       // Create a new message called "spatial_3D" which uses the Spatial 3D communication strategy
-      flamegpu::MessageSpatial3D::Description &s3d_message = model.newMessage<flamegpu::MessageSpatial3D>("spatial_3D");
+      flamegpu::MessageSpatial3D::Description s3d_message = model.newMessage<flamegpu::MessageSpatial3D>("spatial_3D");
 
     .. code-tab:: py Python
       

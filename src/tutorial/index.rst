@@ -255,7 +255,7 @@ FLAME GPU provides a special type for agent IDs, this is referred to as :type:`f
     ...          
     {   // (optional local scope block for cleaner grouping)
         // Define a message of type MessageSpatial2D named location
-        flamegpu::MessageSpatial2D::Description &message = model.newMessage<flamegpu::MessageSpatial2D>("location");
+        flamegpu::MessageSpatial2D::Description message = model.newMessage<flamegpu::MessageSpatial2D>("location");
         // Configure the message list
         message.setMin(0, 0);
         message.setMax(ENV_WIDTH, ENV_WIDTH);
@@ -299,7 +299,7 @@ The Circles model requires a location, so we can add three ``float`` variables t
     ...
         
     // Define an agent named point
-    flamegpu::AgentDescription &agent = model.newAgent("point");
+    flamegpu::AgentDescription agent = model.newAgent("point");
     // Assign the agent some variables (ID is implicit to agents, so we don't define it ourselves)
     agent.newVariable<float>("x");
     agent.newVariable<float>("y");
@@ -347,7 +347,7 @@ Additionally, we will add the two constants we defined earlier so that they are 
     ...       
     {   // (optional local scope block for cleaner grouping)
         // Define environment properties
-        flamegpu::EnvironmentDescription &env = model.Environment();
+        flamegpu::EnvironmentDescription env = model.Environment();
         env.newProperty<unsigned int>("AGENT_COUNT", AGENT_COUNT);
         env.newProperty<float>("ENV_WIDTH", ENV_WIDTH);
         env.newProperty<float>("repulse", 0.05f);
@@ -365,7 +365,7 @@ Additionally, we will add the two constants we defined earlier so that they are 
     ...
 
 
-Agent Function Description & Implementation
+Agent Function Description  Implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Now that we've defined the messages, agents and environment for the Circles model, it's time to implement the behaviours of our agents and make use of them.
@@ -588,9 +588,9 @@ The returned :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription
 
     ...
     // Setup the two agent functions
-    flamegpu::AgentFunctionDescription &out_fn = agent.newFunction("output_message", output_message);
+    flamegpu::AgentFunctionDescription out_fn = agent.newFunction("output_message", output_message);
     out_fn.setMessageOutput("location");
-    flamegpu::AgentFunctionDescription &in_fn = agent.newFunction("input_message", input_message);
+    flamegpu::AgentFunctionDescription in_fn = agent.newFunction("input_message", input_message);
     in_fn.setMessageInput("location");   
     ...
 
@@ -644,7 +644,7 @@ This can be placed at the end of the file, following the previously defined envi
         // Message input depends on output
         in_fn.dependsOn(out_fn);
         // Output is the root of our graph
-        model.addRoot(out_fn);
+        model.addExecutionRoot(out_fn);
         model.generateLayers();
     }
     ...
@@ -656,7 +656,7 @@ This can be placed at the end of the file, following the previously defined envi
     in_fn.dependsOn(out_fn)
     # Dependency specification
     # Output is the root of our graph
-    model.addRoot(out_fn)
+    model.addExecutionRoot(out_fn)
     model.generateLayers()
     ...
 
@@ -857,7 +857,7 @@ In most cases, you will want the visualisation to persist after the simulation c
     // Only compile this block if being built with visualisation support    
     #ifdef VISUALISATION
         // Create visualisation
-        flamegpu::visualiser::ModelVis &m_vis = cuda_model.getVisualisation();
+        flamegpu::visualiser::ModelVis m_vis = cuda_model.getVisualisation();
         // Set the initial camera location and speed
         const float INIT_CAM = ENV_WIDTH / 2.0f;
         m_vis.setInitialCameraTarget(INIT_CAM, INIT_CAM, 0);
@@ -865,12 +865,12 @@ In most cases, you will want the visualisation to persist after the simulation c
         m_vis.setCameraSpeed(0.01f);
         m_vis.setSimulationSpeed(25);
         // Add "point" agents to the visualisation
-        auto &point_agt = m_vis.addAgent("point");
+        flamegpu::visualiser::AgentVis point_agt = m_vis.addAgent("point");
         // Location variables have names "x" and "y" so will be used by default
         point_agt.setModel(flamegpu::visualiser::Stock::Models::ICOSPHERE);
         point_agt.setModelScale(1/10.0f);
         // Mark the environment bounds
-        auto pen = m_vis.newPolylineSketch(1, 1, 1, 0.2f);
+        flamegpu::visualiser::LineVis pen = m_vis.newPolylineSketch(1, 1, 1, 0.2f);
         pen.addVertex(0, 0, 0);
         pen.addVertex(0, ENV_WIDTH, 0);
         pen.addVertex(ENV_WIDTH, ENV_WIDTH, 0);
@@ -1025,7 +1025,7 @@ If you have followed the complete tutorial, you should now have the following co
 
           {   // (optional local scope block for cleaner grouping)
               // Define a message of type MessageSpatial2D named location
-              flamegpu::MessageSpatial2D::Description &message = model.newMessage<flamegpu::MessageSpatial2D>("location");
+              flamegpu::MessageSpatial2D::Description message = model.newMessage<flamegpu::MessageSpatial2D>("location");
               // Configure the message list
               message.setMin(0, 0);
               message.setMax(ENV_WIDTH, ENV_WIDTH);
@@ -1036,32 +1036,32 @@ If you have followed the complete tutorial, you should now have the following co
           }
 
           // Define an agent named point
-          flamegpu::AgentDescription &agent = model.newAgent("point");
+          flamegpu::AgentDescription agent = model.newAgent("point");
           // Assign the agent some variables (ID is implicit to agents, so we don't define it ourselves)
           agent.newVariable<float>("x");
           agent.newVariable<float>("y");
           agent.newVariable<float>("z");
           agent.newVariable<float>("drift", 0.0f);
           // Setup the two agent functions
-          flamegpu::AgentFunctionDescription &out_fn = agent.newFunction("output_message", output_message);
+          flamegpu::AgentFunctionDescription out_fn = agent.newFunction("output_message", output_message);
           out_fn.setMessageOutput("location");
-          flamegpu::AgentFunctionDescription &in_fn = agent.newFunction("input_message", input_message);
+          flamegpu::AgentFunctionDescription in_fn = agent.newFunction("input_message", input_message);
           in_fn.setMessageInput("location");
 
           {   // (optional local scope block for cleaner grouping)
               // Define environment properties
-              flamegpu::EnvironmentDescription &env = model.Environment();
+              flamegpu::EnvironmentDescription env = model.Environment();
               env.newProperty<unsigned int>("AGENT_COUNT", AGENT_COUNT);
               env.newProperty<float>("ENV_WIDTH", ENV_WIDTH);
               env.newProperty<float>("repulse", 0.05f);
           }
 
           {   // (optional local scope block for cleaner grouping)
+              // Dependency specification
               // Message input depends on output
               in_fn.dependsOn(out_fn);
-              // Dependency specification
               // Output is the root of our graph
-              model.addRoot(out_fn);
+              model.addExecutionRoot(out_fn);
               model.generateLayers();
           }
 
@@ -1083,7 +1083,7 @@ If you have followed the complete tutorial, you should now have the following co
       // Only compile this block if being built with visualisation support
       #ifdef VISUALISATION
           // Create visualisation
-          flamegpu::visualiser::ModelVis &m_vis = cuda_model.getVisualisation();
+          flamegpu::visualiser::ModelVis m_vis = cuda_model.getVisualisation();
           // Set the initial camera location and speed
           const float INIT_CAM = ENV_WIDTH / 2.0f;
           m_vis.setInitialCameraTarget(INIT_CAM, INIT_CAM, 0);
@@ -1091,12 +1091,12 @@ If you have followed the complete tutorial, you should now have the following co
           m_vis.setCameraSpeed(0.01f);
           m_vis.setSimulationSpeed(25);
           // Add "point" agents to the visualisation
-          auto &point_agt = m_vis.addAgent("point");
+          flamegpu::visualiser::AgentVis point_agt = m_vis.addAgent("point");
           // Location variables have names "x" and "y" so will be used by default
           point_agt.setModel(flamegpu::visualiser::Stock::Models::ICOSPHERE);
           point_agt.setModelScale(1/10.0f);
           // Mark the environment bounds
-          auto pen = m_vis.newPolylineSketch(1, 1, 1, 0.2f);
+          flamegpu::visualiser::LineVis pen = m_vis.newPolylineSketch(1, 1, 1, 0.2f);
           pen.addVertex(0, 0, 0);
           pen.addVertex(0, ENV_WIDTH, 0);
           pen.addVertex(ENV_WIDTH, ENV_WIDTH, 0);
@@ -1222,7 +1222,7 @@ If you have followed the complete tutorial, you should now have the following co
       in_fn.dependsOn(out_fn)
       # Dependency specification
       # Output is the root of our graph
-      model.addRoot(out_fn)
+      model.addExecutionRoot(out_fn)
       model.generateLayers()
 
       model.addInitFunctionCallback(create_agents())

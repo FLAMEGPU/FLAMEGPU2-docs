@@ -7,9 +7,9 @@ The main purpose of FLAME GPU visualisations is to display the agents. By defaul
   .. code-tab:: cpp C++
 
     // Configure the visualisation
-    flamegpu::visualiser::ModelVis &visualisation = cudaSimulation.getVisualisation();
+    flamegpu::visualiser::ModelVis visualisation = cudaSimulation.getVisualisation();
     // Add agent 'boid' to the visualisation
-    flamegpu::visualiser::AgentVis &boid_agt = visualisation.addAgent("boid");
+    flamegpu::visualiser::AgentVis boid_agt = visualisation.addAgent("boid");
     ...
     
   .. code-tab:: py Python
@@ -47,7 +47,7 @@ Examples of setting the agent model are shown below
   .. code-tab:: cpp C++
 
     // Add agent 'boid' to the visualisation
-    flamegpu::visualiser::AgentVis &boid_agt = visualisation.addAgent("boid");
+    flamegpu::visualiser::AgentVis boid_agt = visualisation.addAgent("boid");
     // Configure the agent to use the stock icosphere model
     boid_agt.setModel(flamegpu::visualiser::Stock::Models::ICOSPHERE);
     // Or, configure the agent to use a custom model
@@ -78,7 +78,7 @@ Examples of setting a keyframe agent model are shown below
   .. code-tab:: cpp C++
 
     // Add agent 'pedestrian' to the visualisation
-    flamegpu::visualiser::AgentVis &ped_agt = visualisation.addAgent("pedestrian");
+    flamegpu::visualiser::AgentVis ped_agt = visualisation.addAgent("pedestrian");
     // Configure the agent to use the stock pedestrian model, and "animate" variable to control animation
     ped_agt.setKeyFrameModel(flamegpu::visualiser::Stock::Models::PEDESTRIAN, "animate");
     // Or, configure the agent to use a custom model pair, and "animate" variable to control animation
@@ -113,7 +113,7 @@ However, you can use other variables if you have used different variable names o
   .. code-tab:: cpp C++
 
     // Add agent 'boid' to the visualisation
-    flamegpu::visualiser::AgentVis &boid_agt = visualisation.addAgent("boid");
+    flamegpu::visualiser::AgentVis boid_agt = visualisation.addAgent("boid");
     
     // Set agent position with upto 3 individual float variables
     boid_agt.setXVariable("pos_x");
@@ -155,7 +155,7 @@ A few examples are provided below, for a complete understanding of the combinati
   .. code-tab:: cpp C++
 
     // Add agent 'boid' to the visualisation
-    flamegpu::visualiser::AgentVis &boid_agt = visualisation.addAgent("boid");
+    flamegpu::visualiser::AgentVis boid_agt = visualisation.addAgent("boid");
     
     // Set agent forward and up vectors (yaw, pitch and roll) with individual float variables
     boid_agt.setForwardXVariable("velocity_x");
@@ -214,7 +214,7 @@ First you should set the base model scale (with :func:`setModelScale()<flamegpu:
   .. code-tab:: cpp C++
 
     // Add agent 'boid' to the visualisation
-    flamegpu::visualiser::AgentVis &boid_agt = visualisation.addAgent("boid");
+    flamegpu::visualiser::AgentVis boid_agt = visualisation.addAgent("boid");
     // Uniformly scale the default model so that it is 1.5 units in it's longest axis
     boid_agt.setModelScale(1.5f);
     // Or, scale each axis of the default model individually
@@ -267,7 +267,7 @@ Agent colors can be specified as a static RGB color.
   .. code-tab:: cpp C++
 
     // Add agent 'boid' to the visualisation
-    flamegpu::visualiser::AgentVis &boid_agt = visualisation.addAgent("boid");
+    flamegpu::visualiser::AgentVis boid_agt = visualisation.addAgent("boid");
     
     // Set the agent's color to a stock color
     boid_agt.setColor(flamegpu::visualiser::Stock::Colors::RED);
@@ -317,7 +317,7 @@ Pastel (from seaborn)     *Viridis (from BIDS/MatPlotLib)*
   .. code-tab:: cpp C++
 
     // Add agent 'boid' to the visualisation
-    flamegpu::visualiser::AgentVis &boid_agt = visualisation.addAgent("boid");
+    flamegpu::visualiser::AgentVis boid_agt = visualisation.addAgent("boid");
     
     // Map the agent's color to the value of 'i' as selected from a discrete stock palette
     boid_agt.setColor(flamegpu::visualiser::DiscreteColor("i", flamegpu::visualiser::Stock::Palette::DARK2, flamegpu::visualiser::Stock::Colors::WHITE));
@@ -345,7 +345,7 @@ Alternatively, you can construct a bespoke palette of discrete colors
   .. code-tab:: cpp C++
 
     // Add agent 'boid' to the visualisation
-    flamegpu::visualiser::AgentVis &boid_agt = visualisation.addAgent("boid");
+    flamegpu::visualiser::AgentVis boid_agt = visualisation.addAgent("boid");
     
     // Construct a DiscreteColor map for integer variable "i" with fall-back White
     flamegpu::visualiser::iDiscreteColor cmap("i", flamegpu::visualiser::Stock::Colors::WHITE);
@@ -386,7 +386,7 @@ By default interpolation clamps variables to the inclusive range [0, 1]. This ca
   .. code-tab:: cpp C++
 
     // Add agent 'boid' to the visualisation
-    flamegpu::visualiser::AgentVis &boid_agt = visualisation.addAgent("boid");
+    flamegpu::visualiser::AgentVis boid_agt = visualisation.addAgent("boid");
     
     // Use the default red-green HSV interpolation over the agent variable i
     // With custom min/max bounds [0,100]
@@ -413,7 +413,7 @@ By default interpolation clamps variables to the inclusive range [0, 1]. This ca
   .. code-tab:: cpp C++
 
     // Add agent 'boid' to the visualisation
-    flamegpu::visualiser::AgentVis &boid_agt = visualisation.addAgent("boid");
+    flamegpu::visualiser::AgentVis boid_agt = visualisation.addAgent("boid");
     
     // Use Viridis interpolation over the agent variable i
     boid_agt.setColor(flamegpu::visualiser::ViridisInterpolation("i"));
@@ -442,10 +442,10 @@ By default, this new agent will be assigned a different color from the default p
   .. code-tab:: cpp C++
 
     // Add agent 'boid' to the visualisation
-    flamegpu::visualiser::AgentVis &boid_agt = visualisation.addAgent("boid");
+    flamegpu::visualiser::AgentVis boid_agt = visualisation.addAgent("boid");
     ...
     // Specialise the 'active' agent state
-    flamegpu::visualiser::AgentStateVis &active_boid_agt = boid_agent.State("active");
+    flamegpu::visualiser::AgentStateVis active_boid_agt = boid_agent.State("active");
     ...
 
   .. code-tab:: py Python
@@ -467,7 +467,7 @@ If you would rather use a palette to automatically assign agents in different st
   .. code-tab:: cpp C++
 
     // Add agent 'boid' to the visualisation
-    flamegpu::visualiser::AgentVis &boid_agt = visualisation.addAgent("boid");
+    flamegpu::visualiser::AgentVis boid_agt = visualisation.addAgent("boid");
     // Assign a palette to the boid agent
     boid_agt.setAutoPalette(flamegpu::visualiser::Stock::Palette::DARK2);
     

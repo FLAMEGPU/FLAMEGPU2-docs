@@ -46,13 +46,13 @@ The :class:`ModelDescription<flamegpu::ModelDescription>` class has various meth
    * - Method
      - Returns
    * - :func:`Environment()<flamegpu::ModelDescription::Environment>`
-     - :class:`EnvironmentDescription&<flamegpu::EnvironmentDescription>`
+     - :class:`EnvironmentDescription<flamegpu::EnvironmentDescription>`
    * - :func:`newAgent()<flamegpu::ModelDescription::newAgent>`
-     - :class:`AgentDescription&<flamegpu::AgentDescription>`
+     - :class:`AgentDescription<flamegpu::AgentDescription>`
    * - :func:`newMessage()<flamegpu::ModelDescription::newMessage>`
-     - Specialised message description type, e.g. :class:`MessageBruteForce::Description&<flamegpu::MessageBruteForce::Description>`, :class:`MessageSpatial2D::Description&<flamegpu::MessageSpatial2D::Description>`, etc
+     - Specialised message description type, e.g. :class:`MessageBruteForce::Description<flamegpu::MessageBruteForce::Description>`, :class:`MessageSpatial2D::Description<flamegpu::MessageSpatial2D::Description>`, etc
    * - :func:`newSubModel()<flamegpu::ModelDescription::newSubModel>`
-     - :class:`SubModelDescription&<flamegpu::SubModelDescription>`
+     - :class:`SubModelDescription<flamegpu::SubModelDescription>`
    * - :func:`addInitFunction()<flamegpu::ModelDescription::addInitFunction>`
      - n/a
    * - :func:`addStepFunction()<flamegpu::ModelDescription::addStepFunction>`
@@ -62,7 +62,7 @@ The :class:`ModelDescription<flamegpu::ModelDescription>` class has various meth
    * - :func:`addExitCondition()<flamegpu::ModelDescription::addExitCondition>`
      - n/a
    * - :func:`newLayer()<flamegpu::ModelDescription::newLayer>`
-     - :class:`LayerDescription&<flamegpu::LayerDescription>`
+     - :class:`LayerDescription<flamegpu::LayerDescription>`
      
 .. note::
   

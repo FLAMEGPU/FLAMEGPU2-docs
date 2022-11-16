@@ -32,7 +32,7 @@ For compile time (i.e. non-RTC functions), when using the C++ API, the :c:macro:
         // ...
 
         // Attach a function called agent_fn1, defined by the symbol agent_fn1 to the AgentDescription object agent.
-        flamegpu::AgentFunctionDescription &agent_fn1_description = agent.newFunction("agent_fn1", agent_fn1);
+        flamegpu::AgentFunctionDescription agent_fn1_description = agent.newFunction("agent_fn1", agent_fn1);
 
         // ...
     }
@@ -62,7 +62,7 @@ Runtime C++ style compiled functions can be used with both the the C++ and Pytho
         ...
 
         // Attach a function called agent_fn1, defined in the string variable agent_fn1_source to the AgentDescription object agent.
-        flamegpu::AgentFunctionDescription& agent_fn1_description = agent.newRTCFunction("agent_fn1", agent_fn1_source);
+        flamegpu::AgentFunctionDescription agent_fn1_description = agent.newRTCFunction("agent_fn1", agent_fn1_source);
 
         ...
     }

@@ -14,7 +14,7 @@ FLAME GPU 2 agents are associated with a particular model. As such they are crea
   .. code-tab:: cpp C++
 
     // Create a new agent called 'predator' associated the model 'model' 
-    flamegpu::AgentDescription &predator = model.newAgent("predator");
+    flamegpu::AgentDescription predator = model.newAgent("predator");
 
   .. code-tab:: py Python
 

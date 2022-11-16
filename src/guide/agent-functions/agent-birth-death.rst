@@ -87,7 +87,7 @@ To create agents from agent functions, you must specify the type of agent the fu
   .. code-tab:: cpp C++
   
     // Create a new agent type 'example_agent'
-    flamegpu::AgentDescription &example_agent = model.newAgent("example_agent");
+    flamegpu::AgentDescription example_agent = model.newAgent("example_agent");
     
     ...
     

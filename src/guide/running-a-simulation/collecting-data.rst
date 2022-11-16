@@ -244,7 +244,7 @@ Similar to specifying an initial agent population, you can fetch an agent state 
   .. code-tab:: cpp C++
   
     flamegpu::ModelDescription model("example model");
-    flamegpu::AgentDescription &boid_agent = model.newAgent("boid");
+    flamegpu::AgentDescription boid_agent = model.newAgent("boid");
     
     // Fully define the model & setup the CUDASimulation
     ...
@@ -289,7 +289,7 @@ Alternatively, :func:`exportData()<flamegpu::Simulation::exportData>` can be cal
   .. code-tab:: cpp C++
   
     flamegpu::ModelDescription model("example model");
-    flamegpu::AgentDescription &boid_agent = model.newAgent("boid");
+    flamegpu::AgentDescription boid_agent = model.newAgent("boid");
     
     // Fully define the model & setup the CUDASimulation
     ...
