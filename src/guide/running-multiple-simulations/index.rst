@@ -64,7 +64,7 @@ It is also possible to specify subdirectories for a particular runs' logging out
         // Random seeds for each run should take the values (12, 13, 14, 15, etc)
         runs_control.setRandomSimulationSeed(12, 1);
         // Initialise environment property 'lerp_float' with values uniformly distributed between 1 and 128
-        runs_control.setPropertyUniformDistribution<float>("lerp_float", 1.0f, 128.0f);
+        runs_control.setPropertyLerpRange<float>("lerp_float", 1.0f, 128.0f);
         
         // Initialise environment property 'random_int' with values uniformly distributed in the range [0, 10]
         runs_control.setPropertyUniformRandom<int>("random_int", 0, 10);
@@ -107,7 +107,7 @@ It is also possible to specify subdirectories for a particular runs' logging out
     # Random seeds for each run should take the values (12, 13, 14, 15, etc)
     runs_control.setRandomSimulationSeed(12, 1)
     # Initialise environment property 'lerp_float' with values uniformly distributed between 1 and 128
-    runs_control.setPropertyUniformDistributionFloat("lerp_float", 1.0, 128.0)
+    runs_control.setPropertyLerpRangeFloat("lerp_float", 1.0, 128.0)
     
     # Initialise environment property 'random_int' with values uniformly distributed in the range [0, 10]
     runs_control.setPropertyUniformRandomInt("random_int", 0, 10)
