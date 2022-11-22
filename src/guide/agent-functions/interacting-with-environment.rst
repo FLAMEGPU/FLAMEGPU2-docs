@@ -74,7 +74,7 @@ Environmental macro properties can be read, via the returned :class:`DeviceMacro
         # Other behaviour code
         ...
     
-They can also be updated with a selection of functions, which execute atomically. These functions will update a single variable and return information related to it's old or new state. This can be useful, for simple actions such as conflict resolution and counting. However, if a basic read is subsequently required, a separate host or agent function in a following layer must be used (otherwise there would be a race condition). If running with ``SEATBELTS`` error checking enabled, an exception should be thrown where potential race conditions are detected.
+They can also be updated with a selection of functions, which execute atomically. These functions will update a single variable and return information related to it's old or new state. This can be useful, for simple actions such as conflict resolution and counting. However, if a basic read is subsequently required, a separate host or agent function in a following layer must be used (otherwise there would be a race condition). If running with ``FLAMEGPU_SEATBELTS`` error checking enabled, an exception should be thrown where potential race conditions are detected.
 
 Macro properties support the normal :func:`+<flamegpu::DeviceMacroProperty::operator+>`, :func:`-<flamegpu::DeviceMacroProperty::operator->`, :func:`+=<flamegpu::DeviceMacroProperty::operator+=>`, :func:`-=<flamegpu::DeviceMacroProperty::operator-=>`, :func:`++<flamegpu::DeviceMacroProperty::operator++>` (only C++ supports pre and post increment), :func:`--<flamegpu::DeviceMacroProperty::operator-->` (only C++ supports pre and post decrement) operations. They also have access to a limited set of additional functions, explained in the table below.
 
@@ -151,6 +151,6 @@ Related Links
 
 * User Guide Page: :ref:`Defining Environmental Properties<defining environmental properties>`
 * User Guide Page: :ref:`Host Functions: Accessing the Environment<host environment>`
-* User Guide Page: :ref:`What is SEATBELTS?<SEATBELTS>`
+* User Guide Page: :ref:`What is FLAMEGPU_SEATBELTS?<FLAMEGPU_SEATBELTS>`
 * Full API documentation for :class:`DeviceEnvironment<flamegpu::DeviceEnvironment>`
 * Full API documentation for :class:`DeviceMacroProperty<flamegpu::DeviceMacroProperty>`

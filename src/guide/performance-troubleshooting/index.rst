@@ -1,7 +1,7 @@
 Performance Troubleshooting
 ===========================
 
-For the best performance you should be using a Release build of FLAME GPU 2 and your model, with ``SEATBELTS`` set to ``OFF`` at CMake configure time. These runtime checks can be very expensive, so they are best disabled after development when high-performance is required.
+For the best performance you should be using a Release build of FLAME GPU 2 and your model, with ``FLAMEGPU_SEATBELTS`` set to ``OFF`` at CMake configure time. These runtime checks can be very expensive, so they are best disabled after development when high-performance is required.
 
 
 

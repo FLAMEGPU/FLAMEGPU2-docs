@@ -12,7 +12,7 @@ To create a FLAME GPU visualisation, you must configure and activate the visuali
     // Create CUDASimulation as normal
     flamegpu::CUDASimulation cudaSimulation(model);
     // Only enable vis if visualisation support is present
-    #ifdef VISUALISATION
+    #ifdef FLAMEGPU_VISUALISATION
         // Configure the visualisation
         flamegpu::visualiser::ModelVis visualisation = cudaSimulation.getVisualisation();
         ...
@@ -86,7 +86,7 @@ If you would prefer to prevent this, and keep the visualisation open, so the fin
     // Execute simulation
     cudaSimulation.simulate();
     // Join the visualisation after simulation returns to prevent the window closing
-    #ifdef VISUALISATION
+    #ifdef FLAMEGPU_VISUALISATION
         visualisation.join();
     #endif
 

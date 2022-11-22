@@ -15,6 +15,6 @@ find_path(FLAMEGPU_ROOT include/flamegpu/defines.h
 include(FindPackageHandleStandardArgs)
  
 #Handle standard arguments to find_package like REQUIRED and QUIET
-find_package_handle_standard_args(FLAMEGPU2
+find_package_handle_standard_args(FLAMEGPU
                                   "Failed to find FLAMEGPU root"
                                   FLAMEGPU_ROOT)

@@ -3,7 +3,7 @@ Enabling Visualisation
 
 To use the visualisation features you must ensure that you are using a build of FLAME GPU with visualisation enabled.
 
-Visualisation is enabled by setting the ``VISUALISATION`` CMake option to ``ON`` during CMake Configuration. See  :ref:`building-flamegpu-from-source`.
+Visualisation is enabled by setting the ``FLAMEGPU_VISUALISATION`` CMake option to ``ON`` during CMake Configuration. See  :ref:`building-flamegpu-from-source`.
 
 Once visualisation support is enabled, it is still necessary to provide some configuration in order to select which agents to visualise and how.
 
@@ -18,7 +18,7 @@ FLAME GPU visualisation support can be detected within models:
 
   .. code-tab:: cpp C++
 
-    #ifdef VISUALISATION
+    #ifdef FLAMEGPU_VISUALISATION
         // Visualisation specific code
     #endif
 

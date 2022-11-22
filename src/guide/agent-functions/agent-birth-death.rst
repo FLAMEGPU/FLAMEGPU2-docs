@@ -64,7 +64,7 @@ To have an agent die, simply return :enumerator:`flamegpu::DEAD<flamegpu::AGENT_
             return pyflamegpu.ALIVE
 
 
-If :enumerator:`flamegpu::DEAD<flamegpu::AGENT_STATUS::DEAD>` (``pyflamegpu.DEAD`` in Python) is returned by an agent function whilst agent death is not enabled the agent will not die. If ``SEATBELTS`` error checking is enabled an exception will be raised.
+If :enumerator:`flamegpu::DEAD<flamegpu::AGENT_STATUS::DEAD>` (``pyflamegpu.DEAD`` in Python) is returned by an agent function whilst agent death is not enabled the agent will not die. If ``FLAMEGPU_SEATBELTS`` error checking is enabled an exception will be raised.
 
 
 Agent Birth
@@ -159,14 +159,14 @@ Agent creation is always optional once enabled, a new agent will only be marked 
         # Other agent function code
         ...
 
-If :class:`FLAMEGPU->agent_out<flamegpu::DeviceAPI::AgentOut>` is used in an agent function which has not had agent output enabled, no agent will be created. If ``SEATBELTS`` error checking is enabled, an exception will be raised.
+If :class:`FLAMEGPU->agent_out<flamegpu::DeviceAPI::AgentOut>` is used in an agent function which has not had agent output enabled, no agent will be created. If ``FLAMEGPU_SEATBELTS`` error checking is enabled, an exception will be raised.
 
 Related Links
 -------------
 
 * User Guide Page: :ref:`Defining Agents<Defining Agents>`
 * User Guide Page: :ref:`Agent Operations<Host Agent Operations>` (Host Functions)
-* User Guide Page: :ref:`What is SEATBELTS?<SEATBELTS>`
+* User Guide Page: :ref:`What is FLAMEGPU_SEATBELTS?<FLAMEGPU_SEATBELTS>`
 * Full API documentation for :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription>`
 * Full API documentation for :class:`AgentOut<flamegpu::DeviceAPI::AgentOut>`
 * Full API documentation for :class:`DeviceAPI<flamegpu::DeviceAPI>`

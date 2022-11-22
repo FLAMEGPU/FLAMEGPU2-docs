@@ -112,7 +112,7 @@ When outputting bucket messages, the bucket index for the message must be set, u
           pyflamegpu.message_out.setKey(pyflamegpu.getVariableInt("bucket"))
           return pyflamegpu.ALIVE
       
-Messages assigned keys outside of the bounds have undefined behaviour. If using ``SEATBELTS`` error checking, an exception will be raised.
+Messages assigned keys outside of the bounds have undefined behaviour. If using ``FLAMEGPU_SEATBELTS`` error checking, an exception will be raised.
 
 Spatial Messaging
 =================
@@ -155,7 +155,7 @@ If you are using :class:`MessageSpatial2D<flamegpu::MessageSpatial2D>` or :class
 Array Messaging
 ===============
 
-If you are using :class:`MessageArray<flamegpu::MessageArray>`, :class:`MessageArray2D<flamegpu::MessageArray2D>` or :class:`MessageArray3D<flamegpu::MessageArray3D>` then you must specify the corresponding array index when outputting a message. It is important that only 1 agent writes a message to each index. If ``SEATBELTS`` error-checking is enabled then multiple outputs to the same index will raise an exception.
+If you are using :class:`MessageArray<flamegpu::MessageArray>`, :class:`MessageArray2D<flamegpu::MessageArray2D>` or :class:`MessageArray3D<flamegpu::MessageArray3D>` then you must specify the corresponding array index when outputting a message. It is important that only 1 agent writes a message to each index. If ``FLAMEGPU_SEATBELTS`` error-checking is enabled then multiple outputs to the same index will raise an exception.
 
 .. tabs::
 
@@ -259,7 +259,7 @@ Bucket Messaging
 
 If you are using the Bucket messaging strategy, you will also need to supply the bucket key to access the messages from the specific bucket.
 
-If an invalid bucket key is specified (based on the bounds provided when the messagelist was defined) no messages will be returned. If ``SEATBELTS`` error checking is enabled, an exception will be raised.
+If an invalid bucket key is specified (based on the bounds provided when the messagelist was defined) no messages will be returned. If ``FLAMEGPU_SEATBELTS`` error checking is enabled, an exception will be raised.
 
 .. tabs::
 
@@ -314,7 +314,7 @@ Spatial messaging will return all messages within the radius specified at the mo
 
 .. note::
   When spatial messages will be accessed via the wrapped iterator, all messages locations must be within the environment bounds defined for the message list. Accessing out of bounds messages with the wrapped iterator is undefined behaviour. 
-  If using ``SEATBELTS`` error checking an error may be raised whilst using the wrapped iterator if an out of bounds message is read.
+  If using ``FLAMEGPU_SEATBELTS`` error checking an error may be raised whilst using the wrapped iterator if an out of bounds message is read.
 
 .. tabs::
 
@@ -645,7 +645,7 @@ Related Links
 -------------
 
 * User Guide Page: :ref:`Defining Messages (Communication)<Defining Messages>`
-* User Guide Page: :ref:`What is SEATBELTS?<SEATBELTS>`
+* User Guide Page: :ref:`What is FLAMEGPU_SEATBELTS?<FLAMEGPU_SEATBELTS>`
 * Full API documentation for :class:`MessageBruteForce::In<flamegpu::MessageBruteForce::In>` & :class:`MessageBruteForce::Out<flamegpu::MessageBruteForce::Out>`
 * Full API documentation for :class:`MessageBucket::In<flamegpu::MessageBucket::In>` & :class:`MessageBucket::Out<flamegpu::MessageBucket::Out>`
 * Full API documentation for :class:`MessageSpatial2D::In<flamegpu::MessageSpatial2D::In>` & :class:`MessageSpatial2D::Out<flamegpu::MessageSpatial2D::Out>`

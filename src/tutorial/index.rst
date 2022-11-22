@@ -110,7 +110,7 @@ A more detailed guide, regarding building FLAME GPU 2 from source can be found :
     mkdir -p build && cd build
 
     # Configure CMake from the command line passing configure-time options. 
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DCUDA_ARCH=61
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CUDA_ARCHITECTURES=61
 
   .. code-tab:: bat Windows (.bat)
   
@@ -119,7 +119,7 @@ A more detailed guide, regarding building FLAME GPU 2 from source can be found :
     cd build
 
     :: Configure CMake from the command line, specifying the -A and -G options. Alternatively use the GUI (see Quickstart guide)
-    cmake .. -A x64 -G "Visual Studio 16 2019" -DCUDA_ARCH=61
+    cmake .. -A x64 -G "Visual Studio 16 2019" -DCMAKE_CUDA_ARCHITECTURES=61
 
     :: You can then open Visual Studio manually from the .sln file, or via:
     cmake --open . 
@@ -127,7 +127,7 @@ A more detailed guide, regarding building FLAME GPU 2 from source can be found :
 
 .. note::
   
-  ``-DCUDA_ARCH=61``, configures the build for Pascal GPUs of ``SM_61``, you may wish to change this to match your available GPU. Omitting it entirely will produce a larger binary suitable for all current architectures, which essentially multiplies the compile time by the number of architectures. In general, GPUs of newer architecture than specified will run but be limited to the features of the earlier architecture that the program was compiled for.
+  ``-DCMAKE_CUDA_ARCHITECTURES=61``, configures the build for Pascal GPUs of ``SM_61``, you may wish to change this to match your available GPU. Omitting it entirely will produce a larger binary suitable for all current architectures, which essentially multiplies the compile time by the number of architectures. In general, GPUs of newer architecture than specified will run but be limited to the features of the earlier architecture that the program was compiled for.
 
 
 The build files for the project should now be created inside the directory ``build``.
@@ -389,7 +389,7 @@ To read an agent's variables the :func:`FLAMEGPU->getVariable()<template<typenam
 
 Functionality for the message output is accessed via ``FLAMEGPU->message_out`` (or named ``message_out`` variable in Agent Python), this object is specialised depending on the output message type originally specified in the :c:macro:`FLAMEGPU_AGENT_FUNCTION<FLAMEGPU_AGENT_FUNCTION>` macro (or via the Python type annotation). The spatial 2D specialisation, :class:`flamegpu::MessageSpatial2D::Out`, has two available functions; :func:`setVariable()<template<typename T, unsigned int N> __device__ void flamegpu::MessageBruteForce::Out::setVariable(const char(&)[N], T) const>` which is common to all message output types, and :func:`setLocation()<flamegpu::MessageSpatial2D::Out::setLocation>` which takes two ``float`` arguments specifying the location of the message in 2D space. The Python equivalents are of the same format as in other places (e.g. ``setVariableInt`` for the ``int`` type).
 
-Finally, all agent functions must return either :enumerator:`flamegpu::ALIVE<flamegpu::AGENT_STATUS::ALIVE>` or :enumerator:`flamegpu::DEAD<flamegpu::AGENT_STATUS::DEAD>` (``pyflamegpu.ALIVE`` or ``pyflamegpu.DEAD`` respectively in Agent Python). Unless the agent function is specified to support agent death inside the :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription>` via :func:`setAllowAgentDeath()<flamegpu::AgentFunctionDescription::setAllowAgentDeath>`, :enumerator:`flamegpu::ALIVE<flamegpu::AGENT_STATUS::ALIVE>` should be returned. If :enumerator:`flamegpu::DEAD<flamegpu::AGENT_STATUS::DEAD>` is returned, without agent death being enabled, an exception will be raised if ``SEATBELTS`` error checking is enabled.
+Finally, all agent functions must return either :enumerator:`flamegpu::ALIVE<flamegpu::AGENT_STATUS::ALIVE>` or :enumerator:`flamegpu::DEAD<flamegpu::AGENT_STATUS::DEAD>` (``pyflamegpu.ALIVE`` or ``pyflamegpu.DEAD`` respectively in Agent Python). Unless the agent function is specified to support agent death inside the :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription>` via :func:`setAllowAgentDeath()<flamegpu::AgentFunctionDescription::setAllowAgentDeath>`, :enumerator:`flamegpu::ALIVE<flamegpu::AGENT_STATUS::ALIVE>` should be returned. If :enumerator:`flamegpu::DEAD<flamegpu::AGENT_STATUS::DEAD>` is returned, without agent death being enabled, an exception will be raised if ``FLAMEGPU_SEATBELTS`` error checking is enabled.
 
     
 
@@ -845,7 +845,7 @@ In most cases, you will want the visualisation to persist after the simulation c
 
 .. note::
     
-    FLAME GPU is designed for use both on personal machines and headless machines over ssh (e.g. HPC). The latter are unlikely to have support for visualisations, as such FLAME GPU can be built without visualisation support. Hence, it is useful to wrap the visualisation specific code with a check for the ``VISUALISATION`` macro, allowing the model to compile/run irrespective of visualisation support as opposed to maintaining two versions.
+    FLAME GPU is designed for use both on personal machines and headless machines over ssh (e.g. HPC). The latter are unlikely to have support for visualisations, as such FLAME GPU can be built without visualisation support. Hence, it is useful to wrap the visualisation specific code with a check for the ``FLAMEGPU_VISUALISATION`` macro, allowing the model to compile/run irrespective of visualisation support as opposed to maintaining two versions.
 
 
 .. tabs::
@@ -855,7 +855,7 @@ In most cases, you will want the visualisation to persist after the simulation c
     ... // following on from flamegpu::CUDASimulation cuda_model(model, argc, argv);
         
     // Only compile this block if being built with visualisation support    
-    #ifdef VISUALISATION
+    #ifdef FLAMEGPU_VISUALISATION
         // Create visualisation
         flamegpu::visualiser::ModelVis m_vis = cuda_model.getVisualisation();
         // Set the initial camera location and speed
@@ -883,7 +883,7 @@ In most cases, you will want the visualisation to persist after the simulation c
         // Run the simulation
         cuda_model.simulate();
         
-    #ifdef VISUALISATION
+    #ifdef FLAMEGPU_VISUALISATION
         // Keep the visualisation window active after the simulation has completed
         m_vis.join();
     #endif
@@ -1081,7 +1081,7 @@ If you have followed the complete tutorial, you should now have the following co
           cuda_model.setStepLog(step_log_cfg);
           
       // Only compile this block if being built with visualisation support
-      #ifdef VISUALISATION
+      #ifdef FLAMEGPU_VISUALISATION
           // Create visualisation
           flamegpu::visualiser::ModelVis m_vis = cuda_model.getVisualisation();
           // Set the initial camera location and speed
@@ -1109,7 +1109,7 @@ If you have followed the complete tutorial, you should now have the following co
           // Run the simulation
           cuda_model.simulate();
           
-      #ifdef VISUALISATION
+      #ifdef FLAMEGPU_VISUALISATION
           // Keep the visualisation window active after the simulation has completed
           m_vis.join();
       #endif
@@ -1438,4 +1438,4 @@ If you have followed the complete tutorial, you should now have the following co
 Related Links
 -------------
 
-* User Guide Page: :ref:`What is SEATBELTS?<SEATBELTS>`
+* User Guide Page: :ref:`What is FLAMEGPU_SEATBELTS?<FLAMEGPU_SEATBELTS>`
