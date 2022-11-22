@@ -167,7 +167,7 @@ Array Specialisation
 
 Array messages work similarly to an array. When an array message type is defined, it's dimensions must be specified. Agents can then output a message to a single unique element within the array.
 
-Multiple agents must not output messages to the same element, if ``SEATBELTS`` error checking is enabled this will be detected and an exception raised.
+Multiple agents must not output messages to the same element, if ``FLAMEGPU_SEATBELTS`` error checking is enabled this will be detected and an exception raised.
 
 Elements which do not have a message output will return ``0`` for all variables, similar to if an agent does not set all variables of a message it outputs.
 
@@ -207,7 +207,7 @@ Related Links
 ^^^^^^^^^^^^^
 
 * User Guide Page: :ref:`Agent Communication<Device Agent Communication>`
-* User Guide Page: :ref:`What is SEATBELTS?<SEATBELTS>`
+* User Guide Page: :ref:`What is FLAMEGPU_SEATBELTS?<FLAMEGPU_SEATBELTS>`
 * Full API documentation for :class:`MessageBruteForce::Description<flamegpu::MessageBruteForce::Description>`
 * Full API documentation for :class:`MessageBucket::Description<flamegpu::MessageBucket::Description>`
 * Full API documentation for :class:`MessageSpatial2D::Description<flamegpu::MessageSpatial2D::Description>`

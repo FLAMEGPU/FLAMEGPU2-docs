@@ -30,7 +30,7 @@ Please adhere to the :ref:`Coding Conventions` used throughout the project (inde
 
 Before merging pull requests are required to pass all continuous integration:
 
-* The full codebase should build with the ``WARNINGS_AS_ERRORS`` option enabled under the provided CMake configuration, on both Windows and Linux.
+* The full codebase should build with the ``FLAMEGPU_DOCS_WARNINGS_AS_ERRORS`` option enabled under the provided CMake configuration, on both Windows and Linux.
 * The full test suite should pass.
 * ``cpplint`` should report no issues, using ``CPPLINT.cfg`` found in the root of the project.
 

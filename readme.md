@@ -63,6 +63,15 @@ You can optionally specify the location of the FLAMEGPU2 source repository:
 ```bash
 mkdir -p build && cd build
 cmake .. -DFLAMEGPU_ROOT="<absolute path to FLAMEGPU2>"
+cmake --build .
+```
+
+Building the API documentation can be disabled, to improve build times via the `FLAMEGPU_BUILD_API_DOCUMENTATION` option set to `OFF`:
+
+```bash
+mkdir -p build && cd build
+cmake .. -DFLAMEGPU_BUILD_API_DOCUMENTATION=OFF
+cmake --build .
 ```
 
 If you lack a build system, executing `windows.bat` inside the directory `cmake` provides an alternative. However, this still requires executing CMake if api documentation is required.

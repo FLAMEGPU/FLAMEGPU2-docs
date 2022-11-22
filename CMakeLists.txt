@@ -20,14 +20,14 @@ set(SPHINX_CONFIG_DIR "${CMAKE_CURRENT_BINARY_DIR}/src")
 # set(SPHINX_CAHCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/_doctrees")
 
 # Option to promote compilation warnings to error, useful for strict CI
-option(WARNINGS_AS_ERRORS "Promote compilation warnings to errors" OFF)
+option(FLAMEGPU_DOCS_WARNINGS_AS_ERRORS "Promote build warnings to errors" OFF)
 
 # Find graphviz which is required for the user guide (sphinx graphviz plugin)
 find_package(Graphviz REQUIRED)
 
-find_package(FLAMEGPU2)
+find_package(FLAMEGPU)
 # Build Doxygen if we can
-if(FLAMEGPU2_FOUND)
+if(FLAMEGPU_FOUND)
     # Load FLAMEGPU2s Doxygen config, implicitly calls find_package(doxygen)
     include(${FLAMEGPU_ROOT}/cmake/dependencies/doxygen.cmake)
     mark_as_advanced(FORCE BUILD_API_DOCUMENTATION)
@@ -130,10 +130,10 @@ endforeach()
 
 # Set the warnings_is_errors value if enabeld.
 set(SPHINX_WARNING_IS_ERROR_FLAG "")
-if (WARNINGS_AS_ERRORS)
+if (FLAMEGPU_DOCS_WARNINGS_AS_ERRORS)
     set(SPHINX_WARNING_IS_ERROR_FLAG "-W")
 endif()
-if(FLAMEGPU2_FOUND AND DOXYGEN_FOUND AND ${BUILD_API_DOCUMENTATION})
+if(FLAMEGPU_FOUND AND DOXYGEN_FOUND AND FLAMEGPU_BUILD_API_DOCUMENTATION)
     # Set the var used when generating conf.py to enable breathe/exhale 
     set(USE_BREATHE_EXHALE "True")
     set(EXCLUDE_API_PATTERN "") # Do not exlude the api dir
@@ -159,7 +159,7 @@ if(FLAMEGPU2_FOUND AND DOXYGEN_FOUND AND ${BUILD_API_DOCUMENTATION})
     unset(API_TOC_PATH)
 
     # Create Doxygen target 'userguide_docs_xml'
-    create_doxygen_target("${FLAMEGPU_ROOT}" "${CMAKE_CURRENT_BINARY_DIR}" "src/${API_DOCS_XML_PATH}")
+    flamegpu_create_doxygen_target("${FLAMEGPU_ROOT}" "${CMAKE_CURRENT_BINARY_DIR}" "src/${API_DOCS_XML_PATH}")
     # Create Sphinx target
     add_custom_target(userguide ALL
         COMMAND ${SPHINX_EXECUTABLE} -b html

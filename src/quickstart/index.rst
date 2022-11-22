@@ -94,13 +94,13 @@ For example, to build the ``example`` target of the template repository, for Com
   .. code-tab:: bash Linux
 
        mkdir -p build && cd build
-       cmake .. -DCUDA_ARCH=61 -DCMAKE_BUILD_TYPE=Release
+       cmake .. -DCMAKE_CUDA_ARCHITECTURES=61 -DCMAKE_BUILD_TYPE=Release
        cmake --build . --target example -j 8
        
   .. code-tab:: bat Windows
 
      mkdir build && cd build
-     cmake .. -A x64 -G "Visual Studio 16 2019" -DCUDA_ARCH=61
+     cmake .. -A x64 -G "Visual Studio 16 2019" -CMAKE_CUDA_ARCHITECTURES=61
      cmake --build . --target example --config Release -j 8
 
 For more information on CMake Configuration options please see the `template repository README.md <https://github.com/FLAMEGPU/FLAMEGPU2-example-template#building-with-cmake>`__ as these options may vary between releases.
@@ -223,7 +223,7 @@ FLAME GPU 2 uses CMake with out-of-source builds. This is a 3 step process:
 
 3. Build compilation targets using the configured build system
 
-To build the python bindings, the ``BUILD_SWIG_PYTHON`` CMake option must be set to ``ON``, and the ``pyflamegpu`` target must be compiled. The generated python binary wheel can then be installed into your python environment of choice via `pip`
+To build the python bindings, the ``FLAMEGPU_BUILD_PYTHON`` CMake option must be set to ``ON``, and the ``pyflamegpu`` target must be compiled. The generated python binary wheel can then be installed into your python environment of choice via `pip`
 
 For example, to build and install python bindings into a new venv, for Compute Capability 6.0 GPUs in the Release configuration, using 8 threads:
 
@@ -237,7 +237,7 @@ For example, to build and install python bindings into a new venv, for Compute C
 
        # Build the python bindings, producing a .whl
        mkdir -p build && cd build
-       cmake .. -DCUDA_ARCH=61 -DBUILD_SWIG_PYTHON=ON -DCMAKE_BUILD_TYPE=Release
+       cmake .. -DCMAKE_CUDA_ARCHITECTURES=61 -DFLAMEGPU_BUILD_PYTHON=ON -DCMAKE_BUILD_TYPE=Release
        cmake --build . --target pyflamegpu -j 8
 
        # Install the wheel via pip
@@ -251,7 +251,7 @@ For example, to build and install python bindings into a new venv, for Compute C
 
        :: Build the python bindings, producing a .whl
        mkdir build && cd build
-       cmake .. -A x64 -G "Visual Studio 16 2019" -DCUDA_ARCH=61 -DBUILD_SWIG_PYTHON=ON
+       cmake .. -A x64 -G "Visual Studio 16 2019" -DCMAKE_CUDA_ARCHITECTURES=61 -DFLAMEGPU_BUILD_PYTHON=ON
        cmake --build . --target pyflamegpu --config Release -j 8
 
        :: Install the wheel via pip

@@ -96,7 +96,7 @@ From here follows the normal ``cuda-gdb`` workflow, such as ``start`` (start the
 
 Python
 ~~~~~~
-In order to produce a debug build of pyflamegpu, it is necessary to specify ``-DCMAKE_BUILD_TYPE=Debug`` when configuring CMake. Additionally, you should pass ``-DEXPORT_RTC_SOURCES=ON``. When compiled this should produce a binary in the ``build/bin/Debug`` directory, and the compiled RTC sources will be exported to the working directory at runtime.
+In order to produce a debug build of pyflamegpu, it is necessary to specify ``-DCMAKE_BUILD_TYPE=Debug`` when configuring CMake. Additionally, you should pass ``-DFLAMEGPU_RTC_EXPORT_SOURCES=ON``. When compiled this should produce a binary in the ``build/bin/Debug`` directory, and the compiled RTC sources will be exported to the working directory at runtime.
 
 .. note::
 

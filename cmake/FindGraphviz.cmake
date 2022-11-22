@@ -10,3 +10,5 @@ include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Graphviz
                                   "Failed to find dot executable"
                                   GRAPHVIZ_DOT_EXECUTABLE)
+
+mark_as_advanced(GRAPHVIZ_DOT_EXECUTABLE)
