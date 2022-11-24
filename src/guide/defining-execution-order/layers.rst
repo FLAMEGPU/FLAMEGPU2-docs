@@ -16,7 +16,7 @@ Manual Layer Specification
 
 :func:`newLayer()<flamegpu::ModelDescription::newLayer>` is called on the :class:`ModelDescription<flamegpu::ModelDescription>` to create a new :class:`LayerDescription<flamegpu::LayerDescription>`. Layers will execute in the order that they are created.
 
-Agent functions, host functions, and submodels can then be added to layers via their respective methods: :func:`addAgentFunction()<flamegpu::LayerDescription::addAgentFunction>`, :func:`addHostFunction()<flamegpu::LayerDescription::addHostFunction>` (Python: ``addHostFunctionCallback()``) and :func:`addSubModel()<flamegpu::LayerDescription::addSubModel>`. To each of these you pass the respective description object, alternatively for agent and host functions you can pass their raw function handles that were used to create the functions (this won't work for agent function definitions used by multiple agents).
+Agent functions, host functions, and submodels can then be added to layers via their respective methods: :func:`addAgentFunction()<flamegpu::LayerDescription::addAgentFunction>`, :func:`addHostFunction()<flamegpu::LayerDescription::addHostFunction>` (Python: ``addHostFunction()``) and :func:`addSubModel()<flamegpu::LayerDescription::addSubModel>`. To each of these you pass the respective description object, alternatively for agent and host functions you can pass their raw function handles that were used to create the functions (this won't work for agent function definitions used by multiple agents).
 
 The below example demonstrates adding an agent and host function to separate layers.
   
@@ -50,7 +50,7 @@ The below example demonstrates adding an agent and host function to separate lay
         return flamegpu::ALIVE;
     }
     """
-    class validation(pyflamegpu.HostFunctionCallback):
+    class validation(pyflamegpu.HostFunction):
         def run(self, FLAMEGPU):
             # Do something
     }
@@ -66,7 +66,7 @@ The below example demonstrates adding an agent and host function to separate lay
     layer.addAgentFunction(outputdata_desc)
     
     # Create a new layer for the host function 'validation'
-    model.newLayer().addHostFunctionCallback(validation())
+    model.newLayer().addHostFunction(validation())
 
 
 Layer Specification Rules

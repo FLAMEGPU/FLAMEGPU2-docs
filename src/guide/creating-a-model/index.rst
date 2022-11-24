@@ -68,8 +68,4 @@ The :class:`ModelDescription<flamegpu::ModelDescription>` class has various meth
   
     :func:`newMessage()<flamegpu::ModelDescription::newMessage>` take a template argument, so it is called in the format ``newMessage<flamegpu::MessageBruteForce>()``. As the Python API lacks templates, they are instead called in the format ``newMessageBruteForce()``.
 
-.. note::
-  
-    The host function methods e.g. :func:`addInitFunction()<flamegpu::ModelDescription::addInitFunction>`, :func:`addExitCondition()<flamegpu::ModelDescription::addExitCondition>` etc are named slightly different in the Python API. Instead they are called ``addInitFunctionCallback()``, ``addExitConditionCallback()`` etc.
-
 The subsequent chapters of this guide explore their usage in greater detail.

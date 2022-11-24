@@ -33,7 +33,7 @@ When calling any of these methods the type must be specified. Most methods only 
   .. code-tab:: py python
   
     # Define an host function called random_hostfn
-    class random_hostfn(pyflamegpu.HostFunctionCallback):
+    class random_hostfn(pyflamegpu.HostFunction):
       def run(self, FLAMEGPU):
         # Generate a uniform random float [0, 1)
         uniform_float = FLAMEGPU.random.uniformFloat()
@@ -63,7 +63,7 @@ Additionally the :class:`HostAPI<flamegpu::HostAPI>` random object has the abili
   .. code-tab:: py python
   
     # Define an host function called random_hostfn2
-    class random_hostfn2(pyflamegpu.HostFunctionCallback):
+    class random_hostfn2(pyflamegpu.HostFunction):
       def run(self, FLAMEGPU):
         # Retrieve the current random seed
         old_seed = FLAMEGPU.random.getSeed()
