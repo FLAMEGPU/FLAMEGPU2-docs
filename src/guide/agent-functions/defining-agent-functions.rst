@@ -42,7 +42,7 @@ For compile time (i.e. non-RTC functions), when using the C++ API, the :c:macro:
 C++ and Python Runtime Compiled Agent Functions
 -----------------------------------------------
 
-Run-time compiled C++ style agent functions follow the same syntax as for C++ compile time agent functions with the exception that the function must be defined in a string and associated with the :class:`AgentDescription<flamegpu::AgentDescription>` using the :func:`newRTCFunction()<flamegpu::AgentDescription::newRTCFunction>` method.
+Run-time compiled (RTC) C++ style agent functions follow the same syntax as for C++ compile time agent functions with the exception that the function must be defined in a string and associated with the :class:`AgentDescription<flamegpu::AgentDescription>` using the :func:`newRTCFunction()<flamegpu::AgentDescription::newRTCFunction>` method.
 
 Runtime C++ style compiled functions can be used with both the the C++ and Python APIs.
 
@@ -87,6 +87,26 @@ Runtime C++ style compiled functions can be used with both the the C++ and Pytho
 .. note::
 
     If you wish to store RTC agent functions in separate files :func:`newRTCFunction()<flamegpu::AgentDescription::newRTCFunction>` can be replaced with :func:`newRTCFunctionFile()<flamegpu::AgentDescription::newRTCFunctionFile>`, instead passing the path to the agent function's source file (relative to the working directory at runtime). This will allow them to be developed in a text editor with C++ syntax highlighting.
+    
+
+To optimise the loading of RTC agent functions, they are only compiled when changes are detected, with compiled agent functions being cached both in memory during execution and to the operating system's on-disk temporary directory between executions. The utility :func:`util::clearRTCDiskCache()<flamegpu::util::clearRTCDiskCache>` can be used to clear the on-disk cache.
+
+The on-disk cache may grow over time if you are using many different versions of flame gpu and compiling many different agent functions (e.g. running the test suites). If you wish to purge the on-disk cache this can be achieved via the below command.
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+    #include "flamegpu/util/cleanup.h"
+
+    flamegpu::util::clearRTCDiskCache();
+
+  .. code-tab:: py Python
+  
+    from pyflamegpu import *
+  
+    pyflamegpu.clearRTCDiskCache()
+
 
 .. _Python Agent Functions:
 
