@@ -103,7 +103,7 @@ In order to add a host layer function to the dependency graph, a :class:`HostFun
   .. code-tab:: py Python
 
     # Define a host function called host_fn1
-    class host_fn1(pyflamegpu.HostFunctionCallback):
+    class host_fn1(pyflamegpu.HostFunction):
       '''
          The explicit __init__() is optional, however if used the superclass __init__() must be called
       '''

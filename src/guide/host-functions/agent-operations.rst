@@ -18,7 +18,7 @@ Host agent operations are performed on a single agent state, via :class:`HostAge
 
   .. code-tab:: py Python
   
-    class example_agent_hostfn(pyflamegpu.HostFunctionCallback):
+    class example_agent_hostfn(pyflamegpu.HostFunction):
       def run(self,FLAMEGPU):
         # Retrieve the host agent tools for agent sheep in the default state
         sheep = FLAMEGPU.agent("sheep");
@@ -90,7 +90,7 @@ The C++ interface optionally allows the output type for ``sum`` and ``histogramE
   .. code-tab:: py Python
   
     # Define an host function called reduce_hostfn
-    class reduce_hostfn(pyflamegpu.HostFunctionCallback):
+    class reduce_hostfn(pyflamegpu.HostFunction):
       def run(self,FLAMEGPU):
         # Retrieve the host agent tools for agent sheep in the default state
         sheep = FLAMEGPU.agent("sheep");
@@ -152,7 +152,7 @@ Agent populations can also be sorted according to a variable, the C++ API can ad
 
   .. code-tab:: py Python
     
-    class reduce_hostfn(pyflamegpu.HostFunctionCallback):
+    class reduce_hostfn(pyflamegpu.HostFunction):
       def run(self,FLAMEGPU):
         # Retrieve the host agent tools for agent sheep in the default state
         sheep = FLAMEGPU.agent("sheep");
@@ -191,7 +191,7 @@ It's also possible to create new agents with the :class:`HostAgentAPI<flamegpu::
 
   .. code-tab:: py Python
     
-    class CreateNewSheep(pyflamegpu.HostFunctionCallback):
+    class CreateNewSheep(pyflamegpu.HostFunction):
       def run(self,FLAMEGPU):
         # Retrieve the host agent tools for agent sheep in the default state
         sheep = FLAMEGPU.agent("sheep");
@@ -226,7 +226,7 @@ For raw access to agent data, :class:`DeviceAgentVector<flamegpu::DeviceAgentVec
     
   .. code-tab:: python
 
-    class deviceagentvector_hostfn(pyflamegpu.HostFunctionCallback):
+    class deviceagentvector_hostfn(pyflamegpu.HostFunction):
       def run(self,FLAMEGPU):
         # Retrieve the host agent tools for agent sheep in the default state
         sheep = FLAMEGPU.agent("sheep")
@@ -256,7 +256,7 @@ For raw access to agent data, :class:`DeviceAgentVector<flamegpu::DeviceAgentVec
     
   .. code-tab:: python
 
-    class deviceagentvector_hostfn(pyflamegpu.HostFunctionCallback):
+    class deviceagentvector_hostfn(pyflamegpu.HostFunction):
       def run(self,FLAMEGPU):
         # Retrieve the host agent tools for agent sheep in the default state
         sheep = FLAMEGPU.agent("sheep")

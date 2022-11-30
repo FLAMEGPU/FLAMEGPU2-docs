@@ -667,7 +667,7 @@ Now that the model's components and behaviours have been setup, it's time to dec
 
 For the Circles model, we simply need to randomly scatter an amount of agents within the environment bounds. Therefore, we can simply generate agents according to some of the environment properties we defined earlier.
 
-Similar to agent functions, the C++ API defines initialisation functions using :c:macro:`FLAMEGPU_INIT_FUNCTION`, which takes a single argument of the function's name. Python in contrast has native functions, so they are defined differently, a subclass of ``pyflamegpu.HostFunctionCallback`` must be created, which implements the method ``def run(self, FLAMEGPU):``.
+Similar to agent functions, the C++ API defines initialisation functions using :c:macro:`FLAMEGPU_INIT_FUNCTION`, which takes a single argument of the function's name. Python in contrast has native functions, so they are defined differently, a subclass of ``pyflamegpu.HostFunction`` must be created, which implements the method ``def run(self, FLAMEGPU):``.
 
 Initialisation function's have access to the :class:`HostAPI<flamegpu::HostAPI>`, the host counter-part to the :class:`DeviceAPI<flamegpu::DeviceAPI>` present in agent functions. It has similar functionality, with a few additional features: agent variable reductions, setting environment properties.
 
@@ -702,7 +702,7 @@ Putting all this together, we can use the below code to generate the initial age
   .. code-tab:: py Python
 
     ...   
-    class create_agents(pyflamegpu.HostFunctionCallback):
+    class create_agents(pyflamegpu.HostFunction):
         def run(self, FLAMEGPU):
             # Fetch the desired agent count and environment width
             AGENT_COUNT = FLAMEGPU.environment.getPropertyUInt("AGENT_COUNT")
@@ -720,7 +720,7 @@ Putting all this together, we can use the below code to generate the initial age
     
     Use of the FLAME GPU random API in initialisation functions, ensure that the random (and hence the model) is seeded according to the random seed specified for the simulation at execution.
     
-Similar to agent functions, the initialisation function must be attached to the model. Initialisation function's always run once at the start of the model, so it's not necessary to use layer or a dependency graph, they are simply added to the :class:`ModelDescription<flamegpu::ModelDescription>` using :func:`addInitFunction()<flamegpu::ModelDescription::addInitFunction>` (C++ API) or ``addInitFunctionCallback()`` (Python API).
+Similar to agent functions, the initialisation function must be attached to the model. Initialisation function's always run once at the start of the model, so it's not necessary to use layer or a dependency graph, they are simply added to the :class:`ModelDescription<flamegpu::ModelDescription>` using :func:`addInitFunction()<flamegpu::ModelDescription::addInitFunction>` (C++ API) or ``addInitFunction()`` (Python API).
 
 .. tabs::
 
@@ -734,7 +734,7 @@ Similar to agent functions, the initialisation function must be attached to the 
 
     ...
     dependencyGraph.generateLayers(model)
-    model.addInitFunctionCallback(create_agents())
+    model.addInitFunction(create_agents())
     ...
     
 
@@ -804,7 +804,7 @@ After the :class:`StepLoggingConfig<flamegpu::StepLoggingConfig>` is fully defin
 
   .. code-tab:: py Python
   
-    ... # following on from model.addInitFunctionCallback(create_agents())
+    ... # following on from model.addInitFunction(create_agents())
     
     # Specify the desired StepLoggingConfig
     step_log_cfg = pyflamegpu.StepLoggingConfig(model)
@@ -1170,7 +1170,7 @@ If you have followed the complete tutorial, you should now have the following co
       }
       """
 
-      class create_agents(pyflamegpu.HostFunctionCallback):
+      class create_agents(pyflamegpu.HostFunction):
           def run(self, FLAMEGPU):
               # Fetch the desired agent count and environment width
               AGENT_COUNT = FLAMEGPU.environment.getPropertyUInt("AGENT_COUNT")
@@ -1225,7 +1225,7 @@ If you have followed the complete tutorial, you should now have the following co
       model.addExecutionRoot(out_fn)
       model.generateLayers()
 
-      model.addInitFunctionCallback(create_agents())
+      model.addInitFunction(create_agents())
 
       # Specify the desired StepLoggingConfig
       step_log_cfg = pyflamegpu.StepLoggingConfig(model)
@@ -1366,7 +1366,7 @@ If you have followed the complete tutorial, you should now have the following co
     model.addRoot(out_fn)
     model.generateLayers()
 
-    class create_agents(pyflamegpu.HostFunctionCallback):
+    class create_agents(pyflamegpu.HostFunction):
         def run(self, FLAMEGPU):
             # Fetch the desired agent count and environment width
             AGENT_COUNT = FLAMEGPU.environment.getPropertyUInt("AGENT_COUNT")
@@ -1378,7 +1378,7 @@ If you have followed the complete tutorial, you should now have the following co
                 t.setVariableFloat("x", FLAMEGPU.random.uniformFloat() * ENV_WIDTH)
                 t.setVariableFloat("y", FLAMEGPU.random.uniformFloat() * ENV_WIDTH)
                 
-    model.addInitFunctionCallback(create_agents())
+    model.addInitFunction(create_agents())
 
     # Specify the desired StepLoggingConfig
     step_log_cfg = pyflamegpu.StepLoggingConfig(model)

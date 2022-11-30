@@ -40,7 +40,7 @@ Environmental properties are accessed, using :class:`HostEnvironment<flamegpu::H
 
   .. code-tab:: py Python
 
-    class ExampleHostFn(pyflamegpu.HostFunctionCallback):
+    class ExampleHostFn(pyflamegpu.HostFunction):
       def run(self,FLAMEGPU):
         # Get the value of scalar environment property 'scalar_f' and store it in local variable 'scalar_f'
         scalar_f = FLAMEGPU.environment.getPropertyFloat("scalar_f")
@@ -86,7 +86,7 @@ Environmental macro properties can be read via the returned :class:`HostMacroPro
   .. code-tab:: python
   
     # Define an host function called read_env_hostfn
-    class read_env_hostfn(pyflamegpu.HostFunctionCallback):
+    class read_env_hostfn(pyflamegpu.HostFunction):
       def run(self,FLAMEGPU):
         # Retrieve the environment macro property foo of type float
         foo = FLAMEGPU->environment.getMacroPropertyFloat("foo");
@@ -123,7 +123,7 @@ Below are several examples of how environment macro properties can be updated in
   .. code-tab:: python
   
     # Define an host function called write_env_hostfn
-    class write_env_hostfn(pyflamegpu.HostFunctionCallback):
+    class write_env_hostfn(pyflamegpu.HostFunction):
       def run(self,FLAMEGPU):
       # Retrieve the environment macro property foo of type float
       foo = FLAMEGPU->environment.getMacroPropertyFloat("foo");

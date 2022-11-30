@@ -140,7 +140,7 @@ A step function must also be added, to both copy the macro property to the envir
     
   .. code-tab:: py Python
     
-    class reset_counters(pyflamegpu.HostFunctionCallback):
+    class reset_counters(pyflamegpu.HostFunction):
         def run(self,FLAMEGPU):
             # Copy the data from macro environment property to environment property
             NB_COUNT = FLAMEGPU.agent("NB").count()
@@ -151,7 +151,7 @@ A step function must also be added, to both copy the macro property to the envir
             nb_cycle_counter.zero()
             
     // Attach the step function to the model
-    model.addStepFunctionCallback(reset_counters())
+    model.addStepFunction(reset_counters())
 
 Now the agent function can be updated to increment the counters at each branch
 

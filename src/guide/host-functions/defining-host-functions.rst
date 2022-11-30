@@ -7,7 +7,7 @@ Unlike agent functions, host Functions are implemented natively, in C++ if using
 
 In the C++ API a host function is defined using the :c:macro:`FLAMEGPU_HOST_FUNCTION` macro, similarly a host condition is defined using the :c:macro:`FLAMEGPU_HOST_CONDITION`. This takes a single argument, a unique name identifying the function.
 
-In the Python API a host function is defined as a subclass of :class:`HostFunctionCallback<flamegpu::HostFunctionCallback>`, similarly a host condition is defined as a subclass of :class:`HostFunctionConditionCallback<flamegpu::HostFunctionConditionCallback>`.
+In the Python API a host function is defined as a subclass of :class:`HostFunction<flamegpu::HostFunctionCallback>`, similarly a host condition is defined as a subclass of :class:`HostCondition<flamegpu::HostConditionCallback>`.
 
 
 .. tabs::
@@ -28,7 +28,7 @@ In the Python API a host function is defined as a subclass of :class:`HostFuncti
   .. code-tab:: py Python
 
     # Define a host function called host_fn1
-    class host_fn1(pyflamegpu.HostFunctionCallback):
+    class host_fn1(pyflamegpu.HostFunction):
       '''
          The explicit __init__() is optional, however if used the superclass __init__() must be called
       '''
@@ -40,7 +40,7 @@ In the Python API a host function is defined as a subclass of :class:`HostFuncti
         
         
     # Define a host condition called host_cdn1
-    class host_cdn1(pyflamegpu.HostFunctionConditionCallback):
+    class host_cdn1(pyflamegpu.HostCondition):
       '''
          The explicit __init__() is optional, however if used the superclass __init__() must be called
       '''
@@ -87,15 +87,15 @@ Adding Host Functions to a Model
 Host functions and conditions are predominantly added to a model via their respective methods on :class:`ModelDescription<flamegpu::ModelDescription>`. They will execute in the order in which they are added.
 The exception to this rule are host-layer functions, details on how to specify their position in the execution order can be found :ref:`here<Execution Order>`.
 
-======================== ========================================================================= =======================================================================
-Type                     C++ Method                                                                Python Method
-======================== ========================================================================= =======================================================================
-Initialisation Function  :func:`addInitFunction()<flamegpu::ModelDescription::addInitFunction>`    :func:`addInitFunctionCallback()<flamegpu::ModelDescription::addInitFunctionCallback>`
-Exit Function            :func:`addStepFunction()<flamegpu::ModelDescription::addStepFunction>`    :func:`addStepFunctionCallback()<flamegpu::ModelDescription::addStepFunctionCallback>`
-Step Function            :func:`addExitFunction()<flamegpu::ModelDescription::addExitFunction>`    :func:`addExitFunctionCallback()<flamegpu::ModelDescription::addExitFunctionCallback>`
-Host-Layer Function      :ref:`n/a<Execution Order>`                                               :ref:`n/a<Execution Order>`
-Exit Condition           :func:`addExitCondition()<flamegpu::ModelDescription::addExitCondition>`  :func:`addExitConditionCallback()<flamegpu::ModelDescription::addExitConditionCallback>`
-======================== ========================================================================= =======================================================================
+======================== =========================================================================
+Type                     Method
+======================== =========================================================================
+Initialisation Function  :func:`addInitFunction()<flamegpu::ModelDescription::addInitFunction>`
+Exit Function            :func:`addStepFunction()<flamegpu::ModelDescription::addStepFunction>`
+Step Function            :func:`addExitFunction()<flamegpu::ModelDescription::addExitFunction>`
+Host-Layer Function      :ref:`n/a<Execution Order>`
+Exit Condition           :func:`addExitCondition()<flamegpu::ModelDescription::addExitCondition>`
+======================== =========================================================================
 
 The below example shows how an init function would be added to a model:
 
@@ -120,7 +120,7 @@ The below example shows how an init function would be added to a model:
   .. code-tab:: py Python
 
     # Define a host function called init_fn
-    class init_fn(pyflamegpu.HostFunctionCallback):
+    class init_fn(pyflamegpu.HostFunction):
       '''
          The explicit __init__() is optional, however if used the superclass __init__() must be called
       '''
@@ -136,7 +136,7 @@ The below example shows how an init function would be added to a model:
     model = pyflamegpu.ModelDescription("Test Model")
     ... # Rest of model definition
     # Add the exit function init_fn to Test Model
-    model.addInitFunctionCallback(init_fn())
+    model.addInitFunction(init_fn())
     ...
 
 
@@ -145,8 +145,8 @@ Related Links
 * Full API documentation for :c:macro:`FLAMEGPU_INIT_FUNCTION`
 * Full API documentation for :c:macro:`FLAMEGPU_EXIT_FUNCTION`
 * Full API documentation for :c:macro:`FLAMEGPU_STEP_FUNCTION`
-* Full API documentation for :c:macro:`FLAMEGPU_HOST_FUNCTION` (Python: :class:`HostFunctionCallback<flamegpu::HostFunctionCallback>`)
+* Full API documentation for :c:macro:`FLAMEGPU_HOST_FUNCTION` (Python: :class:`HostFunction<flamegpu::HostFunctionCallback>`)
 * Full API documentation for :c:macro:`FLAMEGPU_EXIT_CONDITION`
-* Full API documentation for :c:macro:`FLAMEGPU_HOST_CONDITION` (Python: :class:`HostFunctionConditionCallback<flamegpu::HostFunctionConditionCallback>`)
+* Full API documentation for :c:macro:`FLAMEGPU_HOST_CONDITION` (Python: :class:`HostCondition<flamegpu::HostConditionCallback>`)
 * Full API documentation for :class:`ModelDescription<flamegpu::ModelDescription>`
 * Full API documentation for :class:`LayerDescription<flamegpu::LayerDescription>`

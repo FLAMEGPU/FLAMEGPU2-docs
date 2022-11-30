@@ -31,7 +31,7 @@ In particular, submodels which are introduced in the :ref:`following section<Def
 
   .. code-tab:: py Python
 
-    class my_exit_condition(pyflamegpu.HostFunctionConditionCallback):
+    class my_exit_condition(pyflamegpu.HostCondition):
         def run(self, FLAMEGPU):
             # A simple exit condition which forces the model to exit after 100 steps
             if FLAMEGPU.getStepCounter() >= 100: 
@@ -44,7 +44,7 @@ In particular, submodels which are introduced in the :ref:`following section<Def
     ...
     
     # Add 'my_exit_condition' to 'model'
-    model.addExitConditionCallback(my_exit_condition())
+    model.addExitCondition(my_exit_condition())
 
 If a model has multiple exit conditions, they will be executed in the order that they were added to the model. 
 When multiple exit conditions are defined, conditions are only executed if earlier exit condition functions return :enumerator:`CONTINUE<flamegpu::CONDITION_RESULT::CONTINUE>`.
@@ -54,5 +54,5 @@ Related Links
 * User Guide Page: :ref:`Host Functions and Conditions<Host Functions and Conditions>`
 * User Guide Page: :ref:`Configuring Execution<Configuring Execution>`
 * User Guide Page: :ref:`Submodels<Defining a Submodel>`
-* Full API documentation for :c:macro:`FLAMEGPU_EXIT_CONDITION` (Python: :class:`HostFunctionConditionCallback<flamegpu::HostFunctionConditionCallback>`)
+* Full API documentation for :c:macro:`FLAMEGPU_EXIT_CONDITION` (Python: :class:`HostCondition<flamegpu::HostConditionCallback>`)
 * Full API documentation for :enum:`flamegpu::CONDITION_RESULT<flamegpu::CONDITION_RESULT>` (:enumerator:`CONTINUE<flamegpu::CONDITION_RESULT::CONTINUE>` and :enumerator:`EXIT<flamegpu::CONDITION_RESULT::EXIT>`
