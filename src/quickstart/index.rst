@@ -105,6 +105,14 @@ For example, to build the ``example`` target of the template repository, for Com
 
 For more information on CMake Configuration options please see the `template repository README.md <https://github.com/FLAMEGPU/FLAMEGPU2-example-template#building-with-cmake>`__ as these options may vary between releases.
 
+.. note::
+
+  On windows, by default CMake will select the newest version of CUDA available when configuring. If you have multiple versions of CUDA installed then you can select an earlier installed CUDA version (e.g. CUDA 11.0) by additionally passing ``-T cuda=11.0`` when calling CMake configure (``cmake ..``).
+  
+  It is still necessary for the selected version of CUDA to be supported by FLAME GPU.
+  
+  The relevant CMake documentation can be found `here <https://cmake.org/cmake/help/latest/variable/CMAKE_VS_PLATFORM_TOOLSET_CUDA.html>`__.
+
 CMake GUI (Windows Only)
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -116,7 +124,10 @@ However, CMake also provides ``cmake-gui`` on Windows, a CMake client with a gra
   
 * Specify the directory containing the FLAME GPU 2 source (**Annotation #1**). This should be the directory you cloned the git repository into.
 * Specify the directory to store FLAME GPU 2 build files (**Annotation #2**). This must not match the source directory FLAME GPU 2 does not currently support in-source builds. The ``build`` subdirectory of the source directory is most commonly used. If this directory does not exist, CMake will offer to create it for you.
-* Press the Configure button (**Annotation #3**) to load the configuration options. You will then be asked to select a 'generator' (see the below image), you should select the latest version of visual studio you have and choose the ``x64`` platform. It will then perform various checks to initialise the build configuration, such as detecting CUDA and testing the compiler is suitable.
+* Press the Configure button (**Annotation #3**) to load the configuration options. You will then be asked to select a "generator" (see the below image), you should select the latest version of visual studio you have and choose the ``x64`` platform. It will then perform various checks to initialise the build configuration, such as detecting CUDA and testing the compiler is suitable.
+  
+  * At this point, if you have multiple CUDA versions installed and don't wish to use the newest, you can specify the desired version in the toolset box e.g. ``cuda=11.0`` would select CUDA 11.0.
+
 * The central table should now be filled with options you can configure to adjust how FLAME GPU 2 is built. You can update these options, according to the `FLAME GPU 2 README.md <https://github.com/FLAMEGPU/FLAMEGPU2/#cmake-configuration-options>`__ in the source directory as suggested options may vary between releases.
 * If you have changed any options, you should press the Configure button again (**Annotation #3**), as subsequent initialisation may need to be performed.
 * After the configuration options have been selected and applied, the project can be generated using the Generate button (**Annotation #4**).
