@@ -68,6 +68,23 @@ This function works similarly to that previously introduced for defining agent v
 .. note::
   
   Variable names must not begin with ``_``, this is reserved for internal variables.
+  
+By default messages within FLAME GPU 2 are not persistent, message lists are cleared at the end of each simulation step. If persistent messages are desired, so that message lists hold messages until messages are next output to the message list in a subsequent simulation step, this can be enabled for specific message types via :func:`setPersistent()<flamegpu::MessageBruteForce::Description::setPersistent>` on the message's respective ``Description`` object.
+
+.. tabs::
+
+    .. code-tab:: cpp C++
+        
+      // Enable message persistence for the "bf_message" type
+      bf_message.setPersistent(true);
+
+    .. code-tab:: py Python
+      
+      # Enable message persistence for the "bf_message" type
+      bf_message.setPersistent(True)
+      
+      
+If multiple agent functions write to a message list during the same simulation step, the second agent function will append to the message list (or overwrite/combine in the case of array message types).
 
 
 
@@ -154,7 +171,7 @@ Multiple agents must not output messages to the same element, if ``SEATBELTS`` e
 
 Elements which do not have a message output will return ``0`` for all variables, similar to if an agent does not set all variables of a message it outputs.
 
-when defining spatial messages either a :class:`MessageArray::Description<flamegpu::MessageArray::Description>`, :class:`MessageArray2D::Description<flamegpu::MessageArray2D::Description>` or :class:`MessageArray3D::Description<flamegpu::MessageArray3D::Description>` will be returned. This should be used to configure dimensions.
+When defining array messages either a :class:`MessageArray::Description<flamegpu::MessageArray::Description>`, :class:`MessageArray2D::Description<flamegpu::MessageArray2D::Description>` or :class:`MessageArray3D::Description<flamegpu::MessageArray3D::Description>` will be returned. This should be used to configure dimensions.
 
 The following is an example of configuring the specialisations for each of the 3 array message types:
 
