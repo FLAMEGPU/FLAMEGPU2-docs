@@ -37,7 +37,7 @@ Payload values captured for all simulation, ensemble and test executions
  - ``majorMinorSystemVersion``: e.g. :code:`2.0.0`
  - ``appVersionPatch``: e.g. :code:`0`
  - ``appVersionPreRelease``: e.g. :code:`rc`
- - ``buildNumber``: GitHub hash from build. e.g. :code:`a0ff3c1f`
+ - ``buildNumber``:  hash from build. e.g. :code:`a0ff3c1f`
  - ``operatingSystem``: Either :code:`Windows`, :code:`Linux`, :code:`Unix` or :code:`Other`
  - ``Visualisation``: True or False value depending on if FLAME GPU was built with visualisation enabled (e.g. the :code:`FLAMEGPU_VISUALISATION` CMake variable).
 
@@ -78,7 +78,7 @@ Telemetry can be enabled / disabled programmatically, overriding CMake and syste
 * :func:`flamegpu::io::Telemetry::disable()<flamegpu::io::Telemetry::disable>` will disable telemetry for all Simulation and Ensemble's instantiated from then on. It does not effect already created Simulation/Ensemble objects.
 * :func:`flamegpu::io::Telemetry::isEnabled()<flamegpu::io::Telemetry::enabled>` will return if telemetry is globally enabled at that point in time or not.
 * Individual :class:`Simulation<flamegpu::Simulation>` objects can enable/disable telemetry by mutating the :class:`Simulation::Config<flamegpu::Simulation::Config>` and :class:`CUDASimulation::Config<flamegpu::CUDASimulation::Config>` structures, which are accessed via :func:`SimulationConfig()<flamegpu::Simulation::SimulationConfig>` and :func:`CUDAConfig()<flamegpu::CUDASimulation::CUDAConfig>` respectively on the :class:`CUDASimulation<flamegpu::CUDASimulation>` instance. Setting the ``telemetry`` member to ``true`` or ``false`` will enable/disable telemetry for that instance.
-* Individual :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` objects can enable/disable telemetry by mutating the :class:`CUDAEnsemble::Config<flamegpu::CUDAEnsemble::Config>` structures, which is accessed via :func:`EnsembleConfig()<flamegpu::Simulation::EnsembleConfig>` on the :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` instance. Setting the ``telemetry`` member to ``true`` or ``false`` will enable/disable telemetry for that instance.
+* Individual :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` objects can enable/disable telemetry by mutating the :class:`CUDAEnsemble::Config<flamegpu::CUDAEnsemble::EnsembleConfig>` structures, which is accessed via :func:`Config()<flamegpu::CUDAEnsemble::Config>` on the :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` instance. Setting the ``telemetry`` member to ``true`` or ``false`` will enable/disable telemetry for that instance.
 
 If Telemetry is disabled the software will encourage telemetry to be enabled to support the software, once per binary execution, printed to the standard output.
 These encouragements can be disabled by:
