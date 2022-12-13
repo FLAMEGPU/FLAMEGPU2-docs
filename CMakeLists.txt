@@ -80,6 +80,7 @@ set(DOCS_SRC_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/host-functions/interacting-with-environment.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/host-functions/miscellaneous.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/host-functions/random-numbers.rst"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/guide/telemetry/index.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/index.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/performance-troubleshooting/index.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/running-a-simulation/collecting-data.rst"
