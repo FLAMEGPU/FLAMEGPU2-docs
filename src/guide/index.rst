@@ -21,3 +21,4 @@ This user guide provides a clear introduction to the core features of FLAME GPU 
    debugging-models/index.rst
    performance-troubleshooting/index.rst
    flamegpu2-source/index.rst
+   telemetry/index.rst
