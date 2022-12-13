@@ -135,6 +135,9 @@ if (FLAMEGPU_DOCS_WARNINGS_AS_ERRORS)
     set(SPHINX_WARNING_IS_ERROR_FLAG "-W")
 endif()
 if(FLAMEGPU_FOUND AND DOXYGEN_FOUND AND FLAMEGPU_BUILD_API_DOCUMENTATION)
+    # We currently require detail to be wrapped unfortuantely, due to exhale wanting to refere to detail::TestSuiteTelemetry due to inheritance but it has been ignored. Could not find an exhale/breathe option to work around this.
+    set(FLAMEGPU_API_DOCUMENTATION_EXCLUDE_DETAIL OFF CACHE INTERNAL "Exclude the detail namespace from doxygen documentation" FORCE)
+
     # Set the var used when generating conf.py to enable breathe/exhale 
     set(USE_BREATHE_EXHALE "True")
     set(EXCLUDE_API_PATTERN "") # Do not exlude the api dir
