@@ -121,7 +121,7 @@ Python agent functions are required to have the ``@pyflamegpu.agent_function`` d
 
     #Define an agent function called agent_fn1
     @pyflamegpu.agent_function
-    def outputdata(message_in: pyflamegpu.MessageNone, message_out: pyflamegpu.MessageNone):
+    def agent_fn1(message_in: pyflamegpu.MessageNone, message_out: pyflamegpu.MessageNone):
         # Behaviour goes here
         pass
 
