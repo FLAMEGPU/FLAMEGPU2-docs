@@ -917,8 +917,7 @@ In most cases, you will want the visualisation to persist after the simulation c
         # Open the visualiser window
         m_vis.activate()
 
-    # Init and run the simulation
-    cuda_model.initialise(sys.argv)
+    # Run the simulation
     cuda_model.simulate()
     
     if pyflamegpu.VISUALISATION:
@@ -1234,8 +1233,9 @@ If you have followed the complete tutorial, you should now have the following co
       # Include the mean of the "point" agent population's variable 'drift'
       step_log_cfg.agent("point").logMeanFloat("drift")
 
-      # Create the simulation
+      # Create and init the simulation
       cuda_model = pyflamegpu.CUDASimulation(model)
+      cuda_model.initialise(sys.argv)
 
       # Attach the logging config
       cuda_model.setStepLog(step_log_cfg)
@@ -1265,8 +1265,7 @@ If you have followed the complete tutorial, you should now have the following co
           # Open the visualiser window
           m_vis.activate()
 
-      # Init and run the simulation
-      cuda_model.initialise(sys.argv)
+      # Run the simulation
       cuda_model.simulate()
 
       if pyflamegpu.VISUALISATION:
@@ -1387,18 +1386,12 @@ If you have followed the complete tutorial, you should now have the following co
     # Include the mean of the "point" agent population's variable 'drift'
     step_log_cfg.agent("point").logMeanFloat("drift")
 
-    # Create the simulation
+    # Create and init the simulation
     cuda_model = pyflamegpu.CUDASimulation(model)
+    cuda_model.initialise(sys.argv)
 
     # Attach the logging config
     cuda_model.setStepLog(step_log_cfg)
-
-    # Init and run the simulation
-    cuda_model.initialise(sys.argv)
-    cuda_model.simulate()
-
-    # Create and run the simulation
-    cuda_model = pyflamegpu.CUDASimulation(model)
 
     # Only run this block if pyflamegpu was built with visualisation support
     if pyflamegpu.VISUALISATION:
@@ -1425,8 +1418,7 @@ If you have followed the complete tutorial, you should now have the following co
         # Open the visualiser window
         m_vis.activate()
 
-    # Init and run the simulation
-    cuda_model.initialise(sys.argv)
+    # Run the simulation
     cuda_model.simulate()
 
     if pyflamegpu.VISUALISATION:
