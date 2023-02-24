@@ -52,7 +52,7 @@ Once setup, the logging configs are passed to the :class:`CUDASimulation<flamegp
         step_log_cfg.agent("boid").logMin<float>("speed");
         step_log_cfg.agent("boid").logMax<float>("speed");
         // Include the sum of the boid agent population's variable 'health', within the 'alive' state
-        step_log_cfg.agent("boid").logSum<int>("health");
+        step_log_cfg.agent("boid", "alive").logSum<int>("health");
     }
     
     // Create the CUDASimulation instance
@@ -90,7 +90,7 @@ Once setup, the logging configs are passed to the :class:`CUDASimulation<flamegp
     step_log_cfg.agent("boid").logMinFloat("speed")
     step_log_cfg.agent("boid").logMaxFloat("speed")
     # Include the sum of the boid agent population's variable 'health', within the 'alive' state
-    step_log_cfg.agent("boid").logSumInt("health")
+    step_log_cfg.agent("boid", "alive").logSumInt("health")
     
     # Create the CUDASimulation instance
     cuda_sim = flamegpu.CUDASimulation(model)
