@@ -17,6 +17,7 @@ Keyboard Key    Controller Button  Description
 ``F2``                             Toggle UI Visibility
 ``F5``          ``DPad Right``     Reload Shaders
 ``F8``          ``Back``           Toggle Display of FPS/SPS/Step Count
+``F9``                             Toggle Perspective/Orthographic Projection Mode
 ``F10``                            Toggle MSAA (Multi Sample Anti Aliasing)
 ``F11``         ``DPad Up``        Toggle FullScreen
 ``F12``         ``DPad Down``      Save a screenshot (saved as ``screenshot.png`` to the working directory)
