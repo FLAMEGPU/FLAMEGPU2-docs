@@ -98,7 +98,9 @@ Configuring CMake
 
 FLAME GPU 2 uses CMake to manage the build process, so we use CMake to generate a build directory which it will fill with build scripts. It can also assist by downloading certain missing dependencies.
 
-The basic commands required differ slightly between Linux and Windows, however in both cases they should be executed in the directory which the template was cloned into:
+The basic commands differ slightly between Linux and Windows, however in both cases they should be executed in the directory which the template was cloned into.
+
+Visualisation support is disabled by default, and must be enabled at CMake configure time if required.
 
 A more detailed guide, regarding building FLAME GPU 2 from source can be found :ref:`here<q-compiling flamegpu>`.
 
@@ -110,6 +112,7 @@ A more detailed guide, regarding building FLAME GPU 2 from source can be found :
     mkdir -p build && cd build
 
     # Configure CMake from the command line passing configure-time options. 
+    # Optionally include -DFLAMEGPU_VISUALISATION=ON below if you want to use visualisations
     cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CUDA_ARCHITECTURES=61
 
   .. code-tab:: bat Windows (.bat)
@@ -119,6 +122,7 @@ A more detailed guide, regarding building FLAME GPU 2 from source can be found :
     cd build
 
     :: Configure CMake from the command line, specifying the -A and -G options. Alternatively use the GUI (see Quickstart guide)
+    :: Optionally include -DFLAMEGPU_VISUALISATION=ON below if you want to use visualisations
     cmake .. -A x64 -G "Visual Studio 16 2019" -DCMAKE_CUDA_ARCHITECTURES=61
 
     :: You can then open Visual Studio manually from the .sln file, or via:
@@ -829,6 +833,10 @@ To learn more about using logging configurations see the :ref:`userguide<Collect
 
 Visualisation Config (Optional)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. warning::
+
+    Visualisation support is disabled by default. To enable visualisation support `FLAMEGPU_VISUALISATION` must be enabled at CMake configure time. If using a prebuilt Python wheel, ensure you select a wheel with ``vis`` in the name for visualisation support.
 
 Many models are easier to quickly validate early on by using a visualisation, FLAME GPU provides a visualiser capable of visualising agents locations, directions, scales and colours dependent on their variables.
 
