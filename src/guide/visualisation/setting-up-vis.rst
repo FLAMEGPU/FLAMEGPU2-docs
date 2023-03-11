@@ -70,6 +70,12 @@ The most important of these settings are presented below:
    * - :func:`setBeginPaused()<flamegpu::visualiser::ModelVis::setBeginPaused>`
      - ``beginPaused``
      - If true, the model begins in a paused state and must be unpaused to continue execution (Defaults to false)
+   * - :func:`setOrthographic()<flamegpu::visualiser::ModelVis::setOrthographic>`
+     - ``isOrtho``
+     - If true, the visualisation starts in Orthographic projection mode (Defaults to false)
+   * - :func:`setOrthographicZoomModifier()<flamegpu::visualiser::ModelVis::setOrthographicZoomModifier>`
+     - ``zoomMod``
+     - Sets the initial orthographic zoom level. This has no effect if orthographic projection mode is not enabled.
 
 More advanced settings are also available, full documentation can be found in the :class:`ModelVis<flamegpu::visualiser::ModelVis>` API documentation.
 
