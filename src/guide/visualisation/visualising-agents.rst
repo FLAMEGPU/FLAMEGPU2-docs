@@ -437,6 +437,8 @@ By default, this new agent will be assigned a different color from the default p
 
 :class:`AgentStateVis<flamegpu::visualiser::AgentStateVis>` has the same methods as :class:`AgentVis<flamegpu::visualiser::AgentVis>` to allow agent states to be differentiated by their: model, model scale and color, using the same methods as described in the above sections. It is not possible, to specify a different position or direction configuration for each agent state.
 
+Additionally, all agents in a particular state can be hidden using :func:`setVisble()<flamegpu::visualiser::AgentStateVis::setVisible>`.
+
 .. tabs::
 
   .. code-tab:: cpp C++
@@ -447,6 +449,8 @@ By default, this new agent will be assigned a different color from the default p
     // Specialise the 'active' agent state
     flamegpu::visualiser::AgentStateVis active_boid_agt = boid_agent.State("active");
     ...
+    // Hide agents in the 'inactive' agent state
+    boid_agent.State("inactive").setVisible(false);
 
   .. code-tab:: py Python
 
@@ -456,6 +460,9 @@ By default, this new agent will be assigned a different color from the default p
     # Specialise the 'active' agent state
     active_boid_agt = boid_agent.State("active")
     ...
+    # Hide agents in the 'inactive' agent state
+    boid_agent.State("inactive").setVisible(False)
+    
     
 Colors from Palettes
 ^^^^^^^^^^^^^^^^^^^^
