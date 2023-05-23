@@ -36,7 +36,7 @@ starts or the agent is birthed. The ID is value for every agent is unique among 
 User Defined Variables
 ----------------------
 
-Bespoke agent variables are declared using the :func:`newProperty()<template<typename T> void flamegpu::AgentDescription::newVariable(const std::string &, const T &)>` methods.
+Bespoke agent variables are declared using the :func:`newVariable()<template<typename T> void flamegpu::AgentDescription::newVariable(const std::string &, T)>` methods.
 
 The type and name the variables must be specified, array variables additionally require the length of the array to be specified. Optionally, a default value for the variables may also be specified
 
