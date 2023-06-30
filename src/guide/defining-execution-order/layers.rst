@@ -32,12 +32,18 @@ The below example demonstrates adding an agent and host function to separate lay
     }
 
     flamegpu::ModelDescription model("Layers Example");
-    ... // Full model definition, including the agent function 'outputdata'
+	flamegpu::AgentDescription agent = model.newAgent("agent");
+	flamegpu::AgentFunctionDescription outputdata_fn = agent.newFunction("outputdata_fn", outputdata);
+    ... // Remainder of the full model definition
 
     // Create a new layer for the model 'model'
     flamegpu::LayerDescription layer = model.newLayer();    
-    // Add the agent function 'outputdata' to the layer
-    layer.addAgentFunction(outputdata);
+    // Add the agent function 'outputdata' to the layer, by FLAMEGPU_AGENT_FUNCTION
+    layer.addAgentFunction(outputdata);   
+    // Add the agent function 'outputdata' to the layer, by AgentFunctionDescription instance
+    layer.addAgentFunction(outputdata_fn);   
+    // Add the agent function 'outputdata' to the layer, by agent and function name
+    layer.addAgentFunction("agent", "outputdata_fn");
     
     // Create a new layer for the host function 'validation'
     model.newLayer().addHostFunction(validation);
@@ -57,17 +63,23 @@ The below example demonstrates adding an agent and host function to separate lay
 
     model = pyflamegpu.ModelDescription("Layers Example")
     agent = model.newAgent("agent")
-    outputdata_desc = agent.newRTCFunction("output data", outputdata)
+    outputdata_fn = agent.newRTCFunction("outputdata_fn", outputdata)
     ... # Remaining model description (e.g. agent variables)
 
     # Create a new layer for the model 'model'
-    layer = model.newLayer();   
-    # Add the agent function 'outputdata' to the layer, using it's AgentFunctionDescription
-    layer.addAgentFunction(outputdata_desc)
+    layer = model.newLayer();
+    # Add the agent function 'outputdata' to the layer, by AgentFunctionDescription instance
+    layer.addAgentFunction(outputdata_fn)
+    # Add the agent function 'outputdata' to the layer, by agent and function name
+    layer.addAgentFunction("agent", "outputdata_fn")
     
     # Create a new layer for the host function 'validation'
     model.newLayer().addHostFunction(validation())
 
+
+.. note::
+  
+  If you use the same :c:macro:`FLAMEGPU_AGENT_FUNCTION` multiple times, either with multiple or the same agent, you must add it to layers using either the :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription>` instance or agent and function name. Adding it via the :c:macro:`FLAMEGPU_AGENT_FUNCTION` will fail as it is not possible to identify the correct instance.
 
 Layer Specification Rules
 --------------------------
