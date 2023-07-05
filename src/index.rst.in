@@ -10,10 +10,10 @@ Welcome to FLAME GPU 2's documentation!
    :maxdepth: 5
    :caption: Contents:
    
-   tutorial/index.rst
    quickstart/index.rst
    guide/index.rst
    @API_TOC_PATH@
+   tutorial/index.rst
    Forum <https://github.com/FLAMEGPU/FLAMEGPU2/discussions>
 
 
