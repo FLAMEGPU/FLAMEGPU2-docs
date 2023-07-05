@@ -86,8 +86,11 @@ Runtime C++ style compiled functions can be used with both the the C++ and Pytho
     
 .. note::
 
-    If you wish to store RTC agent functions in separate files :func:`newRTCFunction()<flamegpu::AgentDescription::newRTCFunction>` can be replaced with :func:`newRTCFunctionFile()<flamegpu::AgentDescription::newRTCFunctionFile>`, instead passing the path to the agent function's source file (relative to the working directory at runtime). This will allow them to be developed in a text editor with C++ syntax highlighting.
+    If you wish to store RTC agent functions in separate files :func:`newRTCFunction()<flamegpu::AgentDescription::newRTCFunction>` can be replaced with :func:`newRTCFunctionFile()<flamegpu::AgentDescription::newRTCFunctionFile>`, instead passing the path to the agent function's source file (either absolute or relative to the working directory at runtime). This will allow them to be developed in a text editor with C++ syntax highlighting.
     
+.. note::
+
+    RTC agent functions support ``#include`` statements, allowing seperate header files to be used. By default the only include path used is the working directory. The default include path can be overridden by setting the ``FLAMEGPU_RTC_INCLUDE_DIRS`` environment variable, multiple paths can be specified using the operating system's normal PATH delimiter (Linux ``:``, Windows ``;``).
 
 To optimise the loading of RTC agent functions, they are only compiled when changes are detected, with compiled agent functions being cached both in memory during execution and to the operating system's on-disk temporary directory between executions. The utility :func:`util::clearRTCDiskCache()<flamegpu::util::clearRTCDiskCache>` can be used to clear the on-disk cache.
 
