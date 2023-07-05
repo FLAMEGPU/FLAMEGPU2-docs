@@ -45,6 +45,8 @@ Environment properties are declared using the :func:`newProperty()<template<type
 
 The type, name and initial value of the property are all specified, array properties additionally require the length of the array to be specified.
 
+For a full list of supported types, see :ref:`Supported Types<Supported Types>`.
+
 .. tabs::
 
   .. code-tab:: cpp C++
@@ -103,6 +105,7 @@ The type, dimensions and name of the macro property are all specified. The macro
 Related Links
 ^^^^^^^^^^^^^
 
+* User Guide Section: :ref:`Supported Types<Supported Types>`
 * User Guide Page: :ref:`Accessing the Environment<device environment>` (Agent Functions)
 * User Guide Page: :ref:`Accessing the Environment<host environment>` (Host Functions & Conditions)
 * User Guide Page: :ref:`Overriding the Initial Environment<RunPlan>`

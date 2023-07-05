@@ -266,6 +266,7 @@ Host Device functions are not currently supported by the Python agent function f
     
 Related Links
 -------------
+* User Guide Section: :ref:`Supported Types<Supported Types>`
 * Full API documentation for :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription>`
 * Full API documentation for :c:macro:`FLAMEGPU_AGENT_FUNCTION`
 * Full API documentation for :c:macro:`FLAMEGPU_DEVICE_FUNCTION`
