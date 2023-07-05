@@ -633,7 +633,7 @@ Finally, the model's execution flow must be setup. This can be achieved using ei
 
 To define the order in which functions are executed during the model, their dependencies must be specified. :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription>`, :class:`HostFunctionDescription<flamegpu::HostFunctionDescription>` and :class:`SubModelDescription<flamegpu::SubModelDescription>` objects all implement :func:`dependsOn()<template<typename A> void flamegpu::DependencyNode::dependsOn(A&)>`. This is used to specify dependencies between the functions of the model.
 
-The root of the graph specified with :func:`ModelDescription::addRoot()<flamegpu::ModelDescription::addRoot>`, and finally the dependency graph converted to layers via :func:`ModelDescription::generateLayers()<flamegpu::ModelDescription::generateLayers>`.
+The root of the graph specified with :func:`ModelDescription::addExecutionRoot()<flamegpu::ModelDescription::addExecutionRoot>`, and finally the dependency graph converted to layers via :func:`ModelDescription::generateLayers()<flamegpu::ModelDescription::generateLayers>`.
 
 
 This can be placed at the end of the file, following the previously defined environment properties.
@@ -1370,7 +1370,7 @@ If you have followed the complete tutorial, you should now have the following co
     in_fn.dependsOn(out_fn)
     # Dependency specification
     # Output is the root of our graph
-    model.addRoot(out_fn)
+    model.addExecutionRoot(out_fn)
     model.generateLayers()
 
     class create_agents(pyflamegpu.HostFunction):
