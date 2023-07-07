@@ -86,6 +86,7 @@ By default messages within FLAME GPU 2 are not persistent, message lists are cle
       
 If multiple agent functions write to a message list during the same simulation step, the second agent function will append to the message list (or overwrite/combine in the case of array message types).
 
+By default, FLAME GPU 2 expects that every agent within an agent function will always output a message if the message is marked for output. However optional message output can be enabled, per agent function, using :func:`AgentFunctionDescription::setMessageOutputOptional()<flamegpu::AgentFunctionDescription::setMessageOutputOptional>`. See :ref:`Agent Communication - Sending Messages<Sending Messages>` for a full usage example.
 
 
 Brute Force Specialisation
