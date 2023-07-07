@@ -486,6 +486,8 @@ The ``arguments`` for each of these methods are identical. They simply require t
 
 All array message iterators return messages over the exclusive neighbourhood of the selected type, hence the message at the search origin is never returned.
 
+If you require the index of the current message within the array during iteration, the returned message objects provide the applicable ``getX()``, ``getY()`` and ``getZ()`` methods.
+
 .. note::
   * For radii greater than 1, the Von Neumann iterator returns cells with a Manhattan distance ``<= R``.
   * The Von Neumann iterator does not support the 1 dimensional :class:`MessageArray<flamegpu::MessageArray>`, the Moore iterators or a simple for loop can be used for this case.
@@ -505,10 +507,13 @@ Example of a Moore neighbourhood iterator:
           const unsigned int y = FLAMEGPU->getVariable<unsigned int>("y");
           const unsigned int z = FLAMEGPU->getVariable<unsigned int>("z");
           // For each message in the exclusive Moore neighbourhood of radius 1
-          for (const auto& message : FLAMEGPU->message_in(x, y, z)) {        
-              // Process the message's variables
-              // const T var = message.getVariable<T>(...);
-              ...
+          for (const auto& message : FLAMEGPU->message_in(x, y, z)) {
+            // Fetch the current array message's index
+            // const unsigned int ix = message.getX();
+            ...
+            // Process the message's variables
+            // const T var = message.getVariable<T>(...);
+            ...
           }
           ...
       }
@@ -523,7 +528,10 @@ Example of a Moore neighbourhood iterator:
           y = pyflamegpu.getVariableFloat("y")
           z = pyflamegpu.getVariableFloat("z")
           # For each message in the exclusive Moore neighbourhood of radius 1
-          for message in pyflamegpu.message_in(x, y, z):        
+          for message in pyflamegpu.message_in(x, y, z):  
+              # Fetch the current array message's index
+              # ix = message.getX()
+              ...     
               # Process the message's variables
               # var = message.getVariableInt(...)
               ...
@@ -541,11 +549,14 @@ Example of wrapped Moore neighbourhood iterator:
         // Get this agent's x, y variables
         const unsigned int x = FLAMEGPU->getVariable<unsigned int>("x");
         const unsigned int y = FLAMEGPU->getVariable<unsigned int>("y");
-         // For each message in the exclusive wrapped Moore neighbourhood of radius 2
-        for (const auto& message : FLAMEGPU->message_in.wrap(x, y, 2)) {        
-            // Process the message's variables
-            // const T var = message.getVariable<T>(...);
-            ...
+        // For each message in the exclusive wrapped Moore neighbourhood of radius 2
+        for (const auto& message : FLAMEGPU->message_in.wrap(x, y, 2)) {
+          // Fetch the current array message's index
+          // const unsigned int ix = message.getX();
+          ...
+          // Process the message's variables
+          // const T var = message.getVariable<T>(...);
+          ...
         }
         ...
       }
@@ -560,7 +571,10 @@ Example of wrapped Moore neighbourhood iterator:
           x = pyflamegpu.getVariableFloat("x")
           y = pyflamegpu.getVariableFloat("y")
           # For each message in the exclusive wrapped Moore neighbourhood of radius 2
-          for message in pyflamegpu.message_in.wrap(x, y, 2):        
+          for message in pyflamegpu.message_in.wrap(x, y, 2):
+              # Fetch the current array message's index
+              # ix = message.getX()
+              ...
               # Process the message's variables
               # var = message.getVariableInt(...)
               ...
@@ -579,7 +593,10 @@ Example of a Von Neumann neighbourhood iterator:
         const unsigned int y = FLAMEGPU->getVariable<unsigned int>("y");
         const unsigned int z = FLAMEGPU->getVariable<unsigned int>("z");
         // For each message in the exclusive Von Neumann neighbourhood of radius 2
-        for (const auto& message : FLAMEGPU->message_in.vn(x, y, z, 2)) {        
+        for (const auto& message : FLAMEGPU->message_in.vn(x, y, z, 2)) {
+          // Fetch the current array message's index
+          // const unsigned int ix = message.getX();
+          ... 
           // Process the message's variables          
           // const T var = message.getVariable<T>(...);
           ...
@@ -598,7 +615,10 @@ Example of a Von Neumann neighbourhood iterator:
           y = pyflamegpu.getVariableFloat("y")
           z = pyflamegpu.getVariableFloat("z")
           # For each message in the exclusive Von Neumann neighbourhood of radius 2
-          for message in pyflamegpu.message_in.vn(x, y, z, 2):        
+          for message in pyflamegpu.message_in.vn(x, y, z, 2):
+              # Fetch the current array message's index
+              # ix = message.getX()
+              ...
               # Process the message's variables
               # var = message.getVariableInt(...)
               ...
@@ -617,7 +637,10 @@ Example of a wrapped Von Neumann neighbourhood iterator:
         const unsigned int x = FLAMEGPU->getVariable<unsigned int>("x");
         const unsigned int y = FLAMEGPU->getVariable<unsigned int>("y");
          // For each message in the exclusive wrapped Von Neumann neighbourhood of radius 1
-        for (const auto& message : FLAMEGPU->message_in.vn_wrap(x, y)) {        
+        for (const auto& message : FLAMEGPU->message_in.vn_wrap(x, y)) {     
+          // Fetch the current array message's index
+          // const unsigned int ix = message.getX();
+          ...   
           // Process the message's variables          
           // const T var = message.getVariable<T>(...);
           ...
@@ -634,7 +657,10 @@ Example of a wrapped Von Neumann neighbourhood iterator:
           x = pyflamegpu.getVariableFloat("x")
           y = pyflamegpu.getVariableFloat("y")
           # For each message in the exclusive wrapped Von Neumann neighbourhood of radius 1
-          for message in pyflamegpu.message_in.vn_wrap(x, y):        
+          for message in pyflamegpu.message_in.vn_wrap(x, y):
+              # Fetch the current array message's index
+              # ix = message.getX()
+              ...
               # Process the message's variables
               # var = message.getVariableInt(...)
               ...
