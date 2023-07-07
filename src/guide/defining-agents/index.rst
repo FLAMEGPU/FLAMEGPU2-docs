@@ -27,6 +27,8 @@ Agent Variables
 Agent variables should be used to store data which is unique to each instance of an agent, for example, each individual predator in a predator-prey simulation
 would have its own position and hunger level. Each variable has a name, type, default value and may take the form of a scalar or array.
 
+For a full list of supported types, see :ref:`Supported Types<Supported Types>`.
+
 Agent ID
 --------
 
@@ -94,6 +96,7 @@ States can be defined through the :class:`AgentDescription<flamegpu::AgentDescri
 Related Links
 ^^^^^^^^^^^^^
 
+* User Guide Section: :ref:`Supported Types<Supported Types>`
 * User Guide Chapter: :ref:`Agent Functions<Agent Functions>`
 * User Guide Page: :ref:`Agent Operations<Host Agent Operations>` (Host Functions)
 * Full API documentation for :class:`AgentDescription<flamegpu::AgentDescription>`

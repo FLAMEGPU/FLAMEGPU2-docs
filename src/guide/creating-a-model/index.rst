@@ -69,3 +69,39 @@ The :class:`ModelDescription<flamegpu::ModelDescription>` class has various meth
     :func:`newMessage()<flamegpu::ModelDescription::newMessage>` take a template argument, so it is called in the format ``newMessage<flamegpu::MessageBruteForce>()``. As the Python API lacks templates, they are instead called in the format ``newMessageBruteForce()``.
 
 The subsequent chapters of this guide explore their usage in greater detail.
+
+.. _Supported Types:
+
+Supported Types
+^^^^^^^^^^^^^^^
+
+As FLAME GPU 2 is a C++ library, variable/property types within models must be specified. Throughout the API many methods rely on C++ templates where the type of a variable or property must be provided. If using the Python API the type is instead appended as a suffix to the method's identifier.
+
+Only primitive numeric types are currently supported, the full list of supported types is provided below.
+
+====================================== ===============================================
+C++ Template type                      Python Type Suffix
+====================================== ===============================================
+``char`` [1]_                          ``Char`` [1]_
+``signed char`` ``int8_t``             ``Int8``
+``unsigned char`` ``uint8_t``          ``UChar`` ``UInt8``
+``signed short`` ``int16_t`` ``short`` ``Int16``
+``unsigned short`` ``uint16_t``        ``UInt16``
+``signed int`` ``int32_t`` ``int``     ``Int32`` ``Int``
+``unsigned int`` ``uint32_t``          ``UInt32`` ``UInt``
+``int64_t`` [2]_                       ``Int64``
+``uint64_t`` [2]_                      ``UInt64``
+``float``                              ``Float``
+``double``                             ``Double``
+:type:`flamegpu::id_t` [3]_            ``ID`` [3]_
+====================================== ===============================================
+
+The subsequent chapters introduce all the relevant methods.
+
+.. note::
+  
+    If a boolean variable is required, a character type should be used.
+    
+.. [1] Within C++ ``char`` is is distinct from both ``signed char`` and ``unsigned char``.
+.. [2] ``long`` / ``long long`` type names are supported, however the corresponding integer length differs between compilers.
+.. [3] FLAME GPUs ID type is currently a 32 bit unsigned integer (``uint32_t`` / ``UInt32``).
