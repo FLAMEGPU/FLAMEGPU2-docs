@@ -175,16 +175,17 @@ Simulation state output files produces by FLAME GPU are compatible for use as in
 File Format
 ===========
 
-=================== ============================================================================================
-Block               Description
-=================== ============================================================================================
-``itno``            **XML Only** This block provides the step number in XML output files, it is included for backwards compatibility with FLAMEGPU 1. It has no use for input.
-``config``          This block is split into sub-blocks ``simulation`` and ``cuda``, the members of each sub-block align with :class:`Simulation::Config<flamegpu::Simulation::Config>` and :class:`CUDASimulation::Config<flamegpu::CUDASimulation::Config>` members of the same name respectively. These values are output to log the configuration, and can optionally be used to set the configuration via input file. (See the :ref:`Configuring Execution` guide for details of each individual member)
-``stats``           This block includes statistics collected by FLAME GPU 2 during execution. It has no purpose on input.
-``environment``     This block includes members of the environment, and can be used to configure the environment via input file. Members which begin with ``_`` are automatically created internal properties, which can be set via input file.
-``xagent``          **XML Only** Each ``xagent`` block represents a single agent, and the ``name`` and ``state`` values must match an agent state within the loaded model description hierarchy. Members which begin with ``_`` are automatically created internal variables, which can be set via input file.
-``agents``          **JSON Only** Within the ``agents`` block, a sub block may exist for each agent type, and within this a sub-block for each state type. Each state then maps to an array of object, where each object consists of a single agent's variables. Members which begin with ``_`` are automatically created internal variables, which can be set via input file.
-=================== ============================================================================================
+======================== ============================================================================================
+Block                    Description
+======================== ============================================================================================
+``itno``                 **XML Only** This block provides the step number in XML output files, it is included for backwards compatibility with FLAMEGPU 1. It has no use for input.
+``config``               This block is split into sub-blocks ``simulation`` and ``cuda``, the members of each sub-block align with :class:`Simulation::Config<flamegpu::Simulation::Config>` and :class:`CUDASimulation::Config<flamegpu::CUDASimulation::Config>` members of the same name respectively. These values are output to log the configuration, and can optionally be used to set the configuration via input file. (See the :ref:`Configuring Execution` guide for details of each individual member)
+``stats``                This block includes statistics collected by FLAME GPU 2 during execution. It has no purpose on input.
+``environment``          This block includes environment properties (not macro properties), and can be used to configure the environment via input file. Members which begin with ``_`` are automatically created internal properties, which can be set via input file.
+``macro_environment``    This block includes environment macro properties, and can be used to configure the environment via input file. Regardless of how many dimensions the macro property has, it will be written as a 1 dimensional array.
+``xagent``               **XML Only** Each ``xagent`` block represents a single agent, and the ``name`` and ``state`` values must match an agent state within the loaded model description hierarchy. Members which begin with ``_`` are automatically created internal variables, which can be set via input file.
+``agents``               **JSON Only** Within the ``agents`` block, a sub block may exist for each agent type, and within this a sub-block for each state type. Each state then maps to an array of object, where each object consists of a single agent's variables. Members which begin with ``_`` are automatically created internal variables, which can be set via input file.
+======================== ============================================================================================
 
 The below code block displays example files output from FLAME GPU 2 in both XML and JSON formats, which could be used as input files.
 
@@ -219,6 +220,9 @@ The below code block displays example files output from FLAME GPU 2 in both XML 
             <repulse>0.05</repulse>
             <_stepCount>1</_stepCount>
         </environment>
+        <macro_environment>
+            <heat>1,1,1,1,0,0,0,0</heat>
+        </macro_environment>
         <xagent>
             <name>Circle</name>
             <state>default</state>
@@ -269,6 +273,9 @@ The below code block displays example files output from FLAME GPU 2 in both XML 
       "environment": {
         "repulse": 0.05,
         "_stepCount": 1
+      },
+      "environment": {
+        "heat": [1,1,1,1,0,0,0,0]
       },
       "agents": {
         "Circle": {

@@ -1,7 +1,7 @@
 .. _host environment:
 
 Accessing the Environment
-^^^^^^^^^^^^^^^^^^^^^^^^^
+=========================
 
 As detailed in the earlier chapter detailing the :ref:`defining of environmental properties<defining environmental properties>`, there are two types of environment property which can be interacted with in host functions. Unlike :ref:`agent functions<device environment>`, host functions have full mutable access to both forms of environment property.
 
@@ -9,7 +9,7 @@ The :class:`HostEnvironment<flamegpu::HostEnvironment>` instance can be accessed
 
 
 Environment Properties
-----------------------
+^^^^^^^^^^^^^^^^^^^^^^
 
 Host functions can both read and update environment properties using :func:`setProperty()<flamegpu::HostEnvironment::setProperty>` and :func:`getProperty()<flamegpu::HostEnvironment::getProperty>` respectively.
 
@@ -64,7 +64,7 @@ Environmental properties are accessed, using :class:`HostEnvironment<flamegpu::H
 .. _host macro property:
 
 Environment Macro Properties
-----------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Similar to regular environment properties, macro environment properties can be read and updated within host functions.
 
@@ -125,23 +125,50 @@ Below are several examples of how environment macro properties can be updated in
     # Define an host function called write_env_hostfn
     class write_env_hostfn(pyflamegpu.HostFunction):
       def run(self,FLAMEGPU):
-      # Retrieve the environment macro property foo of type float
-      foo = FLAMEGPU->environment.getMacroPropertyFloat("foo");
-      # Retrieve the environment macro property bar of type int array[3][3][3]
-      bar = FLAMEGPU.environment.getMacroPropertyInt("bar");
-      # Update some of the values
-      # foo = 12.0; is not allowed
-      foo.set(12.0);
-      foo[0] = 12.0; # This is the same as calling set()
-      bar[0][0][0]+= 1;
-      bar[0][1][0] = 5;
-      bar[0][0][2]+= 1; # Python does not allow the increment operator to be overridden
+          # Retrieve the environment macro property foo of type float
+          foo = FLAMEGPU->environment.getMacroPropertyFloat("foo");
+          # Retrieve the environment macro property bar of type int array[3][3][3]
+          bar = FLAMEGPU.environment.getMacroPropertyInt("bar");
+          # Update some of the values
+          # foo = 12.0; is not allowed
+          foo.set(12.0);
+          foo[0] = 12.0; # This is the same as calling set()
+          bar[0][0][0]+= 1;
+          bar[0][1][0] = 5;
+          bar[0][0][2]+= 1; # Python does not allow the increment operator to be overridden
       
 .. warning::
   Be careful when using :class:`HostMacroProperty<flamegpu::HostMacroProperty>` via the C++ API. When you retrieve an element e.g. ``bar[0][0][0]`` (from the example above), it is of type :class:`HostMacroProperty<flamegpu::HostMacroProperty>` not ``int``. Therefore you cannot pass it directly to functions which take generic arguments such as ``printf()``, as it will be interpreted incorrectly. You must either store it in a variable of the correct type which you instead pass, or explicitly cast it to the correct type when passing it e.g. ``(int)bar[0][0][0]`` or ``static_cast<int>(bar[0][0][0])``.
     
+Macro Property File Input/Output
+--------------------------------
+
+Environment macro properties are best suited for large datasets. For this reason it may be necessary to initialise them from file. As such, the :class:`HostEnvironment<flamegpu::HostEnvironment>` provides methods for importing and exporting macro properties. Unlike model state export, these operate on a single property. The additional ``.bin`` (binary) file format is supported.
+
+.. tabs::
+
+  .. code-tab:: cuda CUDA C++
+  
+    // Define an host function called macro_prop_io_hostfn
+    FLAMEGPU_HOST_FUNCTION(macro_prop_io_hostfn) {
+        // Export the macro property
+        FLAMEGPU->environment.exportMacroProperty("macro_float_3_3_3", "out.bin");
+        // Import a macro property
+        FLAMEGPU->environment.importMacroProperty("macro_float_3_3_3", "in.json");
+    }
+
+  .. code-tab:: python
+  
+    # Define an host function called write_env_hostfn
+    class macro_prop_io_hostfn(pyflamegpu.HostFunction):
+      def run(self,FLAMEGPU):
+        # Export the macro property
+        FLAMEGPU.environment.exportMacroProperty("macro_float_3_3_3", "out.bin");
+        # Import a macro property
+        FLAMEGPU.environment.importMacroProperty("macro_float_3_3_3", "in.json");
+    
 Related Links
--------------
+^^^^^^^^^^^^^
 
 * User Guide Page: :ref:`Defining Environmental Properties<defining environmental properties>`
 * User Guide Page: :ref:`Agent Functions: Accessing the Environment<device environment>`
