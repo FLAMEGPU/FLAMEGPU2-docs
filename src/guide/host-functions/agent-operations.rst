@@ -44,7 +44,7 @@ Various reduction operators are provided, to allow specific agent variables to b
    * - :func:`sum()<flamegpu::HostAgentAPI::sum>`
      - ``variable``
      - Returns the sum of the specified agent variable.
-   * - :func:`meanStandardDeviation<flamegpu::HostAgentAPI::meanStandardDeviation>`
+   * - :func:`meanStandardDeviation()<flamegpu::HostAgentAPI::meanStandardDeviation>`
      - ``variable``
      - Returns a pair of doubles, the first item being the mean, and the second the standard deviation of the specified agent variable.
    * - :func:`min()<flamegpu::HostAgentAPI::min>`
