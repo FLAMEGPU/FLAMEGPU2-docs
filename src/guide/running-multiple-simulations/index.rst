@@ -142,6 +142,8 @@ A short example is shown below, however you should refer to the :ref:`previous c
 
 One benefit of using :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` to carry out experiments, is that the specific :class:`RunPlan<flamegpu::RunPlan>` data is included in each log file, allowing them to be automatically processed and used for reproducible research. However, this does not identify the particular version or build of your model. 
 
+ Agent data is logged according to agent state, so agents with multiple states must have the config specified for each state required to be logged.
+
 .. tabs::
 
   .. code-tab:: cpp C++
@@ -152,8 +154,10 @@ One benefit of using :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` to carry out 
         // Log every step (not available to LoggingConfig, for exit logs)
         step_log_cfg.setFrequency(1);
         step_log_cfg.logEnvironment("random_float");
+        // Include the current number of 'boid' agents, within the 'default' state
         step_log_cfg.agent("boid").logCount();
-        step_log_cfg.agent("boid").logMean<float>("speed");
+        // Include the current mean speed of 'boid' agents, within the 'alive' state
+        step_log_cfg.agent("boid", "alive").logMean<float>("speed");
     }
     flamegpu::LoggingConfig exit_log_cfg(model);
     exit_log_cfg.logEnvironment("lerp_float");
@@ -170,8 +174,10 @@ One benefit of using :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` to carry out 
     #Log every step (not available to LoggingConfig, for exit logs)
     step_log_cfg.setFrequency(1);
     step_log_cfg.logEnvironment("random_float");
+    # Include the current number of 'boid' agents, within the "default" state
     step_log_cfg.agent("boid").logCount();
-    step_log_cfg.agent("boid").logMeanFloat("speed");
+    # Include the current mean speed of 'boid' agents, within the 'alive' state
+    step_log_cfg.agent("boid", "alive").logMeanFloat("speed");
 
     exit_log_cfg = pyflamegpu.LoggingConfig (model)
     exit_log_cfg.logEnvironment("lerp_float")
