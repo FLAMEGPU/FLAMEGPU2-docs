@@ -19,7 +19,7 @@ To define a logging config, you should create either a :class:`LoggingConfig<fla
 
 Environment properties are logged with :func:`logEnvironment()<flamegpu::LoggingConfig::logEnvironment>`, specifying the property's name. Unlike most FLAME GPU variable and property methods, the type does not need to be specified here.
 
-Agent data is logged according to agent state, so agent's with multiple states must have the config specified for each state required to be logged. The total number of agents in the state can be logged with :func:`logCount()<flamegpu::AgentLoggingConfig::logCount>`. Or variable reductions can be logged with; :func:`logMean()<flamegpu::AgentLoggingConfig::logMean>`, :func:`logStandardDev()<flamegpu::AgentLoggingConfig::logStandardDev>`, :func:`logMin()<flamegpu::AgentLoggingConfig::logMin>`, :func:`logMax()<flamegpu::AgentLoggingConfig::logMax>`, :func:`logSum()<flamegpu::AgentLoggingConfig::logSum>` specifying the variable's name and type (in the same form as used throughout the API).
+Agent data is logged according to agent state, so agents with multiple states must have the config specified for each state required to be logged. The total number of agents in the state can be logged with :func:`logCount()<flamegpu::AgentLoggingConfig::logCount>`. Or variable reductions can be logged with; :func:`logMean()<flamegpu::AgentLoggingConfig::logMean>`, :func:`logStandardDev()<flamegpu::AgentLoggingConfig::logStandardDev>`, :func:`logMin()<flamegpu::AgentLoggingConfig::logMin>`, :func:`logMax()<flamegpu::AgentLoggingConfig::logMax>`, :func:`logSum()<flamegpu::AgentLoggingConfig::logSum>` specifying the variable's name and type (in the same form as used throughout the API).
 
 Once setup, the logging configs are passed to the :class:`CUDASimulation<flamegpu::CUDASimulation>` using :func:`setStepLog()<flamegpu::CUDASimulation::setStepLog>` and :func:`setExitLog()<flamegpu::CUDASimulation::setExitLog>`.
 
@@ -40,7 +40,7 @@ Once setup, the logging configs are passed to the :class:`CUDASimulation<flamegp
         step_log_cfg.setFrequency(1);
         // Include the environment property 'env_prop' in the logged data
         step_log_cfg.logEnvironment("env_prop");
-        // Include the current number of 'boid' agents, within the default state
+        // Include the current number of 'boid' agents, within the 'default' state
         step_log_cfg.agent("boid").logCount();
         // Include the current number of 'boid' agents, within the 'alive' state
         step_log_cfg.agent("boid", "alive").logCount();
@@ -78,7 +78,7 @@ Once setup, the logging configs are passed to the :class:`CUDASimulation<flamegp
     step_log_cfg.setFrequency(1)
     # Include the environment property 'env_prop' in the logged data
     step_log_cfg.logEnvironment("env_prop")
-    # Include the current number of 'boid' agents, within the default state
+    # Include the current number of 'boid' agents, within the 'default' state
     step_log_cfg.agent("boid").logCount()
     # Include the current number of 'boid' agents, within the 'alive' state
     step_log_cfg.agent("boid", "alive").logCount()
