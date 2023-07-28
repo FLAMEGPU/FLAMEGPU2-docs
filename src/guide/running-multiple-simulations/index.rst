@@ -250,6 +250,9 @@ You may also wish to specify your own defaults, by setting the values prior to c
         // Post-process the logs
         ...
     }
+    
+    // Ensure profiling / memcheck work correctly (and trigger MPI_Finalize())
+    flamegpu::util::cleanup();
 
   .. code-tab:: py Python
     
@@ -284,6 +287,8 @@ You may also wish to specify your own defaults, by setting the values prior to c
         # Post-process the logs
         ...
 
+    # Ensure profiling / memcheck work correctly (and trigger MPI_Finalize())
+    pyflamegpu.cleanup();
     
 Error Handling Within Ensembles
 -------------------------------
@@ -309,6 +314,8 @@ For particularly expensive batch runs you may wish to distribute the workload ac
 
 To enable MPI support FLAMEGPU should be compiled with the CMake flag ``FLAMEGPU_ENABLE_MPI``. When compiled with this flag, :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>`  will use MPI by default when the MPI world size exceeds 1. This can be overridden by passing ``--no-mpi`` at runtime or setting the ``mpi`` member of the :class:`CUDAEnsemble::EnsembleConfig<flamegpu::CUDAEnsemble::EnsembleConfig>` to ``false``.
 
+It is not necessary to use a CUDA aware MPI library, as `CUDAEnsemble<flamegpu::CUDAEnsemble>` will make use of all available GPUs by default. Hence it's only necessary to launch 1 runner per node.
+
 When executing with MPI, :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` will execute the input :class:`RunPlanVector<flamegpu::RunPlanVector>` across all available GPUs and concurrent runs, automatically assigning jobs when a runner becomes free. This should achieve better load balancing than manually dividing work across nodes.
 
 The call to :func:`CUDAEnsemble::simulate()<flamegpu::CUDAEnsemble::simulate>` will both initialise and finalise the MPI state, as such it can only be called once.
@@ -322,6 +329,10 @@ For more guidance around using MPI, such as how to launch MPI jobs, you should r
 .. warning::
 
   :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` MPI support assumes that each instance has exclusive access to all visible GPUs. Non-exclusive GPU access is likely to lead to overallocation of resources and unnecessary model failures. It's only necessary to launch 1 MPI instance per node, as :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` is natively able to utilise multiple GPUs within a single node.
+  
+.. warning::
+
+  :func:`flamegpu::util::cleanup()<flamegpu::util::cleanup()>` must be called before the program returns when using MPI, this triggers ``MPI_Finalize()``.
 
   
 Related Links
