@@ -106,7 +106,7 @@ When outputting bucket messages, the bucket index for the message must be set, u
 
       # Define an agent function, "outputdata" which has no input messages and outputs a message using the "MessageBucket" communication strategy
       @pyflamegpu.agent_function
-      def outputdata(message_in: pyflamegpu.MessageNone, message_out: pyflamegpu.MessageBruteForce):
+      def outputdata(message_in: pyflamegpu.MessageNone, message_out: pyflamegpu.MessageBucket):
           pyflamegpu.message_out.setVariableFloat("x", pyflamegpu.getVariableFloat("x"))
           # Set the bucket key for the message, to the agents "bucket" member variable
           pyflamegpu.message_out.setKey(pyflamegpu.getVariableInt("bucket"))
