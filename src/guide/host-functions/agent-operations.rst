@@ -182,7 +182,7 @@ It's also possible to create new agents with the :class:`HostAgentAPI<flamegpu::
 
         // Create 10 new 'sheep' agents
         for (int i = 0; i < 10; ++i) {
-            flamegpu::HostNewAgentAPI new_sheep = t.newAgent();
+            flamegpu::HostNewAgentAPI new_sheep = sheep.newAgent();
             new_sheep.setVariable<int>("awake", 1);
             new_sheep.setVariable<float>("health", 100.0f - i);
             new_sheep.setVariable<int, 3>("genes", {12, 2, 45});
@@ -198,7 +198,7 @@ It's also possible to create new agents with the :class:`HostAgentAPI<flamegpu::
         
         # Create 10 new 'sheep' agents
         for i in range(10):
-            new_sheep = t.newAgent()
+            new_sheep = sheep.newAgent()
             new_sheep.setVariableInt("awake", 1)
             new_sheep.setVariableFloat("health", 100 - i)
             new_sheep.setVariableArrayInt("genes", [12, 2, 45])
