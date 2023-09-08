@@ -28,3 +28,6 @@ This chapter has been broken up into several sections:
    random-numbers.rst
    conditional-behaviours.rst
    miscellaneous.rst
+   
+.. note::
+  If you require a function that operates at a population or global scope you should use :ref`Host Functions<Host Functions and Conditions>`, these are distinct from Agent Functions and cannot be launched from agent functions.
