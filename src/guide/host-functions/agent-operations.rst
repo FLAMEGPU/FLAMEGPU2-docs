@@ -157,7 +157,7 @@ Agent populations can also be sorted according to a variable, the C++ API can ad
         # Retrieve the host agent tools for agent sheep in the default state
         sheep = FLAMEGPU.agent("sheep");
         # Sort the sheep population according to their health variable
-        sheep.sortFloat("health", pyflamegpu.ASC);
+        sheep.sortFloat("health", pyflamegpu.HostAgentAPI.ASC);
 
 .. _Host Agent Creation:
 
