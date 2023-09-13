@@ -310,15 +310,15 @@ Alternatively, calls to :func:`simulate()<flamegpu::CUDAEnsemble::simulate>` ret
 Distributed Ensembles via MPI
 -----------------------------
 
-For particularly expensive batch runs you may wish to distribute the workload across multiple nodes. This can be achieved via Message Passing Interface (MPI) support.
+For particularly expensive batch runs you may wish to distribute the workload across multiple nodes within a HPC cluster. This can be achieved via Message Passing Interface (MPI) support.
 
 To enable MPI support FLAMEGPU should be compiled with the CMake flag ``FLAMEGPU_ENABLE_MPI``. When compiled with this flag, :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>`  will use MPI by default when the MPI world size exceeds 1. This can be overridden by passing ``--no-mpi`` at runtime or setting the ``mpi`` member of the :class:`CUDAEnsemble::EnsembleConfig<flamegpu::CUDAEnsemble::EnsembleConfig>` to ``false``.
 
-It is not necessary to use a CUDA aware MPI library, as `CUDAEnsemble<flamegpu::CUDAEnsemble>` will make use of all available GPUs by default. Hence it's only necessary to launch 1 runner per node.
+It is not necessary to use a CUDA aware MPI library, as `CUDAEnsemble<flamegpu::CUDAEnsemble>` will make use of all available GPUs by default using the it's existing multi-gpu support (as opposed to GPU direct MPI comms). Hence it's only necessary to launch 1 runner per node, although multiple CPU threads are still recommended (e.g. a minimum of ``N+1``, where ``N`` is the number of GPUs in the node).
 
 When executing with MPI, :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` will execute the input :class:`RunPlanVector<flamegpu::RunPlanVector>` across all available GPUs and concurrent runs, automatically assigning jobs when a runner becomes free. This should achieve better load balancing than manually dividing work across nodes.
 
-The call to :func:`CUDAEnsemble::simulate()<flamegpu::CUDAEnsemble::simulate>` will both initialise and finalise the MPI state, as such it can only be called once.
+The call to :func:`CUDAEnsemble::simulate()<flamegpu::CUDAEnsemble::simulate>` will initialise MPI state if this has necessary, in order to cleanly exit :func:`flamegpu::util::cleanup()<flamegpu::util::cleanup>` must be called before the program exits. Hence, you may call :func:`CUDAEnsemble::simulate()<flamegpu::CUDAEnsemble::simulate>` multiple times to execute multiple ensembles via MPI in a single execution,  or probe the MPI world state prior to launching the ensemble.
 
 All three error-levels are supported and behave similarly. In all cases the rank 0 instance will be the only instance to raise an exception after the MPI group exits cleanly.
 
