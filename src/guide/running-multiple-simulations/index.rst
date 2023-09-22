@@ -210,7 +210,6 @@ Long Argument                  Short Argument              Description
                                                            By default the :enum:`ErrorLevel<flamegpu::CUDAEnsemble::EnsembleConfig::ErrorLevel>` will be set to "slow" (1).
 ``--standby``                                              Allow the operating system to enter standby during ensemble execution.
                                                            The standby blocking feature is currently only supported on Windows, where it is enabled by default.
-``--no-mpi``                                               Do not use MPI (only available when built with ``FLAMEGPU_ENABLE_MPI`` at CMake configuration time).
 ============================== =========================== ========================================================
 
 You may also wish to specify your own defaults, by setting the values prior to calling :func:`initialise()<flamegpu::CUDAEnsemble::initialise>`:
@@ -312,7 +311,7 @@ Distributed Ensembles via MPI
 
 For particularly expensive batch runs you may wish to distribute the workload across multiple nodes within a HPC cluster. This can be achieved via Message Passing Interface (MPI) support.
 
-To enable MPI support FLAMEGPU should be compiled with the CMake flag ``FLAMEGPU_ENABLE_MPI``. When compiled with this flag, :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>`  will use MPI by default when the MPI world size exceeds 1. This can be overridden by passing ``--no-mpi`` at runtime or setting the ``mpi`` member of the :class:`CUDAEnsemble::EnsembleConfig<flamegpu::CUDAEnsemble::EnsembleConfig>` to ``false``.
+To enable MPI support FLAMEGPU should be compiled with the CMake flag ``FLAMEGPU_ENABLE_MPI``. When compiled with this flag :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` will use MPI by default. The ``mpi`` member of the :class:`CUDAEnsemble::EnsembleConfig<flamegpu::CUDAEnsemble::EnsembleConfig>` which will be set ``true`` if MPI support was enabled at compile time.
 
 It is not necessary to use a CUDA aware MPI library, as `CUDAEnsemble<flamegpu::CUDAEnsemble>` will make use of all available GPUs by default using the it's existing multi-gpu support (as opposed to GPU direct MPI comms). Hence it's only necessary to launch 1 runner per node, although multiple CPU threads are still recommended (e.g. a minimum of ``N+1``, where ``N`` is the number of GPUs in the node).
 
