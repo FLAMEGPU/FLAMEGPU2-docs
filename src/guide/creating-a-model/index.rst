@@ -11,6 +11,39 @@ What is a Model?
 
 In FLAME GPU 2, a model is represented by a :class:`ModelDescription<flamegpu::ModelDescription>` object, this contains information specifying the agents, messages and environment properties within the model and how they interact.
 
+The hierarchy of a :class:`ModelDescription<flamegpu::ModelDescription>` is shown below.
+
+.. mermaid::
+
+    graph LR;
+        %%Simulation-->Population;
+        %%Simulation-->Model;
+        Model-->Agent;
+        Model-->Message;
+        Model-->Environment;
+        Model-->Layer;
+        Model-->e["Init/Step/Exit Function"];
+        Message-->Variable;
+        Agent-->a["Variable"];
+        Agent-->b["Agent Function"];
+        Agent-->State;
+        Environment-->Property;
+        Environment-->MacroProperty;
+        %%Environment-->StaticGraph;
+        Layer-->c[Agent Function];
+        Layer-->d[Host Function];
+        Layer-->SubModel;
+
+:ref:`Agents<Defining Agents>` are the executors of primary model behaviour. All agents of the same type and state execute in parallel, where they can update their internal variables based on messages from other agents and the environment's properties. 
+
+:ref:`Messages<Defining Messages>` are what agents share to communicate with one another. Due to the parallel nature of a FLAME GPU model, they must be input in a separate agent function to the one they are output from. There are a wide range of message types supported, to enable the most efficient communication strategy for any purpose.
+
+:ref:`The Environment<defining environmental properties>` holds global state information in the form of properties and macro properties. The environment is primarily mutated via :ref:`host functions<Defining Host Functions>`, which execute serially at the global level. New to FLAME GPU 2, :ref:`macro properties<Define Macro Environmental Properties>` support upto 4-dimensional arrays and provide a limited set of mutators so that they can be updated during agent functions.
+
+:ref:`Layers<Layers>` are FLAME GPUs original method of defining the control flow of a model, layers are each executed in sequence and all functions within a layer may execute in parallel. FLAME GPU 2 alternatively provides a new intuitive :ref:`dependency graph API<Dependency Graph>`, where instead dependencies between functions are defined, the layers are then automatically generated based on the dependencies. Additionally, FLAME GPU 2 introduces the concept of :ref:`submodels<Defining a Submodel>` which allow iterative algorithms (typically parallel conflict resolution) to be modelled within a single model step by nesting a model with shared agents.
+
+:ref:`Init, Step and Exit functions<Types of Host Function>` are host functions which execute either at the start of the simulation, end of each step or after the simulation has finished. Otherwise, they are exactly the same as host functions attached to layers or the dependency graph. Additionally, FLAME GPU 2 provides a specialised :ref:`Exit Condition<Exit Conditions>` host function, which can end a simulation early if a user-defined condition is met.
+
 Once the :class:`ModelDescription<flamegpu::ModelDescription>` has been completely described, it is used to construct either a :class:`CUDASimulation<flamegpu::CUDASimulation>` or :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` to execute simulations of the model.
 
 

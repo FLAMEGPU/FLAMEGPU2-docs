@@ -57,6 +57,8 @@ In the Python API a host function is defined as a subclass of :class:`HostFuncti
     Although python Host functions and conditions are classes, the class should not utilise any additional stateful information (e.g. `self`). When executed via ensembles, Python host function instances are shared between concurrent simulation runs, which may lead to race conditions where stateful information is present.
     
 
+.. _Types of Host Function:
+
 Types of Host Function
 ----------------------
 
