@@ -15,7 +15,7 @@ The hierarchy of a :class:`ModelDescription<flamegpu::ModelDescription>` is show
 
 .. mermaid::
 
-    graph LR;
+    graph TD;
         %%Simulation-->Population;
         %%Simulation-->Model;
         Model-->Agent;
