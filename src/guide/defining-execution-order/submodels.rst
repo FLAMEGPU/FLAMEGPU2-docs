@@ -2,6 +2,8 @@
 
 Submodels
 ^^^^^^^^^
+Submodels allow FLAME GPU 2 models to contain nested models, this is particularly useful for models which contain iterative algorithms. Submodels were originally developed to enable a biological model to use an iterative cell-cell mechanical model, which would have otherwise have been difficult to implement with layers or a dependency graph.
+
 A submodel acts as a full model nested inside a parent model, the only requirement is that the submodel contains atleast one :ref:`exit condition<Defining Host Functions>`. Agent variables can be mapped between the two models, with each model also having private agent variables (or even private agents). The agent ID of bound agents will always be mapped. Unbound agents which are recreated in each time the submodel is executed are not guaranteed to have the same ID between runs. Environment properties can also be shared with submodels, with the ability to mark them as constant within the submodel.
 
 Where an agent variable is mapped between model and submodel, the parent model's default value will always be used when creating new agents.
