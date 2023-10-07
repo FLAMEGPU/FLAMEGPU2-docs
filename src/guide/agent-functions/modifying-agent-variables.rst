@@ -81,13 +81,13 @@ Within Python agent functions array lengths can be be specified by appending ``A
     def ExampleFn(message_in: pyflamegpu.MessageNone, message_out: pyflamegpu.MessageNone):
         # Return agent variable 'location[1]' and store it in local variable 'y'
         # The length of the array must be appended to the name of the type instantiated getVariable function, in this example the array has a length of 3
-        y = pyflamegpu.getVariableIntArray3("location", 1);
+        y = pyflamegpu.getVariableIntArray3("location", 1)
 
         # Update the local copy
-        y+=1;
+        y+=1
 
         # Store the updated local copy in the agent's 'location[1]' variable
-        FLAMEGPU->setVariableIntArray3("location", 1, y);
+        pyflamegpu.setVariableIntArray3("location", 1, y)
 
         # Other behaviour code
         ...
