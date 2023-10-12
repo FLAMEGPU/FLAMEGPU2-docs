@@ -1,12 +1,12 @@
 .. _device environment:
 
 Accessing the Environment
-^^^^^^^^^^^^^^^^^^^^^^^^^
+=========================
 
 As detailed in the earlier chapter detailing the :ref:`defining of environmental properties<defining environmental properties>`, there are two types of environment property which can be interacted with in agent functions. The :class:`DeviceEnvironment<flamegpu::DeviceEnvironment>` instance can be accessed, to interact with both of these, via ``FLAMEGPU->environment`` (C++) or ``pyflamegpu.environment`` (Python).
 
 Environment Properties
-----------------------
+^^^^^^^^^^^^^^^^^^^^^^
 
 Agent functions can only read environmental properties. If you wish to modify an environmental property, this must be done
 via :ref:`host functions<host environment>`.
@@ -37,7 +37,7 @@ Environmental properties are accessed, using :class:`DeviceEnvironment<flamegpu:
     
 
 Environment Macro Properties
-----------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Agent functions have much greater access to environmental macroscopic properties, however they still cannot be directly written to, or both updated and read in the same layer.
 
@@ -140,14 +140,141 @@ Example usage is shown below:
 
         # Other behaviour code
         ...
-    }
     
 .. warning::
   Be careful when using :class:`DeviceMacroProperty<flamegpu::DeviceMacroProperty>`. When you retrieve an element e.g. ``location[0][0][0]`` (from the example above), it is of type :class:`DeviceMacroProperty<flamegpu::DeviceMacroProperty>` not ``unsigned int``. Therefore you cannot pass it directly to functions which take generic arguments such as ``printf()``, as it will be interpreted incorrectly. You must either store it in a variable of the correct type which you instead pass, or explicitly cast it to the correct type when passing it e.g. ``(unsigned int)location[0][0][0]`` or ``static_cast<unsigned int>(location[0][0][0])`` (or ``numpy.uint(location[0][0][0])`` in Python).
     
-    
+Environment Directed Graph
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To access the graph on the device, vertex indexes are used rather than IDs, to minimise ID->index conversion for efficient access, methods are available to convert between ID and index.
+
+If executing a model without :ref:`FLAMEGPU_SEATBELTS?<FLAMEGPU_SEATBELTS>` enabled, :func:`getVertexIndex()<flamegpu::DeviceEnvironmentDirectedGraph::getVertexIndex>` and :func:`getEdgeIndex()<flamegpu::DeviceEnvironmentDirectedGraph::getEdgeIndex>` will return zero if the specified vertex or edge does not exist.
+
+.. tabs::
+
+  .. code-tab:: cuda Agent C++
+  
+    FLAMEGPU_AGENT_FUNCTION(GraphTestID, MessageNone, MessageNone) {
+        DeviceEnvironmentDirectedGraph fgraph = FLAMEGPU->environment.getDirectedGraph("fgraph");
+        
+        // Fetch the ID of the vertex at index 0
+        flamegpu::id_t vertex_id = fgraph.getVertexID(0);
+        // Fetch the index of the vertex with ID 1
+        unsigned int vertex_index = fgraph.getVertexIndex(1);
+        
+        // Access a property of vertex with ID 1
+        float bar_0 = fgraph.getVertexProperty<float, 2>("bar", 0);
+        
+        // Fetch the source and destination indexes from the edge at index 0
+        unsigned int source_index = fgraph.getEdgeSource(0);
+        unsigned int destination_index = fgraph.getEdgeDestination(0);
+        
+        // Fetch the index of the edge from vertex ID 1 to vertex ID 2
+        unsigned int edge_index = fgraph.getEdgeIndex(1, 2);
+        
+        // Access a property of edge with source ID 1, destination ID 2
+        int foo = fgraph.getEdgeProperty<int>("foo", edge_index);
+        
+        return flamegpu::ALIVE;
+    }
+
+  .. code-tab:: py Agent Python
+  
+    @pyflamegpu.agent_function
+    def ExampleFn(message_in: pyflamegpu.MessageNone, message_out: pyflamegpu.MessageNone):
+        fgraph = pyflamegpu.environment.getDirectedGraph("fgraph")
+        
+        # Fetch the ID of the vertex at index 0
+        vertex_id = fgraph.getVertexID(0)
+        # Fetch the index of the vertex with ID 1
+        vertex_index = fgraph.getVertexIndex(1)
+        
+        # Access a property of vertex with ID 1
+        bar_0 = fgraph.getVertexPropertyFloatArray2("bar", 0)
+        
+        # Fetch the source and destination indexes from the edge at index 0
+        source_index = fgraph.getEdgeSource(0)
+        destination_index = fgraph.getEdgeDestination(0)
+        
+        # Fetch the index of the edge from vertex ID 1 to vertex ID 2
+        edge_index = fgraph.getEdgeIndex(1, 2)
+        
+        # Access a property of edge with source ID 1, destination ID 2
+        foo = fgraph.getEdgePropertyInt("foo", edge_index)
+        
+        return pyflamegpu.ALIVE
+  
+.. note::
+
+  Edge indices should only be stored within agents if edges will not have their source or destinations updated on the host. Updating edge connectivity triggers a graph rebuild, this causes edges to be sorted (hence invalidating indexes).
+  
+Traversing Graphs
+-----------------
+
+Agents are able to traverse the graph by iterating edges joining and leaving a specified vertex using the iterators provided by :func:`inEdges()<flamegpu::DeviceEnvironmentDirectedGraph::inEdges>` and `outEdges()<flamegpu::DeviceEnvironmentDirectedGraph::outEdges>` respectively.
+
+.. tabs::
+
+  .. code-tab:: cuda Agent C++
+  
+    FLAMEGPU_AGENT_FUNCTION(GraphTestID, MessageNone, MessageNone) {
+        DeviceEnvironmentDirectedGraph fgraph = FLAMEGPU->environment.getDirectedGraph("fgraph");
+        
+        // Fetch the index of the vertex with ID 1
+        unsigned int vertex_index = fgraph.getVertexIndex(1);
+        
+        // Iterate the edges leaving the vertex with ID 1
+        for (auto &edge : fgraph.outEdges(vertex_index)) {
+            // Read the current edges' destination vertex index
+            unsigned int dest_vertex_index = edge.getEdgeDestination();
+            // Read a property from the edge
+            int foo = edge.getProperty<int>("foo");
+        }
+        
+        // Iterate the edges joining the vertex with ID 1
+        for (auto &edge : fgraph.inEdges(vertex_index)) {
+            // Read the current edges' source vertex index
+            unsigned int src_vertex_index = edge.getEdgeSource();
+            // Read a property from the edge
+            int foo = edge.getProperty<int>("foo");
+        }
+        
+        return flamegpu::ALIVE;
+    }
+
+  .. code-tab:: py Agent Python
+  
+    @pyflamegpu.agent_function
+    def ExampleFn(message_in: pyflamegpu.MessageNone, message_out: pyflamegpu.MessageNone):
+        fgraph = pyflamegpu.environment.getDirectedGraph("fgraph")
+        
+        # Fetch the index of the vertex with ID 1
+        vertex_index = fgraph.getVertexIndex(1)
+        
+        # Iterate the edges leaving the vertex with ID 1
+        for edge in fgraph.outEdges(vertex_index):
+            # Read the current edges' destination vertex index
+            dest_vertex_index = edge.getEdgeDestination()
+            # Read a property from the edge
+            foo = edge.getPropertyInt("foo")
+        
+        # Iterate the edges joining the vertex with ID 1
+        for edge in fgraph.inEdges(vertex_index):
+            # Read the current edges' source vertex index
+            src_vertex_index = edge.getEdgeSource()
+            # Read a property from the edge
+            foo = edge.getPropertyInt("foo")
+        
+        return pyflamegpu.ALIVE
+
+
+.. note::
+
+  The implementation of :func:`outEdges()()<flamegpu::DeviceEnvironmentDirectedGraph::outEdges>` is more efficient than that of :func:`inEdges()()<flamegpu::DeviceEnvironmentDirectedGraph::inEdges>`.
+
 Related Links
--------------
+^^^^^^^^^^^^^
 
 * User Guide Page: :ref:`Defining Environmental Properties<defining environmental properties>`
 * User Guide Page: :ref:`Host Functions: Accessing the Environment<host environment>`
