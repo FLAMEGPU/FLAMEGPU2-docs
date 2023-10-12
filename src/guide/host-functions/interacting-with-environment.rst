@@ -159,7 +159,7 @@ Environment macro properties are best suited for large datasets. For this reason
 
   .. code-tab:: python
   
-    # Define an host function called write_env_hostfn
+    # Define an host function called macro_prop_io_hostfn
     class macro_prop_io_hostfn(pyflamegpu.HostFunction):
       def run(self,FLAMEGPU):
         # Export the macro property
@@ -167,6 +167,142 @@ Environment macro properties are best suited for large datasets. For this reason
         # Import a macro property
         FLAMEGPU.environment.importMacroProperty("macro_float_3_3_3", "in.json");
     
+Environment Directed Graph
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The environment directed graph can be initialised within host functions, defining the connectivity and initialising any properties stored within.
+
+The host API allows vertices and edges to be managed via a map/dictionary interface, where the ID is used to access a vertex, or source and destination vertex IDs to access an edge.
+
+Vertex IDs are unsigned integers, however the value `0` is reserved so cannot be assigned. Vertex IDs are not required to be contiguous, however they are stored sparsely such that two vertices with IDs `1` and `1000001` will require an index of length `1000000`. It may be possible to run out of memory if IDs are too sparsely distributed.
+
+.. tabs::
+
+  .. code-tab:: cuda CUDA C++
+  
+    // Define an host function called directed_graph_hostfn
+    FLAMEGPU_HOST_FUNCTION(directed_graph_hostfn) {
+        // Fetch a handle to the directed graph
+        HostEnvironmentDirectedGraph fgraph = FLAMEGPU->environment.getDirectedGraph("fgraph");
+        // Declare the number of vertices and edges
+        fgraph.setVertexCount(5);
+        fgraph.setEdgeCount(5);
+        // Initialise the vertices
+        HostEnvironmentDirectedGraph::VertexMap vertices = graph.vertices();
+        for (int i = 1; i <= 5; ++i) {
+            // Create (or fetch) vertex with ID i
+            HostEnvironmentDirectedGraph::VertexMap::Vertex vertex = vertices[i];
+            vertex.setProperty<float, 2>("bar", {0.0f, 10.0f});
+        }
+        // Initialise the edges
+        HostEnvironmentDirectedGraph::EdgeMap edges = graph.edges();
+        for (int i = 1; i <= 5; ++i) {
+            // Create (or fetch) edge with specified source/dest vertex IDs
+            HostEnvironmentDirectedGraph::EdgeMap::Edge edge = edges[{i, ((i + 1)%5) + 1}];
+            edge.setProperty<int>("foo", 12);
+        }
+    }
+
+  .. code-tab:: python
+  
+    # Define an host function called directed_graph_hostfn
+    class directed_graph_hostfn(pyflamegpu.HostFunction):
+      def run(self,FLAMEGPU):
+        # Fetch a handle to the directed graph
+        fgraph = FLAMEGPU->environment.getDirectedGraph("fgraph")
+        # Declare the number of vertices and edges
+        fgraph.setVertexCount(5)
+        fgraph.setEdgeCount(5)
+        # Initialise the vertices
+        vertices = graph.vertices()
+        for i in range(1, 6):
+            # Create (or fetch) vertex with ID i
+            vertex = vertices[i]
+            vertex.setPropertyPropertyArrayFloat("bar", [0, 10])
+        # Initialise the edges
+        edges = graph.edges()
+        for i in range(1, 6):
+            # Create (or fetch) edge with specified source/dest vertex IDs
+            edge = edges[i, ((i + 1)%5) + 1]
+            edge.setPropertyInt("foo", 12)
+
+.. note:
+
+  If :func:`setVertexCount()<flamegpu::HostEnvironmentDirectedGraph::setVertexCount>` or :func:`setEdgeCount()<flamegpu::HostEnvironmentDirectedGraph::setEdgeCount>` is called, all data currently in the associated vertex/edge buffers will be lost.
+
+.. _directed graph io:
+
+Directed Graph File Input/Output
+--------------------------------
+:class:`HostEnvironmentDirectedGraph<flamegpu::HostEnvironmentDirectedGraph>` provides :func:`importGraph()<flamegpu::HostEnvironmentDirectedGraph::importGraph>` and :func:`exportGraph()<flamegpu::HostEnvironmentDirectedGraph::exportGraph>` to import and export the graph respectively using a common JSON format.
+
+.. tabs::
+
+  .. code-tab:: cuda CUDA C++
+  
+    // Define an host function called directed_graph_hostfn
+    FLAMEGPU_HOST_FUNCTION(directed_graph_hostfn) {
+        // Fetch a handle to the directed graph
+        HostEnvironmentDirectedGraph fgraph = FLAMEGPU->environment.getDirectedGraph("fgraph");
+        // Export the graph
+        fgraph.exportGraph("out.json");
+        // Import a different graph
+        fgraph.importGraph("in.json");
+    }
+
+  .. code-tab:: python
+  
+    # Define an host function called directed_graph_hostfn
+    class directed_graph_hostfn(pyflamegpu.HostFunction):
+      def run(self,FLAMEGPU):
+        # Fetch a handle to the directed graph
+        fgraph = FLAMEGPU->environment.getDirectedGraph("fgraph")
+        # Export the graph
+        fgraph.exportGraph("out.json");
+        # Import a different graph
+        fgraph.importGraph("in.json");
+        
+An example of this format is shown below:
+
+.. tabs::
+
+  .. code-tab:: json
+  
+    {
+        "nodes": [
+            {
+                "id": "1",
+                "bar": [
+                    12.0,
+                    22.0
+                ]
+            },
+            {
+                "id": "2",
+                "bar": [
+                    13.0,
+                    23.0
+                ]
+            }
+        ],
+        "links": [
+            {
+                "source": "1",
+                "target": "2",
+                "foo": 21
+            },
+            {
+                "source": "2",
+                "target": "1",
+                "foo": 22
+            }
+        ]
+    }
+
+.. note:
+
+  When importing a graph, if string IDs do not map directly to integers they will automatically be replaced and remapped.
+
 Related Links
 ^^^^^^^^^^^^^
 

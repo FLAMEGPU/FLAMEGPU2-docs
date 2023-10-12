@@ -3,6 +3,10 @@ Overriding the Initial State
 
 When executing a FLAME GPU model its common to wish to override parts of the initial environment or provide a predefined agent population.
 
+.. note::
+
+  It is not currently possible to initialise environment directed graphs via :class:`RunPlan<flamegpu::RunPlan>` or JSON/XML state files. Environment directed graphs can only be imported and exported during host functions using :func:`importGraph()<flamegpu::HostEnvironmentDirectedGraph::importGraph>` and :func:`exportGraph()<flamegpu::HostEnvironmentDirectedGraph::exportGraph>`, which utilises a :ref:`common JSON graph storage format<directed graph io>`.
+
 With Code
 ---------
 

@@ -5,6 +5,10 @@ Collecting Data
 
 After your simulation has completed, you probably want to get some data back. FLAME GPU provides two methods of achieving this: Logging which can reduce a large simulation state down to the most important data points, and export of the entire simulation state.
 
+.. note::
+
+  It is not currently possible to export environment directed graphs via logging or JSON/XML state files. Environment directed graphs can only be imported and exported during host functions using :func:`importGraph()<flamegpu::HostEnvironmentDirectedGraph::importGraph>` and :func:`exportGraph()<flamegpu::HostEnvironmentDirectedGraph::exportGraph>`, which utilises a :ref:`common JSON graph storage format<directed graph io>`.
+
 Logging
 -------
 
