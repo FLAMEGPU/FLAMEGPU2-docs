@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickstart &mdash; FLAME GPU 2 0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/flamegpu.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=e43216b9"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script src="../_static/tabs.js?v=3030b3cb"></script>
+        <script src="https://unpkg.com/mermaid@10.4.0/dist/mermaid.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="User Guide" href="../guide/index.html" />
+    <link rel="prev" title="Welcome to FLAME GPU 2’s documentation!" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #4d4d4d" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FLAME GPU 2
+              <img src="../_static/flamegpu2-icon-notext-128.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#c">C++</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-new-project">Creating a New Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compiling-your-project">Compiling Your Project</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmake-gui-windows-only">CMake GUI (Windows Only)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#running-your-project">Running Your Project</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#python-3">Python 3</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#q-python-installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-from-source">Building From Source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Creating a New Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Running your project</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guide/creating-a-model/index.html">Creating a Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/creating-a-model/index.html#what-is-a-model">What is a Model?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/creating-a-model/index.html#creating-a-modeldescription-object">Creating a ModelDescription Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/creating-a-model/index.html#supported-types">Supported Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/environment/index.html">Environmental Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/environment/index.html#accessing-the-environmentdescription-object">Accessing the EnvironmentDescription Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/environment/index.html#defining-properties">Defining Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/environment/index.html#defining-macro-properties">Defining Macro Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/environment/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/defining-agents/index.html">Defining Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/defining-agents/index.html#defining-a-new-agent-type">Defining a New Agent Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/defining-agents/index.html#agent-variables">Agent Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-agents/index.html#agent-id">Agent ID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-agents/index.html#user-defined-variables">User Defined Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/defining-agents/index.html#agent-states">Agent States</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/defining-agents/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/defining-messages-communication/index.html">Defining Messages (Communication)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/defining-messages-communication/index.html#communication-strategies">Communication Strategies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/defining-messages-communication/index.html#defining-a-new-message-type">Defining a New Message Type</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-messages-communication/index.html#brute-force-specialisation">Brute Force Specialisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-messages-communication/index.html#bucket-specialisation">Bucket Specialisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-messages-communication/index.html#spatial-specialisation">Spatial Specialisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-messages-communication/index.html#array-specialisation">Array Specialisation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/defining-messages-communication/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/agent-functions/index.html">Agent Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/agent-functions/defining-agent-functions.html">Defining Agent Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/defining-agent-functions.html#c-compile-time-agent-functions">C++ Compile Time Agent Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/defining-agent-functions.html#c-and-python-runtime-compiled-agent-functions">C++ and Python Runtime Compiled Agent Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/defining-agent-functions.html#flame-gpu-python-agent-functions">FLAME GPU Python Agent Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/defining-agent-functions.html#flame-gpu-device-functions">FLAME GPU Device Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/defining-agent-functions.html#flame-gpu-host-device-functions">FLAME GPU Host Device Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/defining-agent-functions.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/agent-functions/modifying-agent-variables.html">Accessing Agent Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/modifying-agent-variables.html#reading-an-agent-s-id">Reading an Agent’s ID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/modifying-agent-variables.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/agent-functions/interacting-with-environment.html">Accessing the Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/interacting-with-environment.html#environment-properties">Environment Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/interacting-with-environment.html#environment-macro-properties">Environment Macro Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/interacting-with-environment.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/agent-functions/agent-communication.html">Agent Communication</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/agent-communication.html#sending-messages">Sending Messages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/agent-communication.html#reading-messages">Reading Messages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/agent-communication.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/agent-functions/agent-birth-death.html">Agent Birth &amp; Death</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/agent-birth-death.html#agent-death">Agent Death</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/agent-birth-death.html#agent-birth">Agent Birth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/agent-birth-death.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/agent-functions/random-numbers.html">Random Numbers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/random-numbers.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/agent-functions/agent-state-transitions.html">Agent State Transitions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/agent-state-transitions.html#agent-function-conditions-conditional-behaviours">Agent Function Conditions (Conditional Behaviours)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/agent-functions/miscellaneous.html">Miscellaneous Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/agent-functions/miscellaneous.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/host-functions/index.html">Host Functions &amp; Conditions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/host-functions/defining-host-functions.html">Defining Host Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/host-functions/defining-host-functions.html#types-of-host-function">Types of Host Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/host-functions/defining-host-functions.html#adding-host-functions-to-a-model">Adding Host Functions to a Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/host-functions/defining-host-functions.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/host-functions/interacting-with-environment.html">Accessing the Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/host-functions/interacting-with-environment.html#environment-properties">Environment Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/host-functions/interacting-with-environment.html#environment-macro-properties">Environment Macro Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/host-functions/interacting-with-environment.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/host-functions/agent-operations.html">Agent Operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/host-functions/agent-operations.html#variable-reductions">Variable Reductions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/host-functions/agent-operations.html#sorting-agents">Sorting Agents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/host-functions/agent-operations.html#agent-creation">Agent Creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/host-functions/agent-operations.html#direct-agent-access">Direct Agent Access</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/host-functions/agent-operations.html#miscellaneous-methods">Miscellaneous Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/host-functions/agent-operations.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/host-functions/random-numbers.html">Random Numbers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/host-functions/random-numbers.html#seeding-the-random-state">Seeding the Random State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/host-functions/random-numbers.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/host-functions/miscellaneous.html">Miscellaneous Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/host-functions/miscellaneous.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/defining-execution-order/index.html">Defining Execution Order</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/defining-execution-order/dependency-graph.html">Dependency Graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-execution-order/dependency-graph.html#specifying-dependencies">Specifying Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-execution-order/dependency-graph.html#specifying-roots">Specifying Roots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-execution-order/dependency-graph.html#host-layer-functions">Host Layer Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-execution-order/dependency-graph.html#generating-layers">Generating Layers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-execution-order/dependency-graph.html#visualising-the-dependencies">Visualising the Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-execution-order/dependency-graph.html#accessing-the-dependencygraph">Accessing the DependencyGraph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-execution-order/dependency-graph.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/defining-execution-order/layers.html">Layers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-execution-order/layers.html#manual-layer-specification">Manual Layer Specification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-execution-order/layers.html#layer-specification-rules">Layer Specification Rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-execution-order/layers.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/defining-execution-order/exit-conditions.html">Exit Conditions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-execution-order/exit-conditions.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/defining-execution-order/submodels.html">Submodels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-execution-order/submodels.html#id1">Defining a Submodel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/defining-execution-order/submodels.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/running-a-simulation/index.html">Running a Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/running-a-simulation/configuring-execution.html">Configuring Execution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/running-a-simulation/configuring-execution.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/running-a-simulation/initial-state.html">Overriding the Initial State</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/running-a-simulation/initial-state.html#with-code">With Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/running-a-simulation/initial-state.html#from-file">From File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/running-a-simulation/initial-state.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/running-a-simulation/collecting-data.html">Collecting Data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/running-a-simulation/collecting-data.html#logging">Logging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/running-a-simulation/collecting-data.html#accessing-the-complete-agent-state">Accessing the Complete Agent State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/running-a-simulation/collecting-data.html#additional-notes">Additional Notes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/running-a-simulation/collecting-data.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/running-multiple-simulations/index.html">Running Multiple Simulations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/running-multiple-simulations/index.html#creating-a-cudaensemble">Creating a CUDAEnsemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/running-multiple-simulations/index.html#creating-a-runplanvector">Creating a RunPlanVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/running-multiple-simulations/index.html#creating-a-logging-configuration">Creating a Logging Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/running-multiple-simulations/index.html#configuring-running-the-ensemble">Configuring &amp; Running the Ensemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/running-multiple-simulations/index.html#error-handling-within-ensembles">Error Handling Within Ensembles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/running-multiple-simulations/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/visualisation/index.html">Visualisation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/visualisation/building-with-vis.html">Enabling Visualisation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/visualisation/building-with-vis.html#detecting-visualisation-support">Detecting Visualisation Support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/visualisation/setting-up-vis.html">Configuring a Visualisation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/visualisation/setting-up-vis.html#visualisation-options">Visualisation Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/visualisation/setting-up-vis.html#visualising-after-simulation-exit">Visualising After Simulation Exit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/visualisation/setting-up-vis.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/visualisation/visualising-agents.html">Visualising Agents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/visualisation/visualising-agents.html#agent-model">Agent Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/visualisation/visualising-agents.html#agent-position">Agent Position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/visualisation/visualising-agents.html#agent-direction">Agent Direction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/visualisation/visualising-agents.html#agent-scale">Agent Scale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/visualisation/visualising-agents.html#agent-color">Agent Color</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/visualisation/visualising-agents.html#agent-states">Agent States</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/visualisation/visualising-agents.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/visualisation/adding-details.html">Visualising Additional Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/visualisation/adding-details.html#user-interface-environment-properties">User Interface (Environment Properties)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/visualisation/adding-details.html#lines">Lines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/visualisation/adding-details.html#models">Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/visualisation/adding-details.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/visualisation/visualisation-controls.html">Visualisation Controls</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/debugging-models/index.html">Debugging Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/debugging-models/seatbelts.html">What is FLAMEGPU_SEATBELTS?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/debugging-models/seatbelts.html#enabling-disabling-flamegpu-seatbelts">Enabling/Disabling FLAMEGPU_SEATBELTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/debugging-models/seatbelts.html#understanding-flamegpu-seatbelts-exceptions">Understanding FLAMEGPU_SEATBELTS Exceptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/debugging-models/seatbelts.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/debugging-models/print.html">Using Print Statements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/debugging-models/print.html#printing-from-agent-functions">Printing From Agent Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/debugging-models/logging.html">Logging Timeseries Data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/debugging-models/logging.html#environment-macro-property-counters">Environment Macro Property Counters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/debugging-models/logging.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/debugging-models/using-a-debugger.html">Using a Debugger</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/debugging-models/using-a-debugger.html#windows">Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/debugging-models/using-a-debugger.html#linux">Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/debugging-models/using-a-debugger.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/performance-troubleshooting/index.html">Performance Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/flamegpu2-source/index.html">Building or Modifying the FLAME GPU 2 Source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/flamegpu2-source/build-from-source.html">Building FLAME GPU from Source</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/flamegpu2-source/build-from-source.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/flamegpu2-source/request-a-new-feature.html">Requesting Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/flamegpu2-source/contribute.html">Contributing to FLAMEGPU2</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/flamegpu2-source/contribute.html#reporting-bugs">Reporting Bugs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/flamegpu2-source/contribute.html#submitting-pull-requests">Submitting Pull Requests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/flamegpu2-source/contribute.html#license">License</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/telemetry/index.html">Telemetry</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/telemetry/index.html#when-is-data-sent">When is Data sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/telemetry/index.html#where-and-how-is-data-sent">Where and How is Data Sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/telemetry/index.html#what-data-is-sent">What Data is Sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/telemetry/index.html#disabling-telemetry-opt-out">Disabling Telemetry (Opt-out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/telemetry/index.html#developer-notes">Developer Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#flame-gpu-design-philosophy">FLAME GPU Design Philosophy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#creating-a-project">Creating a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#structure-of-a-flame-gpu-2-program">Structure of a FLAME GPU 2 Program</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#agent-host-function-definitions">Agent/Host Function Definitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#model-declaration">Model Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#initialisation">Initialisation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#execution">Execution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#tutorial-creating-the-circles-model">Tutorial: Creating the Circles Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#introducing-the-circles-model">Introducing The Circles Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#configuring-cmake">Configuring CMake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#opening-the-project">Opening the Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#model-description">Model Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#message-description">Message Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#agent-description">Agent Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#environment-description">Environment Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#agent-function-description-implementation">Agent Function Description  Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#execution-order">Execution Order</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#initialisation-function">Initialisation Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#configuring-the-simulation">Configuring the Simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#configuring-logging-optional">Configuring Logging (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#visualisation-config-optional">Visualisation Config (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#running-the-simulation">Running the Simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/index.html#complete-tutorial-code">Complete Tutorial Code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/FLAMEGPU/FLAMEGPU2/discussions">Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #4d4d4d" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FLAME GPU 2</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quickstart</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/quickstart/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quickstart">
+<span id="id1"></span><h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h1>
+<p>This document lists the minimal steps to install or build FLAME GPU 2, create a new model and run a simulation.</p>
+<p>Details are provided for both the <a class="reference internal" href="#q-cudacpp-quickstart"><span class="std std-ref">C++</span></a> and <a class="reference internal" href="#q-python-quickstart"><span class="std std-ref">Python 3</span></a> interfaces, however first you should review the following prerequisites section.</p>
+<section id="prerequisites">
+<span id="quickstart-prerequisites"></span><h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h2>
+<p>Regardless of which programming interface you wish to use there are some common requirements:</p>
+<ul class="simple">
+<li><p>Windows or Linux (with glibc <code class="docutils literal notranslate"><span class="pre">&gt;=</span> <span class="pre">2.17</span></code>)</p></li>
+<li><p><a class="reference external" href="https://developer.nvidia.com/cuda-downloads">CUDA Toolkit</a> &gt;= 11.0 and a <a class="reference external" href="https://developer.nvidia.com/cuda-downloads">Compute Capability</a> &gt;= 3.5 NVIDIA GPU</p></li>
+</ul>
+<p>Installing python binary wheels requires:</p>
+<ul>
+<li><p><a class="reference external" href="https://www.python.org/">Python</a> <code class="docutils literal notranslate"><span class="pre">&gt;=</span> <span class="pre">3.6</span></code></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span></code></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>Building C++ from source:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://git-scm.com/">git</a></p></li>
+<li><p><a class="reference external" href="https://cmake.org/download/">CMake</a> <code class="docutils literal notranslate"><span class="pre">&gt;=</span> <span class="pre">3.18</span></code></p></li>
+<li><p>C++17 capable C++ compiler (host), compatible with the installed CUDA version</p>
+<ul>
+<li><p><a class="reference external" href="https://visualstudio.microsoft.com/">Microsoft Visual Studio 2019</a> (Windows)</p></li>
+<li><p><a class="reference external" href="https://www.gnu.org/software/make/">make</a> and <a class="reference external" href="https://gcc.gnu.org/">GCC</a> <cite>&gt;= 7</cite> (Linux)</p></li>
+</ul>
+</li>
+</ul>
+<p>If you wish to build python bindings from source you will also require:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://www.swig.org/">swig</a> <code class="docutils literal notranslate"><span class="pre">&gt;=</span> <span class="pre">4.0.2</span></code></p>
+<ul>
+<li><p>Swig <code class="docutils literal notranslate"><span class="pre">4.x</span></code> will be automatically downloaded by CMake if not available (if possible)</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="c">
+<span id="q-cudacpp-quickstart"></span><h2>C++<a class="headerlink" href="#c" title="Permalink to this heading"></a></h2>
+<section id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h3>
+<p>The C++ interface is not currently available as a pre-built binary distribution, or configured for central installation at this time.</p>
+<p>Please refer to <a class="reference internal" href="#q-building-from-source-cudacpp"><span class="std std-ref">Creating a New Project</span></a> section.</p>
+</section>
+<section id="creating-a-new-project">
+<span id="q-building-from-source-cudacpp"></span><h3>Creating a New Project<a class="headerlink" href="#creating-a-new-project" title="Permalink to this heading"></a></h3>
+<p>The simplest way to create a new project is to use the provided template repository on GitHub:</p>
+<p><a class="reference external" href="https://github.com/FLAMEGPU/FLAMEGPU2-example-template">https://github.com/FLAMEGPU/FLAMEGPU2-example-template</a></p>
+<p>This includes a <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file, which sets a binary target named <code class="docutils literal notranslate"><span class="pre">example</span></code>, which depends on the core <code class="docutils literal notranslate"><span class="pre">FLAMEGPU/FLAMEGPU2</span></code> repository, and will build it from source if required.</p>
+<p>You can either:</p>
+<ul class="simple">
+<li><p>Use GitHubs’s <code class="docutils literal notranslate"><span class="pre">Use</span> <span class="pre">this</span> <span class="pre">template</span></code> feature to create a copy of the template repository on your account</p></li>
+<li><p>Download a copy of the template repository as a zip via <code class="docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zip</span></code></p></li>
+<li><p>Clone the template repository via <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">git&#64;github.com:FLAMEGPU/FLAMEGPU2-example-template.git</span></code></p></li>
+</ul>
+<p>See the template project’s <code class="docutils literal notranslate"><span class="pre">README.md</span></code> for more information related to using and customising this template.</p>
+</section>
+<section id="compiling-your-project">
+<span id="q-compiling-flamegpu"></span><h3>Compiling Your Project<a class="headerlink" href="#compiling-your-project" title="Permalink to this heading"></a></h3>
+<p>FLAME GPU 2 projects using the C++ interface use CMake with out-of-source builds. This is a 3 step process:</p>
+<ol class="arabic simple">
+<li><p>Create a build directory for an out of tree build</p></li>
+<li><p>Configure CMake into the build directory, using the CMake CLI or GUI</p>
+<ul class="simple">
+<li><p>Customise any CMake configuration options, such as the CUDA compute capabilities to target</p></li>
+</ul>
+</li>
+<li><p>Build compilation targets using the configured build system</p></li>
+</ol>
+<p>For example, to build the <code class="docutils literal notranslate"><span class="pre">example</span></code> target of the template repository, for Compute Capability 6.0 GPUs in the Release configuration, using 8 threads:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-TGludXg=" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-0-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-0-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-0-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-0-TGludXg=" class="sphinx-tabs-panel code-tab group-tab" id="panel-0-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
+cmake<span class="w"> </span>..<span class="w"> </span>-DCMAKE_CUDA_ARCHITECTURES<span class="o">=</span><span class="m">61</span><span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release
+cmake<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </span>--target<span class="w"> </span>example<span class="w"> </span>-j<span class="w"> </span><span class="m">8</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-V2luZG93cw==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-0-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="k">mkdir</span> build <span class="p">&amp;&amp;</span> <span class="k">cd</span> build
+cmake .. -A x64 -G <span class="s2">&quot;Visual Studio 16 2019&quot;</span> -CMAKE_CUDA_ARCHITECTURES=61
+cmake --build . --target example --config Release -j 8
+</pre></div>
+</div>
+</div></div>
+<p>For more information on CMake Configuration options please see the <a class="reference external" href="https://github.com/FLAMEGPU/FLAMEGPU2-example-template#building-with-cmake">template repository README.md</a> as these options may vary between releases.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On windows, by default CMake will select the newest version of CUDA available when configuring. If you have multiple versions of CUDA installed then you can select an earlier installed CUDA version (e.g. CUDA 11.0) by additionally passing <code class="docutils literal notranslate"><span class="pre">-T</span> <span class="pre">cuda=11.0</span></code> when calling CMake configure (<code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">..</span></code>).</p>
+<p>It is still necessary for the selected version of CUDA to be supported by FLAME GPU.</p>
+<p>The relevant CMake documentation can be found <a class="reference external" href="https://cmake.org/cmake/help/latest/variable/CMAKE_VS_PLATFORM_TOOLSET_CUDA.html">here</a>.</p>
+</div>
+<section id="cmake-gui-windows-only">
+<h4>CMake GUI (Windows Only)<a class="headerlink" href="#cmake-gui-windows-only" title="Permalink to this heading"></a></h4>
+<p>However, CMake also provides <code class="docutils literal notranslate"><span class="pre">cmake-gui</span></code> on Windows, a CMake client with a graphical interface which may be preferable.</p>
+<a class="reference internal image-reference" href="../_images/cmake-gui-annotated.png"><img alt="CMake GUI with numeric annotations" src="../_images/cmake-gui-annotated.png" style="width: 734px;" /></a>
+<ul class="simple">
+<li><p>Specify the directory containing the FLAME GPU 2 source (<strong>Annotation #1</strong>). This should be the directory you cloned the git repository into.</p></li>
+<li><p>Specify the directory to store FLAME GPU 2 build files (<strong>Annotation #2</strong>). This must not match the source directory FLAME GPU 2 does not currently support in-source builds. The <code class="docutils literal notranslate"><span class="pre">build</span></code> subdirectory of the source directory is most commonly used. If this directory does not exist, CMake will offer to create it for you.</p></li>
+<li><p>Press the Configure button (<strong>Annotation #3</strong>) to load the configuration options. You will then be asked to select a “generator” (see the below image), you should select the latest version of visual studio you have and choose the <code class="docutils literal notranslate"><span class="pre">x64</span></code> platform. It will then perform various checks to initialise the build configuration, such as detecting CUDA and testing the compiler is suitable.</p>
+<ul>
+<li><p>At this point, if you have multiple CUDA versions installed and don’t wish to use the newest, you can specify the desired version in the toolset box e.g. <code class="docutils literal notranslate"><span class="pre">cuda=11.0</span></code> would select CUDA 11.0.</p></li>
+</ul>
+</li>
+<li><p>The central table should now be filled with options you can configure to adjust how FLAME GPU 2 is built. You can update these options, according to the <a class="reference external" href="https://github.com/FLAMEGPU/FLAMEGPU2/#cmake-configuration-options">FLAME GPU 2 README.md</a> in the source directory as suggested options may vary between releases.</p></li>
+<li><p>If you have changed any options, you should press the Configure button again (<strong>Annotation #3</strong>), as subsequent initialisation may need to be performed.</p></li>
+<li><p>After the configuration options have been selected and applied, the project can be generated using the Generate button (<strong>Annotation #4</strong>).</p></li>
+<li><p>If generation succeeds the Open Project button should now be available. Clicking this should open the project in Visual Studio so that you can build FLAME GPU 2. If you have multiple versions of Visual Studio installed, it may open with the wrong version. You can alternatively, locate the <code class="docutils literal notranslate"><span class="pre">.vcxproj</span></code> and <code class="docutils literal notranslate"><span class="pre">.sln</span></code> files in the build directory you specified (<strong>Annotation #2</strong>), a project file is created for each sub-component and example, opening <code class="docutils literal notranslate"><span class="pre">ALL_BUILD.vcxproj</span></code> will open the full solution with all configured components.</p></li>
+</ul>
+<a class="reference internal image-reference" href="../_images/cmake-generator.png"><img alt="The CMake GUI generator selection dialog." src="../_images/cmake-generator.png" style="width: 504px;" /></a>
+</section>
+</section>
+<section id="running-your-project">
+<h3>Running Your Project<a class="headerlink" href="#running-your-project" title="Permalink to this heading"></a></h3>
+<p>Once compiled, the executable will be placed into the <code class="docutils literal notranslate"><span class="pre">bin/&lt;config&gt;/</span></code> directory within your build directory. Execute with <code class="docutils literal notranslate"><span class="pre">--help</span></code> for <a class="reference internal" href="../guide/running-a-simulation/configuring-execution.html#configuring-execution"><span class="std std-ref">CLI argument information</span></a>.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-TGludXg=" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-1-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-1-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-1-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-1-TGludXg=" class="sphinx-tabs-panel code-tab group-tab" id="panel-1-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>build
+./bin/Release/example<span class="w"> </span>--help
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-V2luZG93cw==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-1-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="k">cd</span> build
+<span class="s2">&quot;bin/Release/example&quot;</span> --help
+</pre></div>
+</div>
+</div></div>
+</section>
+</section>
+<section id="python-3">
+<span id="q-python-quickstart"></span><h2>Python 3<a class="headerlink" href="#python-3" title="Permalink to this heading"></a></h2>
+<p>The Python 3 interface for FLAME GPU 2 is available via pre-compiled binary wheels for some platforms, or can be built from source via CMake.</p>
+<section id="q-python-installation">
+<span id="id2"></span><h3>Installation<a class="headerlink" href="#q-python-installation" title="Permalink to this heading"></a></h3>
+<p>Pre-built binary wheels are available for Windows and Linux on x86_64 platforms for:</p>
+<ul class="simple">
+<li><p>Python <code class="docutils literal notranslate"><span class="pre">3.6</span></code> to Python <code class="docutils literal notranslate"><span class="pre">3.9</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CUDA</span> <span class="pre">11.0</span></code> or <code class="docutils literal notranslate"><span class="pre">CUDA</span> <span class="pre">11.2+</span></code> installations</p></li>
+<li><p>CUDA Compute Capability <code class="docutils literal notranslate"><span class="pre">&gt;=</span> <span class="pre">3.5</span></code> GPUs.</p></li>
+<li><p>With and without Visualisation support</p></li>
+</ul>
+<p>If you do not meet these requirements, please see <a class="reference internal" href="#q-python-building-from-source"><span class="std std-ref">Building From Source</span></a>.</p>
+<p>To install the binary wheel for your combination of software requirements:</p>
+<ul class="simple">
+<li><p>Download the appropriate python wheel from the <a class="reference external" href="https://github.com/FLAMEGPU/FLAMEGPU2/releases/latest">latest GitHub Release</a></p>
+<ul>
+<li><p>See the release notes of the specific release for details of which file corresponds to which release</p></li>
+</ul>
+</li>
+<li><p>Optionally create a new python <code class="docutils literal notranslate"><span class="pre">venv</span></code> or conda environment to install the <code class="docutils literal notranslate"><span class="pre">.whl</span></code> in to</p></li>
+</ul>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-TGludXg=" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-2-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-2-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-2-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-2-TGludXg=" class="sphinx-tabs-panel code-tab group-tab" id="panel-2-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># If using a python venv:</span>
+python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+<span class="nb">source</span><span class="w"> </span>venv/bin/activate/bash
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-V2luZG93cw==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-2-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: If using a python venv</span>
+python -m venv venv
+<span class="k">call</span> <span class="s2">&quot;venv/Scripts/activate.bat&quot;</span>
+</pre></div>
+</div>
+</div></div>
+<ul class="simple">
+<li><p>Install the downloaded <code class="docutils literal notranslate"><span class="pre">.whl</span></code> file into your python environment via pip</p></li>
+</ul>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-TGludXg=" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-3-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-3-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-3-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-3-TGludXg=" class="sphinx-tabs-panel code-tab group-tab" id="panel-3-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>filename.whl
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-3-V2luZG93cw==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-3-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>python -m pip install filename.whl
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="building-from-source">
+<span id="q-python-building-from-source"></span><h3>Building From Source<a class="headerlink" href="#building-from-source" title="Permalink to this heading"></a></h3>
+<p>FLAME GPU 2 uses CMake with out-of-source builds. This is a 3 step process:</p>
+<ol class="arabic simple">
+<li><p>Create a build directory for an out of tree build</p></li>
+<li><p>Configure CMake into the build directory, using the CMake CLI or GUI</p>
+<ul class="simple">
+<li><p>Specify CMake configuration options such as the compute capabilities to target at this stage</p></li>
+</ul>
+</li>
+<li><p>Build compilation targets using the configured build system</p></li>
+</ol>
+<p>To build the python bindings, the <code class="docutils literal notranslate"><span class="pre">FLAMEGPU_BUILD_PYTHON</span></code> CMake option must be set to <code class="docutils literal notranslate"><span class="pre">ON</span></code>, and the <code class="docutils literal notranslate"><span class="pre">pyflamegpu</span></code> target must be compiled. The generated python binary wheel can then be installed into your python environment of choice via <cite>pip</cite></p>
+<p>For example, to build and install python bindings into a new venv, for Compute Capability 6.0 GPUs in the Release configuration, using 8 threads:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-4-TGludXg=" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-4-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-4-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-4-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-4-TGludXg=" class="sphinx-tabs-panel code-tab group-tab" id="panel-4-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create and activate your venv</span>
+python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+<span class="nb">source</span><span class="w"> </span>venv/bin/activate
+
+<span class="c1"># Build the python bindings, producing a .whl</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
+cmake<span class="w"> </span>..<span class="w"> </span>-DCMAKE_CUDA_ARCHITECTURES<span class="o">=</span><span class="m">61</span><span class="w"> </span>-DFLAMEGPU_BUILD_PYTHON<span class="o">=</span>ON<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release
+cmake<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </span>--target<span class="w"> </span>pyflamegpu<span class="w"> </span>-j<span class="w"> </span><span class="m">8</span>
+
+<span class="c1"># Install the wheel via pip</span>
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>lib/Release/python/venv/dist/*.whl
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-4-V2luZG93cw==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-4-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: Create and activate your venv</span>
+python -m venv venv
+<span class="k">call</span> <span class="s2">&quot;venv/Scripts/activate.bat&quot;</span>
+
+<span class="p">:</span><span class="c1">: Build the python bindings, producing a .whl</span>
+<span class="k">mkdir</span> build <span class="p">&amp;&amp;</span> <span class="k">cd</span> build
+cmake .. -A x64 -G <span class="s2">&quot;Visual Studio 16 2019&quot;</span> -DCMAKE_CUDA_ARCHITECTURES=61 -DFLAMEGPU_BUILD_PYTHON=ON
+cmake --build . --target pyflamegpu --config Release -j 8
+
+<span class="p">:</span><span class="c1">: Install the wheel via pip</span>
+python -m pip install lib/Release/python/venv/dist/*.whl
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="id3">
+<h3>Creating a New Project<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<p>The simplest way to create a new project is to use the provide template repository on GitHub:</p>
+<p><a class="reference external" href="https://github.com/FLAMEGPU/FLAMEGPU2-python-example-template">https://github.com/FLAMEGPU/FLAMEGPU2-python-example-template</a></p>
+<p>You can either:</p>
+<ul>
+<li><p>Use GitHubs’s <code class="docutils literal notranslate"><span class="pre">Use</span> <span class="pre">this</span> <span class="pre">template</span></code> feature to create a copy of the template repository on your account</p></li>
+<li><p>Download a copy of the template repository as a zip via <code class="docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zip</span></code></p></li>
+<li><p>Clone the template repository via</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:FLAMEGPU/FLAMEGPU2-python-example-template.git
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Alternatively, as python models do not require a complex build system such as CMake simply creating a new python source file which includes <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pyflamegpu</span></code> would be sufficient.</p>
+<p>Then edit the python file as desired.</p>
+</section>
+<section id="id4">
+<h3>Running your project<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<p>To run your python-based model:</p>
+<ul class="simple">
+<li><p>Activate the python environment which has <code class="docutils literal notranslate"><span class="pre">pyflamegpu</span></code> installed</p></li>
+</ul>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-5-TGludXg=" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-5-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-5-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-5-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-5-TGludXg=" class="sphinx-tabs-panel code-tab group-tab" id="panel-5-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Assuming a python venv was created in the current directory, named venv</span>
+<span class="nb">source</span><span class="w"> </span>venv/bin/bash/activate
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-5-V2luZG93cw==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-5-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: Assuming a python venv was created in the current directory, named venv</span>
+<span class="k">call</span> <span class="s2">&quot;venv/Scripts/activate.bat&quot;</span>
+</pre></div>
+</div>
+</div></div>
+<ul class="simple">
+<li><p>Run your models <code class="docutils literal notranslate"><span class="pre">.py</span></code> file using your python 3 interpreter</p></li>
+</ul>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-6-TGludXg=" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-6-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-6-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-6-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-6-TGludXg=" class="sphinx-tabs-panel code-tab group-tab" id="panel-6-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Assuming the main python file for your model is called model.py</span>
+<span class="c1"># Use --help for Usage instructions</span>
+python3<span class="w"> </span>model.py<span class="w"> </span>--help
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-6-V2luZG93cw==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-6-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: Assuming the main python file for your model is called model.py</span>
+<span class="p">:</span><span class="c1">: Use --help for Usage instructions</span>
+python model.py --help
+</pre></div>
+</div>
+</div></div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to FLAME GPU 2’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../guide/index.html" class="btn btn-neutral float-right" title="User Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, University of Sheffield.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXX-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-XXXXXXX-1', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

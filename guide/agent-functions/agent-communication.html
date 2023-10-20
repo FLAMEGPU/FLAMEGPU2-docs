@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent Communication &mdash; FLAME GPU 2 0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/flamegpu.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=e43216b9"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script src="../../_static/tabs.js?v=3030b3cb"></script>
+        <script src="https://unpkg.com/mermaid@10.4.0/dist/mermaid.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Agent Birth &amp; Death" href="agent-birth-death.html" />
+    <link rel="prev" title="Accessing the Environment" href="interacting-with-environment.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #4d4d4d" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            FLAME GPU 2
+              <img src="../../_static/flamegpu2-icon-notext-128.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart/index.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart/index.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart/index.html#c">C++</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#creating-a-new-project">Creating a New Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#compiling-your-project">Compiling Your Project</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../quickstart/index.html#cmake-gui-windows-only">CMake GUI (Windows Only)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#running-your-project">Running Your Project</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart/index.html#python-3">Python 3</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#q-python-installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#building-from-source">Building From Source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#id3">Creating a New Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#id4">Running your project</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../creating-a-model/index.html">Creating a Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../creating-a-model/index.html#what-is-a-model">What is a Model?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../creating-a-model/index.html#creating-a-modeldescription-object">Creating a ModelDescription Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../creating-a-model/index.html#supported-types">Supported Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../environment/index.html">Environmental Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#accessing-the-environmentdescription-object">Accessing the EnvironmentDescription Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#defining-properties">Defining Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#defining-macro-properties">Defining Macro Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../defining-agents/index.html">Defining Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#defining-a-new-agent-type">Defining a New Agent Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#agent-variables">Agent Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-agents/index.html#agent-id">Agent ID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-agents/index.html#user-defined-variables">User Defined Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#agent-states">Agent States</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../defining-messages-communication/index.html">Defining Messages (Communication)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../defining-messages-communication/index.html#communication-strategies">Communication Strategies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-messages-communication/index.html#defining-a-new-message-type">Defining a New Message Type</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-messages-communication/index.html#brute-force-specialisation">Brute Force Specialisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-messages-communication/index.html#bucket-specialisation">Bucket Specialisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-messages-communication/index.html#spatial-specialisation">Spatial Specialisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-messages-communication/index.html#array-specialisation">Array Specialisation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-messages-communication/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Agent Functions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="defining-agent-functions.html">Defining Agent Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="defining-agent-functions.html#c-compile-time-agent-functions">C++ Compile Time Agent Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="defining-agent-functions.html#c-and-python-runtime-compiled-agent-functions">C++ and Python Runtime Compiled Agent Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="defining-agent-functions.html#flame-gpu-python-agent-functions">FLAME GPU Python Agent Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="defining-agent-functions.html#flame-gpu-device-functions">FLAME GPU Device Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="defining-agent-functions.html#flame-gpu-host-device-functions">FLAME GPU Host Device Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="defining-agent-functions.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modifying-agent-variables.html">Accessing Agent Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modifying-agent-variables.html#reading-an-agent-s-id">Reading an Agent’s ID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="modifying-agent-variables.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="interacting-with-environment.html">Accessing the Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="interacting-with-environment.html#environment-properties">Environment Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="interacting-with-environment.html#environment-macro-properties">Environment Macro Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="interacting-with-environment.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Agent Communication</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sending-messages">Sending Messages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reading-messages">Reading Messages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="agent-birth-death.html">Agent Birth &amp; Death</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="agent-birth-death.html#agent-death">Agent Death</a></li>
+<li class="toctree-l4"><a class="reference internal" href="agent-birth-death.html#agent-birth">Agent Birth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="agent-birth-death.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="random-numbers.html">Random Numbers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="random-numbers.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="agent-state-transitions.html">Agent State Transitions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="agent-state-transitions.html#agent-function-conditions-conditional-behaviours">Agent Function Conditions (Conditional Behaviours)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="miscellaneous.html">Miscellaneous Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="miscellaneous.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../host-functions/index.html">Host Functions &amp; Conditions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/defining-host-functions.html">Defining Host Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/defining-host-functions.html#types-of-host-function">Types of Host Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/defining-host-functions.html#adding-host-functions-to-a-model">Adding Host Functions to a Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/defining-host-functions.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/interacting-with-environment.html">Accessing the Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/interacting-with-environment.html#environment-properties">Environment Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/interacting-with-environment.html#environment-macro-properties">Environment Macro Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/interacting-with-environment.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/agent-operations.html">Agent Operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#variable-reductions">Variable Reductions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#sorting-agents">Sorting Agents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#agent-creation">Agent Creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#direct-agent-access">Direct Agent Access</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#miscellaneous-methods">Miscellaneous Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/random-numbers.html">Random Numbers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/random-numbers.html#seeding-the-random-state">Seeding the Random State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/random-numbers.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/miscellaneous.html">Miscellaneous Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/miscellaneous.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../defining-execution-order/index.html">Defining Execution Order</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/dependency-graph.html">Dependency Graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#specifying-dependencies">Specifying Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#specifying-roots">Specifying Roots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#host-layer-functions">Host Layer Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#generating-layers">Generating Layers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#visualising-the-dependencies">Visualising the Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#accessing-the-dependencygraph">Accessing the DependencyGraph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/layers.html">Layers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/layers.html#manual-layer-specification">Manual Layer Specification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/layers.html#layer-specification-rules">Layer Specification Rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/layers.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/exit-conditions.html">Exit Conditions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/exit-conditions.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/submodels.html">Submodels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/submodels.html#id1">Defining a Submodel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/submodels.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../running-a-simulation/index.html">Running a Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../running-a-simulation/configuring-execution.html">Configuring Execution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/configuring-execution.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../running-a-simulation/initial-state.html">Overriding the Initial State</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/initial-state.html#with-code">With Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/initial-state.html#from-file">From File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/initial-state.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../running-a-simulation/collecting-data.html">Collecting Data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#logging">Logging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#accessing-the-complete-agent-state">Accessing the Complete Agent State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#additional-notes">Additional Notes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../running-multiple-simulations/index.html">Running Multiple Simulations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#creating-a-cudaensemble">Creating a CUDAEnsemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#creating-a-runplanvector">Creating a RunPlanVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#creating-a-logging-configuration">Creating a Logging Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#configuring-running-the-ensemble">Configuring &amp; Running the Ensemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#error-handling-within-ensembles">Error Handling Within Ensembles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../visualisation/index.html">Visualisation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/building-with-vis.html">Enabling Visualisation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/building-with-vis.html#detecting-visualisation-support">Detecting Visualisation Support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/setting-up-vis.html">Configuring a Visualisation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/setting-up-vis.html#visualisation-options">Visualisation Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/setting-up-vis.html#visualising-after-simulation-exit">Visualising After Simulation Exit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/setting-up-vis.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/visualising-agents.html">Visualising Agents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-model">Agent Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-position">Agent Position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-direction">Agent Direction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-scale">Agent Scale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-color">Agent Color</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-states">Agent States</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/adding-details.html">Visualising Additional Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/adding-details.html#user-interface-environment-properties">User Interface (Environment Properties)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/adding-details.html#lines">Lines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/adding-details.html#models">Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/adding-details.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/visualisation-controls.html">Visualisation Controls</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../debugging-models/index.html">Debugging Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/seatbelts.html">What is FLAMEGPU_SEATBELTS?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/seatbelts.html#enabling-disabling-flamegpu-seatbelts">Enabling/Disabling FLAMEGPU_SEATBELTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/seatbelts.html#understanding-flamegpu-seatbelts-exceptions">Understanding FLAMEGPU_SEATBELTS Exceptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/seatbelts.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/print.html">Using Print Statements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/print.html#printing-from-agent-functions">Printing From Agent Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/logging.html">Logging Timeseries Data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/logging.html#environment-macro-property-counters">Environment Macro Property Counters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/logging.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/using-a-debugger.html">Using a Debugger</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/using-a-debugger.html#windows">Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/using-a-debugger.html#linux">Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/using-a-debugger.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../performance-troubleshooting/index.html">Performance Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flamegpu2-source/index.html">Building or Modifying the FLAME GPU 2 Source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../flamegpu2-source/build-from-source.html">Building FLAME GPU from Source</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/build-from-source.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../flamegpu2-source/request-a-new-feature.html">Requesting Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../flamegpu2-source/contribute.html">Contributing to FLAMEGPU2</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/contribute.html#reporting-bugs">Reporting Bugs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/contribute.html#submitting-pull-requests">Submitting Pull Requests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/contribute.html#license">License</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../telemetry/index.html">Telemetry</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#when-is-data-sent">When is Data sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#where-and-how-is-data-sent">Where and How is Data Sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#what-data-is-sent">What Data is Sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#disabling-telemetry-opt-out">Disabling Telemetry (Opt-out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#developer-notes">Developer Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#flame-gpu-design-philosophy">FLAME GPU Design Philosophy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#creating-a-project">Creating a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#structure-of-a-flame-gpu-2-program">Structure of a FLAME GPU 2 Program</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#agent-host-function-definitions">Agent/Host Function Definitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#model-declaration">Model Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#initialisation">Initialisation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#execution">Execution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#tutorial-creating-the-circles-model">Tutorial: Creating the Circles Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#introducing-the-circles-model">Introducing The Circles Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#configuring-cmake">Configuring CMake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#opening-the-project">Opening the Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#model-description">Model Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#message-description">Message Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#agent-description">Agent Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#environment-description">Environment Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#agent-function-description-implementation">Agent Function Description  Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#execution-order">Execution Order</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#initialisation-function">Initialisation Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#configuring-the-simulation">Configuring the Simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#configuring-logging-optional">Configuring Logging (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#visualisation-config-optional">Visualisation Config (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#running-the-simulation">Running the Simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#complete-tutorial-code">Complete Tutorial Code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/FLAMEGPU/FLAMEGPU2/discussions">Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #4d4d4d" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">FLAME GPU 2</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">User Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Agent Functions</a></li>
+      <li class="breadcrumb-item active">Agent Communication</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/guide/agent-functions/agent-communication.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="agent-communication">
+<span id="device-agent-communication"></span><h1>Agent Communication<a class="headerlink" href="#agent-communication" title="Permalink to this heading"></a></h1>
+<p>Each agent function is able to output a single message, and read from a single message list. In order to achieve either of these, the agent function must be configured to specify the message which should be input and/or output. First the message type must have been defined, as covered in the earlier chapter on <a class="reference internal" href="../defining-messages-communication/index.html#defining-messages"><span class="std std-ref">defining messages</span></a>.</p>
+<section id="sending-messages">
+<span id="id1"></span><h2>Sending Messages<a class="headerlink" href="#sending-messages" title="Permalink to this heading"></a></h2>
+<p>Messages can be output by agent functions. Each agent function can output a single message. To output a message from an agent function, the communication strategy and message type must be specified. The communication strategy is set in the third parameter of the agent function definition, and must match that of the message type:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-QWdlbnQgQysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-0-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tab" tabindex="0">Agent C++</button><button aria-controls="panel-0-QWdlbnQgUHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-0-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tab" tabindex="-1">Agent Python</button></div><div aria-labelledby="tab-0-QWdlbnQgQysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-0-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tabpanel" tabindex="0"><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define an agent function, &quot;outputdata&quot; which has no input messages and outputs a message using the &quot;MessageBruteForce&quot; communication strategy</span>
+<span class="n">FLAMEGPU_AGENT_FUNCTION</span><span class="p">(</span><span class="n">outputdata</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageBruteForce</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Agent function code goes here</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-QWdlbnQgUHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-0-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define an agent function, &quot;outputdata&quot; which has no input messages and outputs a message using the &quot;MessageBruteForce&quot; communication strategy</span>
+<span class="nd">@pyflamegpu</span><span class="o">.</span><span class="n">agent_function</span>
+<span class="k">def</span> <span class="nf">outputdata</span><span class="p">(</span><span class="n">message_in</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">,</span> <span class="n">message_out</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageBruteForce</span><span class="p">):</span>
+    <span class="c1"># Agent function code goes here</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div></div>
+<p>To specify the type of message the function should output, the <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">setMessageOutput()</span></code> method of the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">AgentFunctionDescription</span></code> object is used:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-1-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-1-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-1-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-1-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-1-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Specify that the &quot;outputdata&quot; agent function outputs a &quot;location_message&quot;</span>
+<span class="n">outputdata</span><span class="p">.</span><span class="n">setMessageOutput</span><span class="p">(</span><span class="s">&quot;location_message&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-1-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Specify that the &quot;outputdata&quot; agent function outputs a &quot;location_message&quot;</span>
+<span class="n">outputdata</span><span class="o">.</span><span class="n">setMessageOutput</span><span class="p">(</span><span class="s2">&quot;location_message&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<p>By default, FLAMEGPU expects all agents to output a message every time the agent function is triggered. If optional message output is desired, then optional support can be enabled using <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">AgentFunctionDescription::setMessageOutputOptional()</span></code>.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-2-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-2-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-2-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-2-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-2-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Specify that the &quot;outputdata&quot; agent function&#39;s message output is optional</span>
+<span class="n">outputdata</span><span class="p">.</span><span class="n">setMessageOutputOptional</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-2-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Specify that the &quot;outputdata&quot; agent function outputs a &quot;location_message&quot;</span>
+<span class="n">outputdata</span><span class="o">.</span><span class="n">setMessageOutputOptional</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<p>When optional message output is specified, only agents which set a message variable will have messages output.</p>
+<p>The agent function will now allow output a message of type “location_message”. The variables in the message can be set as follows:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-QWdlbnQgQysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-3-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tab" tabindex="0">Agent C++</button><button aria-controls="panel-3-QWdlbnQgUHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-3-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tab" tabindex="-1">Agent Python</button></div><div aria-labelledby="tab-3-QWdlbnQgQysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-3-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tabpanel" tabindex="0"><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define an agent function, &quot;outputdata&quot; which has no input messages and outputs a message using the &quot;MessageBruteForce&quot; communication strategy</span>
+<span class="n">FLAMEGPU_AGENT_FUNCTION</span><span class="p">(</span><span class="n">outputdata</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageBruteForce</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Set the &quot;id&quot; message variable to this agent&#39;s id</span>
+<span class="w">    </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_out</span><span class="p">.</span><span class="n">setVariable</span><span class="o">&lt;</span><span class="n">flamegpu</span><span class="o">::</span><span class="kt">id_t</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getID</span><span class="p">());</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">ALIVE</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-3-QWdlbnQgUHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-3-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define an agent function, &quot;outputdata&quot; which has no input messages and outputs a message using the &quot;MessageBruteForce&quot; communication strategy</span>
+<span class="nd">@pyflamegpu</span><span class="o">.</span><span class="n">agent_function</span>
+<span class="k">def</span> <span class="nf">outputdata</span><span class="p">(</span><span class="n">message_in</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">,</span> <span class="n">message_out</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageBruteForce</span><span class="p">):</span>
+    <span class="c1"># Set the &quot;id&quot; message variable to this agent&#39;s id (ID type is equivalent to an unsigned int within Python)</span>
+    <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_out</span><span class="o">.</span><span class="n">setVariableUInt</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getID</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">ALIVE</span>
+</pre></div>
+</div>
+</div></div>
+<p>Specialised message types have additional output values which must be provided. These are detailed in the following sub sections.</p>
+<section id="bucket-messaging">
+<h3>Bucket Messaging<a class="headerlink" href="#bucket-messaging" title="Permalink to this heading"></a></h3>
+<p>Bucket messages each have an associated key, of type <code class="docutils literal notranslate"><span class="pre">int</span></code>, as bucket messaging is a key-value store similar to a multimap.</p>
+<p>When outputting bucket messages, the bucket index for the message must be set, using the <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">setKey()</span></code> method.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-4-QWdlbnQgQysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-4-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tab" tabindex="0">Agent C++</button><button aria-controls="panel-4-QWdlbnQgUHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-4-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tab" tabindex="-1">Agent Python</button></div><div aria-labelledby="tab-4-QWdlbnQgQysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-4-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tabpanel" tabindex="0"><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define an agent function, &quot;outputdata&quot; which has no input messages and outputs a message using the &quot;MessageBucket&quot; communication strategy</span>
+<span class="n">FLAMEGPU_AGENT_FUNCTION</span><span class="p">(</span><span class="n">outputdata</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageBucket</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_out</span><span class="p">.</span><span class="n">setVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="c1">// Set the bucket key for the message, to the agents &quot;bucket&quot; member variable</span>
+<span class="w">    </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_out</span><span class="p">.</span><span class="n">setKey</span><span class="p">(</span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;bucket&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">ALIVE</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-4-QWdlbnQgUHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-4-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define an agent function, &quot;outputdata&quot; which has no input messages and outputs a message using the &quot;MessageBucket&quot; communication strategy</span>
+<span class="nd">@pyflamegpu</span><span class="o">.</span><span class="n">agent_function</span>
+<span class="k">def</span> <span class="nf">outputdata</span><span class="p">(</span><span class="n">message_in</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">,</span> <span class="n">message_out</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageBucket</span><span class="p">):</span>
+    <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_out</span><span class="o">.</span><span class="n">setVariableFloat</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">))</span>
+    <span class="c1"># Set the bucket key for the message, to the agents &quot;bucket&quot; member variable</span>
+    <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_out</span><span class="o">.</span><span class="n">setKey</span><span class="p">(</span><span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableInt</span><span class="p">(</span><span class="s2">&quot;bucket&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">ALIVE</span>
+</pre></div>
+</div>
+</div></div>
+<p>Messages assigned keys outside of the bounds have undefined behaviour. If using <code class="docutils literal notranslate"><span class="pre">FLAMEGPU_SEATBELTS</span></code> error checking, an exception will be raised.</p>
+</section>
+<section id="spatial-messaging">
+<h3>Spatial Messaging<a class="headerlink" href="#spatial-messaging" title="Permalink to this heading"></a></h3>
+<p>If you are using <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageSpatial2D</span></code> or <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageSpatial3D</span></code> then your message type will automatically have <code class="docutils literal notranslate"><span class="pre">float</span></code> variables <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code> (and <code class="docutils literal notranslate"><span class="pre">z</span></code> for 3D) added to the message. These correspond to the message’s spatial location and must be set in your agent function.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If spatial messages will be accessed via the wrapped iterator, all messages must be output within the environment bounds defined for the message list. Accessing out of bounds messages with the wrapped iterator is undefined behaviour.</p>
+</div>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-5-QWdlbnQgQysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-5-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tab" tabindex="0">Agent C++</button><button aria-controls="panel-5-QWdlbnQgUHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-5-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tab" tabindex="-1">Agent Python</button></div><div aria-labelledby="tab-5-QWdlbnQgQysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-5-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tabpanel" tabindex="0"><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define an agent function, &quot;outputdata&quot; which has no input messages and outputs a message using the &quot;MessageSpatial3D&quot; communication strategy</span>
+<span class="n">FLAMEGPU_AGENT_FUNCTION</span><span class="p">(</span><span class="n">outputdata</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageSpatial3D</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Set the required variables for spatial messaging</span>
+<span class="w">    </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_out</span><span class="p">.</span><span class="n">setVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_out</span><span class="p">.</span><span class="n">setVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_out</span><span class="p">.</span><span class="n">setVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;z&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;z&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="c1">// Set any tertiary message variables</span>
+<span class="w">    </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_out</span><span class="p">.</span><span class="n">setVariable</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;count&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;count&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">ALIVE</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-5-QWdlbnQgUHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-5-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define an agent function, &quot;outputdata&quot; which has no input messages and outputs a message using the &quot;MessageSpatial3D&quot; communication strategy</span>
+<span class="nd">@pyflamegpu</span><span class="o">.</span><span class="n">agent_function</span>
+<span class="k">def</span> <span class="nf">outputdata</span><span class="p">(</span><span class="n">message_in</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">,</span> <span class="n">message_out</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageSpatial3D</span><span class="p">):</span>
+    <span class="c1"># Set the required variables for spatial messaging</span>
+    <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_out</span><span class="o">.</span><span class="n">setVariableFloat</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">))</span>
+    <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_out</span><span class="o">.</span><span class="n">setVariableFloat</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">))</span>
+    <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_out</span><span class="o">.</span><span class="n">setVariableFloat</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">))</span>
+    <span class="c1"># Set any tertiary message variables</span>
+    <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_out</span><span class="o">.</span><span class="n">setVariableInt</span><span class="p">(</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableInt</span><span class="p">(</span><span class="s2">&quot;count&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">ALIVE</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="array-messaging">
+<h3>Array Messaging<a class="headerlink" href="#array-messaging" title="Permalink to this heading"></a></h3>
+<p>If you are using <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray</span></code>, <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray2D</span></code> or <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray3D</span></code> then you must specify the corresponding array index when outputting a message. It is important that only 1 agent writes a message to each index. If <code class="docutils literal notranslate"><span class="pre">FLAMEGPU_SEATBELTS</span></code> error-checking is enabled then multiple outputs to the same index will raise an exception.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-6-QWdlbnQgQysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-6-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tab" tabindex="0">Agent C++</button><button aria-controls="panel-6-QWdlbnQgUHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-6-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tab" tabindex="-1">Agent Python</button></div><div aria-labelledby="tab-6-QWdlbnQgQysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-6-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tabpanel" tabindex="0"><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define an agent function, &quot;outputdata&quot; which has no input messages and outputs a message using the &quot;MessageArray3D&quot; communication strategy</span>
+<span class="n">FLAMEGPU_AGENT_FUNCTION</span><span class="p">(</span><span class="n">outputdata</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageArray3D</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Set the index to store the array message</span>
+<span class="w">    </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_out</span><span class="p">.</span><span class="n">setIndex</span><span class="p">(</span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;z&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="c1">// Set message variables</span>
+<span class="w">    </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_out</span><span class="p">.</span><span class="n">setVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">ALIVE</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-6-QWdlbnQgUHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-6-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define an agent function, &quot;outputdata&quot; which has no input messages and outputs a message using the &quot;MessageArray3D&quot; communication strategy</span>
+<span class="nd">@pyflamegpu</span><span class="o">.</span><span class="n">agent_function</span>
+<span class="k">def</span> <span class="nf">outputdata</span><span class="p">(</span><span class="n">message_in</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">,</span> <span class="n">message_out</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageArray3D</span><span class="p">):</span>
+    <span class="c1"># Set the index to store the array message</span>
+    <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_out</span><span class="o">.</span><span class="n">setIndex</span><span class="p">(</span><span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableUInt</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">),</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableUInt</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">),</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableUInt</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">))</span>
+    <span class="c1"># Set message variables</span>
+    <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_out</span><span class="o">.</span><span class="n">setVariableFloat</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;bar&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">ALIVE</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+</section>
+<section id="reading-messages">
+<h2>Reading Messages<a class="headerlink" href="#reading-messages" title="Permalink to this heading"></a></h2>
+<p>Reading a message is very similar to sending one. The second argument in the agent function definition specifies the input message communication strategy.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-7-QWdlbnQgQysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-7-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tab" tabindex="0">Agent C++</button><button aria-controls="panel-7-QWdlbnQgUHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-7-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tab" tabindex="-1">Agent Python</button></div><div aria-labelledby="tab-7-QWdlbnQgQysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-7-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tabpanel" tabindex="0"><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define an agent function, &quot;inputdata&quot; which has an input message using the &quot;MessageBruteForce&quot; communication strategy</span>
+<span class="n">FLAMEGPU_AGENT_FUNCTION</span><span class="p">(</span><span class="n">inputdata</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageBruteForce</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Agent function code goes here</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-7-QWdlbnQgUHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-7-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define an agent function, &quot;inputdata&quot; which has an input message using the &quot;MessageBruteForce&quot; communication strategy</span>
+<span class="nd">@pyflamegpu</span><span class="o">.</span><span class="n">agent_function</span>
+<span class="k">def</span> <span class="nf">inputdata</span><span class="p">(</span><span class="n">message_in</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageBruteForce</span><span class="p">,</span> <span class="n">message_out</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">):</span>
+    <span class="c1"># Agent function code goes here</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div></div>
+<p>To specify the type of message the function should input, the <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">setMessageInput()</span></code> method of the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">AgentFunctionDescription</span></code> object is used:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-8-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-8-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-8-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-8-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-8-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-8-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Specify that the &quot;inputdata&quot; agent function inputs a &quot;location_message&quot;</span>
+<span class="n">inputdata</span><span class="p">.</span><span class="n">setMessageInput</span><span class="p">(</span><span class="s">&quot;location_message&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-8-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-8-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Specify that the &quot;inputdata&quot; agent function inputs a &quot;location_message&quot;</span>
+<span class="n">inputdata</span><span class="o">.</span><span class="n">setMessageInput</span><span class="p">(</span><span class="s2">&quot;location_message&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<p>With the input message type specified, the message list will be available in the agent function via <code class="docutils literal notranslate"><span class="pre">FLAMEGPU-&gt;message_in</span></code>.</p>
+<p>Different communication strategies have different methods of accessing their messages.</p>
+<section id="bruteforce-messaging">
+<h3>BruteForce Messaging<a class="headerlink" href="#bruteforce-messaging" title="Permalink to this heading"></a></h3>
+<p>All messages are accessed, so the whole message list is iterated over:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-9-QWdlbnQgQysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-9-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tab" tabindex="0">Agent C++</button><button aria-controls="panel-9-QWdlbnQgUHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-9-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tab" tabindex="-1">Agent Python</button></div><div aria-labelledby="tab-9-QWdlbnQgQysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-9-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tabpanel" tabindex="0"><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define an agent function, &quot;inputdata&quot; which has an input message using the &quot;MessageBruteForce&quot; communication strategy</span>
+<span class="n">FLAMEGPU_AGENT_FUNCTION</span><span class="p">(</span><span class="n">inputdata</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageBruteForce</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// For each message in the message list</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_in</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Process the message&#39;s variables e.g.</span>
+<span class="w">        </span><span class="c1">// const T var = message.getVariable&lt;T&gt;(...);</span>
+<span class="w">        </span><span class="p">...</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-9-QWdlbnQgUHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-9-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define an agent function, &quot;inputdata&quot; which has an input message using the &quot;MessageBruteForce&quot; communication strategy</span>
+<span class="nd">@pyflamegpu</span><span class="o">.</span><span class="n">agent_function</span>
+<span class="k">def</span> <span class="nf">inputdata</span><span class="p">(</span><span class="n">message_in</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageBruteForce</span><span class="p">,</span> <span class="n">message_out</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">):</span>
+    <span class="c1"># For each message in the message list</span>
+    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_in</span><span class="p">:</span>
+        <span class="c1"># Process the message&#39;s variables e.g.</span>
+        <span class="c1"># var = message.getVariableInt(...)</span>
+        <span class="o">...</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="id2">
+<h3>Bucket Messaging<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<p>If you are using the Bucket messaging strategy, you will also need to supply the bucket key to access the messages from the specific bucket.</p>
+<p>If an invalid bucket key is specified (based on the bounds provided when the messagelist was defined) no messages will be returned. If <code class="docutils literal notranslate"><span class="pre">FLAMEGPU_SEATBELTS</span></code> error checking is enabled, an exception will be raised.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-10-QWdlbnQgQysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-10-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tab" tabindex="0">Agent C++</button><button aria-controls="panel-10-QWdlbnQgUHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-10-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tab" tabindex="-1">Agent Python</button></div><div aria-labelledby="tab-10-QWdlbnQgQysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-10-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tabpanel" tabindex="0"><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define an agent function, &quot;inputdata&quot; which has an input message using the &quot;MessageBucket&quot; communication strategy</span>
+<span class="n">FLAMEGPU_AGENT_FUNCTION</span><span class="p">(</span><span class="n">inputdata</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageBucket</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Get this agent&#39;s bucket variable</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;bucket&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// For each message in the message list which was output to the requested bucket</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_in</span><span class="p">(</span><span class="n">bucket</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Process the message&#39;s variables e.g.</span>
+<span class="w">        </span><span class="c1">// const T var = message.getVariable&lt;T&gt;(...);</span>
+<span class="w">        </span><span class="p">...</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-10-QWdlbnQgUHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-10-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define an agent function, &quot;inputdata&quot; which has an input message using the &quot;MessageBucket&quot; communication strategy</span>
+<span class="nd">@pyflamegpu</span><span class="o">.</span><span class="n">agent_function</span>
+<span class="k">def</span> <span class="nf">inputdata</span><span class="p">(</span><span class="n">message_in</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageBucket</span><span class="p">,</span> <span class="n">message_out</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">):</span>
+    <span class="c1"># Get this agent&#39;s bucket variable</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableInt</span><span class="p">(</span><span class="s2">&quot;bucket&quot;</span><span class="p">);</span>
+
+    <span class="c1"># For each message in the message list which was output to the requested bucket</span>
+    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_in</span><span class="p">(</span><span class="n">bucket</span><span class="p">):</span>
+        <span class="c1"># Process the message&#39;s variables e.g.</span>
+        <span class="c1"># var = message.getVariableInt(...)</span>
+        <span class="o">...</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="id3">
+<h3>Spatial Messaging<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<p>If you are using one of the spatial messaging strategies, you will need to supply the x, y (and z) coordinates of the agent, or the central location about which you wish to access messages.</p>
+<p>Spatial messaging has two available iterators.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Iterator</p></th>
+<th class="head"><p>Usage</p></th>
+<th class="head"><p>API Docs</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Spatial Neighbourhood</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FLAMEGPU-&gt;message_in(&lt;arguments&gt;)</span></code></p></td>
+<td><p><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">2D</span></code>, <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">3D</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Wrapped Spatial Neighbourhood</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FLAMEGPU-&gt;message_in.wrap(&lt;arguments&gt;)</span></code></p></td>
+<td><p><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">2D</span></code>, <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">3D</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>The regular spatial neighbourhood does not wrap the environment bounds and is the easiest to use. Whereas the wrapped spatial neighbourhood will also return messages that would be in bounds were the environment tiled with itself. Correctly deploying a wrapped continuous space model can be challenging, as the modeller is responsible for ensuring that each agent remains within the environment by wrapping their location</p>
+<p>Spatial messaging will return all messages within the radius specified at the model description time, however it can also return some messages which fall outside of this radius. So it is important that messages are distance checked to ensure they fall within the radius.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When spatial messages will be accessed via the wrapped iterator, all messages locations must be within the environment bounds defined for the message list. Accessing out of bounds messages with the wrapped iterator is undefined behaviour.
+If using <code class="docutils literal notranslate"><span class="pre">FLAMEGPU_SEATBELTS</span></code> error checking an error may be raised whilst using the wrapped iterator if an out of bounds message is read.</p>
+</div>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-11-QWdlbnQgQysrIChTcGF0aWFsKQ==" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-11-QWdlbnQgQysrIChTcGF0aWFsKQ==" name="QWdlbnQgQysrIChTcGF0aWFsKQ==" role="tab" tabindex="0">Agent C++ (Spatial)</button><button aria-controls="panel-11-QWdlbnQgUHl0aG9uIChTcGF0aWFsKQ==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-11-QWdlbnQgUHl0aG9uIChTcGF0aWFsKQ==" name="QWdlbnQgUHl0aG9uIChTcGF0aWFsKQ==" role="tab" tabindex="-1">Agent Python (Spatial)</button><button aria-controls="panel-11-QWdlbnQgQysrIChTcGF0aWFsIFdyYXBwZWQp" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-11-QWdlbnQgQysrIChTcGF0aWFsIFdyYXBwZWQp" name="QWdlbnQgQysrIChTcGF0aWFsIFdyYXBwZWQp" role="tab" tabindex="-1">Agent C++ (Spatial Wrapped)</button><button aria-controls="panel-11-QWdlbnQgUHl0aG9uIChTcGF0aWFsIFdyYXBwZWQp" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-11-QWdlbnQgUHl0aG9uIChTcGF0aWFsIFdyYXBwZWQp" name="QWdlbnQgUHl0aG9uIChTcGF0aWFsIFdyYXBwZWQp" role="tab" tabindex="-1">Agent Python (Spatial Wrapped)</button></div><div aria-labelledby="tab-11-QWdlbnQgQysrIChTcGF0aWFsKQ==" class="sphinx-tabs-panel code-tab group-tab" id="panel-11-QWdlbnQgQysrIChTcGF0aWFsKQ==" name="QWdlbnQgQysrIChTcGF0aWFsKQ==" role="tabpanel" tabindex="0"><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define an agent function, &quot;inputdata&quot; which has accepts an input message using the &quot;MessageSpatial3D&quot; communication strategy</span>
+<span class="n">FLAMEGPU_AGENT_FUNCTION</span><span class="p">(</span><span class="n">inputdata</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageSpatial3D</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">RADIUS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_in</span><span class="p">.</span><span class="n">radius</span><span class="p">();</span>
+<span class="w">    </span><span class="c1">// Get this agent&#39;s x, y, z variables</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;z&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// For each message in the message list which was output by a nearby agent</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_in</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">message</span><span class="p">.</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">y2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">message</span><span class="p">.</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">z2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">message</span><span class="p">.</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;z&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// Calculate the distance to check the message is in range</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">x21</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x1</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">y21</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y1</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">z21</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">z2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">z1</span><span class="p">;</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">separation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqrt</span><span class="p">(</span><span class="n">x21</span><span class="o">*</span><span class="n">x21</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y21</span><span class="o">*</span><span class="n">y21</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">z21</span><span class="o">*</span><span class="n">z21</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">separation</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">RADIUS</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">separation</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Process the message&#39;s variables e.g.</span>
+<span class="w">            </span><span class="c1">// const T var = message.getVariable&lt;T&gt;(...);</span>
+<span class="w">            </span><span class="p">...</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-11-QWdlbnQgUHl0aG9uIChTcGF0aWFsKQ==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-11-QWdlbnQgUHl0aG9uIChTcGF0aWFsKQ==" name="QWdlbnQgUHl0aG9uIChTcGF0aWFsKQ==" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define an agent function, &quot;inputdata&quot; which has an input message using the &quot;MessageSpatial3D&quot; communication strategy</span>
+<span class="nd">@pyflamegpu</span><span class="o">.</span><span class="n">agent_function</span>
+<span class="k">def</span> <span class="nf">inputdata</span><span class="p">(</span><span class="n">message_in</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageSpatial3D</span><span class="p">,</span> <span class="n">message_out</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">):</span>
+    <span class="n">RADIUS</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_in</span><span class="o">.</span><span class="n">radius</span><span class="p">()</span>
+    <span class="c1"># Get this agent&#39;s x, y, z variables</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">)</span>
+
+    <span class="c1"># For each message in the message list which was output by a nearby agent</span>
+    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_in</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+        <span class="n">y2</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+        <span class="n">z2</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">)</span>
+        <span class="c1"># Calculate the distance to check the message is in range</span>
+        <span class="n">x21</span> <span class="o">=</span> <span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span>
+        <span class="n">y21</span> <span class="o">=</span> <span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span>
+        <span class="n">z21</span> <span class="o">=</span> <span class="n">z2</span> <span class="o">-</span> <span class="n">z1</span>
+        <span class="n">separation</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x21</span><span class="o">*</span><span class="n">x21</span> <span class="o">+</span> <span class="n">y21</span><span class="o">*</span><span class="n">y21</span> <span class="o">+</span> <span class="n">z21</span><span class="o">*</span><span class="n">z21</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">separation</span> <span class="o">&lt;</span> <span class="n">RADIUS</span> <span class="ow">and</span> <span class="n">separation</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span>
+            <span class="c1"># Process the message&#39;s variables e.g.</span>
+            <span class="c1"># var = message.getVariableInt(...)</span>
+            <span class="o">...</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-11-QWdlbnQgQysrIChTcGF0aWFsIFdyYXBwZWQp" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-11-QWdlbnQgQysrIChTcGF0aWFsIFdyYXBwZWQp" name="QWdlbnQgQysrIChTcGF0aWFsIFdyYXBwZWQp" role="tabpanel" tabindex="0"><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define an agent function, &quot;inputdata&quot; which has accepts an input message using the &quot;MessageSpatial3D&quot; communication strategy</span>
+<span class="n">FLAMEGPU_AGENT_FUNCTION</span><span class="p">(</span><span class="n">inputdata</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageSpatial3D</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">RADIUS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_in</span><span class="p">.</span><span class="n">radius</span><span class="p">();</span>
+<span class="w">    </span><span class="c1">// Get this agent&#39;s x, y, z variables</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;z&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// For each message in the message list which was output by a nearby agent</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_in</span><span class="p">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">message</span><span class="p">.</span><span class="n">getVirtualX</span><span class="p">();</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">y2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">message</span><span class="p">.</span><span class="n">getVirtualY</span><span class="p">();</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">z2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">message</span><span class="p">.</span><span class="n">getVirtualZ</span><span class="p">();</span>
+<span class="w">        </span><span class="c1">// Calculate the distance to check the message is in range</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">x21</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x1</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">y21</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y1</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">z21</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">z2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">z1</span><span class="p">;</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">separation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqrt</span><span class="p">(</span><span class="n">x21</span><span class="o">*</span><span class="n">x21</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y21</span><span class="o">*</span><span class="n">y21</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">z21</span><span class="o">*</span><span class="n">z21</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">separation</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">RADIUS</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">separation</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Process the message&#39;s variables e.g.</span>
+<span class="w">            </span><span class="c1">// const T var = message.getVariable&lt;T&gt;(...);</span>
+<span class="w">            </span><span class="p">...</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-11-QWdlbnQgUHl0aG9uIChTcGF0aWFsIFdyYXBwZWQp" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-11-QWdlbnQgUHl0aG9uIChTcGF0aWFsIFdyYXBwZWQp" name="QWdlbnQgUHl0aG9uIChTcGF0aWFsIFdyYXBwZWQp" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define an agent function, &quot;inputdata&quot; which has an input message using the &quot;MessageSpatial3D&quot; communication strategy</span>
+<span class="nd">@pyflamegpu</span><span class="o">.</span><span class="n">agent_function</span>
+<span class="k">def</span> <span class="nf">inputdata</span><span class="p">(</span><span class="n">message_in</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageSpatial3D</span><span class="p">,</span> <span class="n">message_out</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">):</span>
+    <span class="n">RADIUS</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_in</span><span class="o">.</span><span class="n">radius</span><span class="p">()</span>
+    <span class="c1"># Get this agent&#39;s x, y, z variables</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">)</span>
+
+    <span class="c1"># For each message in the message list which was output by a nearby agent</span>
+    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_in</span><span class="o">.</span> <span class="n">wrap</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">getVirtualX</span><span class="p">()</span>
+        <span class="n">y2</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">getVirtualY</span><span class="p">()</span>
+        <span class="n">z2</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">getVirtualZ</span><span class="p">()</span>
+        <span class="c1"># Calculate the distance to check the message is in range</span>
+        <span class="n">x21</span> <span class="o">=</span> <span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span>
+        <span class="n">y21</span> <span class="o">=</span> <span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span>
+        <span class="n">z21</span> <span class="o">=</span> <span class="n">z2</span> <span class="o">-</span> <span class="n">z1</span>
+        <span class="n">separation</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x21</span><span class="o">*</span><span class="n">x21</span> <span class="o">+</span> <span class="n">y21</span><span class="o">*</span><span class="n">y21</span> <span class="o">+</span> <span class="n">z21</span><span class="o">*</span><span class="n">z21</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">separation</span> <span class="o">&lt;</span> <span class="n">RADIUS</span> <span class="ow">and</span> <span class="n">separation</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span>
+            <span class="c1"># Process the message&#39;s variables e.g.</span>
+            <span class="c1"># var = message.getVariableInt(...)</span>
+            <span class="o">...</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="id4">
+<h3>Array Messaging<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<p>If you are using one of the array messaging strategies, there are several methods for accessing messages.</p>
+<p>Messages can be accessed from a specific array index:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-12-QWdlbnQgQysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-12-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tab" tabindex="0">Agent C++</button><button aria-controls="panel-12-QWdlbnQgUHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-12-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tab" tabindex="-1">Agent Python</button></div><div aria-labelledby="tab-12-QWdlbnQgQysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-12-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tabpanel" tabindex="0"><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define an agent function, &quot;inputdata&quot; which has accepts an input message using the &quot;MessageArray3D&quot; communication strategy and inputs no messages</span>
+<span class="n">FLAMEGPU_AGENT_FUNCTION</span><span class="p">(</span><span class="n">inputdata</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageArray3D</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Get this agent&#39;s x, y, z variables</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;z&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// Select the message</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_in</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// Process the message&#39;s variables e.g.</span>
+<span class="w">    </span><span class="c1">// const T var = message.getVariable&lt;T&gt;(...);</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-12-QWdlbnQgUHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-12-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define an agent function, &quot;inputdata&quot; which has an input message using the &quot;MessageArray3D&quot; communication strategy</span>
+<span class="nd">@pyflamegpu</span><span class="o">.</span><span class="n">agent_function</span>
+<span class="k">def</span> <span class="nf">inputdata</span><span class="p">(</span><span class="n">message_in</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageArray3D</span><span class="p">,</span> <span class="n">message_out</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">):</span>
+    <span class="c1"># Get this agent&#39;s x, y, z variables</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">)</span>
+    <span class="c1"># Select the message</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_in</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+    <span class="c1"># Process the message&#39;s variables e.g.</span>
+    <span class="c1"># var = message.getVariableInt(...)</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div></div>
+<p>Similar to spatial messaging, array messages provide several iterators for accessing a collection of messages localised to a specific location (normally a discrete agent’s position). <code class="docutils literal notranslate"><span class="pre">operator()</span></code> (<code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">1D</span></code>, <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">2D</span></code>, <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">3D</span></code>):</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Iterator</p></th>
+<th class="head"><p>Agent C++ Usage</p></th>
+<th class="head"><p>Agent Python Usage</p></th>
+<th class="head"><p>API Docs</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Moore Neighbourhood</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FLAMEGPU-&gt;message_in(&lt;arguments&gt;)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">message_in(&lt;arguments&gt;)</span></code></p></td>
+<td><p><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">1D</span></code>, <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">2D</span></code>, <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">3D</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Wrapped Moore Neighbourhood</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FLAMEGPU-&gt;message_in.wrap(&lt;arguments&gt;)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">message_in.wrap(&lt;arguments&gt;)</span></code></p></td>
+<td><p><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">1D</span></code>, <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">2D</span></code>, <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">3D</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Von Neumann Neighbourhood</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FLAMEGPU-&gt;message_in.vn(&lt;arguments&gt;)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">message_in.vn(&lt;arguments&gt;)</span></code></p></td>
+<td><p><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">2D</span></code>, <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">3D</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Wrapped Von Neumann Neighbourhood</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FLAMEGPU-&gt;message_in.vn_wrap(&lt;arguments&gt;)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">message_in.vn_wrap(&lt;arguments&gt;)</span></code></p></td>
+<td><p><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">2D</span></code>, <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">3D</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>The <code class="docutils literal notranslate"><span class="pre">arguments</span></code> for each of these methods are identical. They simply require the search origin to be specified, and optionally a radius (by default a radius of 1 is used). In all cases, the radius must be a positive integer. Hence taking the form <code class="docutils literal notranslate"><span class="pre">(x_pos,</span> <span class="pre">y_pos,</span> <span class="pre">z_pos,</span> <span class="pre">radius=1)</span></code> in 3D, 2D and 1D lack the <code class="docutils literal notranslate"><span class="pre">z_pos</span></code> and <code class="docutils literal notranslate"><span class="pre">y_pos</span></code> arguments.</p>
+<p>All array message iterators return messages over the exclusive neighbourhood of the selected type, hence the message at the search origin is never returned.</p>
+<p>If you require the index of the current message within the array during iteration, the returned message objects provide the applicable <code class="docutils literal notranslate"><span class="pre">getX()</span></code>, <code class="docutils literal notranslate"><span class="pre">getY()</span></code> and <code class="docutils literal notranslate"><span class="pre">getZ()</span></code> methods.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>For radii greater than 1, the Von Neumann iterator returns cells with a Manhattan distance <code class="docutils literal notranslate"><span class="pre">&lt;=</span> <span class="pre">R</span></code>.</p></li>
+<li><p>The Von Neumann iterator does not support the 1 dimensional <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray</span></code>, the Moore iterators or a simple for loop can be used for this case.</p></li>
+<li><p>The Von Neumann iterator is generalised to support any radius. For this reason, if requiring radius 1, performance may be improved by accessing the 4 messages explicitly rather than using the iterator.</p></li>
+</ul>
+</div>
+<p>Example of a Moore neighbourhood iterator:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-13-QWdlbnQgQysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-13-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tab" tabindex="0">Agent C++</button><button aria-controls="panel-13-QWdlbnQgUHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-13-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tab" tabindex="-1">Agent Python</button></div><div aria-labelledby="tab-13-QWdlbnQgQysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-13-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tabpanel" tabindex="0"><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define an agent function, &quot;inputdata&quot; which accepts an input message using the &quot;MessageArray3D&quot; communication strategy and outputs no messages</span>
+<span class="n">FLAMEGPU_AGENT_FUNCTION</span><span class="p">(</span><span class="n">inputdata</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageArray3D</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Get this agent&#39;s x, y, z variables</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;z&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// For each message in the exclusive Moore neighbourhood of radius 1</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_in</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// Fetch the current array message&#39;s index</span>
+<span class="w">      </span><span class="c1">// const unsigned int ix = message.getX();</span>
+<span class="w">      </span><span class="p">...</span>
+<span class="w">      </span><span class="c1">// Process the message&#39;s variables</span>
+<span class="w">      </span><span class="c1">// const T var = message.getVariable&lt;T&gt;(...);</span>
+<span class="w">      </span><span class="p">...</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-13-QWdlbnQgUHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-13-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define an agent function, &quot;inputdata&quot; which accepts an input message using the &quot;MessageArray3D&quot; communication strategy and outputs no messages</span>
+<span class="nd">@pyflamegpu</span><span class="o">.</span><span class="n">agent_function</span>
+<span class="k">def</span> <span class="nf">inputdata</span><span class="p">(</span><span class="n">message_in</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageArray3D</span><span class="p">,</span> <span class="n">message_out</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">):</span>
+    <span class="c1"># Get this agent&#39;s x, y, z variables</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">)</span>
+    <span class="c1"># For each message in the exclusive Moore neighbourhood of radius 1</span>
+    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_in</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+        <span class="c1"># Fetch the current array message&#39;s index</span>
+        <span class="c1"># ix = message.getX()</span>
+        <span class="o">...</span>
+        <span class="c1"># Process the message&#39;s variables</span>
+        <span class="c1"># var = message.getVariableInt(...)</span>
+        <span class="o">...</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div></div>
+<p>Example of wrapped Moore neighbourhood iterator:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-14-QWdlbnQgQysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-14-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tab" tabindex="0">Agent C++</button><button aria-controls="panel-14-QWdlbnQgUHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-14-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tab" tabindex="-1">Agent Python</button></div><div aria-labelledby="tab-14-QWdlbnQgQysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-14-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tabpanel" tabindex="0"><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define an agent function, &quot;inputdata&quot; which accepts an input message using the &quot;MessageArray2D&quot; communication strategy and outputs no messages</span>
+<span class="n">FLAMEGPU_AGENT_FUNCTION</span><span class="p">(</span><span class="n">inputdata</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageArray2D</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Get this agent&#39;s x, y variables</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="c1">// For each message in the exclusive wrapped Moore neighbourhood of radius 2</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_in</span><span class="p">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Fetch the current array message&#39;s index</span>
+<span class="w">    </span><span class="c1">// const unsigned int ix = message.getX();</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="c1">// Process the message&#39;s variables</span>
+<span class="w">    </span><span class="c1">// const T var = message.getVariable&lt;T&gt;(...);</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-14-QWdlbnQgUHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-14-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Define</span> <span class="n">an</span> <span class="n">agent</span> <span class="n">function</span><span class="p">,</span> <span class="s2">&quot;inputdata&quot;</span> <span class="n">which</span> <span class="n">has</span> <span class="n">accepts</span> <span class="n">an</span> <span class="nb">input</span> <span class="n">message</span> <span class="n">using</span> <span class="n">the</span> <span class="s2">&quot;MessageArray2D&quot;</span> <span class="n">communication</span> <span class="n">strategy</span> <span class="ow">and</span> <span class="n">outputs</span> <span class="n">no</span> <span class="n">messages</span>
+<span class="nd">@pyflamegpu</span><span class="o">.</span><span class="n">agent_function</span>
+<span class="k">def</span> <span class="nf">inputdata</span><span class="p">(</span><span class="n">message_in</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageArray2D</span><span class="p">,</span> <span class="n">message_out</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">):</span>
+    <span class="c1"># Get this agent&#39;s x, y, z variables</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+    <span class="c1"># For each message in the exclusive wrapped Moore neighbourhood of radius 2</span>
+    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_in</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="c1"># Fetch the current array message&#39;s index</span>
+        <span class="c1"># ix = message.getX()</span>
+        <span class="o">...</span>
+        <span class="c1"># Process the message&#39;s variables</span>
+        <span class="c1"># var = message.getVariableInt(...)</span>
+        <span class="o">...</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div></div>
+<p>Example of a Von Neumann neighbourhood iterator:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-15-QWdlbnQgQysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-15-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tab" tabindex="0">Agent C++</button><button aria-controls="panel-15-QWdlbnQgUHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-15-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tab" tabindex="-1">Agent Python</button></div><div aria-labelledby="tab-15-QWdlbnQgQysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-15-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tabpanel" tabindex="0"><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define an agent function, &quot;inputdata&quot; which has accepts an input message using the &quot;MessageArray3D&quot; communication strategy and outputs no messages</span>
+<span class="n">FLAMEGPU_AGENT_FUNCTION</span><span class="p">(</span><span class="n">inputdata</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageArray3D</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Get this agent&#39;s x, y, z variables</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;z&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="c1">// For each message in the exclusive Von Neumann neighbourhood of radius 2</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_in</span><span class="p">.</span><span class="n">vn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Fetch the current array message&#39;s index</span>
+<span class="w">    </span><span class="c1">// const unsigned int ix = message.getX();</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="c1">// Process the message&#39;s variables</span>
+<span class="w">    </span><span class="c1">// const T var = message.getVariable&lt;T&gt;(...);</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-15-QWdlbnQgUHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-15-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Define</span> <span class="n">an</span> <span class="n">agent</span> <span class="n">function</span><span class="p">,</span> <span class="s2">&quot;inputdata&quot;</span> <span class="n">which</span> <span class="n">has</span> <span class="n">accepts</span> <span class="n">an</span> <span class="nb">input</span> <span class="n">message</span> <span class="n">using</span> <span class="n">the</span> <span class="s2">&quot;MessageArray3D&quot;</span> <span class="n">communication</span> <span class="n">strategy</span> <span class="ow">and</span> <span class="n">outputs</span> <span class="n">no</span> <span class="n">messages</span>
+<span class="nd">@pyflamegpu</span><span class="o">.</span><span class="n">agent_function</span>
+<span class="k">def</span> <span class="nf">inputdata</span><span class="p">(</span><span class="n">message_in</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageArray3D</span><span class="p">,</span> <span class="n">message_out</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">):</span>
+    <span class="c1"># Get this agent&#39;s x, y, z variables</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">)</span>
+    <span class="c1"># For each message in the exclusive Von Neumann neighbourhood of radius 2</span>
+    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_in</span><span class="o">.</span><span class="n">vn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="c1"># Fetch the current array message&#39;s index</span>
+        <span class="c1"># ix = message.getX()</span>
+        <span class="o">...</span>
+        <span class="c1"># Process the message&#39;s variables</span>
+        <span class="c1"># var = message.getVariableInt(...)</span>
+        <span class="o">...</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div></div>
+<p>Example of a wrapped Von Neumann neighbourhood iterator:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-16-QWdlbnQgQysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-16-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tab" tabindex="0">Agent C++</button><button aria-controls="panel-16-QWdlbnQgUHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-16-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tab" tabindex="-1">Agent Python</button></div><div aria-labelledby="tab-16-QWdlbnQgQysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-16-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tabpanel" tabindex="0"><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define an agent function, &quot;inputdata&quot; which has accepts an input message using the &quot;MessageArray2D&quot; communication strategy and outputs no messages</span>
+<span class="n">FLAMEGPU_AGENT_FUNCTION</span><span class="p">(</span><span class="n">inputdata</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageArray2D</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Get this agent&#39;s x, y, z variables</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">getVariable</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">);</span>
+<span class="w">   </span><span class="c1">// For each message in the exclusive wrapped Von Neumann neighbourhood of radius 1</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">message_in</span><span class="p">.</span><span class="n">vn_wrap</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Fetch the current array message&#39;s index</span>
+<span class="w">    </span><span class="c1">// const unsigned int ix = message.getX();</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="c1">// Process the message&#39;s variables</span>
+<span class="w">    </span><span class="c1">// const T var = message.getVariable&lt;T&gt;(...);</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-16-QWdlbnQgUHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-16-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Define</span> <span class="n">an</span> <span class="n">agent</span> <span class="n">function</span><span class="p">,</span> <span class="s2">&quot;inputdata&quot;</span> <span class="n">which</span> <span class="n">has</span> <span class="n">accepts</span> <span class="n">an</span> <span class="nb">input</span> <span class="n">message</span> <span class="n">using</span> <span class="n">the</span> <span class="s2">&quot;MessageArray2D&quot;</span> <span class="n">communication</span> <span class="n">strategy</span> <span class="ow">and</span> <span class="n">outputs</span> <span class="n">no</span> <span class="n">messages</span>
+<span class="nd">@pyflamegpu</span><span class="o">.</span><span class="n">agent_function</span>
+<span class="k">def</span> <span class="nf">inputdata</span><span class="p">(</span><span class="n">message_in</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageArray2D</span><span class="p">,</span> <span class="n">message_out</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">):</span>
+    <span class="c1"># Get this agent&#39;s x, y, z variables</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">getVariableFloat</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+    <span class="c1"># For each message in the exclusive wrapped Von Neumann neighbourhood of radius 1</span>
+    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">message_in</span><span class="o">.</span><span class="n">vn_wrap</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="c1"># Fetch the current array message&#39;s index</span>
+        <span class="c1"># ix = message.getX()</span>
+        <span class="o">...</span>
+        <span class="c1"># Process the message&#39;s variables</span>
+        <span class="c1"># var = message.getVariableInt(...)</span>
+        <span class="o">...</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+</section>
+<section id="related-links">
+<h2>Related Links<a class="headerlink" href="#related-links" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>User Guide Page: <a class="reference internal" href="../defining-messages-communication/index.html#defining-messages"><span class="std std-ref">Defining Messages (Communication)</span></a></p></li>
+<li><p>User Guide Page: <a class="reference internal" href="../debugging-models/seatbelts.html#flamegpu-seatbelts"><span class="std std-ref">What is FLAMEGPU_SEATBELTS?</span></a></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageBruteForce::In</span></code> &amp; <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageBruteForce::Out</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageBucket::In</span></code> &amp; <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageBucket::Out</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageSpatial2D::In</span></code> &amp; <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageSpatial2D::Out</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageSpatial3D::In</span></code> &amp; <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageSpatial3D::Out</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray::In</span></code> &amp; <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray::Out</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray2D::In</span></code> &amp; <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray2D::Out</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray3D::In</span></code> &amp; <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray3D::Out</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageNone::In</span></code> &amp; <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageNone::Out</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">DeviceAPI</span></code></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="interacting-with-environment.html" class="btn btn-neutral float-left" title="Accessing the Environment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="agent-birth-death.html" class="btn btn-neutral float-right" title="Agent Birth &amp; Death" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, University of Sheffield.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXX-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-XXXXXXX-1', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

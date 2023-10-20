@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Numbers &mdash; FLAME GPU 2 0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/flamegpu.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=e43216b9"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script src="../../_static/tabs.js?v=3030b3cb"></script>
+        <script src="https://unpkg.com/mermaid@10.4.0/dist/mermaid.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Agent State Transitions" href="agent-state-transitions.html" />
+    <link rel="prev" title="Agent Birth &amp; Death" href="agent-birth-death.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #4d4d4d" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            FLAME GPU 2
+              <img src="../../_static/flamegpu2-icon-notext-128.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart/index.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart/index.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart/index.html#c">C++</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#creating-a-new-project">Creating a New Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#compiling-your-project">Compiling Your Project</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../quickstart/index.html#cmake-gui-windows-only">CMake GUI (Windows Only)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#running-your-project">Running Your Project</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart/index.html#python-3">Python 3</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#q-python-installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#building-from-source">Building From Source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#id3">Creating a New Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#id4">Running your project</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../creating-a-model/index.html">Creating a Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../creating-a-model/index.html#what-is-a-model">What is a Model?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../creating-a-model/index.html#creating-a-modeldescription-object">Creating a ModelDescription Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../creating-a-model/index.html#supported-types">Supported Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../environment/index.html">Environmental Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#accessing-the-environmentdescription-object">Accessing the EnvironmentDescription Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#defining-properties">Defining Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#defining-macro-properties">Defining Macro Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../defining-agents/index.html">Defining Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#defining-a-new-agent-type">Defining a New Agent Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#agent-variables">Agent Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-agents/index.html#agent-id">Agent ID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-agents/index.html#user-defined-variables">User Defined Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#agent-states">Agent States</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../defining-messages-communication/index.html">Defining Messages (Communication)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../defining-messages-communication/index.html#communication-strategies">Communication Strategies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-messages-communication/index.html#defining-a-new-message-type">Defining a New Message Type</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-messages-communication/index.html#brute-force-specialisation">Brute Force Specialisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-messages-communication/index.html#bucket-specialisation">Bucket Specialisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-messages-communication/index.html#spatial-specialisation">Spatial Specialisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-messages-communication/index.html#array-specialisation">Array Specialisation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-messages-communication/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Agent Functions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="defining-agent-functions.html">Defining Agent Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="defining-agent-functions.html#c-compile-time-agent-functions">C++ Compile Time Agent Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="defining-agent-functions.html#c-and-python-runtime-compiled-agent-functions">C++ and Python Runtime Compiled Agent Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="defining-agent-functions.html#flame-gpu-python-agent-functions">FLAME GPU Python Agent Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="defining-agent-functions.html#flame-gpu-device-functions">FLAME GPU Device Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="defining-agent-functions.html#flame-gpu-host-device-functions">FLAME GPU Host Device Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="defining-agent-functions.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modifying-agent-variables.html">Accessing Agent Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modifying-agent-variables.html#reading-an-agent-s-id">Reading an Agent’s ID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="modifying-agent-variables.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="interacting-with-environment.html">Accessing the Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="interacting-with-environment.html#environment-properties">Environment Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="interacting-with-environment.html#environment-macro-properties">Environment Macro Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="interacting-with-environment.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="agent-communication.html">Agent Communication</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="agent-communication.html#sending-messages">Sending Messages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="agent-communication.html#reading-messages">Reading Messages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="agent-communication.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="agent-birth-death.html">Agent Birth &amp; Death</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="agent-birth-death.html#agent-death">Agent Death</a></li>
+<li class="toctree-l4"><a class="reference internal" href="agent-birth-death.html#agent-birth">Agent Birth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="agent-birth-death.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Random Numbers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="agent-state-transitions.html">Agent State Transitions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="agent-state-transitions.html#agent-function-conditions-conditional-behaviours">Agent Function Conditions (Conditional Behaviours)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="miscellaneous.html">Miscellaneous Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="miscellaneous.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../host-functions/index.html">Host Functions &amp; Conditions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/defining-host-functions.html">Defining Host Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/defining-host-functions.html#types-of-host-function">Types of Host Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/defining-host-functions.html#adding-host-functions-to-a-model">Adding Host Functions to a Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/defining-host-functions.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/interacting-with-environment.html">Accessing the Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/interacting-with-environment.html#environment-properties">Environment Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/interacting-with-environment.html#environment-macro-properties">Environment Macro Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/interacting-with-environment.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/agent-operations.html">Agent Operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#variable-reductions">Variable Reductions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#sorting-agents">Sorting Agents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#agent-creation">Agent Creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#direct-agent-access">Direct Agent Access</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#miscellaneous-methods">Miscellaneous Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/random-numbers.html">Random Numbers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/random-numbers.html#seeding-the-random-state">Seeding the Random State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/random-numbers.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/miscellaneous.html">Miscellaneous Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/miscellaneous.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../defining-execution-order/index.html">Defining Execution Order</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/dependency-graph.html">Dependency Graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#specifying-dependencies">Specifying Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#specifying-roots">Specifying Roots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#host-layer-functions">Host Layer Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#generating-layers">Generating Layers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#visualising-the-dependencies">Visualising the Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#accessing-the-dependencygraph">Accessing the DependencyGraph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/layers.html">Layers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/layers.html#manual-layer-specification">Manual Layer Specification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/layers.html#layer-specification-rules">Layer Specification Rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/layers.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/exit-conditions.html">Exit Conditions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/exit-conditions.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/submodels.html">Submodels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/submodels.html#id1">Defining a Submodel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/submodels.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../running-a-simulation/index.html">Running a Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../running-a-simulation/configuring-execution.html">Configuring Execution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/configuring-execution.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../running-a-simulation/initial-state.html">Overriding the Initial State</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/initial-state.html#with-code">With Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/initial-state.html#from-file">From File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/initial-state.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../running-a-simulation/collecting-data.html">Collecting Data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#logging">Logging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#accessing-the-complete-agent-state">Accessing the Complete Agent State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#additional-notes">Additional Notes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../running-multiple-simulations/index.html">Running Multiple Simulations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#creating-a-cudaensemble">Creating a CUDAEnsemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#creating-a-runplanvector">Creating a RunPlanVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#creating-a-logging-configuration">Creating a Logging Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#configuring-running-the-ensemble">Configuring &amp; Running the Ensemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#error-handling-within-ensembles">Error Handling Within Ensembles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../visualisation/index.html">Visualisation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/building-with-vis.html">Enabling Visualisation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/building-with-vis.html#detecting-visualisation-support">Detecting Visualisation Support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/setting-up-vis.html">Configuring a Visualisation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/setting-up-vis.html#visualisation-options">Visualisation Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/setting-up-vis.html#visualising-after-simulation-exit">Visualising After Simulation Exit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/setting-up-vis.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/visualising-agents.html">Visualising Agents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-model">Agent Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-position">Agent Position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-direction">Agent Direction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-scale">Agent Scale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-color">Agent Color</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-states">Agent States</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/adding-details.html">Visualising Additional Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/adding-details.html#user-interface-environment-properties">User Interface (Environment Properties)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/adding-details.html#lines">Lines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/adding-details.html#models">Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/adding-details.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/visualisation-controls.html">Visualisation Controls</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../debugging-models/index.html">Debugging Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/seatbelts.html">What is FLAMEGPU_SEATBELTS?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/seatbelts.html#enabling-disabling-flamegpu-seatbelts">Enabling/Disabling FLAMEGPU_SEATBELTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/seatbelts.html#understanding-flamegpu-seatbelts-exceptions">Understanding FLAMEGPU_SEATBELTS Exceptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/seatbelts.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/print.html">Using Print Statements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/print.html#printing-from-agent-functions">Printing From Agent Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/logging.html">Logging Timeseries Data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/logging.html#environment-macro-property-counters">Environment Macro Property Counters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/logging.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/using-a-debugger.html">Using a Debugger</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/using-a-debugger.html#windows">Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/using-a-debugger.html#linux">Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/using-a-debugger.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../performance-troubleshooting/index.html">Performance Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flamegpu2-source/index.html">Building or Modifying the FLAME GPU 2 Source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../flamegpu2-source/build-from-source.html">Building FLAME GPU from Source</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/build-from-source.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../flamegpu2-source/request-a-new-feature.html">Requesting Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../flamegpu2-source/contribute.html">Contributing to FLAMEGPU2</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/contribute.html#reporting-bugs">Reporting Bugs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/contribute.html#submitting-pull-requests">Submitting Pull Requests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/contribute.html#license">License</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../telemetry/index.html">Telemetry</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#when-is-data-sent">When is Data sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#where-and-how-is-data-sent">Where and How is Data Sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#what-data-is-sent">What Data is Sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#disabling-telemetry-opt-out">Disabling Telemetry (Opt-out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#developer-notes">Developer Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#flame-gpu-design-philosophy">FLAME GPU Design Philosophy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#creating-a-project">Creating a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#structure-of-a-flame-gpu-2-program">Structure of a FLAME GPU 2 Program</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#agent-host-function-definitions">Agent/Host Function Definitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#model-declaration">Model Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#initialisation">Initialisation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#execution">Execution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#tutorial-creating-the-circles-model">Tutorial: Creating the Circles Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#introducing-the-circles-model">Introducing The Circles Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#configuring-cmake">Configuring CMake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#opening-the-project">Opening the Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#model-description">Model Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#message-description">Message Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#agent-description">Agent Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#environment-description">Environment Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#agent-function-description-implementation">Agent Function Description  Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#execution-order">Execution Order</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#initialisation-function">Initialisation Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#configuring-the-simulation">Configuring the Simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#configuring-logging-optional">Configuring Logging (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#visualisation-config-optional">Visualisation Config (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#running-the-simulation">Running the Simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#complete-tutorial-code">Complete Tutorial Code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/FLAMEGPU/FLAMEGPU2/discussions">Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #4d4d4d" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">FLAME GPU 2</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">User Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Agent Functions</a></li>
+      <li class="breadcrumb-item active">Random Numbers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/guide/agent-functions/random-numbers.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="random-numbers">
+<span id="device-random"></span><h1>Random Numbers<a class="headerlink" href="#random-numbers" title="Permalink to this heading"></a></h1>
+<p>Usage of the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">DeviceAPI</span></code> random methods matches that of the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">HostAPI</span></code>. The <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">AgentRandom</span></code> instance can be accessed in agent functions via <code class="docutils literal notranslate"><span class="pre">FLAMEGPU-&gt;random</span></code> (<code class="docutils literal notranslate"><span class="pre">pyflamegpu.random</span></code> in Python).</p>
+<p>These random numbers are seeded according to the simulation’s random seed specified at runtime. This can be read and updated via host functions.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Arguments</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">uniform</span></code></p></td>
+<td></td>
+<td><p>Returns a uniformly distributed floating point number in the exclusive-inclusive range (0, 1].</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">uniform</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">min</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code></p></td>
+<td><p>Returns a uniformly distributed integer in the inclusive range [min, max].</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">normal</span></code></p></td>
+<td></td>
+<td><p>Returns a normally distributed floating point number with mean 0.0 and standard deviation 1.0.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">logNormal</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mean</span></code>, <code class="docutils literal notranslate"><span class="pre">stddev</span></code></p></td>
+<td><p>Returns a log-normally distributed floating point number with the specified mean and standard deviation</p></td>
+</tr>
+</tbody>
+</table>
+<p>When calling any of these methods in C++ the type must be specified. Most methods only support floating point types (e.g. <code class="docutils literal notranslate"><span class="pre">float</span></code>, <code class="docutils literal notranslate"><span class="pre">double</span></code>), with the exception of the parametrised <code class="docutils literal notranslate"><span class="pre">uniform</span></code> method which is restricted to integer types: Within Python the variable <a class="reference internal" href="defining-agent-functions.html#python-types"><span class="std std-ref">type</span></a> must be appended to the name of the agent function.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-QWdlbnQgQysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-0-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tab" tabindex="0">Agent C++</button><button aria-controls="panel-0-QWdlbnQgUHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-0-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tab" tabindex="-1">Agent Python</button></div><div aria-labelledby="tab-0-QWdlbnQgQysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-0-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tabpanel" tabindex="0"><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="n">FLAMEGPU_AGENT_FUNCTION</span><span class="p">(</span><span class="n">agent_fn1</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Generate a uniform random float [0, 1)</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">uniform_float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="c1">// Generate a uniform random integer [1, 10]</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">uniform_int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAMEGPU</span><span class="o">-&gt;</span><span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-QWdlbnQgUHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-0-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="nd">@pyflamegpu</span><span class="o">.</span><span class="n">agent_function</span>
+<span class="k">def</span> <span class="nf">OptionalOutput</span><span class="p">(</span><span class="n">agent_fn1</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">,</span> <span class="n">message_out</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">):</span>
+    <span class="c1"># Generate a uniform random float [0, 1)</span>
+    <span class="n">uniform_float</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniformFloat</span><span class="p">()</span>
+    <span class="c1"># Generate a uniform random integer [1, 10]</span>
+    <span class="n">uniform_int</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniformInt</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></div>
+<section id="related-links">
+<h2>Related Links<a class="headerlink" href="#related-links" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>User Guide Page: <a class="reference internal" href="../host-functions/random-numbers.html#host-random"><span class="std std-ref">Random Numbers</span></a> (Host Functions)</p></li>
+<li><p>User Guide Page: <a class="reference internal" href="../running-a-simulation/configuring-execution.html#configuring-execution"><span class="std std-ref">Configuring Execution</span></a></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">AgentRandom</span></code></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="agent-birth-death.html" class="btn btn-neutral float-left" title="Agent Birth &amp; Death" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="agent-state-transitions.html" class="btn btn-neutral float-right" title="Agent State Transitions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, University of Sheffield.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXX-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-XXXXXXX-1', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

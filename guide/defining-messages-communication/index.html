@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Defining Messages (Communication) &mdash; FLAME GPU 2 0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/flamegpu.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=e43216b9"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script src="../../_static/tabs.js?v=3030b3cb"></script>
+        <script src="https://unpkg.com/mermaid@10.4.0/dist/mermaid.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Agent Functions" href="../agent-functions/index.html" />
+    <link rel="prev" title="Defining Agents" href="../defining-agents/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #4d4d4d" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            FLAME GPU 2
+              <img src="../../_static/flamegpu2-icon-notext-128.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart/index.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart/index.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart/index.html#c">C++</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#creating-a-new-project">Creating a New Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#compiling-your-project">Compiling Your Project</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../quickstart/index.html#cmake-gui-windows-only">CMake GUI (Windows Only)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#running-your-project">Running Your Project</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart/index.html#python-3">Python 3</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#q-python-installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#building-from-source">Building From Source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#id3">Creating a New Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#id4">Running your project</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../creating-a-model/index.html">Creating a Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../creating-a-model/index.html#what-is-a-model">What is a Model?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../creating-a-model/index.html#creating-a-modeldescription-object">Creating a ModelDescription Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../creating-a-model/index.html#supported-types">Supported Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../environment/index.html">Environmental Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#accessing-the-environmentdescription-object">Accessing the EnvironmentDescription Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#defining-properties">Defining Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#defining-macro-properties">Defining Macro Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../defining-agents/index.html">Defining Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#defining-a-new-agent-type">Defining a New Agent Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#agent-variables">Agent Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-agents/index.html#agent-id">Agent ID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-agents/index.html#user-defined-variables">User Defined Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#agent-states">Agent States</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Defining Messages (Communication)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#communication-strategies">Communication Strategies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#defining-a-new-message-type">Defining a New Message Type</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#brute-force-specialisation">Brute Force Specialisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bucket-specialisation">Bucket Specialisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spatial-specialisation">Spatial Specialisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#array-specialisation">Array Specialisation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../agent-functions/index.html">Agent Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../agent-functions/defining-agent-functions.html">Defining Agent Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/defining-agent-functions.html#c-compile-time-agent-functions">C++ Compile Time Agent Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/defining-agent-functions.html#c-and-python-runtime-compiled-agent-functions">C++ and Python Runtime Compiled Agent Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/defining-agent-functions.html#flame-gpu-python-agent-functions">FLAME GPU Python Agent Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/defining-agent-functions.html#flame-gpu-device-functions">FLAME GPU Device Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/defining-agent-functions.html#flame-gpu-host-device-functions">FLAME GPU Host Device Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/defining-agent-functions.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../agent-functions/modifying-agent-variables.html">Accessing Agent Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/modifying-agent-variables.html#reading-an-agent-s-id">Reading an Agent’s ID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/modifying-agent-variables.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../agent-functions/interacting-with-environment.html">Accessing the Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/interacting-with-environment.html#environment-properties">Environment Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/interacting-with-environment.html#environment-macro-properties">Environment Macro Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/interacting-with-environment.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../agent-functions/agent-communication.html">Agent Communication</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/agent-communication.html#sending-messages">Sending Messages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/agent-communication.html#reading-messages">Reading Messages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/agent-communication.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../agent-functions/agent-birth-death.html">Agent Birth &amp; Death</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/agent-birth-death.html#agent-death">Agent Death</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/agent-birth-death.html#agent-birth">Agent Birth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/agent-birth-death.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../agent-functions/random-numbers.html">Random Numbers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/random-numbers.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../agent-functions/agent-state-transitions.html">Agent State Transitions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/agent-state-transitions.html#agent-function-conditions-conditional-behaviours">Agent Function Conditions (Conditional Behaviours)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../agent-functions/miscellaneous.html">Miscellaneous Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/miscellaneous.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../host-functions/index.html">Host Functions &amp; Conditions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/defining-host-functions.html">Defining Host Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/defining-host-functions.html#types-of-host-function">Types of Host Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/defining-host-functions.html#adding-host-functions-to-a-model">Adding Host Functions to a Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/defining-host-functions.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/interacting-with-environment.html">Accessing the Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/interacting-with-environment.html#environment-properties">Environment Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/interacting-with-environment.html#environment-macro-properties">Environment Macro Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/interacting-with-environment.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/agent-operations.html">Agent Operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#variable-reductions">Variable Reductions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#sorting-agents">Sorting Agents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#agent-creation">Agent Creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#direct-agent-access">Direct Agent Access</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#miscellaneous-methods">Miscellaneous Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/random-numbers.html">Random Numbers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/random-numbers.html#seeding-the-random-state">Seeding the Random State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/random-numbers.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/miscellaneous.html">Miscellaneous Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/miscellaneous.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../defining-execution-order/index.html">Defining Execution Order</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/dependency-graph.html">Dependency Graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#specifying-dependencies">Specifying Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#specifying-roots">Specifying Roots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#host-layer-functions">Host Layer Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#generating-layers">Generating Layers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#visualising-the-dependencies">Visualising the Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#accessing-the-dependencygraph">Accessing the DependencyGraph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/layers.html">Layers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/layers.html#manual-layer-specification">Manual Layer Specification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/layers.html#layer-specification-rules">Layer Specification Rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/layers.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/exit-conditions.html">Exit Conditions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/exit-conditions.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/submodels.html">Submodels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/submodels.html#id1">Defining a Submodel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/submodels.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../running-a-simulation/index.html">Running a Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../running-a-simulation/configuring-execution.html">Configuring Execution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/configuring-execution.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../running-a-simulation/initial-state.html">Overriding the Initial State</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/initial-state.html#with-code">With Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/initial-state.html#from-file">From File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/initial-state.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../running-a-simulation/collecting-data.html">Collecting Data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#logging">Logging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#accessing-the-complete-agent-state">Accessing the Complete Agent State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#additional-notes">Additional Notes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../running-multiple-simulations/index.html">Running Multiple Simulations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#creating-a-cudaensemble">Creating a CUDAEnsemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#creating-a-runplanvector">Creating a RunPlanVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#creating-a-logging-configuration">Creating a Logging Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#configuring-running-the-ensemble">Configuring &amp; Running the Ensemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#error-handling-within-ensembles">Error Handling Within Ensembles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../visualisation/index.html">Visualisation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/building-with-vis.html">Enabling Visualisation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/building-with-vis.html#detecting-visualisation-support">Detecting Visualisation Support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/setting-up-vis.html">Configuring a Visualisation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/setting-up-vis.html#visualisation-options">Visualisation Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/setting-up-vis.html#visualising-after-simulation-exit">Visualising After Simulation Exit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/setting-up-vis.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/visualising-agents.html">Visualising Agents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-model">Agent Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-position">Agent Position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-direction">Agent Direction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-scale">Agent Scale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-color">Agent Color</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-states">Agent States</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/adding-details.html">Visualising Additional Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/adding-details.html#user-interface-environment-properties">User Interface (Environment Properties)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/adding-details.html#lines">Lines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/adding-details.html#models">Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/adding-details.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/visualisation-controls.html">Visualisation Controls</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../debugging-models/index.html">Debugging Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/seatbelts.html">What is FLAMEGPU_SEATBELTS?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/seatbelts.html#enabling-disabling-flamegpu-seatbelts">Enabling/Disabling FLAMEGPU_SEATBELTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/seatbelts.html#understanding-flamegpu-seatbelts-exceptions">Understanding FLAMEGPU_SEATBELTS Exceptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/seatbelts.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/print.html">Using Print Statements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/print.html#printing-from-agent-functions">Printing From Agent Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/logging.html">Logging Timeseries Data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/logging.html#environment-macro-property-counters">Environment Macro Property Counters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/logging.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/using-a-debugger.html">Using a Debugger</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/using-a-debugger.html#windows">Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/using-a-debugger.html#linux">Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/using-a-debugger.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../performance-troubleshooting/index.html">Performance Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flamegpu2-source/index.html">Building or Modifying the FLAME GPU 2 Source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../flamegpu2-source/build-from-source.html">Building FLAME GPU from Source</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/build-from-source.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../flamegpu2-source/request-a-new-feature.html">Requesting Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../flamegpu2-source/contribute.html">Contributing to FLAMEGPU2</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/contribute.html#reporting-bugs">Reporting Bugs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/contribute.html#submitting-pull-requests">Submitting Pull Requests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/contribute.html#license">License</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../telemetry/index.html">Telemetry</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#when-is-data-sent">When is Data sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#where-and-how-is-data-sent">Where and How is Data Sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#what-data-is-sent">What Data is Sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#disabling-telemetry-opt-out">Disabling Telemetry (Opt-out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#developer-notes">Developer Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#flame-gpu-design-philosophy">FLAME GPU Design Philosophy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#creating-a-project">Creating a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#structure-of-a-flame-gpu-2-program">Structure of a FLAME GPU 2 Program</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#agent-host-function-definitions">Agent/Host Function Definitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#model-declaration">Model Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#initialisation">Initialisation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#execution">Execution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#tutorial-creating-the-circles-model">Tutorial: Creating the Circles Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#introducing-the-circles-model">Introducing The Circles Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#configuring-cmake">Configuring CMake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#opening-the-project">Opening the Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#model-description">Model Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#message-description">Message Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#agent-description">Agent Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#environment-description">Environment Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#agent-function-description-implementation">Agent Function Description  Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#execution-order">Execution Order</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#initialisation-function">Initialisation Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#configuring-the-simulation">Configuring the Simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#configuring-logging-optional">Configuring Logging (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#visualisation-config-optional">Visualisation Config (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#running-the-simulation">Running the Simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#complete-tutorial-code">Complete Tutorial Code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/FLAMEGPU/FLAMEGPU2/discussions">Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #4d4d4d" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">FLAME GPU 2</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">User Guide</a></li>
+      <li class="breadcrumb-item active">Defining Messages (Communication)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/guide/defining-messages-communication/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="defining-messages-communication">
+<span id="defining-messages"></span><h1>Defining Messages (Communication)<a class="headerlink" href="#defining-messages-communication" title="Permalink to this heading"></a></h1>
+<p>Communication between agents in FLAME GPU is handled through messages. Messages contain variables which are used to transmit information between agents. Agents may output a single message from an agent function, subsequent agent functions can then be configured to access messages of the same type according to the message’s communication strategy.</p>
+<section id="communication-strategies">
+<span id="id1"></span><h2>Communication Strategies<a class="headerlink" href="#communication-strategies" title="Permalink to this heading"></a></h2>
+<p>Defining a message type in FLAME GPU requires selection of a communication strategy and specification of the data the message will contain. FLAME GPU 2 comes with several built-in communication strategies, described below. It can also be extended to support bespoke messaging types. For guidance on this see the header file <code class="docutils literal notranslate"><span class="pre">include/flamegpu/runtime/messaging.h</span></code>. For each message type, the communication strategy defines how the messages will be accessed.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Strategy</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Brute Force</p></td>
+<td><p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageBruteForce</span></code></p></td>
+<td><p>Access all messages</p></td>
+</tr>
+<tr class="row-odd"><td><p>Bucket</p></td>
+<td><p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageBucket</span></code></p></td>
+<td><p>Access all messages with a specified integer key</p></td>
+</tr>
+<tr class="row-even"><td><p>Spatial 2D</p></td>
+<td><p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageSpatial2D</span></code></p></td>
+<td><p>Access all messages within a radius in 2D continuous space</p></td>
+</tr>
+<tr class="row-odd"><td><p>Spatial 3D</p></td>
+<td><p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageSpatial3D</span></code></p></td>
+<td><p>Access all messages within a radius in 3D continuous space</p></td>
+</tr>
+<tr class="row-even"><td><p>Array 1D</p></td>
+<td><p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray</span></code></p></td>
+<td><p>Directly access messages via a 1 dimensional array</p></td>
+</tr>
+<tr class="row-odd"><td><p>Array 2D</p></td>
+<td><p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray2D</span></code></p></td>
+<td><p>Directly access messages via a 2 dimensional array</p></td>
+</tr>
+<tr class="row-even"><td><p>Array 3D</p></td>
+<td><p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray3D</span></code></p></td>
+<td><p>Directly access messages via a 3 dimensional array</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="defining-a-new-message-type">
+<h2>Defining a New Message Type<a class="headerlink" href="#defining-a-new-message-type" title="Permalink to this heading"></a></h2>
+<p>A new message type can be defined using one of the above symbols, two examples are shown below:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-0-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-0-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-0-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-0-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-0-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create a new message called &quot;brute_force&quot; which uses the brute force communication strategy</span>
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageBruteForce</span><span class="o">::</span><span class="n">Description</span><span class="w"> </span><span class="n">bf_message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="n">newMessage</span><span class="o">&lt;</span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageBruteForce</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;brute_force&quot;</span><span class="p">);</span>
+<span class="c1">// Create a new message called &quot;spatial_3D&quot; which uses the Spatial 3D communication strategy</span>
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageSpatial3D</span><span class="o">::</span><span class="n">Description</span><span class="w"> </span><span class="n">s3d_message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="n">newMessage</span><span class="o">&lt;</span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageSpatial3D</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;spatial_3D&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-0-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a new message called &quot;brute_force&quot; which uses the brute force communication strategy</span>
+<span class="n">bf_message</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">newMessageBruteForce</span><span class="p">(</span><span class="s2">&quot;brute_force&quot;</span><span class="p">)</span>
+<span class="c1"># Create a new message called &quot;spatial_3D&quot; which uses the Spatial 3D communication strategy</span>
+<span class="n">s3d_message</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">newMessageSpatial3D</span><span class="p">(</span><span class="s2">&quot;spatial_3D&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<p>Variables that the message should contain can then be defined using the <code class="docutils literal notranslate"><span class="pre">newVariable</span></code> method of the message’s respective <code class="docutils literal notranslate"><span class="pre">Description</span></code> object.
+This function works similarly to that previously introduced for defining agent variables, however message variables cannot have default values specified:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-1-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-1-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-1-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-1-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-1-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add a variable of type &quot;int&quot; with name &quot;foo&quot; to the &quot;bf_message&quot; type</span>
+<span class="n">bf_message</span><span class="p">.</span><span class="n">newVariable</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">);</span>
+<span class="c1">// Add a variable of type &quot;float&quot; with name &quot;bar&quot; to the &quot;bf_message&quot; type</span>
+<span class="n">bf_message</span><span class="p">.</span><span class="n">newVariable</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-1-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add a variable of type &quot;int&quot; with name &quot;foo&quot; to the &quot;bf_message&quot; type</span>
+<span class="n">bf_message</span><span class="o">.</span><span class="n">newVariableInt</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">)</span>
+<span class="c1"># Add a variable of type &quot;float&quot; with name &quot;bar&quot; to the &quot;bf_message&quot; type</span>
+<span class="n">bf_message</span><span class="o">.</span><span class="n">newVariableFloat</span><span class="p">(</span><span class="s2">&quot;bar&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Variable names must not begin with <code class="docutils literal notranslate"><span class="pre">_</span></code>, this is reserved for internal variables.</p>
+</div>
+<p>By default messages within FLAME GPU 2 are not persistent, message lists are cleared at the end of each simulation step. If persistent messages are desired, so that message lists hold messages until messages are next output to the message list in a subsequent simulation step, this can be enabled for specific message types via <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">setPersistent()</span></code> on the message’s respective <code class="docutils literal notranslate"><span class="pre">Description</span></code> object.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-2-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-2-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-2-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-2-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-2-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Enable message persistence for the &quot;bf_message&quot; type</span>
+<span class="n">bf_message</span><span class="p">.</span><span class="n">setPersistent</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-2-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enable message persistence for the &quot;bf_message&quot; type</span>
+<span class="n">bf_message</span><span class="o">.</span><span class="n">setPersistent</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<p>If multiple agent functions write to a message list during the same simulation step, the second agent function will append to the message list (or overwrite/combine in the case of array message types).</p>
+<p>By default, FLAME GPU 2 expects that every agent within an agent function will always output a message if the message is marked for output. However optional message output can be enabled, per agent function, using <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">AgentFunctionDescription::setMessageOutputOptional()</span></code>. See <a class="reference internal" href="../agent-functions/agent-communication.html#sending-messages"><span class="std std-ref">Agent Communication - Sending Messages</span></a> for a full usage example.</p>
+<section id="brute-force-specialisation">
+<h3>Brute Force Specialisation<a class="headerlink" href="#brute-force-specialisation" title="Permalink to this heading"></a></h3>
+<p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageBruteForce</span></code> is the simplest message type to utilise, as such <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageBruteForce::Description</span></code> does not have any additional options which must be configured.
+However for any large agent population, having all-to-all communication is prohibitively expensive so using better suited message specialisations is recommended where feasible.</p>
+</section>
+<section id="bucket-specialisation">
+<h3>Bucket Specialisation<a class="headerlink" href="#bucket-specialisation" title="Permalink to this heading"></a></h3>
+<p>Bucket messages work similarly to the data structure known as a multimap. Messages are assigned an integer key (in a predefined range) when output. When an agent requests messages, it then specifies a key, all the messages assigned this key are returned.</p>
+<p>When defining a bucket message, a <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageBucket::Description</span></code> is returned.</p>
+<p>The Bucket keys are a sequential set of integers, between a configurable lower and upper bound, using the <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">setUpperBound()</span></code> and  <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">setLowerBound()</span></code> or <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">setBounds()</span></code> methods on the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">BucketMessage::Description</span></code> class.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-3-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-3-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-3-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-3-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-3-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Set an upper bound of bucket keys to 12 for the &quot;message&quot; MessageBucket::Description instance.</span>
+<span class="n">message</span><span class="p">.</span><span class="n">setUpperBound</span><span class="p">(</span><span class="mi">12</span><span class="p">);</span>
+<span class="c1">// Set the lower bound to 2, this will default to 0 if not provided</span>
+<span class="n">message</span><span class="p">.</span><span class="n">setLowerBound</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c1">// Or set them both at the same time</span>
+<span class="n">message</span><span class="p">.</span><span class="n">setBounds</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-3-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-3-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set an upper bound of bucket keys to 12 for the &quot;message&quot; MessageBucket::Description instance.</span>
+<span class="n">message</span><span class="o">.</span><span class="n">setUpperBound</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+<span class="c1"># Set the lower bound to 2, this will default to 0 if not provided</span>
+<span class="n">message</span><span class="o">.</span><span class="n">setLowerBound</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Or set them both at the same time</span>
+<span class="n">message</span><span class="o">.</span><span class="n">setBounds</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<p>Bucket messages are automatically assigned a hidden <code class="docutils literal notranslate"><span class="pre">int</span></code> variable <code class="docutils literal notranslate"><span class="pre">_key</span></code> representing the key of a given message, this cannot be accessed via regular variable methods and has dedicated methods which are introduced in the relevant later sections regarding message input and output.</p>
+</section>
+<section id="spatial-specialisation">
+<h3>Spatial Specialisation<a class="headerlink" href="#spatial-specialisation" title="Permalink to this heading"></a></h3>
+<p>Spatial messages operate by decomposing the 2D or 3D environment into a discrete grid of bins. Messages may be emitted outside the bounds of the specified 3D environment, however significant quantities of messages output out of bounds will harm performance.
+When an agent requests messages, it then specifies a search origin. Messages from bins within the interaction radius of the search origin are then returned. As such, it’s possible for messages outside of the interaction radius to be returned, and distances to each message must be calculated by the agent.</p>
+<p>The discrete grid which support spatial messaging is abstracted from users, when defining spatial messages either a <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageSpatial2D::Description</span></code> or <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageSpatial3D::Description</span></code> will be returned. This is used to configure the environment bounds and interaction radius.</p>
+<p>The following is an example of configuring the specialisations for a <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageSpatial2D</span></code> message:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-4-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-4-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-4-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-4-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-4-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-4-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Specify the minimum coordinate of the environment as (0.0, 0.0)</span>
+<span class="n">message</span><span class="p">.</span><span class="n">setMin</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
+<span class="c1">// Specify the maximum coordinate of the environment as (100.0, 100.0)</span>
+<span class="n">message</span><span class="p">.</span><span class="n">setMax</span><span class="p">(</span><span class="mf">100.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">100.0f</span><span class="p">);</span>
+<span class="c1">// Specify the interaction radius as 1.0</span>
+<span class="n">message</span><span class="p">.</span><span class="n">setRadius</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-4-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-4-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Specify the minimum coordinate of the environment as (0.0, 0.0)</span>
+<span class="n">message</span><span class="o">.</span><span class="n">setMin</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="c1"># Specify the maximum coordinate of the environment as (100.0, 100.0)</span>
+<span class="n">message</span><span class="o">.</span><span class="n">setMax</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="c1"># Specify the interaction radius as 1.0</span>
+<span class="n">message</span><span class="o">.</span><span class="n">setRadius</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<p>The <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">setMin()</span></code> and <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">setMax()</span></code> of <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageSpatial3D::Description</span></code> instead take 3 arguments.</p>
+<p>Spatial messages are automatically assigned <code class="docutils literal notranslate"><span class="pre">float</span></code> location variables with the names <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code> (and <code class="docutils literal notranslate"><span class="pre">z</span></code>). These are used by FLAME GPU internally to sort messages and handle localised accesses, so must be used when outputting messages.</p>
+</section>
+<section id="array-specialisation">
+<h3>Array Specialisation<a class="headerlink" href="#array-specialisation" title="Permalink to this heading"></a></h3>
+<p>Array messages work similarly to an array. When an array message type is defined, it’s dimensions must be specified. Agents can then output a message to a single unique element within the array.</p>
+<p>Multiple agents must not output messages to the same element, if <code class="docutils literal notranslate"><span class="pre">FLAMEGPU_SEATBELTS</span></code> error checking is enabled this will be detected and an exception raised.</p>
+<p>Elements which do not have a message output will return <code class="docutils literal notranslate"><span class="pre">0</span></code> for all variables, similar to if an agent does not set all variables of a message it outputs.</p>
+<p>When defining array messages either a <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray::Description</span></code>, <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray2D::Description</span></code> or <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray3D::Description</span></code> will be returned. This should be used to configure dimensions.</p>
+<p>The following is an example of configuring the specialisations for each of the 3 array message types:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-5-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-5-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-5-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-5-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-5-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-5-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Specify the length of the MessageArray as [100000]</span>
+<span class="n">message_1D</span><span class="p">.</span><span class="n">setLength</span><span class="p">(</span><span class="mi">100000</span><span class="p">);</span>
+
+<span class="c1">// Specify the dimensions of the MessageArray2D as [100][100]</span>
+<span class="n">message_2D</span><span class="p">.</span><span class="n">setDimensions</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+
+<span class="c1">// Specify the dimensions of the MessageArray3D as [50][50][10]</span>
+<span class="n">message_3D</span><span class="p">.</span><span class="n">setDimensions</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-5-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-5-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Specify the length of the MessageArray as [100000]</span>
+<span class="n">message_1D</span><span class="o">.</span><span class="n">setLength</span><span class="p">(</span><span class="mi">100000</span><span class="p">)</span>
+
+<span class="c1"># Specify the dimensions of the MessageArray2D as [100][100]</span>
+<span class="n">message_2D</span><span class="o">.</span><span class="n">setDimensions</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># Specify the dimensions of the MessageArray3D as [50][50][10]</span>
+<span class="n">message_3D</span><span class="o">.</span><span class="n">setDimensions</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<p>Array messages are all automatically assigned a hidden <code class="docutils literal notranslate"><span class="pre">int</span></code> variable <code class="docutils literal notranslate"><span class="pre">___INDEX</span></code> representing the index assigned to an output message, this cannot be accessed via regular variable methods and has a dedicated method which is introduced in the <a class="reference internal" href="../agent-functions/agent-communication.html#sending-messages"><span class="std std-ref">later section regarding message output</span></a>.</p>
+</section>
+</section>
+<section id="related-links">
+<h2>Related Links<a class="headerlink" href="#related-links" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>User Guide Page: <a class="reference internal" href="../agent-functions/agent-communication.html#device-agent-communication"><span class="std std-ref">Agent Communication</span></a></p></li>
+<li><p>User Guide Page: <a class="reference internal" href="../debugging-models/seatbelts.html#flamegpu-seatbelts"><span class="std std-ref">What is FLAMEGPU_SEATBELTS?</span></a></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageBruteForce::Description</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageBucket::Description</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageSpatial2D::Description</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageSpatial3D::Description</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray::Description</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray2D::Description</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MessageArray3D::Description</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ModelDescription</span></code></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../defining-agents/index.html" class="btn btn-neutral float-left" title="Defining Agents" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../agent-functions/index.html" class="btn btn-neutral float-right" title="Agent Functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, University of Sheffield.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXX-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-XXXXXXX-1', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

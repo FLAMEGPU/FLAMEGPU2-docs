@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Defining Agent Functions &mdash; FLAME GPU 2 0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/flamegpu.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=e43216b9"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script src="../../_static/tabs.js?v=3030b3cb"></script>
+        <script src="https://unpkg.com/mermaid@10.4.0/dist/mermaid.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Accessing Agent Variables" href="modifying-agent-variables.html" />
+    <link rel="prev" title="Agent Functions" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #4d4d4d" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            FLAME GPU 2
+              <img src="../../_static/flamegpu2-icon-notext-128.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart/index.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart/index.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart/index.html#c">C++</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#creating-a-new-project">Creating a New Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#compiling-your-project">Compiling Your Project</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../quickstart/index.html#cmake-gui-windows-only">CMake GUI (Windows Only)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#running-your-project">Running Your Project</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart/index.html#python-3">Python 3</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#q-python-installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#building-from-source">Building From Source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#id3">Creating a New Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#id4">Running your project</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../creating-a-model/index.html">Creating a Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../creating-a-model/index.html#what-is-a-model">What is a Model?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../creating-a-model/index.html#creating-a-modeldescription-object">Creating a ModelDescription Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../creating-a-model/index.html#supported-types">Supported Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../environment/index.html">Environmental Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#accessing-the-environmentdescription-object">Accessing the EnvironmentDescription Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#defining-properties">Defining Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#defining-macro-properties">Defining Macro Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../defining-agents/index.html">Defining Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#defining-a-new-agent-type">Defining a New Agent Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#agent-variables">Agent Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-agents/index.html#agent-id">Agent ID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-agents/index.html#user-defined-variables">User Defined Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#agent-states">Agent States</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../defining-messages-communication/index.html">Defining Messages (Communication)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../defining-messages-communication/index.html#communication-strategies">Communication Strategies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-messages-communication/index.html#defining-a-new-message-type">Defining a New Message Type</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-messages-communication/index.html#brute-force-specialisation">Brute Force Specialisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-messages-communication/index.html#bucket-specialisation">Bucket Specialisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-messages-communication/index.html#spatial-specialisation">Spatial Specialisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-messages-communication/index.html#array-specialisation">Array Specialisation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-messages-communication/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Agent Functions</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Defining Agent Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#c-compile-time-agent-functions">C++ Compile Time Agent Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#c-and-python-runtime-compiled-agent-functions">C++ and Python Runtime Compiled Agent Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flame-gpu-python-agent-functions">FLAME GPU Python Agent Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flame-gpu-device-functions">FLAME GPU Device Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flame-gpu-host-device-functions">FLAME GPU Host Device Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modifying-agent-variables.html">Accessing Agent Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modifying-agent-variables.html#reading-an-agent-s-id">Reading an Agent’s ID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="modifying-agent-variables.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="interacting-with-environment.html">Accessing the Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="interacting-with-environment.html#environment-properties">Environment Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="interacting-with-environment.html#environment-macro-properties">Environment Macro Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="interacting-with-environment.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="agent-communication.html">Agent Communication</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="agent-communication.html#sending-messages">Sending Messages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="agent-communication.html#reading-messages">Reading Messages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="agent-communication.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="agent-birth-death.html">Agent Birth &amp; Death</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="agent-birth-death.html#agent-death">Agent Death</a></li>
+<li class="toctree-l4"><a class="reference internal" href="agent-birth-death.html#agent-birth">Agent Birth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="agent-birth-death.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="random-numbers.html">Random Numbers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="random-numbers.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="agent-state-transitions.html">Agent State Transitions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="agent-state-transitions.html#agent-function-conditions-conditional-behaviours">Agent Function Conditions (Conditional Behaviours)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="miscellaneous.html">Miscellaneous Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="miscellaneous.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../host-functions/index.html">Host Functions &amp; Conditions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/defining-host-functions.html">Defining Host Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/defining-host-functions.html#types-of-host-function">Types of Host Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/defining-host-functions.html#adding-host-functions-to-a-model">Adding Host Functions to a Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/defining-host-functions.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/interacting-with-environment.html">Accessing the Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/interacting-with-environment.html#environment-properties">Environment Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/interacting-with-environment.html#environment-macro-properties">Environment Macro Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/interacting-with-environment.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/agent-operations.html">Agent Operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#variable-reductions">Variable Reductions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#sorting-agents">Sorting Agents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#agent-creation">Agent Creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#direct-agent-access">Direct Agent Access</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#miscellaneous-methods">Miscellaneous Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/random-numbers.html">Random Numbers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/random-numbers.html#seeding-the-random-state">Seeding the Random State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/random-numbers.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/miscellaneous.html">Miscellaneous Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/miscellaneous.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../defining-execution-order/index.html">Defining Execution Order</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/dependency-graph.html">Dependency Graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#specifying-dependencies">Specifying Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#specifying-roots">Specifying Roots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#host-layer-functions">Host Layer Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#generating-layers">Generating Layers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#visualising-the-dependencies">Visualising the Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#accessing-the-dependencygraph">Accessing the DependencyGraph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/layers.html">Layers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/layers.html#manual-layer-specification">Manual Layer Specification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/layers.html#layer-specification-rules">Layer Specification Rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/layers.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/exit-conditions.html">Exit Conditions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/exit-conditions.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/submodels.html">Submodels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/submodels.html#id1">Defining a Submodel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/submodels.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../running-a-simulation/index.html">Running a Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../running-a-simulation/configuring-execution.html">Configuring Execution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/configuring-execution.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../running-a-simulation/initial-state.html">Overriding the Initial State</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/initial-state.html#with-code">With Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/initial-state.html#from-file">From File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/initial-state.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../running-a-simulation/collecting-data.html">Collecting Data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#logging">Logging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#accessing-the-complete-agent-state">Accessing the Complete Agent State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#additional-notes">Additional Notes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../running-multiple-simulations/index.html">Running Multiple Simulations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#creating-a-cudaensemble">Creating a CUDAEnsemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#creating-a-runplanvector">Creating a RunPlanVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#creating-a-logging-configuration">Creating a Logging Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#configuring-running-the-ensemble">Configuring &amp; Running the Ensemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#error-handling-within-ensembles">Error Handling Within Ensembles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../visualisation/index.html">Visualisation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/building-with-vis.html">Enabling Visualisation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/building-with-vis.html#detecting-visualisation-support">Detecting Visualisation Support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/setting-up-vis.html">Configuring a Visualisation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/setting-up-vis.html#visualisation-options">Visualisation Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/setting-up-vis.html#visualising-after-simulation-exit">Visualising After Simulation Exit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/setting-up-vis.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/visualising-agents.html">Visualising Agents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-model">Agent Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-position">Agent Position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-direction">Agent Direction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-scale">Agent Scale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-color">Agent Color</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#agent-states">Agent States</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/visualising-agents.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/adding-details.html">Visualising Additional Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/adding-details.html#user-interface-environment-properties">User Interface (Environment Properties)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/adding-details.html#lines">Lines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/adding-details.html#models">Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../visualisation/adding-details.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../visualisation/visualisation-controls.html">Visualisation Controls</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../debugging-models/index.html">Debugging Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/seatbelts.html">What is FLAMEGPU_SEATBELTS?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/seatbelts.html#enabling-disabling-flamegpu-seatbelts">Enabling/Disabling FLAMEGPU_SEATBELTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/seatbelts.html#understanding-flamegpu-seatbelts-exceptions">Understanding FLAMEGPU_SEATBELTS Exceptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/seatbelts.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/print.html">Using Print Statements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/print.html#printing-from-agent-functions">Printing From Agent Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/logging.html">Logging Timeseries Data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/logging.html#environment-macro-property-counters">Environment Macro Property Counters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/logging.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/using-a-debugger.html">Using a Debugger</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/using-a-debugger.html#windows">Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/using-a-debugger.html#linux">Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/using-a-debugger.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../performance-troubleshooting/index.html">Performance Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flamegpu2-source/index.html">Building or Modifying the FLAME GPU 2 Source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../flamegpu2-source/build-from-source.html">Building FLAME GPU from Source</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/build-from-source.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../flamegpu2-source/request-a-new-feature.html">Requesting Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../flamegpu2-source/contribute.html">Contributing to FLAMEGPU2</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/contribute.html#reporting-bugs">Reporting Bugs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/contribute.html#submitting-pull-requests">Submitting Pull Requests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/contribute.html#license">License</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../telemetry/index.html">Telemetry</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#when-is-data-sent">When is Data sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#where-and-how-is-data-sent">Where and How is Data Sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#what-data-is-sent">What Data is Sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#disabling-telemetry-opt-out">Disabling Telemetry (Opt-out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#developer-notes">Developer Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#flame-gpu-design-philosophy">FLAME GPU Design Philosophy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#creating-a-project">Creating a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#structure-of-a-flame-gpu-2-program">Structure of a FLAME GPU 2 Program</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#agent-host-function-definitions">Agent/Host Function Definitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#model-declaration">Model Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#initialisation">Initialisation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#execution">Execution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#tutorial-creating-the-circles-model">Tutorial: Creating the Circles Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#introducing-the-circles-model">Introducing The Circles Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#configuring-cmake">Configuring CMake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#opening-the-project">Opening the Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#model-description">Model Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#message-description">Message Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#agent-description">Agent Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#environment-description">Environment Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#agent-function-description-implementation">Agent Function Description  Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#execution-order">Execution Order</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#initialisation-function">Initialisation Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#configuring-the-simulation">Configuring the Simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#configuring-logging-optional">Configuring Logging (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#visualisation-config-optional">Visualisation Config (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#running-the-simulation">Running the Simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#complete-tutorial-code">Complete Tutorial Code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/FLAMEGPU/FLAMEGPU2/discussions">Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #4d4d4d" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">FLAME GPU 2</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">User Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Agent Functions</a></li>
+      <li class="breadcrumb-item active">Defining Agent Functions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/guide/agent-functions/defining-agent-functions.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="defining-agent-functions">
+<span id="id1"></span><h1>Defining Agent Functions<a class="headerlink" href="#defining-agent-functions" title="Permalink to this heading"></a></h1>
+<p>Agent Functions can be specified as C++ functions, built at compile time when using the C++ API, or they can be specified as Run-Time Compiled (RTC) function strings when using the both the C++ and Python APIs. Although agent functions are technically CUDA device code the FLAME GPU API abstracts this and no CUDA syntax is required to script behaviour. The same limitations apply to agent functions as to CUDA C++, the most significant restriction being standard libraries are not supported unless specified otherwise (see <a class="reference external" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#restrictions">CUDA documentation</a> for more details). C++ agent functions are distinguished within the examples in this guide by using the name <em>Agent C++</em> so that it is clear that this is a subset of supported C++.</p>
+<p>An experimental feature for Python allows the specification of native agent functions in Python. The Python can then be transpiled, a process of translating the Python syntax to equivalent C++, at runtime. A limited subset of Python is supported which is restricted to Python features that can be <em>easily</em> transpiled to a C++ equivalent at runtime for compilation. For example Python functionality like generator expressions, arrays, dictionaries, etc, which do not have an obvious C++ equivalent are not permitted and will raise an exception. The subset of supported Python is referred to as <em>Agent Python</em> within this guide.</p>
+<section id="c-compile-time-agent-functions">
+<h2>C++ Compile Time Agent Functions<a class="headerlink" href="#c-compile-time-agent-functions" title="Permalink to this heading"></a></h2>
+<p>A C++ agent function is can be defined for compilation using the <code class="xref c c-macro docutils literal notranslate"><span class="pre">FLAMEGPU_AGENT_FUNCTION</span></code> macro.
+This takes three arguments: a unique name identifying the function, an input message communication strategy, and an output message communication strategy.
+We will discuss messages in more detail later, so for now don’t worry about the second and third parameters. <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">flamegpu::MessageNone</span></code> is specified when not requiring message input or output, so this is used.
+Similarly, agent functions should return <code class="xref cpp cpp-enumerator docutils literal notranslate"><span class="pre">flamegpu::ALIVE</span></code> by default, agent death is explained in a <a class="reference internal" href="agent-birth-death.html#agent-birth-death"><span class="std std-ref">later section</span></a> of this chapter.</p>
+<p>For compile time (i.e. non-RTC functions), when using the C++ API, the <code class="xref c c-macro docutils literal notranslate"><span class="pre">FLAMEGPU_AGENT_FUNCTION</span></code> macro can be used to declare and define the agent function, which can then be associated with the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">AgentDescription</span></code> object using the <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">newFunction()</span></code> method.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-0-Qysr" name="Qysr" role="tab" tabindex="0">C++</button></div><div aria-labelledby="tab-0-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-0-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define an agent function called agent_fn1 - specified ahead of main function</span>
+<span class="n">FLAMEGPU_AGENT_FUNCTION</span><span class="p">(</span><span class="n">agent_fn1</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">MessageNone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Behaviour goes here</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">ALIVE</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+
+<span class="w">    </span><span class="c1">// Attach a function called agent_fn1, defined by the symbol agent_fn1 to the AgentDescription object agent.</span>
+<span class="w">    </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">AgentFunctionDescription</span><span class="w"> </span><span class="n">agent_fn1_description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">agent</span><span class="p">.</span><span class="n">newFunction</span><span class="p">(</span><span class="s">&quot;agent_fn1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">agent_fn1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="c-and-python-runtime-compiled-agent-functions">
+<span id="runtime-compiled-agent-functions"></span><h2>C++ and Python Runtime Compiled Agent Functions<a class="headerlink" href="#c-and-python-runtime-compiled-agent-functions" title="Permalink to this heading"></a></h2>
+<p>Run-time compiled (RTC) C++ style agent functions follow the same syntax as for C++ compile time agent functions with the exception that the function must be defined in a string and associated with the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">AgentDescription</span></code> using the <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">newRTCFunction()</span></code> method.</p>
+<p>Runtime C++ style compiled functions can be used with both the the C++ and Python APIs.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-1-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-1-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-1-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-1-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-1-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">agent_fn1_source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sa">R</span><span class="s">&quot;</span><span class="dl">###(</span>
+<span class="s">// Define an agent function called agent_fn1 - specified ahead of main function</span>
+<span class="s">FLAMEGPU_AGENT_FUNCTION(agent_fn1, flamegpu::MessageNone, flamegpu::MessageNone) {</span>
+<span class="s">    // Behaviour goes here</span>
+<span class="s">}</span>
+<span class="dl">)###</span><span class="s">&quot;</span><span class="p">;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+
+<span class="w">    </span><span class="c1">// Attach a function called agent_fn1, defined in the string variable agent_fn1_source to the AgentDescription object agent.</span>
+<span class="w">    </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">AgentFunctionDescription</span><span class="w"> </span><span class="n">agent_fn1_description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">agent</span><span class="p">.</span><span class="n">newRTCFunction</span><span class="p">(</span><span class="s">&quot;agent_fn1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">agent_fn1_source</span><span class="p">);</span>
+
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-1-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define an agent function called agent_fn1</span>
+<span class="n">agent_fn1_source</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">FLAMEGPU_AGENT_FUNCTION(agent_fn1, MessageNone, MessageNone) {</span>
+<span class="s2">    # Behaviour goes here</span>
+<span class="s2">}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="o">...</span>
+
+<span class="c1"># Attach a function called agent_fn1 to an agent represented by the AgentDescription agent</span>
+<span class="c1"># The AgentFunctionDescription is stored in the agent_fn1_description variable</span>
+<span class="n">agent_fn1_description</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">newRTCFunction</span><span class="p">(</span><span class="s2">&quot;agent_fn1&quot;</span><span class="p">,</span> <span class="n">agent_fn1_source</span><span class="p">);</span>
+
+<span class="o">...</span>
+</pre></div>
+</div>
+</div></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you wish to store RTC agent functions in separate files <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">newRTCFunction()</span></code> can be replaced with <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">newRTCFunctionFile()</span></code>, instead passing the path to the agent function’s source file (either absolute or relative to the working directory at runtime). This will allow them to be developed in a text editor with C++ syntax highlighting.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>RTC agent functions support <code class="docutils literal notranslate"><span class="pre">#include</span></code> statements, allowing seperate header files to be used. By default the only include path used is the working directory. The default include path can be overridden by setting the <code class="docutils literal notranslate"><span class="pre">FLAMEGPU_RTC_INCLUDE_DIRS</span></code> environment variable, multiple paths can be specified using the operating system’s normal PATH delimiter (Linux <code class="docutils literal notranslate"><span class="pre">:</span></code>, Windows <code class="docutils literal notranslate"><span class="pre">;</span></code>).</p>
+</div>
+<p>To optimise the loading of RTC agent functions, they are only compiled when changes are detected, with compiled agent functions being cached both in memory during execution and to the operating system’s on-disk temporary directory between executions. The utility <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">util::clearRTCDiskCache()</span></code> can be used to clear the on-disk cache.</p>
+<p>The on-disk cache may grow over time if you are using many different versions of flame gpu and compiling many different agent functions (e.g. running the test suites). If you wish to purge the on-disk cache this can be achieved via the below command.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-2-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-2-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-2-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-2-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-2-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;flamegpu/util/cleanup.h&quot;</span>
+
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">util</span><span class="o">::</span><span class="n">clearRTCDiskCache</span><span class="p">();</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-2-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyflamegpu</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">pyflamegpu</span><span class="o">.</span><span class="n">clearRTCDiskCache</span><span class="p">()</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="flame-gpu-python-agent-functions">
+<span id="python-agent-functions"></span><h2>FLAME GPU Python Agent Functions<a class="headerlink" href="#flame-gpu-python-agent-functions" title="Permalink to this heading"></a></h2>
+<p>Python agent functions are required to have the <code class="docutils literal notranslate"><span class="pre">&#64;pyflamegpu.agent_function</span></code> decorator and must specify two arguments, the <code class="docutils literal notranslate"><span class="pre">message_in</span></code> and <code class="docutils literal notranslate"><span class="pre">message_out</span></code> variables (although the names can be changed), both of which must use a type annotation of a <a class="reference internal" href="../defining-messages-communication/index.html#communication-strategies"><span class="std std-ref">supported message type</span></a> prefixed with the Python FLAME GPU module name <code class="docutils literal notranslate"><span class="pre">pyflamegpu.</span></code>.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-QWdlbnQgUHl0aG9u" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-3-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tab" tabindex="0">Agent Python</button></div><div aria-labelledby="tab-3-QWdlbnQgUHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" id="panel-3-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1">#Define an agent function called agent_fn1</span>
+<span class="nd">@pyflamegpu</span><span class="o">.</span><span class="n">agent_function</span>
+<span class="k">def</span> <span class="nf">agent_fn1</span><span class="p">(</span><span class="n">message_in</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">,</span> <span class="n">message_out</span><span class="p">:</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">MessageNone</span><span class="p">):</span>
+    <span class="c1"># Behaviour goes here</span>
+    <span class="k">pass</span>
+
+<span class="o">...</span>
+<span class="c1"># Transpile the Python agent function to equivalent C++ (and transpile errors with raise an exception at this stage)</span>
+<span class="n">agent_fn1_translated</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">codegen</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">agent_fn1</span><span class="p">)</span>
+
+<span class="c1"># Attach Python function called agent_fn1 to an agent represented by the AgentDescription agent (the function will be compiled at runtime as C++)</span>
+<span class="n">agent</span><span class="o">.</span><span class="n">newRTCFunction</span><span class="p">(</span><span class="s2">&quot;agent_fn1&quot;</span><span class="p">,</span> <span class="n">agent_fn1_translated</span><span class="p">)</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</div></div>
+<section id="supported-function-calls">
+<h3>Supported Function Calls<a class="headerlink" href="#supported-function-calls" title="Permalink to this heading"></a></h3>
+<p>The Python transpiler supports function calls that have a C++ equivalent in the will check function calls in the API. The API singleton is available as <code class="docutils literal notranslate"><span class="pre">pyflamegpu</span></code> which is equivalent to the <code class="docutils literal notranslate"><span class="pre">FLAMEGPU</span></code> object in C++. If non existent functions are called on API objects then this will raise an error during translation. Calling of correctly specified device functions is also supported as well as calls to a small number of python built in functions. E.g. <code class="docutils literal notranslate"><span class="pre">abs()</span></code>, <code class="docutils literal notranslate"><span class="pre">int()</span></code>, and <code class="docutils literal notranslate"><span class="pre">float()</span></code>. Any calls to math library functions are directly translated to C++ equivalents. E.g. <code class="docutils literal notranslate"><span class="pre">Math.sinf()</span></code> will result in a call to <code class="docutils literal notranslate"><span class="pre">sinf()</span></code> in C++. The majority of python math functions directly translate to their C++ counterparts.</p>
+</section>
+<section id="supported-math-constants">
+<h3>Supported Math Constants<a class="headerlink" href="#supported-math-constants" title="Permalink to this heading"></a></h3>
+<p>The following mathematics constants are supported;</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Python</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">math.pi</span></code></p></td>
+<td><p>Translated of <code class="docutils literal notranslate"><span class="pre">M_PI</span></code> in C++</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">math.e</span></code></p></td>
+<td><p>Translated of <code class="docutils literal notranslate"><span class="pre">M_E</span></code> in C++</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">math.inf</span></code></p></td>
+<td><p>Translated of <code class="docutils literal notranslate"><span class="pre">INFINITY</span></code> in C++</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">math.nan</span></code></p></td>
+<td><p>Translated of <code class="docutils literal notranslate"><span class="pre">NAN</span></code> in C++</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="typed-api-functions">
+<span id="python-types"></span><h3>Typed API Functions<a class="headerlink" href="#typed-api-functions" title="Permalink to this heading"></a></h3>
+<p>Calls to many FLAME GPU API functions are typed using template arguments in C++. In the Python equivalents the type is specified by calling a type instantiated version of the function using a suffix. The following type suffix are supported;</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Type Suffix</p></th>
+<th class="head"><p>C++ Equivalent type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Char</span></code></p></td>
+<td><p>Would be <code class="docutils literal notranslate"><span class="pre">char</span></code> type template argument</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Float</span></code></p></td>
+<td><p>Would be <code class="docutils literal notranslate"><span class="pre">float</span></code> type template argument</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Double</span></code></p></td>
+<td><p>Would be <code class="docutils literal notranslate"><span class="pre">double</span></code> type template argument</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Int</span></code></p></td>
+<td><p>Would be <code class="docutils literal notranslate"><span class="pre">int</span></code> type template argument (the same as Int32)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">UInt</span></code></p></td>
+<td><p>Would be <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span></code> type template argument (the same as UInt32)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Int8</span></code></p></td>
+<td><p>Would be <code class="docutils literal notranslate"><span class="pre">int_8</span></code> type template argument</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">UInt8</span></code></p></td>
+<td><p>Would be <code class="docutils literal notranslate"><span class="pre">uint_8</span></code> type template argument</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Int16</span></code></p></td>
+<td><p>Would be <code class="docutils literal notranslate"><span class="pre">int_16</span></code> type template argument</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">UInt16</span></code></p></td>
+<td><p>Would be <code class="docutils literal notranslate"><span class="pre">uint_16</span></code> type template argument</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Int32</span></code></p></td>
+<td><p>Would be <code class="docutils literal notranslate"><span class="pre">int_32</span></code> type template argument</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">UInt32</span></code></p></td>
+<td><p>Would be <code class="docutils literal notranslate"><span class="pre">uint_32</span></code> type template argument</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Int64</span></code></p></td>
+<td><p>Would be <code class="docutils literal notranslate"><span class="pre">int_64</span></code> type template argument</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">UInt64</span></code></p></td>
+<td><p>Would be <code class="docutils literal notranslate"><span class="pre">uint_64</span></code> type template argument</p></td>
+</tr>
+</tbody>
+</table>
+<p>In each case the type is appended to the end of the API function. E.g. <code class="docutils literal notranslate"><span class="pre">getVariableInt(&quot;name&quot;)</span></code> in Python would be <code class="docutils literal notranslate"><span class="pre">getVariable&lt;&quot;int&quot;&gt;(&quot;name&quot;)</span></code> in C++, and <code class="docutils literal notranslate"><span class="pre">getVariableFloat(&quot;name&quot;)</span></code> would be  <code class="docutils literal notranslate"><span class="pre">getVariable&lt;&quot;float&quot;&gt;(&quot;name&quot;)</span></code>  in C++</p>
+</section>
+</section>
+<section id="flame-gpu-device-functions">
+<h2>FLAME GPU Device Functions<a class="headerlink" href="#flame-gpu-device-functions" title="Permalink to this heading"></a></h2>
+<p>If you wish to define regular functions which can be called from agent functions, you can use the <code class="xref c c-macro docutils literal notranslate"><span class="pre">FLAMEGPU_DEVICE_FUNCTION</span></code> macro (in C++), or the <code class="docutils literal notranslate"><span class="pre">&#64;pyflamegpu.device_function</span></code> decorator for Python. Python device functions require type annotations for arguments and the function return type using supported types.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p>Python built in <code class="docutils literal notranslate"><span class="pre">int</span></code> type which will translate transpile to a C++ <code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>Python built in <code class="docutils literal notranslate"><span class="pre">float</span></code> type which will translate transpile to a C++ <code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.byte</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">byte</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">char</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.ubyte</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">ubyte</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">char</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.short</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">short</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">short</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.ushort</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">ushort</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">short</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.intc</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">intc</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.uintc</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">uintc</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.uint</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">uint</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.longlong</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">longlong</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">long</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.ulonglong</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">ulonglong</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">long</span> <span class="pre">long</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.half</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">half</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">half</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.single</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">single</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.double</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">double</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">double</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.longdouble</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">longdouble</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">double</span></code> (not currently supported in device code but left for completeness)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.bool_</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">bool_</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.bool8</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">bool8</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.int_</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">int_</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">long</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.int8</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">int8</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">int8_t</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.int16</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">int16</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">int16_t</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.int32</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">int32</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">int32_t</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.int64</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">int64</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">int64_t</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.intp</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">intp</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">intptr_t</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.uint_</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">uint_</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">long</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.uint8</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">uint8</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">uint8_t</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.uint16</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">uint16</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">uint16_t</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.uint32</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">uint32</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">uint32_t</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.uint64</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">uint64</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">uint64_t</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.uintp</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">uintp</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">uintptr_t</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.float_</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">float_</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.float16</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">float16</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">half</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.float32</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">float32</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">numpy.float64</span></code></p></td>
+<td><p>A numpy <code class="docutils literal notranslate"><span class="pre">float64</span></code> type which will transpile to a C++ <code class="docutils literal notranslate"><span class="pre">double</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Any runtime compiled agent functions must include the definition of any device functions in the agent function string. These can not be shared between agent functions (as each has a unique string definition).</p>
+<p>Python agent device functions must be contained in the source file of any agent functions which call them. All device functions are automatically discovered and included during the transpilation process.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-4-QWdlbnQgQysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-4-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tab" tabindex="0">Agent C++</button><button aria-controls="panel-4-QWdlbnQgUHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-4-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tab" tabindex="-1">Agent Python</button></div><div aria-labelledby="tab-4-QWdlbnQgQysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-4-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tabpanel" tabindex="0"><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define a function for adding two integers which can be called inside agent functions.</span>
+<span class="n">FLAMEGPU_DEVICE_FUNCTION</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">add</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-4-QWdlbnQgUHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-4-QWdlbnQgUHl0aG9u" name="QWdlbnQgUHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a function for adding two integers which can be called inside agent functions.</span>
+<span class="nd">@pyflamegpu</span><span class="o">.</span><span class="n">device_function</span>
+<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="p">:</span>
+  <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="flame-gpu-host-device-functions">
+<h2>FLAME GPU Host Device Functions<a class="headerlink" href="#flame-gpu-host-device-functions" title="Permalink to this heading"></a></h2>
+<p>If you wish to define regular functions which can be called from within agent and host functions, you can use the <code class="xref c c-macro docutils literal notranslate"><span class="pre">FLAMEGPU_HOST_DEVICE_FUNCTION</span></code> macro.</p>
+<p>Host Device functions are not currently supported by the Python agent function format.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-5-QWdlbnQgQysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-5-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tab" tabindex="0">Agent C++</button></div><div aria-labelledby="tab-5-QWdlbnQgQysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-5-QWdlbnQgQysr" name="QWdlbnQgQysr" role="tabpanel" tabindex="0"><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define a function for subtracting two integers which can be called inside agent functions, or in host code</span>
+<span class="n">FLAMEGPU_HOST_DEVICE_FUNCTION</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">subtract</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="related-links">
+<h2>Related Links<a class="headerlink" href="#related-links" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>User Guide Section: <a class="reference internal" href="../creating-a-model/index.html#supported-types"><span class="std std-ref">Supported Types</span></a></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">AgentFunctionDescription</span></code></p></li>
+<li><p>Full API documentation for <code class="xref c c-macro docutils literal notranslate"><span class="pre">FLAMEGPU_AGENT_FUNCTION</span></code></p></li>
+<li><p>Full API documentation for <code class="xref c c-macro docutils literal notranslate"><span class="pre">FLAMEGPU_DEVICE_FUNCTION</span></code></p></li>
+<li><p>Full API documentation for <code class="xref c c-macro docutils literal notranslate"><span class="pre">FLAMEGPU_HOST_DEVICE_FUNCTION</span></code></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Agent Functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modifying-agent-variables.html" class="btn btn-neutral float-right" title="Accessing Agent Variables" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, University of Sheffield.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXX-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-XXXXXXX-1', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

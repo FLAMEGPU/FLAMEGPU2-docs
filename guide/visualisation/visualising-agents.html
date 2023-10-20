@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visualising Agents &mdash; FLAME GPU 2 0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/flamegpu.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=e43216b9"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script src="../../_static/tabs.js?v=3030b3cb"></script>
+        <script src="https://unpkg.com/mermaid@10.4.0/dist/mermaid.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Visualising Additional Details" href="adding-details.html" />
+    <link rel="prev" title="Configuring a Visualisation" href="setting-up-vis.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #4d4d4d" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            FLAME GPU 2
+              <img src="../../_static/flamegpu2-icon-notext-128.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart/index.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart/index.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart/index.html#c">C++</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#creating-a-new-project">Creating a New Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#compiling-your-project">Compiling Your Project</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../quickstart/index.html#cmake-gui-windows-only">CMake GUI (Windows Only)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#running-your-project">Running Your Project</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart/index.html#python-3">Python 3</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#q-python-installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#building-from-source">Building From Source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#id3">Creating a New Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart/index.html#id4">Running your project</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../creating-a-model/index.html">Creating a Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../creating-a-model/index.html#what-is-a-model">What is a Model?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../creating-a-model/index.html#creating-a-modeldescription-object">Creating a ModelDescription Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../creating-a-model/index.html#supported-types">Supported Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../environment/index.html">Environmental Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#accessing-the-environmentdescription-object">Accessing the EnvironmentDescription Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#defining-properties">Defining Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#defining-macro-properties">Defining Macro Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environment/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../defining-agents/index.html">Defining Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#defining-a-new-agent-type">Defining a New Agent Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#agent-variables">Agent Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-agents/index.html#agent-id">Agent ID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-agents/index.html#user-defined-variables">User Defined Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#agent-states">Agent States</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-agents/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../defining-messages-communication/index.html">Defining Messages (Communication)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../defining-messages-communication/index.html#communication-strategies">Communication Strategies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-messages-communication/index.html#defining-a-new-message-type">Defining a New Message Type</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-messages-communication/index.html#brute-force-specialisation">Brute Force Specialisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-messages-communication/index.html#bucket-specialisation">Bucket Specialisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-messages-communication/index.html#spatial-specialisation">Spatial Specialisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-messages-communication/index.html#array-specialisation">Array Specialisation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-messages-communication/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../agent-functions/index.html">Agent Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../agent-functions/defining-agent-functions.html">Defining Agent Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/defining-agent-functions.html#c-compile-time-agent-functions">C++ Compile Time Agent Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/defining-agent-functions.html#c-and-python-runtime-compiled-agent-functions">C++ and Python Runtime Compiled Agent Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/defining-agent-functions.html#flame-gpu-python-agent-functions">FLAME GPU Python Agent Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/defining-agent-functions.html#flame-gpu-device-functions">FLAME GPU Device Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/defining-agent-functions.html#flame-gpu-host-device-functions">FLAME GPU Host Device Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/defining-agent-functions.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../agent-functions/modifying-agent-variables.html">Accessing Agent Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/modifying-agent-variables.html#reading-an-agent-s-id">Reading an Agent’s ID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/modifying-agent-variables.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../agent-functions/interacting-with-environment.html">Accessing the Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/interacting-with-environment.html#environment-properties">Environment Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/interacting-with-environment.html#environment-macro-properties">Environment Macro Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/interacting-with-environment.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../agent-functions/agent-communication.html">Agent Communication</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/agent-communication.html#sending-messages">Sending Messages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/agent-communication.html#reading-messages">Reading Messages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/agent-communication.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../agent-functions/agent-birth-death.html">Agent Birth &amp; Death</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/agent-birth-death.html#agent-death">Agent Death</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/agent-birth-death.html#agent-birth">Agent Birth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/agent-birth-death.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../agent-functions/random-numbers.html">Random Numbers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/random-numbers.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../agent-functions/agent-state-transitions.html">Agent State Transitions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/agent-state-transitions.html#agent-function-conditions-conditional-behaviours">Agent Function Conditions (Conditional Behaviours)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../agent-functions/miscellaneous.html">Miscellaneous Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../agent-functions/miscellaneous.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../host-functions/index.html">Host Functions &amp; Conditions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/defining-host-functions.html">Defining Host Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/defining-host-functions.html#types-of-host-function">Types of Host Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/defining-host-functions.html#adding-host-functions-to-a-model">Adding Host Functions to a Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/defining-host-functions.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/interacting-with-environment.html">Accessing the Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/interacting-with-environment.html#environment-properties">Environment Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/interacting-with-environment.html#environment-macro-properties">Environment Macro Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/interacting-with-environment.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/agent-operations.html">Agent Operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#variable-reductions">Variable Reductions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#sorting-agents">Sorting Agents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#agent-creation">Agent Creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#direct-agent-access">Direct Agent Access</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#miscellaneous-methods">Miscellaneous Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/agent-operations.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/random-numbers.html">Random Numbers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/random-numbers.html#seeding-the-random-state">Seeding the Random State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/random-numbers.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../host-functions/miscellaneous.html">Miscellaneous Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../host-functions/miscellaneous.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../defining-execution-order/index.html">Defining Execution Order</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/dependency-graph.html">Dependency Graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#specifying-dependencies">Specifying Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#specifying-roots">Specifying Roots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#host-layer-functions">Host Layer Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#generating-layers">Generating Layers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#visualising-the-dependencies">Visualising the Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#accessing-the-dependencygraph">Accessing the DependencyGraph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/dependency-graph.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/layers.html">Layers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/layers.html#manual-layer-specification">Manual Layer Specification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/layers.html#layer-specification-rules">Layer Specification Rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/layers.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/exit-conditions.html">Exit Conditions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/exit-conditions.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../defining-execution-order/submodels.html">Submodels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/submodels.html#id1">Defining a Submodel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../defining-execution-order/submodels.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../running-a-simulation/index.html">Running a Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../running-a-simulation/configuring-execution.html">Configuring Execution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/configuring-execution.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../running-a-simulation/initial-state.html">Overriding the Initial State</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/initial-state.html#with-code">With Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/initial-state.html#from-file">From File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/initial-state.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../running-a-simulation/collecting-data.html">Collecting Data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#logging">Logging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#accessing-the-complete-agent-state">Accessing the Complete Agent State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#additional-notes">Additional Notes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../running-a-simulation/collecting-data.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../running-multiple-simulations/index.html">Running Multiple Simulations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#creating-a-cudaensemble">Creating a CUDAEnsemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#creating-a-runplanvector">Creating a RunPlanVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#creating-a-logging-configuration">Creating a Logging Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#configuring-running-the-ensemble">Configuring &amp; Running the Ensemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#error-handling-within-ensembles">Error Handling Within Ensembles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../running-multiple-simulations/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Visualisation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="building-with-vis.html">Enabling Visualisation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="building-with-vis.html#detecting-visualisation-support">Detecting Visualisation Support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="setting-up-vis.html">Configuring a Visualisation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="setting-up-vis.html#visualisation-options">Visualisation Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="setting-up-vis.html#visualising-after-simulation-exit">Visualising After Simulation Exit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="setting-up-vis.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Visualising Agents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#agent-model">Agent Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#agent-position">Agent Position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#agent-direction">Agent Direction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#agent-scale">Agent Scale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#agent-color">Agent Color</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#agent-states">Agent States</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="adding-details.html">Visualising Additional Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="adding-details.html#user-interface-environment-properties">User Interface (Environment Properties)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="adding-details.html#lines">Lines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="adding-details.html#models">Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="adding-details.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="visualisation-controls.html">Visualisation Controls</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../debugging-models/index.html">Debugging Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/seatbelts.html">What is FLAMEGPU_SEATBELTS?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/seatbelts.html#enabling-disabling-flamegpu-seatbelts">Enabling/Disabling FLAMEGPU_SEATBELTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/seatbelts.html#understanding-flamegpu-seatbelts-exceptions">Understanding FLAMEGPU_SEATBELTS Exceptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/seatbelts.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/print.html">Using Print Statements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/print.html#printing-from-agent-functions">Printing From Agent Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/logging.html">Logging Timeseries Data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/logging.html#environment-macro-property-counters">Environment Macro Property Counters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/logging.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../debugging-models/using-a-debugger.html">Using a Debugger</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/using-a-debugger.html#windows">Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/using-a-debugger.html#linux">Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../debugging-models/using-a-debugger.html#related-links">Related Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../performance-troubleshooting/index.html">Performance Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flamegpu2-source/index.html">Building or Modifying the FLAME GPU 2 Source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../flamegpu2-source/build-from-source.html">Building FLAME GPU from Source</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/build-from-source.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../flamegpu2-source/request-a-new-feature.html">Requesting Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../flamegpu2-source/contribute.html">Contributing to FLAMEGPU2</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/contribute.html#reporting-bugs">Reporting Bugs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/contribute.html#submitting-pull-requests">Submitting Pull Requests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../flamegpu2-source/contribute.html#license">License</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../telemetry/index.html">Telemetry</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#when-is-data-sent">When is Data sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#where-and-how-is-data-sent">Where and How is Data Sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#what-data-is-sent">What Data is Sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#disabling-telemetry-opt-out">Disabling Telemetry (Opt-out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telemetry/index.html#developer-notes">Developer Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#flame-gpu-design-philosophy">FLAME GPU Design Philosophy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#creating-a-project">Creating a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#structure-of-a-flame-gpu-2-program">Structure of a FLAME GPU 2 Program</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#agent-host-function-definitions">Agent/Host Function Definitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#model-declaration">Model Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#initialisation">Initialisation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#execution">Execution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#tutorial-creating-the-circles-model">Tutorial: Creating the Circles Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#introducing-the-circles-model">Introducing The Circles Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#configuring-cmake">Configuring CMake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#opening-the-project">Opening the Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#model-description">Model Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#message-description">Message Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#agent-description">Agent Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#environment-description">Environment Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#agent-function-description-implementation">Agent Function Description  Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#execution-order">Execution Order</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#initialisation-function">Initialisation Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#configuring-the-simulation">Configuring the Simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#configuring-logging-optional">Configuring Logging (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#visualisation-config-optional">Visualisation Config (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#running-the-simulation">Running the Simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial/index.html#complete-tutorial-code">Complete Tutorial Code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#related-links">Related Links</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/FLAMEGPU/FLAMEGPU2/discussions">Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #4d4d4d" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">FLAME GPU 2</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">User Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Visualisation</a></li>
+      <li class="breadcrumb-item active">Visualising Agents</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/guide/visualisation/visualising-agents.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="visualising-agents">
+<h1>Visualising Agents<a class="headerlink" href="#visualising-agents" title="Permalink to this heading"></a></h1>
+<p>The main purpose of FLAME GPU visualisations is to display the agents. By default no agents are visualised, and each agent to be visualised must be configured.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-0-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-0-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-0-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-0-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-0-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Configure the visualisation</span>
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">ModelVis</span><span class="w"> </span><span class="n">visualisation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cudaSimulation</span><span class="p">.</span><span class="n">getVisualisation</span><span class="p">();</span>
+<span class="c1">// Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">AgentVis</span><span class="w"> </span><span class="n">boid_agt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visualisation</span><span class="p">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s">&quot;boid&quot;</span><span class="p">);</span>
+<span class="p">...</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-0-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Configure the visualisation</span>
+<span class="n">visualisation</span> <span class="o">=</span> <span class="n">cudaSimulation</span><span class="o">.</span><span class="n">getVisualisation</span><span class="p">()</span>
+<span class="c1"># Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">boid_agt</span> <span class="o">=</span> <span class="n">visualisation</span><span class="o">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s2">&quot;boid&quot;</span><span class="p">)</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</div></div>
+<section id="agent-model">
+<h2>Agent Model<a class="headerlink" href="#agent-model" title="Permalink to this heading"></a></h2>
+<p>Currently FLAME GPU only supports loading models from <code class="docutils literal notranslate"><span class="pre">.obj</span></code> (wavefront) format files.</p>
+<p>It is suggested that low-poly models are used, as each model will be drawn once per agent. Which potentially multiplies the polygon count by millions, which can significantly impact the performance of the visualiser.</p>
+<p>Several static stock models are provided alongside FLAME GPU.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Model Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SPHERE</span></code></p></td>
+<td><p>A sphere constructed from slices and segments</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ICOSPHERE</span></code></p></td>
+<td><p>A lower-poly sphere constructed from triangles</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CUBE</span></code></p></td>
+<td><p>A simple 12-poly cube</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TEAPOT</span></code></p></td>
+<td><p>The traditional graphics example model, Utah teapot</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">STUNTPLANE</span></code></p></td>
+<td><p>A low-poly model of a plane, useful for representing agents with rotation in all 3 planes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PYRAMID</span></code></p></td>
+<td><p>A 4-poly equilateral triangular pyramid</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ARROWHEAD</span></code></p></td>
+<td><p>A 4-poly triangular pyramid for indicating 3D orientation</p></td>
+</tr>
+</tbody>
+</table>
+<p>Examples of setting the agent model are shown below</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-1-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-1-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-1-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-1-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-1-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">AgentVis</span><span class="w"> </span><span class="n">boid_agt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visualisation</span><span class="p">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s">&quot;boid&quot;</span><span class="p">);</span>
+<span class="c1">// Configure the agent to use the stock icosphere model</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setModel</span><span class="p">(</span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">Stock</span><span class="o">::</span><span class="n">Models</span><span class="o">::</span><span class="n">ICOSPHERE</span><span class="p">);</span>
+<span class="c1">// Or, configure the agent to use a custom model</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setModel</span><span class="p">(</span><span class="s">&quot;my_files/person.obj&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-1-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">boid_agt</span> <span class="o">=</span> <span class="n">visualisation</span><span class="o">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s2">&quot;boid&quot;</span><span class="p">)</span>
+<span class="c1"># Configure the agent to use the stock icosphere model</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setModel</span><span class="p">(</span><span class="n">pyflamegpu</span><span class="o">.</span><span class="n">ICOSPHERE</span><span class="p">)</span>
+<span class="c1"># Or, configure the agent to use a custom model</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setModel</span><span class="p">(</span><span class="s2">&quot;my_files/person.obj&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<section id="keyframe-animated-models">
+<h3>KeyFrame Animated Models<a class="headerlink" href="#keyframe-animated-models" title="Permalink to this heading"></a></h3>
+<p>FLAME GPU also supports the use of model pairs, to provide basic animation by interpolating between the two models. Both models must have the same number of vertices/faces in the same order for this to work.</p>
+<p>A stock keyframe model pair <code class="docutils literal notranslate"><span class="pre">PEDESTRIAN</span></code> is avaiable, which represents a low-poly pedestrian.</p>
+<p>In order to use a keyframe model pair, it is also necessary to specify a <code class="docutils literal notranslate"><span class="pre">float</span></code> agent variable, which contains the interpolation position in the inclusive range <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1]</span></code> which controls the contribution of each model to that which is rendered by the agent.</p>
+<p>Examples of setting a keyframe agent model are shown below</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-2-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-2-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-2-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-2-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-2-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add agent &#39;pedestrian&#39; to the visualisation</span>
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">AgentVis</span><span class="w"> </span><span class="n">ped_agt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visualisation</span><span class="p">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s">&quot;pedestrian&quot;</span><span class="p">);</span>
+<span class="c1">// Configure the agent to use the stock pedestrian model, and &quot;animate&quot; variable to control animation</span>
+<span class="n">ped_agt</span><span class="p">.</span><span class="n">setKeyFrameModel</span><span class="p">(</span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">Stock</span><span class="o">::</span><span class="n">Models</span><span class="o">::</span><span class="n">PEDESTRIAN</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;animate&quot;</span><span class="p">);</span>
+<span class="c1">// Or, configure the agent to use a custom model pair, and &quot;animate&quot; variable to control animation</span>
+<span class="n">ped_agt</span><span class="p">.</span><span class="n">setKeyFrameModel</span><span class="p">(</span><span class="s">&quot;my_files/ped_a.obj&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my_files/ped_a.obj&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;animate&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-2-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add agent &#39;pedestrian&#39; to the visualisation</span>
+<span class="n">ped_agt</span> <span class="o">=</span> <span class="n">visualisation</span><span class="o">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s2">&quot;pedestrian&quot;</span><span class="p">)</span>
+<span class="c1"># Configure the agent to use the stock pedestrian model, and &quot;animate&quot; variable to control animation</span>
+<span class="n">ped_agt</span><span class="o">.</span><span class="n">setKeyFrameModel</span><span class="p">(</span><span class="n">pyflamegpu</span><span class="o">.</span><span class="n">PEDESTRIAN</span><span class="p">,</span> <span class="s2">&quot;animate&quot;</span><span class="p">)</span>
+<span class="c1"># Or, configure the agent to use a custom model pair, and &quot;animate&quot; variable to control animation</span>
+<span class="n">ped_agt</span><span class="o">.</span><span class="n">setKeyFrameModel</span><span class="p">(</span><span class="s2">&quot;my_files/ped_a.obj&quot;</span><span class="p">,</span> <span class="s2">&quot;my_files/ped_a.obj&quot;</span><span class="p">,</span> <span class="s2">&quot;animate&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<p>The video below shows the Pedestrian Navigation example which demonstrates how keyframe animated agents appear.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/9jPfBs81XmE" title="Pedestrian Navigation Example in FLAME GPU 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></section>
+</section>
+<section id="agent-position">
+<h2>Agent Position<a class="headerlink" href="#agent-position" title="Permalink to this heading"></a></h2>
+<p>Agent variables can be used to control an agent’s position with the visualisation. It is required that atleast one component is set, otherwise agents will all remain at the origin.</p>
+<p>By default, if an agent has <code class="docutils literal notranslate"><span class="pre">float</span></code> variables with names <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">z</span></code>, these will be used for the agent’s position.</p>
+<p>However, you can use other variables if you have used different variable names or an array variable.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-3-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-3-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-3-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-3-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-3-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">AgentVis</span><span class="w"> </span><span class="n">boid_agt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visualisation</span><span class="p">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s">&quot;boid&quot;</span><span class="p">);</span>
+
+<span class="c1">// Set agent position with upto 3 individual float variables</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setXVariable</span><span class="p">(</span><span class="s">&quot;pos_x&quot;</span><span class="p">);</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setYVariable</span><span class="p">(</span><span class="s">&quot;pos_y&quot;</span><span class="p">);</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setZVariable</span><span class="p">(</span><span class="s">&quot;pos_z&quot;</span><span class="p">);</span>
+<span class="c1">// Or, set agent position with a single float[2] variable</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setXYVariable</span><span class="p">(</span><span class="s">&quot;pos_xy&quot;</span><span class="p">);</span>
+<span class="c1">// Or, set agent position with a single float[3] variable</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setXYZVariable</span><span class="p">(</span><span class="s">&quot;pos_xyz&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-3-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-3-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">boid_agt</span> <span class="o">=</span> <span class="n">visualisation</span><span class="o">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s2">&quot;boid&quot;</span><span class="p">);</span>
+
+<span class="c1"># Set agent position with upto 3 individual float variables</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setXVariable</span><span class="p">(</span><span class="s2">&quot;pos_x&quot;</span><span class="p">)</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setYVariable</span><span class="p">(</span><span class="s2">&quot;pos_y&quot;</span><span class="p">)</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setZVariable</span><span class="p">(</span><span class="s2">&quot;pos_z&quot;</span><span class="p">)</span>
+<span class="c1"># Or, set agent position with a single float[2] variable</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setXYVariable</span><span class="p">(</span><span class="s2">&quot;pos_xy&quot;</span><span class="p">)</span>
+<span class="c1"># Or, set agent position with a single float[3] variable</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setXYZVariable</span><span class="p">(</span><span class="s2">&quot;pos_xyz&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="agent-direction">
+<h2>Agent Direction<a class="headerlink" href="#agent-direction" title="Permalink to this heading"></a></h2>
+<p>Agent direction or rotation can be linked to agent variables similar to that of agent position, this will cause the model used for the agent to rotate towards the given direction. However, there are several options to choose from depending on how direction is stored within your model.</p>
+<p>You can specify the forward vector of the agent (e.g. it’s velocity), which are used to derive the agent’s yaw and pitch. This can optionally be extended by specifying an up vector, which will be used to derive agent’s roll.</p>
+<p>Alternatively, you can directly specify the yaw, pitch and roll variables.</p>
+<p>A few examples are provided below, for a complete understanding of the combinations permitted view the API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">AgentVis</span></code>.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-4-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-4-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-4-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-4-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-4-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-4-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">AgentVis</span><span class="w"> </span><span class="n">boid_agt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visualisation</span><span class="p">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s">&quot;boid&quot;</span><span class="p">);</span>
+
+<span class="c1">// Set agent forward and up vectors (yaw, pitch and roll) with individual float variables</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setForwardXVariable</span><span class="p">(</span><span class="s">&quot;velocity_x&quot;</span><span class="p">);</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setForwardYVariable</span><span class="p">(</span><span class="s">&quot;velocity_y&quot;</span><span class="p">);</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setForwardZVariable</span><span class="p">(</span><span class="s">&quot;velocity_z&quot;</span><span class="p">);</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setUpXVariable</span><span class="p">(</span><span class="s">&quot;up_x&quot;</span><span class="p">);</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setUpYVariable</span><span class="p">(</span><span class="s">&quot;up_y&quot;</span><span class="p">);</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setUpZVariable</span><span class="p">(</span><span class="s">&quot;up_z&quot;</span><span class="p">);</span>
+<span class="c1">// Or, set agent forward vector xz (yaw) with a single float[2] variable</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setForwardXZVariable</span><span class="p">(</span><span class="s">&quot;velocity_xz&quot;</span><span class="p">);</span>
+<span class="c1">// Or, set agent forward vector (yaw and pitch) with a single float[3] variable</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setForwardXYZVariable</span><span class="p">(</span><span class="s">&quot;velocity_xyz&quot;</span><span class="p">);</span>
+<span class="c1">// Or, set agent yaw, pitch and roll angles with individual float variables</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setYawVariable</span><span class="p">(</span><span class="s">&quot;yaw&quot;</span><span class="p">);</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setPitchVariable</span><span class="p">(</span><span class="s">&quot;pitch&quot;</span><span class="p">);</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setRollVariable</span><span class="p">(</span><span class="s">&quot;roll&quot;</span><span class="p">);</span>
+<span class="c1">// Or, set agent yaw, pitch with a single float[2] variable</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setDirectionYPVariable</span><span class="p">(</span><span class="s">&quot;angles&quot;</span><span class="p">);</span>
+<span class="c1">// Or, set agent yaw, pitch, roll with a single float[3] variable</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setDirectionYPRVariable</span><span class="p">(</span><span class="s">&quot;angles&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-4-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-4-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">boid_agt</span> <span class="o">=</span> <span class="n">visualisation</span><span class="o">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s2">&quot;boid&quot;</span><span class="p">)</span>
+
+<span class="c1"># Set agent forward and up vectors (yaw, pitch and roll) with individual float variables</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setForwardXVariable</span><span class="p">(</span><span class="s2">&quot;velocity_x&quot;</span><span class="p">)</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setForwardYVariable</span><span class="p">(</span><span class="s2">&quot;velocity_y&quot;</span><span class="p">)</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setForwardZVariable</span><span class="p">(</span><span class="s2">&quot;velocity_z&quot;</span><span class="p">)</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setUpXVariable</span><span class="p">(</span><span class="s2">&quot;up_x&quot;</span><span class="p">)</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setUpYVariable</span><span class="p">(</span><span class="s2">&quot;up_y&quot;</span><span class="p">)</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setUpZVariable</span><span class="p">(</span><span class="s2">&quot;up_z&quot;</span><span class="p">)</span>
+<span class="c1"># Or, set agent forward vector xz (yaw) with a single float[2] variable</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setForwardXZVariable</span><span class="p">(</span><span class="s2">&quot;velocity_xz&quot;</span><span class="p">)</span>
+<span class="c1"># Or, set agent forward vector (yaw and pitch) with a single float[3] variable</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setForwardXYZVariable</span><span class="p">(</span><span class="s2">&quot;velocity_xyz&quot;</span><span class="p">)</span>
+<span class="c1"># Or, set agent yaw, pitch and roll angles with individual float variables</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setYawVariable</span><span class="p">(</span><span class="s2">&quot;yaw&quot;</span><span class="p">)</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setPitchVariable</span><span class="p">(</span><span class="s2">&quot;pitch&quot;</span><span class="p">)</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setRollVariable</span><span class="p">(</span><span class="s2">&quot;roll&quot;</span><span class="p">)</span>
+<span class="c1"># Or, set agent yaw, pitch with a single float[2] variable</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setDirectionYPVariable</span><span class="p">(</span><span class="s2">&quot;angles&quot;</span><span class="p">)</span>
+<span class="c1"># Or, set agent yaw, pitch, roll with a single float[3] variable</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setDirectionYPRVariable</span><span class="p">(</span><span class="s2">&quot;angles&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="agent-scale">
+<h2>Agent Scale<a class="headerlink" href="#agent-scale" title="Permalink to this heading"></a></h2>
+<p>Similar to agent position and direction, agent variables can be used to set a scale multiplier for the model used.</p>
+<p>First you should set the base model scale (with <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">setModelScale()</span></code>), and then the multiplier used will multiply by this value (so an agent variable with value 1, would be at the base scale). If you would prefer to provide the absolute model scale via agent variables, then specify a model scale of 1.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-5-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-5-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-5-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-5-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-5-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-5-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">AgentVis</span><span class="w"> </span><span class="n">boid_agt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visualisation</span><span class="p">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s">&quot;boid&quot;</span><span class="p">);</span>
+<span class="c1">// Uniformly scale the default model so that it is 1.5 units in it&#39;s longest axis</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setModelScale</span><span class="p">(</span><span class="mf">1.5f</span><span class="p">);</span>
+<span class="c1">// Or, scale each axis of the default model individually</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setModelScale</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.5f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">);</span>
+
+<span class="c1">// Uniformly scale the model with a single float variable</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setUniformScaleVariable</span><span class="p">(</span><span class="s">&quot;scale_xyz&quot;</span><span class="p">);</span>
+<span class="c1">// Or, set agent scale multiplier with upto 3 individual float variables</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setScaleXVariable</span><span class="p">(</span><span class="s">&quot;scale_x&quot;</span><span class="p">);</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setScaleYVariable</span><span class="p">(</span><span class="s">&quot;scale_y&quot;</span><span class="p">);</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setScaleZVariable</span><span class="p">(</span><span class="s">&quot;scale_z&quot;</span><span class="p">);</span>
+<span class="c1">// Or, set agent scale multiplier with a single float[2] variable</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setScaleXYVariable</span><span class="p">(</span><span class="s">&quot;scale_xy&quot;</span><span class="p">);</span>
+<span class="c1">// Or, set agent scale multiplier with a single float[3] variable</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setScaleXYZVariable</span><span class="p">(</span><span class="s">&quot;scale_xyz&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-5-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-5-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">boid_agt</span> <span class="o">=</span> <span class="n">visualisation</span><span class="o">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s2">&quot;boid&quot;</span><span class="p">)</span>
+<span class="c1"># Uniformly scale the default model so that it is 1.5 units in it&#39;s longest axis</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setModelScale</span><span class="p">(</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="c1"># Or, scale each axis of the default model individually</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setModelScale</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+<span class="c1"># Uniformly scale the model with a single float variable</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setUniformScaleVariable</span><span class="p">(</span><span class="s2">&quot;scale_xyz&quot;</span><span class="p">)</span>
+<span class="c1"># Or, set agent scale multiplier with upto 3 individual float variables</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setScaleXVariable</span><span class="p">(</span><span class="s2">&quot;scale_x&quot;</span><span class="p">)</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setScaleYVariable</span><span class="p">(</span><span class="s2">&quot;scale_y&quot;</span><span class="p">)</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setScaleZVariable</span><span class="p">(</span><span class="s2">&quot;scale_z&quot;</span><span class="p">)</span>
+<span class="c1"># Or, set agent scale multiplier with a single float[2] variable</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setScaleXYVariable</span><span class="p">(</span><span class="s2">&quot;scale_xy&quot;</span><span class="p">)</span>
+<span class="c1"># Or, set agent scale multiplier with a single float[3] variable</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setScaleXYZVariable</span><span class="p">(</span><span class="s2">&quot;scale_xyz&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="agent-color">
+<h2>Agent Color<a class="headerlink" href="#agent-color" title="Permalink to this heading"></a></h2>
+<p>There are a wide range of options for controlling the color of agent models.</p>
+<section id="static-colors">
+<h3>Static Colors<a class="headerlink" href="#static-colors" title="Permalink to this heading"></a></h3>
+<p>Agent colors can be specified as a static RGB color.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-6-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-6-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-6-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-6-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-6-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-6-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">AgentVis</span><span class="w"> </span><span class="n">boid_agt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visualisation</span><span class="p">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s">&quot;boid&quot;</span><span class="p">);</span>
+
+<span class="c1">// Set the agent&#39;s color to a stock color</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">Stock</span><span class="o">::</span><span class="n">Colors</span><span class="o">::</span><span class="n">RED</span><span class="p">);</span>
+<span class="c1">// Set the agent&#39;s color with a HEX color code</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">Color</span><span class="p">{</span><span class="s">&quot;#ff0000&quot;</span><span class="p">});</span>
+<span class="c1">// Set the agent&#39;s color with floating point components</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">Color</span><span class="p">{</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">});</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-6-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-6-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">boid_agt</span> <span class="o">=</span> <span class="n">visualisation</span><span class="o">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s2">&quot;boid&quot;</span><span class="p">)</span>
+
+<span class="c1"># Set the agent&#39;s color to a stock color</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">pyflamegpu</span><span class="o">.</span><span class="n">RED</span><span class="p">)</span>
+<span class="c1"># Set the agent&#39;s color with a HEX color code</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">pyflamegpu</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s2">&quot;#ff0000&quot;</span><span class="p">))</span>
+<span class="c1"># Set the agent&#39;s color with floating point components</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">pyflamegpu</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="discrete-color-selection">
+<h3>Discrete Color Selection<a class="headerlink" href="#discrete-color-selection" title="Permalink to this heading"></a></h3>
+<p>An <code class="docutils literal notranslate"><span class="pre">integer</span></code> or <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">integer</span></code> agent variable can map to a palette of colors.</p>
+<p>A <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">DiscreteColor</span></code> instance is simply a map between integer keys, and <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Color</span></code> values. An additional fall-back color must also be specified, this will be used if the value an agent holds falls outside of the keys found within the map.</p>
+<p>A predefined stock Palette can be used to automatically fill, the map. Keys will be assigned 0,1,2 etc, however this can be changed by overriding the offset and stride.</p>
+<p>The stock palettes available are:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Qualitative</p></th>
+<th class="head"><p>Sequential</p></th>
+<th class="head"><p>Diverging</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Set1 (from Colorbrewer)</p></td>
+<td><p>YlOrRd (from Colorbrewer)</p></td>
+<td><p>RdYlBu (from Colorbrewer)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Set2 (from Colorbrewer)</p></td>
+<td><p>YlGn (from Colorbrewer)</p></td>
+<td><p>PiYG (from Colorbrewer)</p></td>
+</tr>
+<tr class="row-even"><td><p>Dark2 (from Colorbrewer)</p></td>
+<td><p>Greys (from Colorbrewer)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Pastel (from seaborn)</p></td>
+<td><p><em>Viridis (from BIDS/MatPlotLib)</em></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Viridis palette is dynamic, it uniformly samples the number of specified values from the continuous Viridis palette.</p>
+</div>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-7-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-7-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-7-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-7-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-7-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-7-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">AgentVis</span><span class="w"> </span><span class="n">boid_agt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visualisation</span><span class="p">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s">&quot;boid&quot;</span><span class="p">);</span>
+
+<span class="c1">// Map the agent&#39;s color to the value of &#39;i&#39; as selected from a discrete stock palette</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">DiscreteColor</span><span class="p">(</span><span class="s">&quot;i&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">Stock</span><span class="o">::</span><span class="n">Palette</span><span class="o">::</span><span class="n">DARK2</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">Stock</span><span class="o">::</span><span class="n">Colors</span><span class="o">::</span><span class="n">WHITE</span><span class="p">));</span>
+<span class="c1">// Or, map the agent&#39;s color to the value of &#39;i&#39;, as selected from a dynamic stock palette, using 10 uniformly spaced values from Viridis</span>
+<span class="c1">// Override the offset to 1, and stride to 2 (1,3,5,7..)</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">DiscreteColor</span><span class="p">(</span><span class="s">&quot;i&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">Stock</span><span class="o">::</span><span class="n">Palette</span><span class="o">::</span><span class="n">Viridis</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">Stock</span><span class="o">::</span><span class="n">Colors</span><span class="o">::</span><span class="n">WHITE</span><span class="p">,</span>
+<span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">));</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-7-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-7-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">boid_agt</span> <span class="o">=</span> <span class="n">visualisation</span><span class="o">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s2">&quot;boid&quot;</span><span class="p">)</span>
+
+<span class="c1"># Map the agent&#39;s color to the value of &#39;i&#39; as selected from a discrete stock palette</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">pyflamegpu</span><span class="o">.</span><span class="n">DiscreteColor</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">DARK2</span><span class="p">,</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">WHITE</span><span class="p">))</span>
+<span class="c1"># Or, map the agent&#39;s color to the value of &#39;i&#39;, as selected from a dynamic stock palette, using 10 uniformly spaced values from Viridis</span>
+<span class="c1"># Override the offset to 1, and stride to 2 (1,3,5,7..)</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">pyflamegpu</span><span class="o">.</span><span class="n">DiscreteColor</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">Viridis</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">WHITE</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div></div>
+<p>Alternatively, you can construct a bespoke palette of discrete colors</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-8-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-8-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-8-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-8-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-8-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-8-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">AgentVis</span><span class="w"> </span><span class="n">boid_agt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visualisation</span><span class="p">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s">&quot;boid&quot;</span><span class="p">);</span>
+
+<span class="c1">// Construct a DiscreteColor map for integer variable &quot;i&quot; with fall-back White</span>
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">iDiscreteColor</span><span class="w"> </span><span class="n">cmap</span><span class="p">(</span><span class="s">&quot;i&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">Stock</span><span class="o">::</span><span class="n">Colors</span><span class="o">::</span><span class="n">WHITE</span><span class="p">);</span>
+<span class="c1">// Add desired key:color mappings</span>
+<span class="n">cmap</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">Stock</span><span class="o">::</span><span class="n">Colors</span><span class="o">::</span><span class="n">RED</span><span class="p">;</span>
+<span class="n">cmap</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">Color</span><span class="p">{</span><span class="s">&quot;#00ff00&quot;</span><span class="p">};</span>
+<span class="n">cmap</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">Color</span><span class="p">{</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">};</span>
+<span class="c1">// Bind cmap to the &#39;boid&#39; agent</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">cmap</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-8-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-8-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">boid_agt</span> <span class="o">=</span> <span class="n">visualisation</span><span class="o">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s2">&quot;boid&quot;</span><span class="p">);</span>
+
+<span class="c1"># Construct a DiscreteColor map for integer variable &quot;i&quot; with fall-back White</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">iDiscreteColor</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">WHITE</span><span class="p">)</span>
+<span class="c1"># Add desired key:color mappings</span>
+<span class="n">cmap</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">RED</span>
+<span class="n">cmap</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s2">&quot;#00ff00&quot;</span><span class="p">)</span>
+<span class="n">cmap</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyflamegpu</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="c1"># Bind cmap to the &#39;boid&#39; agent</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">cmap</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="color-interpolation">
+<h3>Color Interpolation<a class="headerlink" href="#color-interpolation" title="Permalink to this heading"></a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">float</span></code> agent variable can also be mapped to colors, by interpolating through a specified palette.</p>
+<p>Currently there are two options available for this; <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">HSVInterpolation</span></code> and <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ViridisInterpolation</span></code>.</p>
+<p>By default interpolation clamps variables to the inclusive range [0, 1]. This can be overridden by setting the minimum and maximum bounds.</p>
+<p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">HSVInterpolation</span></code> allows you to interpolate around the hues of the HSV color wheel. This can be used to provide a simple heatmap.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-9-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-9-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-9-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-9-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-9-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-9-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">AgentVis</span><span class="w"> </span><span class="n">boid_agt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visualisation</span><span class="p">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s">&quot;boid&quot;</span><span class="p">);</span>
+
+<span class="c1">// Use the default red-green HSV interpolation over the agent variable i</span>
+<span class="c1">// With custom min/max bounds [0,100]</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">HSVInterpolation</span><span class="o">::</span><span class="n">REDGREEN</span><span class="p">(</span><span class="s">&quot;i&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">100.0f</span><span class="p">));</span>
+<span class="c1">// Or, use a custom HSV interpolation over the agent variable i</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">HSVInterpolation</span><span class="p">(</span><span class="s">&quot;i&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">360.0f</span><span class="p">));</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-9-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-9-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">boid_agt</span> <span class="o">=</span> <span class="n">visualisation</span><span class="o">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s2">&quot;boid&quot;</span><span class="p">)</span>
+
+<span class="c1"># Use the default red-green HSV interpolation over the agent variable i</span>
+<span class="c1"># With custom min/max bounds [0,100]</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">pyflamegpu</span><span class="o">.</span><span class="n">HSVInterpolation</span><span class="o">.</span><span class="n">REDGREEN</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">))</span>
+<span class="c1"># Or, use a custom HSV interpolation over the agent variable i</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">pyflamegpu</span><span class="o">.</span><span class="n">HSVInterpolation</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">360.0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div></div>
+<p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ViridisInterpolation</span></code> works similarly, but interpolates over the fixed Viridis heatmap from BIDS/MatPlotLib.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-10-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-10-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-10-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-10-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-10-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-10-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">AgentVis</span><span class="w"> </span><span class="n">boid_agt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visualisation</span><span class="p">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s">&quot;boid&quot;</span><span class="p">);</span>
+
+<span class="c1">// Use Viridis interpolation over the agent variable i</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">ViridisInterpolation</span><span class="p">(</span><span class="s">&quot;i&quot;</span><span class="p">));</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-10-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-10-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">boid_agt</span> <span class="o">=</span> <span class="n">visualisation</span><span class="o">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s2">&quot;boid&quot;</span><span class="p">)</span>
+
+<span class="c1"># Use Viridis interpolation over the agent variable i</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">pyflamegpu</span><span class="o">.</span><span class="n">ViridisInterpolation</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+</section>
+<section id="agent-states">
+<h2>Agent States<a class="headerlink" href="#agent-states" title="Permalink to this heading"></a></h2>
+<p>Additional configurations are possible, to differentiate multi-state agents in each of their states.</p>
+<p>First an <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">AgentStateVis</span></code> for specialising the agent state must be retrieved using <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">State()</span></code>.</p>
+<p>By default, this new agent will be assigned a different color from the default palette.</p>
+<p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">AgentStateVis</span></code> has the same methods as <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">AgentVis</span></code> to allow agent states to be differentiated by their: model, model scale and color, using the same methods as described in the above sections. It is not possible, to specify a different position or direction configuration for each agent state.</p>
+<p>Additionally, all agents in a particular state can be hidden using <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">setVisble()</span></code>.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-11-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-11-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-11-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-11-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-11-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-11-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">AgentVis</span><span class="w"> </span><span class="n">boid_agt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visualisation</span><span class="p">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s">&quot;boid&quot;</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="c1">// Specialise the &#39;active&#39; agent state</span>
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">AgentStateVis</span><span class="w"> </span><span class="n">active_boid_agt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">boid_agent</span><span class="p">.</span><span class="n">State</span><span class="p">(</span><span class="s">&quot;active&quot;</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="c1">// Hide agents in the &#39;inactive&#39; agent state</span>
+<span class="n">boid_agent</span><span class="p">.</span><span class="n">State</span><span class="p">(</span><span class="s">&quot;inactive&quot;</span><span class="p">).</span><span class="n">setVisible</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-11-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-11-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">boid_agt</span> <span class="o">=</span> <span class="n">visualisation</span><span class="o">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s2">&quot;boid&quot;</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="c1"># Specialise the &#39;active&#39; agent state</span>
+<span class="n">active_boid_agt</span> <span class="o">=</span> <span class="n">boid_agent</span><span class="o">.</span><span class="n">State</span><span class="p">(</span><span class="s2">&quot;active&quot;</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="c1"># Hide agents in the &#39;inactive&#39; agent state</span>
+<span class="n">boid_agent</span><span class="o">.</span><span class="n">State</span><span class="p">(</span><span class="s2">&quot;inactive&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">setVisible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<section id="colors-from-palettes">
+<h3>Colors from Palettes<a class="headerlink" href="#colors-from-palettes" title="Permalink to this heading"></a></h3>
+<p>If you would rather use a palette to automatically assign agents in different states colors, rather than manual assignment outlined above, you can specify a pallet to be used with <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">setAutoPalette()</span></code>. Each agent state specialised (by calling <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">State()</span></code>) will then be assigned a different color from the selected palette.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-12-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-12-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-12-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-12-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-12-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-12-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">AgentVis</span><span class="w"> </span><span class="n">boid_agt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visualisation</span><span class="p">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s">&quot;boid&quot;</span><span class="p">);</span>
+<span class="c1">// Assign a palette to the boid agent</span>
+<span class="n">boid_agt</span><span class="p">.</span><span class="n">setAutoPalette</span><span class="p">(</span><span class="n">flamegpu</span><span class="o">::</span><span class="n">visualiser</span><span class="o">::</span><span class="n">Stock</span><span class="o">::</span><span class="n">Palette</span><span class="o">::</span><span class="n">DARK2</span><span class="p">);</span>
+
+<span class="c1">// Specialise the &#39;active&#39; agent state, assigning it a unique color from the DARK2 palette</span>
+<span class="n">boid_agent</span><span class="p">.</span><span class="n">State</span><span class="p">(</span><span class="s">&quot;active&quot;</span><span class="p">);</span>
+<span class="c1">// Specialise the &#39;waiting&#39; agent state, assigning it a unique color from the DARK2 palette</span>
+<span class="n">boid_agent</span><span class="p">.</span><span class="n">State</span><span class="p">(</span><span class="s">&quot;waiting&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-12-UHl0aG9u" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-12-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add agent &#39;boid&#39; to the visualisation</span>
+<span class="n">boid_agt</span> <span class="o">=</span> <span class="n">visualisation</span><span class="o">.</span><span class="n">addAgent</span><span class="p">(</span><span class="s2">&quot;boid&quot;</span><span class="p">)</span>
+<span class="c1"># Assign a palette to the boid agent</span>
+<span class="n">boid_agt</span><span class="o">.</span><span class="n">setAutoPalette</span><span class="p">(</span><span class="n">pyflamegpu</span><span class="o">.</span><span class="n">DARK2</span><span class="p">)</span>
+
+<span class="c1"># Specialise the &#39;active&#39; agent state, assigning it a unique color from the DARK2 palette</span>
+<span class="n">boid_agent</span><span class="o">.</span><span class="n">State</span><span class="p">(</span><span class="s2">&quot;active&quot;</span><span class="p">)</span>
+<span class="c1"># Specialise the &#39;waiting&#39; agent state, assigning it a unique color from the DARK2 palette</span>
+<span class="n">boid_agent</span><span class="o">.</span><span class="n">State</span><span class="p">(</span><span class="s2">&quot;waiting&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<p>These colors are not locked, and can be further overridden with the normal color methods.</p>
+</section>
+</section>
+<section id="related-links">
+<h2>Related Links<a class="headerlink" href="#related-links" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">AgentVis</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">AgentStateVis</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ModelVis</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Color</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">DiscreteColor</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">HSVInterpolation</span></code></p></li>
+<li><p>Full API documentation for <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ViridisInterpolation</span></code></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="setting-up-vis.html" class="btn btn-neutral float-left" title="Configuring a Visualisation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="adding-details.html" class="btn btn-neutral float-right" title="Visualising Additional Details" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, University of Sheffield.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXX-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-XXXXXXX-1', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>
