@@ -26,7 +26,7 @@ This chapter has been broken up into several sections:
    agent-communication.rst
    agent-birth-death.rst
    random-numbers.rst
-   conditional-behaviours.rst
+   agent-state-transitions.rst
    miscellaneous.rst
    
 .. note::

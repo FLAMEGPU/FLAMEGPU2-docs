@@ -41,7 +41,7 @@ endif()
 set(DOCS_SRC_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/agent-functions/agent-birth-death.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/agent-functions/agent-communication.rst"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/agent-functions/conditional-behaviours.rst"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/agent-functions/agent-state-transitions.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/agent-functions/defining-agent-functions.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/agent-functions/index.rst"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/guide/agent-functions/interacting-with-environment.rst"
