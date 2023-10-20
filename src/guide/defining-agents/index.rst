@@ -91,7 +91,8 @@ States can be defined through the :class:`AgentDescription<flamegpu::AgentDescri
     # Create two new states, resting and hunting
     predator.newState("resting")
     predator.newState("hunting")
-    
+
+:ref:`Agent State Transitions<Agent State Transitions>` are then used to transfer agents between states.
 
 Related Links
 ^^^^^^^^^^^^^
@@ -99,5 +100,6 @@ Related Links
 * User Guide Section: :ref:`Supported Types<Supported Types>`
 * User Guide Chapter: :ref:`Agent Functions<Agent Functions>`
 * User Guide Page: :ref:`Agent Operations<Host Agent Operations>` (Host Functions)
+* User Guide Page: :ref:`Agent State Transitions<Agent State Transitions>`
 * Full API documentation for :class:`AgentDescription<flamegpu::AgentDescription>`
 * Full API documentation for :class:`ModelDescription<flamegpu::ModelDescription>`

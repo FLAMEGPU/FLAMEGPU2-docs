@@ -39,7 +39,8 @@ extensions = [
     'sphinx_tabs.tabs',
     'sphinx_copybutton',
     'sphinx.ext.graphviz',
-    'sphinxcontrib.mermaid'
+    'sphinxcontrib.mermaid',
+    'sphinxext.rediraffe'
 ]
 
 # If the 
@@ -148,3 +149,8 @@ html_js_files = [
 
 # Config params passed to mermaid
 mermaid_init_js = "mermaid.initialize({startOnLoad:true,theme: 'neutral'});"
+
+# Specify deleted page redirects
+rediraffe_redirects = {
+    'guide/agent-functions/conditional-behaviours.rst':'guide/agent-functions/agent-state-transitions.rst'
+}
