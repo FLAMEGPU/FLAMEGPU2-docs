@@ -1,33 +1,49 @@
 name: publish
 
+# Trigger the workflow on pushes to master, or workflow dispatches from the master branch (checked later)
 on:
-  # Run this workflow only on pushes to the master branch, or if the run workflow button is pressed in the github website.
   push:
-    branches: 
+    branches:
       - master
   workflow_dispatch:
 
+# Set permissions on the github.token for gh-pages use
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Enable publication to gh pages via actions/deploy-pages@v2
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+# Enable use of gh
+env:
+  GH_TOKEN: ${{ github.token }}
+
 jobs:
-  publish:
-    runs-on: ubuntu-20.04
+  # Build the docs, saving the content to an artifact
+  build:
+    runs-on: ubuntu-latest
     env:
       build_api_docs: "ON"
       python: "3.9"
     steps:
-    # Chekout this repository into specified path
-    - name: Checkout FLAMEGPU2/FLAMEGPU2-docs
-      uses: actions/checkout@v3
+    # Checkout this repository into specified path
+    - name: Checkout this repository
+      uses: actions/checkout@v4
       with:
         path: FLAMEGPU2-docs
-
+    
     # If API docs are being built, check them out into a subfolder.
     - name: Checkout FLAMEGPU2/FLAMEGPU2
       if: env.build_api_docs == 'ON'
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: FLAMEGPU/FLAMEGPU2
         path: FLAMEGPU2
-
+    
     # Install dependencies via apt
     - name: Install graphviz
       run: sudo apt -y install graphviz 
@@ -37,6 +53,7 @@ jobs:
       if: env.build_api_docs == 'ON'
       run: sudo apt -y install doxygen
 
+    # Select the correct python version
     - name: Select Python
       if: ${{ env.python != '' }} 
       uses: actions/setup-python@v4
@@ -63,13 +80,23 @@ jobs:
     - name: Build
       working-directory: FLAMEGPU2-docs/build
       run: cmake --build . --target all --verbose -j `nproc`
-
-    # Deploy the documentation to the gh-pages branch of this repository, which is hosted at docs.flamegpu.com
-    # If cname is ommitted this action empties it, so we provide it here rather than in the settings
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
+    
+    # Save HTML for later
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: FLAMEGPU2-docs/build/userguide/
-        cname: docs.flamegpu.com
-        force_orphan: true
+        path: FLAMEGPU2-docs/build/userguide/
+
+  # If this should deploy (push or workflow dispatch on master) to github pages, do so using the saved artifact
+  # This requires "GitHub Actions" selected in github.com/org/repo/settings/pages
+  deploy:
+    if: ${{ ( github.event_name == 'workflow_dispatch' || github.event_name == 'push' ) && github.ref == 'refs/heads/master' }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
