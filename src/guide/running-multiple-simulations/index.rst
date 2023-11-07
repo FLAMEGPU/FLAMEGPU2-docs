@@ -313,7 +313,19 @@ For particularly expensive batch runs you may wish to distribute the workload ac
 
 To enable MPI support FLAMEGPU should be compiled with the CMake flag ``FLAMEGPU_ENABLE_MPI``. When compiled with this flag :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` will use MPI by default. The ``mpi`` member of the :class:`CUDAEnsemble::EnsembleConfig<flamegpu::CUDAEnsemble::EnsembleConfig>` which will be set ``true`` if MPI support was enabled at compile time.
 
-It is not necessary to use a CUDA aware MPI library, as `CUDAEnsemble<flamegpu::CUDAEnsemble>` will make use of all available GPUs by default using the it's existing multi-gpu support (as opposed to GPU direct MPI comms). Hence it's only necessary to launch 1 runner per node, although multiple CPU threads are still recommended (e.g. a minimum of ``N+1``, where ``N`` is the number of GPUs in the node).
+It is not necessary to use a CUDA aware MPI library, as `CUDAEnsemble<flamegpu::CUDAEnsemble>` will make use of all available GPUs by default using the it's existing multi-gpu support (as opposed to GPU direct MPI comms). Hence it's only necessary to launch 1 process per node, although multiple CPU threads are still recommended (e.g. a minimum of ``N+1``, where ``N`` is the number of GPUs in the node).
+
+.. note::
+
+  MPI implementations differ in how to request 1 process per node when calling MPI. A few examples are provided below:
+  
+  * `Open MPI`_: ``mpirun --pernode`` or ``mpirun --npernode 1``
+  * `MVAPICH2`_: ``mpirun_rsh -ppn 1``
+  * `Bede`_: ``bede-mpirun --bede-par 1ppn``
+
+.. _Open MPI: https://www.open-mpi.org/doc/v4.0/man1/mpirun.1.php
+.. _MVAPICH2: https://mvapich.cse.ohio-state.edu/static/media/mvapich/mvapich2-userguide.html#x1-320005.2.1
+.. _Bede: https://bede-documentation.readthedocs.io/en/latest/usage/index.html?#multiple-nodes-mpi
 
 When executing with MPI, :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` will execute the input :class:`RunPlanVector<flamegpu::RunPlanVector>` across all available GPUs and concurrent runs, automatically assigning jobs when a runner becomes free. This should achieve better load balancing than manually dividing work across nodes.
 
