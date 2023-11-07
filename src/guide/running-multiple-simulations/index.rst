@@ -309,7 +309,7 @@ Alternatively, calls to :func:`simulate()<flamegpu::CUDAEnsemble::simulate>` ret
 Distributed Ensembles via MPI
 -----------------------------
 
-For particularly expensive batch runs you may wish to distribute the workload across multiple nodes within a HPC cluster. This can be achieved via Message Passing Interface (MPI) support.
+For particularly expensive batch runs you may wish to distribute the workload across multiple nodes within a HPC cluster. This can be achieved via Message Passing Interface (MPI) support. This feature is supported by both the C++ and Python interfaces to FLAMEGPU, however is not available in pre-built binaries/packages/wheels and must be compiled from source as required.
 
 To enable MPI support FLAMEGPU should be compiled with the CMake flag ``FLAMEGPU_ENABLE_MPI``. When compiled with this flag :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` will use MPI by default. The ``mpi`` member of the :class:`CUDAEnsemble::EnsembleConfig<flamegpu::CUDAEnsemble::EnsembleConfig>` which will be set ``true`` if MPI support was enabled at compile time.
 
@@ -331,19 +331,21 @@ When executing with MPI, :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` will exec
 
 The call to :func:`CUDAEnsemble::simulate()<flamegpu::CUDAEnsemble::simulate>` will initialise MPI state if this has necessary, in order to cleanly exit :func:`flamegpu::util::cleanup()<flamegpu::util::cleanup>` must be called before the program exits. Hence, you may call :func:`CUDAEnsemble::simulate()<flamegpu::CUDAEnsemble::simulate>` multiple times to execute multiple ensembles via MPI in a single execution,  or probe the MPI world state prior to launching the ensemble.
 
-All three error-levels are supported and behave similarly. In all cases the rank 0 instance will be the only instance to raise an exception after the MPI group exits cleanly.
+All three error-levels are supported and behave similarly. In all cases the rank 0 process will be the only process to raise an exception after the MPI group exits cleanly.
 
-If programmatically accessing run logs when using MPI, via :func:`CUDAEnsemble::getLogs()<flamegpu::CUDAEnsemble::getLogs>`, each MPI instance will return the logs for the runs it personally completed. This enables further post-processing to remain distributed.
+If programmatically accessing run logs when using MPI, via :func:`CUDAEnsemble::getLogs()<flamegpu::CUDAEnsemble::getLogs>`, each MPI process will return the logs for the runs it personally completed. This enables further post-processing to remain distributed.
 
 For more guidance around using MPI, such as how to launch MPI jobs, you should refer to the documentation for the HPC system you will be using.
 
 .. warning::
 
-  :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` MPI support assumes that each instance has exclusive access to all visible GPUs. Non-exclusive GPU access is likely to lead to overallocation of resources and unnecessary model failures. It's only necessary to launch 1 MPI instance per node, as :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` is natively able to utilise multiple GPUs within a single node.
+  :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` MPI support assumes that each process has exclusive access to all visible GPUs. Non-exclusive GPU access is likely to lead to overallocation of resources and unnecessary model failures. It's only necessary to launch 1 MPI process per node, as :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` is natively able to utilise multiple GPUs within a single node.
   
 .. warning::
 
   :func:`flamegpu::util::cleanup()<flamegpu::util::cleanup()>` must be called before the program returns when using MPI, this triggers ``MPI_Finalize()``.
+  
+FLAMEGPU has a dedicated MPI test suite, this can be built and ran via the ``tests_mpi`` CMake target. It is configured to automatically divide GPUs between MPI processes when executed with MPI on a single node (e.g. ``mpirun -n 2 ./tests_mpi``) and scale across any multi-node configuration. Due to limitations with GoogleTest each runner will execute tests and print to stdout/stderr, crashes during a test may cause the suite to deadlock.
 
   
 Related Links
