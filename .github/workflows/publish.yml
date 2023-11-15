@@ -74,7 +74,7 @@ jobs:
       working-directory: FLAMEGPU2-docs
       run: |
         source .venv/bin/activate
-        cmake . -B build
+        cmake . -B build -DFLAMEGPU_BUILD_API_DOCUMENTATION=${{ env.build_api_docs }}
 
     # Build the documentation
     - name: Build
