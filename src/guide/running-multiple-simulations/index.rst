@@ -63,8 +63,10 @@ It is also possible to specify subdirectories for a particular runs' logging out
         runs_control.setSteps(3600);
         // Random seeds for each run should take the values (12, 13, 14, 15, etc)
         runs_control.setRandomSimulationSeed(12, 1);
-        // Initialise environment property 'lerp_float' with values uniformly distributed between 1 and 128
-        runs_control.setPropertyLerpRange<float>("lerp_float", 1.0f, 128.0f);
+        // Initialise environment property 'lerp_float' with values uniformly distributed between 1 and 256
+        runs_control.setPropertyLerpRange<float>("lerp_float", 1.0f, 256.0f);
+        // Initialise environment property 'step_int' with values 0, 2, 4, 6, 8, etc
+        runs_control.setPropertyStep<int>("step_int", 0, 2);
         
         // Initialise environment property 'random_int' with values uniformly distributed in the range [0, 10]
         runs_control.setPropertyUniformRandom<int>("random_int", 0, 10);
@@ -106,8 +108,10 @@ It is also possible to specify subdirectories for a particular runs' logging out
     runs_control.setSteps(3600)
     # Random seeds for each run should take the values (12, 13, 14, 15, etc)
     runs_control.setRandomSimulationSeed(12, 1)
-    # Initialise environment property 'lerp_float' with values uniformly distributed between 1 and 128
-    runs_control.setPropertyLerpRangeFloat("lerp_float", 1.0, 128.0)
+    # Initialise environment property 'lerp_float' with values uniformly distributed between 1 and 256
+    runs_control.setPropertyLerpRangeFloat("lerp_float", 1.0, 256.0)
+    # Initialise environment property 'step_int' with values 0, 2, 4, 6, 8, etc
+    runs_control.setPropertyStepInt("step_int", 0, 2);
     
     # Initialise environment property 'random_int' with values uniformly distributed in the range [0, 10]
     runs_control.setPropertyUniformRandomInt("random_int", 0, 10)
