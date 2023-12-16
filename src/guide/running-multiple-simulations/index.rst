@@ -144,7 +144,9 @@ Next you need to decide which data will be collected, as it is not possible to e
 
 A short example is shown below, however you should refer to the :ref:`previous chapter<Configuring Data to be Logged>` for the comprehensive guide.
 
-One benefit of using :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` to carry out experiments, is that the specific :class:`RunPlan<flamegpu::RunPlan>` data is included in each log file, allowing them to be automatically processed and used for reproducible research. However, this does not identify the particular version or build of your model. 
+One benefit of using :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` to carry out experiments, is that the specific :class:`RunPlan<flamegpu::RunPlan>` data is included in each log file, allowing them to be automatically processed and used for reproducible research. However, this does not identify the particular version or build of your model.
+
+If you wish to post-process the logs programmatically, then :func:`CUDAEnsemble::getLogs()<flamegpu::CUDAEnsemble::getLogs>` can be used to fetch a map of :class:`RunLog<flamegpu::RunLog>` where keys correspond to the index of successful runs within the input :class:`RunPlanVector<flamegpu::RunPlanVector>` (if a simulation run failed it will not have a log within the map).
 
  Agent data is logged according to agent state, so agents with multiple states must have the config specified for each state required to be logged.
 
@@ -167,8 +169,8 @@ One benefit of using :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` to carry out 
     exit_log_cfg.logEnvironment("lerp_float");
     
     // Pass the logging configs to the CUDAEnsemble
-    cuda_ensemble.setStepLog(step_log_cfg);
-    cuda_ensemble.setExitLog(exit_log_cfg);
+    ensemble.setStepLog(step_log_cfg);
+    ensemble.setExitLog(exit_log_cfg);
 
   .. code-tab:: py Python
   
@@ -187,8 +189,8 @@ One benefit of using :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` to carry out 
     exit_log_cfg.logEnvironment("lerp_float")
     
     # Pass the logging configs to the CUDAEnsemble
-    cuda_ensemble.setStepLog(step_log_cfg)
-    cuda_ensemble.setExitLog(exit_log_cfg)
+    ensemble.setStepLog(step_log_cfg)
+    ensemble.setExitLog(exit_log_cfg)
     
 Configuring & Running the Ensemble
 ----------------------------------
@@ -239,11 +241,21 @@ You may also wish to specify your own defaults, by setting the values prior to c
     ensemble.initialise(argc, argv);
     
     // Pass the logging configs to the CUDAEnsemble
-    cuda_ensemble.setStepLog(step_log_cfg);
-    cuda_ensemble.setExitLog(exit_log_cfg);
+    ensemble.setStepLog(step_log_cfg);
+    ensemble.setExitLog(exit_log_cfg);
     
     // Execute the ensemble using the specified RunPlans
     const unsigned int errs = ensemble.simulate(runs);
+    
+    // Fetch the RunLogs of successful runs
+    const std::map<unsigned int, flamegpu::RunLog> &logs = ensemble.getLogs();
+    for (const auto &[plan_id, log] : logs) {
+        // Post-process the logs
+        ...
+    }
+    
+    // Ensure profiling / memcheck work correctly (and trigger MPI_Finalize())
+    flamegpu::util::cleanup();
 
   .. code-tab:: py Python
     
@@ -266,11 +278,20 @@ You may also wish to specify your own defaults, by setting the values prior to c
     ensemble.initialise(sys.argv)
     
     # Pass the logging configs to the CUDAEnsemble
-    cuda_ensemble.setStepLog(step_log_cfg)
-    cuda_ensemble.setExitLog(exit_log_cfg)
+    ensemble.setStepLog(step_log_cfg)
+    ensemble.setExitLog(exit_log_cfg)
     
     # Execute the ensemble using the specified RunPlans
     errs = ensemble.simulate(runs)
+    
+    # Fetch the RunLogs of successful runs
+    logs = ensemble.getLogs()
+    for plan_id, log in logs.items():
+        # Post-process the logs
+        ...
+
+    # Ensure profiling / memcheck work correctly (and trigger MPI_Finalize())
+    pyflamegpu.cleanup();
     
 Error Handling Within Ensembles
 -------------------------------
@@ -288,6 +309,51 @@ Level  Name  Description
 The default error level is "Slow" (1), which will cause an exception to be raised if any of the simulations fail to complete. However, all simulations will be attempted first, so partial results will be available.
 
 Alternatively, calls to :func:`simulate()<flamegpu::CUDAEnsemble::simulate>` return the number of errors, when the error level is set to "Off" (0). Therefore, failed runs can be probed manually via checking that the return value of :func:`simulate()<flamegpu::CUDAEnsemble::simulate>` does not equal zero.
+
+Distributed Ensembles via MPI
+-----------------------------
+
+For particularly expensive batch runs you may wish to distribute the workload across multiple nodes within a HPC cluster. This can be achieved via Message Passing Interface (MPI) support. This feature is supported by both the C++ and Python interfaces to FLAMEGPU, however it is not available in pre-built binaries/packages/wheels and must be compiled from source as required.
+
+To enable MPI support FLAMEGPU should be configured with the CMake flag ``FLAMEGPU_ENABLE_MPI`` enabled. When compiled with this flag :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` will use MPI. The ``mpi`` member of the :class:`CUDAEnsemble::EnsembleConfig<flamegpu::CUDAEnsemble::EnsembleConfig>` which will be set ``true`` if MPI support was enabled at compile time.
+
+It is not necessary to use a CUDA aware MPI library, as `CUDAEnsemble<flamegpu::CUDAEnsemble>` will make use of all available GPUs by default using the it's existing multi-gpu support (as opposed to GPU direct MPI comms).
+Hence it's only necessary to launch 1 process per node, although requesting multiple CPU cores in a HPC environment are still recommended (e.g. a minimum of ``N+1``, where ``N`` is the number of GPUs in the node).
+
+If more than one MPI process is launched per node, the available GPUs will be load-balanced across the MPI ranks.
+If more MPI processes are launched per node than there are GPUs available, a warning will be issued as the additional MPI ranks will not participate in execution of the ensemble as they are unnecessary.
+
+.. note::
+
+  MPI implementations differ in how to request 1 process per node when calling MPI. A few examples are provided below:
+  
+  * `Open MPI`_: ``mpirun --pernode`` or ``mpirun --npernode 1``
+  * `MVAPICH2`_: ``mpirun_rsh -ppn 1``
+  * `Bede`_: ``bede-mpirun --bede-par 1ppn``
+
+.. _Open MPI: https://www.open-mpi.org/doc/v4.0/man1/mpirun.1.php
+.. _MVAPICH2: https://mvapich.cse.ohio-state.edu/static/media/mvapich/mvapich2-userguide.html#x1-320005.2.1
+.. _Bede: https://bede-documentation.readthedocs.io/en/latest/usage/index.html?#multiple-nodes-mpi
+
+When executing with MPI, :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` will execute the input :class:`RunPlanVector<flamegpu::RunPlanVector>` across all available GPUs and concurrent runs, automatically assigning jobs when a runner becomes free. This should achieve better load balancing than manually dividing work across nodes, but may lead to increased HPC queue times as the nodes must be available concurrently.
+
+The call to :func:`CUDAEnsemble::simulate()<flamegpu::CUDAEnsemble::simulate>` will initialise MPI state if this has necessary, in order to cleanly exit :func:`flamegpu::util::cleanup()<flamegpu::util::cleanup>` must be called before the program exits. Hence, you may call :func:`CUDAEnsemble::simulate()<flamegpu::CUDAEnsemble::simulate>` multiple times to execute multiple ensembles via MPI in a single execution, or probe the MPI world state prior to launching the ensemble, but :func:`flamegpu::util::cleanup()<flamegpu::util::cleanup>` must only be called once.
+
+All three error-levels are supported and behave similarly. In all cases the rank 0 process will be the only process to raise an exception after the MPI group exits cleanly.
+
+If programmatically accessing run logs when using MPI, via :func:`CUDAEnsemble::getLogs()<flamegpu::CUDAEnsemble::getLogs>`, each MPI process will return the logs for the runs it personally completed. This enables further post-processing to remain distributed.
+
+For more guidance around using MPI, such as how to launch MPI jobs, you should refer to the documentation for the HPC system you will be using.
+
+.. warning::
+
+  :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` MPI support distributes GPUs within a shared memory system (node) across the MPI ranks assigned to that node, to avoid overallocation of resources and unnecessary model failures. It's only necessary to launch 1 MPI process per node, as :class:`CUDAEnsemble<flamegpu::CUDAEnsemble>` is natively able to utilise multiple GPUs within a single node, and a warning will be emitted if more MPI ranks are assigned to a node than there are visible GPUs.
+  
+.. warning::
+
+  :func:`flamegpu::util::cleanup()<flamegpu::util::cleanup()>` must be called before the program returns when using MPI, this triggers ``MPI_Finalize()``. It must only be called once per process.
+  
+FLAMEGPU has a dedicated MPI test suite, this can be built and ran via the ``tests_mpi`` CMake target. It is configured to automatically divide GPUs between MPI processes when executed with MPI on a single node (e.g. ``mpirun -n 2 ./tests_mpi``) and scale across any multi-node configuration. Some tests will not run if only a single GPU (and therefore MPI rank) is available. Due to limitations with GoogleTest each runner will execute tests and print to stdout/stderr, crashes during a test may cause the suite to deadlock.
 
   
 Related Links
