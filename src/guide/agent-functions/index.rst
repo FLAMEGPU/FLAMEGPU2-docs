@@ -12,7 +12,7 @@ Each agent function in FLAME GPU 2 is associated with a particular agent type an
 The implementation code for the behaviour (the actual agent function) can be specified in three alternative ways;
 
 * As a globally scoped (CUDA) C++ function, labelled with the :c:macro:`FLAMEGPU_AGENT_FUNCTION` macro
-* As a C++ function labelled with teh :c:macro:`FLAMEGPU_AGENT_FUNCTION` macro but written as a string (supported in either a C++ or Python 3)
+* As a C++ function labelled with the :c:macro:`FLAMEGPU_AGENT_FUNCTION` macro but written as a string (supported in either a C++ or Python 3)
 * As a global scoped Python 3 function annotated as ``@pyflamegpu.agent_function`` which will be transpiled to equivalent C++ and which is compiled at runtime
 
 This chapter has been broken up into several sections:
@@ -26,5 +26,8 @@ This chapter has been broken up into several sections:
    agent-communication.rst
    agent-birth-death.rst
    random-numbers.rst
-   conditional-behaviours.rst
+   agent-state-transitions.rst
    miscellaneous.rst
+   
+.. note::
+  If you require a function that operates at a population or global scope you should use :ref`Host Functions<Host Functions and Conditions>`, these are distinct from Agent Functions and cannot be launched from agent functions.

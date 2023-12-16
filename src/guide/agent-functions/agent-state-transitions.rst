@@ -1,3 +1,49 @@
+.. _Agent State Transitions:
+
+Agent State Transitions
+=======================
+
+Models which utilise agent states require a means of moving agents between states. In FLAME GPU this is handled by configuring the initial and end state of an agent function, via :func:`setInitialState()<flamegpu::AgentFunctionDescription::setInitialState>` and :func:`setEndState()<flamegpu::AgentFunctionDescription::setEndState>` respectively.
+
+Example definition of controlling an agent function's initial and end states:
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+      // A model is defined
+      ModelDescription m("model");
+      // It contains an agent with 'variable 'x' and two states 'foo' and 'bar'
+      AgentDescription a = m.newAgent("agent");
+      a.newVariable<int>("x");
+      a.newState("foo");
+      a.newState("bar");
+      // The agent has an agent function which transitions agents from state 'foo' to 'bar'
+      AgentFunctionDescription af1 = a.newFunction("example_function", ExampleFn);
+      af1.setInitialState("foo");
+      af1.setEndState("bar");
+
+  .. code-tab:: py Python
+    
+      # A model is defined
+      m = pyflamegpu.ModelDescription("model")
+      # It contains an agent with 'variable 'x' and two states 'foo' and 'bar'
+      a = m.newAgent("agent")
+      a.newVariableInt("x")
+      a.newState("foo")
+      a.newState("bar")
+      # The agent has an agent function which transitions agents from state 'foo' to 'bar'
+      af1 = a.newRTCFunction("example_function", ExampleFn_source)
+      af1.setInitialState("foo")
+      af1.setEndState("bar")
+
+The above example however moves all agents from state `foo` to state `bar`. This can be useful if you wish to emulate an agent initialisation function which agents execute once in an initial state (`foo` in this case), before transferring to the main state (`bar`) that agents remain in for the remainder of the simulation. All remaining agent functions would be defined with initial and end state `bar`.
+
+If you wish to split agent population, such that only a subset move between statements, you should make use of agent function conditions.
+
+
+.. _Agent Function Conditions:
+
 Agent Function Conditions (Conditional Behaviours)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -37,14 +83,7 @@ Example definition of how the above agent function condition would be attached t
 .. tabs::
 
   .. code-tab:: cpp C++
-
-      // A model is defined
-      ModelDescription m("model");
-      // It contains an agent with 'variable 'x' and two states 'foo' and 'bar'
-      AgentDescription a = m.newAgent("agent");
-      a.newVariable<int>("x");
-      a.newState("foo");
-      a.newState("bar");
+  
       // The agent has an agent function which transitions agents from state 'foo' to 'bar'
       AgentFunctionDescription af1 = a.newFunction("example_function", ExampleFn);
       af1.setInitialState("foo");
@@ -54,13 +93,6 @@ Example definition of how the above agent function condition would be attached t
 
   .. code-tab:: py Python
     
-      # A model is defined
-      m = pyflamegpu.ModelDescription("model")
-      # It contains an agent with 'variable 'x' and two states 'foo' and 'bar'
-      a = m.newAgent("agent")
-      a.newVariableInt("x")
-      a.newState("foo")
-      a.newState("bar")
       # The agent has an agent function which transitions agents from state 'foo' to 'bar'
       af1 = a.newRTCFunction("example_function", ExampleFn_source)
       af1.setInitialState("foo")
@@ -71,13 +103,6 @@ Example definition of how the above agent function condition would be attached t
 
   .. code-tab:: py Python (with Agent C++ Strings)
     
-      # A model is defined
-      m = pyflamegpu.ModelDescription("model")
-      # It contains an agent with 'variable 'x' and two states 'foo' and 'bar'
-      a = m.newAgent("agent")
-      a.newVariableInt("x")
-      a.newState("foo")
-      a.newState("bar")
       # The agent has an agent function which transitions agents from state 'foo' to 'bar'
       af1 = a.newRTCFunction("example_function", ExampleFn_source)
       af1.setInitialState("foo")
@@ -91,6 +116,7 @@ Example definition of how the above agent function condition would be attached t
       
 Related Links
 -------------
+* User Guide Page: :ref:`Defining Agents<Defining Agents>`
 * User Guide Page: :ref:`Defining Agent Functions<Defining Agent Functions>`
 * Full API documentation for :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription>`
 * Full API documentation for :c:macro:`FLAMEGPU_AGENT_FUNCTION_CONDITION`

@@ -38,7 +38,9 @@ html_logo = "@RELPATH_CONFIG_TO_STATIC@/img/flamegpu2-icon-notext-128.png"
 extensions = [
     'sphinx_tabs.tabs',
     'sphinx_copybutton',
-    'sphinx.ext.graphviz'
+    'sphinx.ext.graphviz',
+    'sphinxcontrib.mermaid',
+    'sphinxext.rediraffe'
 ]
 
 # If the 
@@ -49,7 +51,8 @@ if @USE_BREATHE_EXHALE@:
         'exhale',
         'sphinx_tabs.tabs',
         'sphinx_copybutton',
-        'sphinx.ext.graphviz'
+        'sphinx.ext.graphviz',
+        'sphinxcontrib.mermaid'
     ]
 
     # Setup the breathe extension
@@ -138,3 +141,16 @@ html_static_path = ['@RELPATH_CONFIG_TO_STATIC@']
 html_css_files = [
     'css/flamegpu.css',
 ]
+
+# Mermaid sphinx extension is failing to auto include mermaid.js
+html_js_files = [
+    'https://unpkg.com/mermaid@10.4.0/dist/mermaid.js'
+]
+
+# Config params passed to mermaid
+mermaid_init_js = "mermaid.initialize({startOnLoad:true,theme: 'neutral'});"
+
+# Specify deleted page redirects
+rediraffe_redirects = {
+    'guide/agent-functions/conditional-behaviours.rst':'guide/agent-functions/agent-state-transitions.rst'
+}

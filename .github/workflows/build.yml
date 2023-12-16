@@ -77,7 +77,8 @@ jobs:
       working-directory: FLAMEGPU2-docs
       run: |
         source .venv/bin/activate
-        cmake . -B build -DFLAMEGPU_DOCS_WARNINGS_AS_ERRORS=${{ env.werror }}
+        cmake . -B build -DFLAMEGPU_DOCS_WARNINGS_AS_ERRORS=${{ env.werror }} -DFLAMEGPU_BUILD_API_DOCUMENTATION=${{ env.build_api_docs }}
+        
 
     - name: Build
       working-directory: FLAMEGPU2-docs/build

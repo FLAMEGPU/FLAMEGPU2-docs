@@ -123,6 +123,10 @@ If you are using :class:`MessageSpatial2D<flamegpu::MessageSpatial2D>` or :class
 
   If spatial messages will be accessed via the wrapped iterator, all messages must be output within the environment bounds defined for the message list. Accessing out of bounds messages with the wrapped iterator is undefined behaviour. 
 
+.. note::
+
+  The spatial message radius must be a factor of the environment dimensions if accessing messages via the wrapped iterator.
+
 .. tabs::
 
     .. code-tab:: cuda Agent C++

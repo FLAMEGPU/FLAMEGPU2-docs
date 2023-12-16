@@ -163,6 +163,11 @@ The :func:`setMin()<flamegpu::MessageSpatial3D::Description::setMin>` and :func:
 
 Spatial messages are automatically assigned ``float`` location variables with the names ``x``, ``y`` (and ``z``). These are used by FLAME GPU internally to sort messages and handle localised accesses, so must be used when outputting messages.
 
+
+.. note::
+
+  The spatial message radius must be a factor of the environment dimensions if messages will be accessed via the wrapped iterator.
+
 Array Specialisation
 --------------------
 

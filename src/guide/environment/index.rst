@@ -9,8 +9,7 @@ Environment properties are read-only to agents, but may be updated by host funct
 
 Although initial values must be specified for environment properties, they can be overridden at model runtime with :ref:`various techniques<RunPlan>`.
 
-FLAME GPU 2 introduces environment macro properties, these are intended for larger environment properties which may have upto four dimensions. Environment macro properties, unlike regular environment properties, can be updated by agents with a limited collection of atomic backed methods. However, they also have additional limitations; they always default to zero, cannot be logged, and cannot make use of experimental GLM support.
-
+Distinct from environment properties, FLAME GPU 2 introduces environment macro properties, these are intended for larger environment properties which may have upto four dimensions and can be updated by agents with a limited collection of atomic backed methods.
 
 Accessing the EnvironmentDescription Object
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -80,6 +79,8 @@ For a full list of supported types, see :ref:`Supported Types<Supported Types>`.
 Defining Macro Properties
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+FLAME GPU 2 introduces environment macro properties, these are intended for larger environment properties which may have upto four dimensions. Environment macro properties, unlike regular environment properties, can be updated by agents with a limited collection of atomic backed methods. However, they also have additional limitations; they always default to zero, cannot be logged, and cannot make use of experimental GLM support.
+
 In contrast to regular environment properties, environment macro properties are declared using the :func:`newMacroProperty()<flamegpu::EnvironmentDescription::newMacroProperty>` method.
 
 These may have upto 4 dimensions (unused dimensions if left unspecified, will default to length 1).
@@ -102,6 +103,39 @@ The type, dimensions and name of the macro property are all specified. The macro
     # Declare an int macro property named 'foobar', with array dimensions [5, 5, 5, 3]
     env.newMacroPropertyInt("foobar", 5, 5, 5, 3)
     
+
+Defining a Directed Graph
+^^^^^^^^^^^^^^^^^^^^^^^^^
+FLAME GPU 2 introduces static directed graphs as a structure for storing organised data within the environment. The graph's structure can be defined within a host function, with properties attached to vertices and/or edges.
+
+Directed graphs can then be traversed by agents which can iterate either input or output edges to a given vertex.
+
+Environment directed graphs are currently static, therefore resizing the number of vertices or edges requires all properties to be reinitialised.
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+    // Fetch the model's environment
+    flamegpu::EnvironmentDescription env = model.Environment();
+    // Declare a new directed graph named 'fgraph'
+    EnvironmentDirectedGraphDescription fgraph = model.Environment().newDirectedGraph("fgraph");
+    // Attach an float[2] property 'bar' to vertices
+    fgraph.newVertexProperty<float, 2>("bar");
+    // Attach an int property 'foo' to edges
+    fgraph.newEdgeProperty<int>("foo");
+    
+  .. code-tab:: py Python
+
+    # Fetch the model's environment
+    env = model.Environment()
+    # Declare a new directed graph named 'fgraph'
+    EnvironmentDirectedGraphDescription fgraph = model.Environment().newDirectedGraph("fgraph")
+    # Attach an float[2] property 'bar' to vertices
+    fgraph.newVertexPropertyArrayFloat("bar", 2)
+    # Attach an int property 'foo' to edges
+    fgraph.newEdgePropertyInt("foo")
+
 Related Links
 ^^^^^^^^^^^^^
 

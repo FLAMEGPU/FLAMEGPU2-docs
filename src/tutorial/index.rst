@@ -307,7 +307,6 @@ The Circles model requires a location, so we can add three ``float`` variables t
     // Assign the agent some variables (ID is implicit to agents, so we don't define it ourselves)
     agent.newVariable<float>("x");
     agent.newVariable<float>("y");
-    agent.newVariable<float>("z");
     agent.newVariable<float>("drift", 0.0f);
     ...
 
@@ -321,7 +320,6 @@ The Circles model requires a location, so we can add three ``float`` variables t
     # Assign the agent some variables (ID is implicit to agents, so we don't define it ourselves)
     agent.newVariableFloat("x")
     agent.newVariableFloat("y")
-    agent.newVariableFloat("z")
     agent.newVariableFloat("drift", 0)
     ...
 
@@ -1047,7 +1045,6 @@ If you have followed the complete tutorial, you should now have the following co
           // Assign the agent some variables (ID is implicit to agents, so we don't define it ourselves)
           agent.newVariable<float>("x");
           agent.newVariable<float>("y");
-          agent.newVariable<float>("z");
           agent.newVariable<float>("drift", 0.0f);
           // Setup the two agent functions
           flamegpu::AgentFunctionDescription out_fn = agent.newFunction("output_message", output_message);
@@ -1211,7 +1208,6 @@ If you have followed the complete tutorial, you should now have the following co
       # Assign the agent some variables (ID is implicit to agents, so we don't define it ourselves)
       agent.newVariableFloat("x")
       agent.newVariableFloat("y")
-      agent.newVariableFloat("z")
       agent.newVariableFloat("drift", 0)
       # Setup the two agent functions
       out_fn = agent.newRTCFunction("output_message", output_message)
@@ -1308,7 +1304,6 @@ If you have followed the complete tutorial, you should now have the following co
     # Assign the agent some variables (ID is implicit to agents, so we don't define it ourselves)
     agent.newVariableFloat("x")
     agent.newVariableFloat("y")
-    agent.newVariableFloat("z")
     agent.newVariableFloat("drift", 0)
 
     # Define environment properties

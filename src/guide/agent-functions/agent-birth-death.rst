@@ -14,19 +14,23 @@ Enabling Agent Death
 ====================
 
 By default in FLAME GPU 2 agents do not die. To enable death for a particular agent function, use the :func:`setAllowAgentDeath()<flamegpu::AgentFunctionDescription::setAllowAgentDeath>` method of
-the :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription>` object:
+the :class:`AgentFunctionDescription<flamegpu::AgentFunctionDescription>` that you would like to enable death for:
 
 .. tabs::
   
   .. code-tab:: cpp C++
 
+    flamegpu::AgentFunctionDescription agent_fn1_description = agent.newFunction("agent_fn1", agent_fn1);
     // Allow agent_fn1 to kill agents
     agent_fn1_description.setAllowAgentDeath(true);
 
   .. code-tab:: py Python
-
+    
+    agent_fn1_description = agent.newRTCFunction("agent_fn1", agent_fn1_source);
     # Allow agent_fn1 to kill agents
     agent_fn1_description.setAllowAgentDeath(True)
+
+When this agent function is then added to a layer or dependency graph, it will support agent death.
 
 
 Killing Agents via Agent Functions

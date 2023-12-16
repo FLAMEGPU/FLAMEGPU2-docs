@@ -81,7 +81,7 @@ To configure the simulation in code the variables must be updated via the :class
     // Update the configuration
     simulation.SimulationConfig().steps = 100;
     simulation.SimulationConfig().input_file = "input.json";
-    simulation.CUDAConfig().device = 1;
+    simulation.CUDAConfig().device_id = 1;
 
     // Apply the updated configuration
     simulation.applyConfig();
@@ -97,7 +97,7 @@ To configure the simulation in code the variables must be updated via the :class
     # Update the configuration
     simulation.SimulationConfig().steps = 100
     simulation.SimulationConfig().input_file = "input.json"
-    simulation.CUDAConfig().device = 1
+    simulation.CUDAConfig().device_id = 1
 
     # Apply the updated configuration
     simulation.applyConfig()
