@@ -252,10 +252,12 @@ First you should set the base model scale (with :func:`setModelScale()<flamegpu:
     # Or, set agent scale multiplier with a single float[3] variable
     boid_agt.setScaleXYZVariable("scale_xyz")
 
-    
+
 Agent Color
 -----------
 There are a wide range of options for controlling the color of agent models.
+
+.. _static-colors:
 
 Static Colors
 ^^^^^^^^^^^^^
