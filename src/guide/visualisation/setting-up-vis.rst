@@ -61,6 +61,9 @@ The most important of these settings are presented below:
    * - :func:`setInitialCameraTarget()<flamegpu::visualiser::ModelVis::setInitialCameraTarget>`
      - ``x``, ``y``, ``z``
      - Sets the initial target that the visualisation's 'camera' faces. (Defaults to the origin [0,0,0])
+   * - :func:`setInitialCameraRoll()<flamegpu::visualiser::ModelVis::setInitialCameraRoll>`
+     - ``roll``
+     - Sets the initial roll angle of the camera in radians. (Defaults to 0)
    * - :func:`setSimulationSpeed()<flamegpu::visualiser::ModelVis::setSimulationSpeed>`
      - ``speed``
      - Sets the speed of camera movement, in units travelled per millisecond. (Defaults to 0.05)

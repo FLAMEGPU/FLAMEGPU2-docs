@@ -77,7 +77,42 @@ The below image demonstrates how the above interface appears during a visualisat
 .. note::
 
   It is not possible to add multiple inputs for the same environment property or environment array property element to the same panel.
+  
+Environment Directed Graphs
+---------------------------
 
+FLAME GPU visualisations provide basic visualisation support for graphs defined within a model's environment.
+
+When configuring the visualisation, graphs to be rendered can be specified by name. Following this, their vertex properties which correspond to the spatial coordinates and :ref:`desired color<static-colors>` should be specified. The graph will then be rendered with the simulation, and will update whenever it is modified via the host API.
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+    // Configure the visualisation
+    flamegpu::visualiser::ModelVis m_vis = cudaSimulation.getVisualisation();
+    // Mark and configure graph "mygraph" for visualisation
+    flamegpu::visualiser::EnvironmentGraphVis g = visualisation.addGraph("mygraph");
+    g.setColor(flamegpu::visualiser::Color{"#ff0000"});
+    g.setXProperty("x");
+    g.setYProperty("y");
+    // g.setZVertexProperty("z");
+    // g.setXYVertexProperty("xy");
+    // g.setXYZVertexProperty("xyz");
+    
+  .. code-tab:: py Python
+
+    # Configure the visualisation
+    m_vis = cudaSimulation.getVisualisation();
+    # Mark and configure graph "mygraph" for visualisation
+    g = visualisation.addGraph("mygraph")
+    g.setColor(pyflamegpu.Color("#ff0000"))
+    g.setXVertexProperty("x")
+    g.setYVertexProperty("y")
+    # g.setZVertexProperty("z")
+    # g.setXYVertexProperty("xy")
+    # g.setXYZVertexProperty("xyz")
+    
 
 Lines
 -----
@@ -167,3 +202,4 @@ Related Links
 * Full API documentation for :class:`PanelVis<flamegpu::visualiser::PanelVis>`
 * Full API documentation for :class:`LineVis<flamegpu::visualiser::LineVis>`
 * Full API documentation for :class:`StaticModelVis<flamegpu::StaticModelVis>`
+* Full API documentation for :class:`ModelVis<flamegpu::visualiser::EnvironmentGraphVis>`
