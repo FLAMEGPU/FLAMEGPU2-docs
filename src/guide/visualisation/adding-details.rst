@@ -92,7 +92,7 @@ When configuring the visualisation, graphs to be rendered can be specified by na
     // Configure the visualisation
     flamegpu::visualiser::ModelVis m_vis = cudaSimulation.getVisualisation();
     // Mark and configure graph "mygraph" for visualisation
-    flamegpu::visualiser::EnvironmentGraphVis g = visualisation.addGraph("mygraph");
+    flamegpu::visualiser::EnvironmentGraphVis g = m_vis.addGraph("mygraph");
     g.setColor(flamegpu::visualiser::Color{"#ff0000"});
     g.setXProperty("x");
     g.setYProperty("y");
@@ -105,7 +105,7 @@ When configuring the visualisation, graphs to be rendered can be specified by na
     # Configure the visualisation
     m_vis = cudaSimulation.getVisualisation();
     # Mark and configure graph "mygraph" for visualisation
-    g = visualisation.addGraph("mygraph")
+    g = m_vis.addGraph("mygraph")
     g.setColor(pyflamegpu.Color("#ff0000"))
     g.setXVertexProperty("x")
     g.setYVertexProperty("y")
