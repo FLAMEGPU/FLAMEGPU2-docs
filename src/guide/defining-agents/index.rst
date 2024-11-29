@@ -35,6 +35,8 @@ Agent ID
 All agents have a built in ID variable. This is a number which uniquely identifies this agent. Each agent will automatically be assigned an ID when the simulation 
 starts or the agent is birthed. The ID is value for every agent is unique among agents of all types. There is currently no way to change the ID of an agent. The agent ID variable is of type :type:`flamegpu::id_t` (Python: ``ID``) which is an ``unsigned int`` by default, but can be redefined if more IDs are required, e.g. a model with extremely high rates of agent birth/death.
 
+The symbol :var:`flamegpu::ID_N0T_SET` , equal to ``0``, is reserved and will never be assigned as an agent's id. Therefore it can be used if invalid or no ID must be represented.
+
 User Defined Variables
 ----------------------
 
