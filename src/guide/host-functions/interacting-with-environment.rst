@@ -176,6 +176,8 @@ The host API allows vertices and edges to be managed via a map/dictionary interf
 
 Vertex IDs are unsigned integers, however the value `0` is reserved so cannot be assigned. Vertex IDs are not required to be contiguous, however they are stored sparsely such that two vertices with IDs `1` and `1000001` will require an index of length `1000000`. It may be possible to run out of memory if IDs are too sparsely distributed.
 
+For convenience vertices and edges, including those which have not yet been initialised, can also be iterated and accessed via their index within the allocated buffer. However, it should be noted that these indices are not stable, and may change between host functions when the graph is rebuilt.
+
 .. tabs::
 
   .. code-tab:: cuda CUDA C++
@@ -187,19 +189,25 @@ Vertex IDs are unsigned integers, however the value `0` is reserved so cannot be
         // Declare the number of vertices and edges
         fgraph.setVertexCount(5);
         fgraph.setEdgeCount(5);
-        // Initialise the vertices
+        // Initialise the vertices by ID
         HostEnvironmentDirectedGraph::VertexMap vertices = graph.vertices();
         for (int i = 1; i <= 5; ++i) {
             // Create (or fetch) vertex with ID i
             HostEnvironmentDirectedGraph::VertexMap::Vertex vertex = vertices[i];
             vertex.setProperty<float, 2>("bar", {0.0f, 10.0f});
         }
+        // Access a vertex by index
+        vertices.atIndex(0).setProperty<float>("i", 15);
         // Initialise the edges
         HostEnvironmentDirectedGraph::EdgeMap edges = graph.edges();
         for (int i = 1; i <= 5; ++i) {
             // Create (or fetch) edge with specified source/dest vertex IDs
             HostEnvironmentDirectedGraph::EdgeMap::Edge edge = edges[{i, ((i + 1)%5) + 1}];
             edge.setProperty<int>("foo", 12);
+        }
+        // Iterate edges
+        for (auto &edge : edges) {
+            edge.setProperty<int>("foobar", 21);
         }
     }
 
@@ -213,18 +221,23 @@ Vertex IDs are unsigned integers, however the value `0` is reserved so cannot be
         # Declare the number of vertices and edges
         fgraph.setVertexCount(5)
         fgraph.setEdgeCount(5)
-        # Initialise the vertices
+        # Initialise the vertices by ID
         vertices = graph.vertices()
         for i in range(1, 6):
             # Create (or fetch) vertex with ID i
             vertex = vertices[i]
-            vertex.setPropertyPropertyArrayFloat("bar", [0, 10])
+            vertex.setPropertyArrayFloat("bar", [0, 10])
+        # Access a vertex by index
+        vertices.atIndex(0).setPropertyFloat("i", 15)
         # Initialise the edges
         edges = graph.edges()
         for i in range(1, 6):
             # Create (or fetch) edge with specified source/dest vertex IDs
             edge = edges[i, ((i + 1)%5) + 1]
             edge.setPropertyInt("foo", 12)
+        # Iterate edges
+        for edge in edges:
+            edge.setPropertyInt("foobar", 21)
 
 .. note:
 
