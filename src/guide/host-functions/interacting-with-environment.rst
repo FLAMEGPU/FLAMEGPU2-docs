@@ -312,6 +312,11 @@ An example of this format is shown below:
         ]
     }
 
+
+.. warning::
+
+  The JSON spec does not support a representation for special floating point values such as NaN and Inf, therefore they are written to JSON as NULL and read from JSON as NaN.
+
 .. note:
 
   When importing a graph, if string IDs do not map directly to integers they will automatically be replaced and remapped.
