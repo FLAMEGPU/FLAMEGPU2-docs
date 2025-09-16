@@ -26,7 +26,7 @@ Creating a Project
 To create your own FLAME GPU 2 model, we recommend that you use one of the provided FLAME GPU 2 example template repositories. These provide you with all the build scripts to build a standalone FLAME GPU 2 model. They begin with an implementation of the Circles example, however in the tutorial below we will clear that file and start with it empty.
 
 * If you wish to use the CUDA/C++ interface, use `FLAME GPU 2 example template <https://github.com/FLAMEGPU/FLAMEGPU2-example-template>`_
-* If you wish to use the Python 3.6+ interface, use `FLAME GPU 2 python example template <https://github.com/FLAMEGPU/FLAMEGPU2-python-example-template>`_
+* If you wish to use the Python 3 interface, use `FLAME GPU 2 python example template <https://github.com/FLAMEGPU/FLAMEGPU2-python-example-template>`_
 
 
 Structure of a FLAME GPU 2 Program
@@ -113,7 +113,7 @@ A more detailed guide, regarding building FLAME GPU 2 from source can be found :
 
     # Configure CMake from the command line passing configure-time options. 
     # Optionally include -DFLAMEGPU_VISUALISATION=ON below if you want to use visualisations
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CUDA_ARCHITECTURES=61
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CUDA_ARCHITECTURES=75
 
   .. code-tab:: bat Windows (.bat)
   
@@ -123,7 +123,7 @@ A more detailed guide, regarding building FLAME GPU 2 from source can be found :
 
     :: Configure CMake from the command line, specifying the -A and -G options. Alternatively use the GUI (see Quickstart guide)
     :: Optionally include -DFLAMEGPU_VISUALISATION=ON below if you want to use visualisations
-    cmake .. -A x64 -G "Visual Studio 16 2019" -DCMAKE_CUDA_ARCHITECTURES=61
+    cmake .. -G "Visual Studio 17 2022" -DCMAKE_CUDA_ARCHITECTURES=75
 
     :: You can then open Visual Studio manually from the .sln file, or via:
     cmake --open . 
@@ -131,7 +131,7 @@ A more detailed guide, regarding building FLAME GPU 2 from source can be found :
 
 .. note::
   
-  ``-DCMAKE_CUDA_ARCHITECTURES=61``, configures the build for Pascal GPUs of ``SM_61``, you may wish to change this to match your available GPU. Omitting it entirely will produce a larger binary suitable for all current architectures, which essentially multiplies the compile time by the number of architectures. In general, GPUs of newer architecture than specified will run but be limited to the features of the earlier architecture that the program was compiled for.
+  ``-DCMAKE_CUDA_ARCHITECTURES=75``, configures the build for Turing GPUs of ``SM_75``, you may wish to change this to match your available GPU. Omitting it entirely will produce a larger binary suitable for all current architectures, which essentially multiplies the compile time by the number of architectures. In general, GPUs of newer architecture than specified will run but be limited to the features of the earlier architecture that the program was compiled for.
 
 
 The build files for the project should now be created inside the directory ``build``.
