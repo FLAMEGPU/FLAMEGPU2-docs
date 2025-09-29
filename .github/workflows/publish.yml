@@ -28,18 +28,18 @@ jobs:
     runs-on: ubuntu-latest
     env:
       build_api_docs: "ON"
-      python: "3.9"
+      python: "3.10"
     steps:
     # Checkout this repository into specified path
     - name: Checkout this repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         path: FLAMEGPU2-docs
     
     # If API docs are being built, check them out into a subfolder.
     - name: Checkout FLAMEGPU2/FLAMEGPU2
       if: env.build_api_docs == 'ON'
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         repository: FLAMEGPU/FLAMEGPU2
         path: FLAMEGPU2
@@ -56,7 +56,7 @@ jobs:
     # Select the correct python version
     - name: Select Python
       if: ${{ env.python != '' }} 
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v6
       with:
         python-version: ${{ env.python }}
 
@@ -83,7 +83,7 @@ jobs:
     
     # Save HTML for later
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v2
+      uses: actions/upload-pages-artifact@v4
       with:
         path: FLAMEGPU2-docs/build/userguide/
 
@@ -99,4 +99,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
