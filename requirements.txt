@@ -2,7 +2,7 @@ sphinx >= 5.0, <= 7.1
 breathe >= 4.34.0
 docutils
 exhale
-sphinx_rtd_theme
+sphinx_rtd_theme >= 2, < 3
 sphinx_tabs
 sphinx-copybutton
 sphinxcontrib-mermaid
