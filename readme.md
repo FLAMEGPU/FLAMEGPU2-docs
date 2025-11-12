@@ -12,7 +12,7 @@ The FLAME GPU 2 userguide and API docs can be found at [docs.flamegpu.com](https
 ## Requirements
 
 * [CMake](https://cmake.org/)
-* [Python3](https://www.python.org/downloads/) `>= 3.7`
+* [Python3](https://www.python.org/downloads/) `>= 3.10`
 * [Graphviz](https://graphviz.org/)
 * Python Packages (see `requirements.txt`):
   * [Sphinx](http://www.sphinx-doc.org/en/master/)
@@ -83,3 +83,14 @@ This is then hosted at [docs.flamegpu.com](https://docs.flamegpu.com).
 This includes the API documentation, generated based on the contents of [FLAMEGPU/FLAMEGPU2](https://github.com/FLAMEGPU/FLAMEGPU2) at build time
 If the API has been updated but the user guide has not, the workflow can be manually triggered by users with the correct github permissions using the `Run workflow` button on the `publish` page.
 It may be worth manually running the `build` workflow first to make sure it can be built.
+
+## License
+
+FLAME GPU documentation is available under the same dual licence model as the main FLAME GPU 2 repository. E.g. It is available as:
+
+- [AGPL-3.0-only license](https://github.com/FLAMEGPU/FLAMEGPU2-docs/blob/master/LICENSE) for open source usage
+- A commercial licenses for cases where the use of the open source AGPL-licensed version is not possible or desirable. Please see [https://flamegpu.com/download/license/](https://flamegpu.com/download/license/) for more information.
+
+## Contributing
+
+Issues and Pull requests are welcome. Before we can accept your pull request, you need to sign our [CLA](https://flamegpu.com/cla/) so that we can redistribute any changes via 
