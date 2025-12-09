@@ -135,7 +135,25 @@ Python agent functions are required to have the ``@pyflamegpu.agent_function`` d
     # Attach Python function called agent_fn1 to an agent represented by the AgentDescription agent (the function will be compiled at runtime as C++)
     agent.newRTCFunction("agent_fn1", agent_fn1_translated)
     ...
-    
+
+Compilation Errors
+""""""""""""""""""
+
+As agent functions are translated to C++ for compilation any errors will be reported at runtime as C++ errors (to the console) following a runtime exception. In order to assist users in understanding the source of errors the originating python source file and line will be reported by the C++ compiler. E.g. If an erroneous call to an unknown function call ``no = get_thing()`` is added to the ``boids_spatial3D.py`` example on line 85 the following C++ error will be produced.  
+
+.. code-block:: console
+
+  D:\...\site-packages\pyflamegpu\codegen\codegen.py:212: UserWarning: Warning (85, 9): Function call is not a defined FLAME GPU device function or a supported python built in.
+    warnings.warn(f"Warning ({tree.lineno}, {tree.col_offset}): {str}")
+  Failed to load program for agent function (condition) 'outputdata', log:
+  Compilation failed: NVRTC_ERROR_COMPILATION
+  boids_spatial3D.py(85): error: identifier "get_thing" is undefined
+        auto no = get_thing();
+
+
+Note: The originating Python file and line will always by reported where the code generator has been provided with a Python callable from a file. In the case that a string representation of an agent function is passed the error will report ``PythonString(line_number)`` where ``line_number`` will be the line within the string. Where a callable is passed to the code generator from some source other than a Python file (e.g. a Jupyter Notebook) the error will report ``DynamicPython(line_number)`` where ``line_number`` will be line within the originating notebook cell.
+
+
 Supported Function Calls
 """"""""""""""""""""""""
 
