@@ -151,7 +151,12 @@ As agent functions are translated to C++ for compilation any errors will be repo
         auto no = get_thing();
 
 
-Note: The originating Python file and line will always by reported where the code generator has been provided with a Python callable from a file. In the case that a string representation of an agent function is passed the error will report ``PythonString(line_number)`` where ``line_number`` will be the line within the string. Where a callable is passed to the code generator from some source other than a Python file (e.g. a Jupyter Notebook) the error will report ``DynamicPython(line_number)`` where ``line_number`` will start from the first line of the provided agent function (including the decorator on line 1). Where agent device functions are defined in a notebook prior to the agent function translation these will be included in the translation but will all have a line number of 1 as no sensible line numbering can be inferred.
+.. note::
+
+   The originating Python file and line will always by reported where the code generator has been provided with a Python callable from a file.
+   In the case that a string representation of an agent function is passed the error will report ``PythonString(line_number)`` where ``line_number`` will be the line within the string.
+   Where a callable is passed to the code generator from some source other than a Python file (e.g. a Jupyter Notebook) the error will report ``DynamicPython(line_number)`` where ``line_number`` will start from the first line of the provided agent function (including the decorator on line 1).
+   Where agent device functions are defined in a notebook prior to the agent function translation these will be included in the translation but will all have a line number of 1 as no sensible line numbering can be inferred.
 
 
 Supported Function Calls
