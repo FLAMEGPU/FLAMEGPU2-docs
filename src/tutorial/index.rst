@@ -1428,8 +1428,917 @@ If you have followed the complete tutorial, you should now have the following co
         # Keep the visualisation window active after the simulation has completed
         m_vis.join()
 
+Tutorial: Graph Network Model
+-----------------------------
+
+Configuring CMake
+^^^^^^^^^^^^^^^^^
+This tutorial assumes you are familiar with the example templates as used in the `Circles Model <Tutorial: Creating the Circles Model_>`_, but in this case the use of visualisation is essential to understanding the model behaviour. CMake must therefore be configured with visualisation support.
+
+A more detailed guide regarding building FLAME GPU 2 from source can be found :ref:`here<q-compiling flamegpu>`.
+
+.. tabs::
+
+  .. code-tab:: sh Linux (.sh)
+  
+    # Create the build directory and change into it
+    mkdir -p build && cd build
+
+    # Configure CMake from the command line passing configure-time options. 
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CUDA_ARCHITECTURES=75 -DFLAMEGPU_VISUALISATION=1
+
+.. note::
+  
+  ``-DCMAKE_CUDA_ARCHITECTURES=75``, configures the build for Turing GPUs of ``SM_75``, you may wish to change this to match your available GPU. Omitting it entirely will produce a larger binary suitable for all current architectures, which essentially multiplies the compile time by the number of architectures. In general, GPUs of newer architecture than specified will run but be limited to the features of the earlier architecture that the program was compiled for.
+
+The build files for the project should now be created inside the directory ``build``.
+
+Opening the Project
+^^^^^^^^^^^^^^^^^^^ 
+
+Linux C++ users should now open ``src/main.cu`` in their preferred text editor or IDE.
+
+Windows C++ users should now open ``build/example.vcxproj`` with Visual Studio, and subsequently open ``main.cu`` via the solution explorer panel.
+
+We will clear the file only keeping the FLAME GPU and visualiser include/import statement. This statement allows the file access to the full FLAME GPU 2 library and the visualiser.
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+   #include "flamegpu/flamegpu.h"
+   #include "flamegpu/visualiser/visualiser_api.h"
+
+Introducing The Graph Network Model
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The graph network model illustrates the implementation of a network model within the FLAME GPU 2 framework. It demonstrates the concepts underlying published network models such XXXXX (for roads) and XXXXX (for railways). 
+
+The network consists of one central and three peripheral railway stations ('nodes' or 'vertices' of the graph), linked by railway lines ('links' or 'edges' forming a graph). Trains run on the network according to a pre-planned timetable held in an XML configuration file. This demonstrates the use of an external configuration file, and allows exploring different timetables without recompiling the model. 
+
+Model Description
+^^^^^^^^^^^^^^^^^
+
+As for the `Circles Model <Tutorial: Creating the Circles Model_>`_ the first step to creating a FLAME GPU model is to define the model, this begins by creating a :class:`ModelDescription<flamegpu::ModelDescription>`. The :class:`ModelDescription<flamegpu::ModelDescription>` is defined at the start of program flow.
+
+Before the model description, we define some variables used to give the log files from the model unique time coded names. 
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+   ...
+   // All code examples are assumed to be implemented within a main function.
+   // E.g. int main(int argc, const char *argv[])
+		
+   // Filenanme to be used for logging output
+   char filename[60];
+
+   // Use time to give log files unique names
+   time_t now = time(NULL);
+   struct tm *timenow;
+   timenow = gmtime(&now);
+   
+   // Define the FLAME GPU model
+   flamegpu::ModelDescription model("Graph example");
+   ...
+  
+
+Environment Description
+^^^^^^^^^^^^^^^^^^^^^^^
+
+This follows a similar pattern to that used in the `Circles Model <Tutorial: Creating the Circles Model_>`_ fetching the :class:`EnvironmentDescription<flamegpu::EnvironmentDescription>` from the :class:`ModelDescription<flamegpu::ModelDescription>` using :func:`Environment()<flamegpu::ModelDescription::Environment>`.
+
+Properties are added using :func:`newProperty()<template<typename T> void flamegpu::EnvironmentDescription::newProperty(const std::string &, T, bool)>` with an initial value specified as the second argument.
+
+The environment for the graph model holds information about the visualisation and its camera angle, logging, and the simulation timestep. The maximum number of trains to be modelled is stored to facilitate colour coding the trains to differentiate them as they run in the visualisation. 
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+   ...       
+   // global environment variables
+   flamegpu::EnvironmentDescription env = model.Environment();
+   env.newProperty<int>("visualisation", 0);              //0 = off, 1 = on
+   env.newProperty<int, 6>("camera", {0, 0, 0, 0, 0, 0}); // x,y,z camera target, x,y,z camera location
+   env.newProperty<int>("logging", 0);                    //0 = off, 1 = on
+   env.newProperty<float>("timestep", 1);                 //Time step of the simulation in seconds
+   env.newProperty<float>("maxtrains", (float)100);       //Number of trains that will be colour differentiable in the visualisation 
+   ...
+   
+Graph Network Description
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The modelled network graph is made up of railway stations ('nodes' or 'vertices') and railway lines ('links' or 'edges'). 
+
+The railway lines each have an origin and destination station, and a linespeed (maximum speed) property. The stations have properties including their location in x-y space, and a dwelltime in seconds needed for passengers to board and alight when trains call there. Provision is made for additional properties to indicate how factors such as station capacity and station type (terminal or through station) might be included in the model, but these are not explored in this tutorial. 
+
+The properties of the graph must be defined in the program code, but are then populated using a JSON file read in the :ref:`initialisation function<Graph Model Initialisation>`. 
+
+The :class:`EnvironmentDirectedGraphDescription<flamegpu::EnvironmentDirectedGraphDescription>` is attached to the model environment using :func:`newDirectedGraph()<flamegpu::ModelDescription::Environment::newDirectedGraph>`.
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+    ... 
+    flamegpu::EnvironmentDirectedGraphDescription graph = model.Environment().newDirectedGraph("graph");
+    graph.newVertexProperty<float>("x");       // Location - x
+    graph.newVertexProperty<float>("y");       // Location - y
+    graph.newVertexProperty<float>("z");       // Location - z
+    graph.newVertexProperty<int>("type");      // 0 = terminal station, 1 = through station
+    graph.newVertexProperty<int>("capacity");  // Number of trains that can be accomodated at the station
+    graph.newVertexProperty<int>("dwelltime"); // Minimum time allocated for boarding and alighting at the station
+    graph.newEdgeProperty<float>("linespeed"); // Maximum speed of trains on the line
+    graph.newEdgeProperty<int>("linkid");      // ID for ease of input file preparation
+    ...
+    
+  
+Agent Description
+^^^^^^^^^^^^^^^^^
+
+Train agents are added to the model and the variables each train holds are assigned. These include routing and timing information which will be assigned to the train at the start of running the model, and variables that store working information during movement on the network. Efficiency of calculation is increased by calculating only once for each leg of the train journey the direction of motion and step size per timestep in x-y space rather than recalculating this every timestep.
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+   ... 
+   //Create agent description
+   flamegpu::AgentDescription train = model.newAgent("train");
+   train.newVariable<float>("x");          // Locaiton - x
+   train.newVariable<float>("y");          // Location - y
+   train.newVariable<float>("z");          // Location - z
+   train.newVariable<float>("trainviz");   // Automatically assigned to enable colour differentiation between trains
+   train.newVariable<int>("target");       // The node (station) the train is heading towards. -1 indicates not yet on journey. -2 indicates journey completed.
+   train.newVariable<int>("starttime");    // Start time in seconds, e.g. relative to midnight
+   train.newVariable<int, 50>("route");    // An array of stations to call at. Allow for 50 stops
+   train.newVariable<int, 50>("timing");   // An array of timings indicating how long each leg of the journey is scheduled to take (incremental, not cumulative)
+   train.newVariable<float>("maxSpeed");   // Train capabillity maximum speed
+   train.newVariable<float>("dx");         // Step size in x on current edge
+   train.newVariable<float>("dy");         // Step size in y on current edge
+   train.newVariable<float>("dl");         // Step size in l on current edge
+   train.newVariable<float>("remainingL"); // Count down to reaching edge destination
+   train.newVariable<int>("journeyIndex"); // Count down to reaching edge destination
+   train.newVariable<int>("dwelltime");    // Count down dwell period in station
+   ...
+    
+
+Agent Function Description
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The core agent function moves the train around the network according to the route information already held by the trains. It combines information about the network (linespeed limits) and the trains (maximum speed capability) to ensure the train movement is within the capabilities of both the vehicle and the infrastructure. Since this check is used in two places within the agent function a separate device function is defined to hold this code. 
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+   ...
+   //Ensure speed is within the capability of both train and infrastructure
+   FLAMEGPU_DEVICE_FUNCTION float myFun(float linespeed, float maxspeed, float dt){
+     float velocity, dl;
+     velocity = min(linespeed, maxspeed);
+     dl = velocity * dt;
+     return dl;
+   }
+   ...
+  
+The main agent function ``move_trains`` can then be defined. This begins with an initialisation routine that will only run in the first modelling timestep. This is here rather than in an initialisation function as it requires access to the graph data which is only available in device functions, not host functions. A countdown timer ``dwelltime`` is set when trains arrive at stations and they wait for this to reach zero before continuing their journey. The ``starttime`` enables trains to begin their journey at a pre-planned time after the start of the simulation. For each leg of the journey the train takes location information from the graph to define its origin (source) and destination (target). The number of movement increments needed to reach the remaining distance to the target is used to determine when the graph should be checked again for the next leg of the journey. The journey terminates when the next stage of the route indicates vertex index -2, a special value used for this purpose which does not correspond to any real vertex in the graph. 
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+   ...
+   //Agent function to move trains on the network
+   FLAMEGPU_AGENT_FUNCTION(move_trains, flamegpu::MessageNone, flamegpu::MessageNone) {
+     // move agents in time steps - a more sophisticated model would account for acceleration and braking periods
+     
+     flamegpu::DeviceEnvironmentDirectedGraph graph = FLAMEGPU->environment.getDirectedGraph("graph");
+     int source, target;
+     float Dx, Dy, dl, vel, remainingL, timestep;
+     
+     timestep = FLAMEGPU->environment.getProperty<float>("timestep");
+    
+     //Initialise train positions
+     if(FLAMEGPU->getStepCounter() == 0 && FLAMEGPU->getVariable<int, 50>("route", 0) != -2){
+       source = FLAMEGPU->getVariable<int, 50>("route", 0);
+       
+       //Convert vertex_id to vertex_index
+       source = graph.getVertexIndex(source);
+       
+       FLAMEGPU->setVariable<float>("x", graph.getVertexProperty<float>("x", source));
+       FLAMEGPU->setVariable<float>("y", graph.getVertexProperty<float>("y", source));
+       FLAMEGPU->setVariable<float>("z", graph.getVertexProperty<float>("z", source));
+     }
+     
+     //Trains start at an allocated time. A more sophisticated model would use clock times not simulation timesteps
+     if(FLAMEGPU->getStepCounter() >= FLAMEGPU->getVariable<int>("starttime")){
+       
+       //If the dwelltime counter is set, decrement the counter but don't move the train yet
+       if(FLAMEGPU->getVariable<int>("dwelltime") > 0){
+	 FLAMEGPU->setVariable<int>("dwelltime", FLAMEGPU->getVariable<int>("dwelltime") - 1);
+	 
+       }else{      
+	 //Prior to starting their journey place the agents at the first node listed in their route
+	 //A more sophisticated model would include the journey to/from a depot
+	 if(FLAMEGPU->getVariable<int>("journeyIndex") == 0 && FLAMEGPU->getVariable<int, 50>("route", 0) != -2){
+	   FLAMEGPU->setVariable<int>("journeyIndex", 1); // Effectively this is the 'next stop' or next node
+	   source = FLAMEGPU->getVariable<int, 50>("route", 0);
+	   target = FLAMEGPU->getVariable<int, 50>("route", 1);
+
+           //Convert vertex_id to vertex_index
+	   source = graph.getVertexIndex(source);
+	   target = graph.getVertexIndex(target);
+	   
+	   FLAMEGPU->setVariable<float>("x", graph.getVertexProperty<float>("x", source));
+	   FLAMEGPU->setVariable<float>("y", graph.getVertexProperty<float>("y", source));
+	   
+	   //Set trajectory based on the source to target geometry (Dx, Dy)
+	   //These are really edge properties but are more easily handled in the train agent
+	   Dx = graph.getVertexProperty<float>("x", target) - graph.getVertexProperty<float>("x", source);
+	   Dy = graph.getVertexProperty<float>("y", target) - graph.getVertexProperty<float>("y", source);
+	   remainingL = sqrt(Dx*Dx + Dy*Dy);
+	   FLAMEGPU->setVariable<float>("remainingL", remainingL);
+	   
+	   //Update the incremental steps according to the speed
+	   unsigned int edge_index = graph.getEdgeIndex(source, target);
+	   dl = myFun(graph.getEdgeProperty<float>("linespeed", edge_index), FLAMEGPU->getVariable<float>("maxSpeed"), timestep);
+	   
+	   //dx and dy scale by the same ratio as remainingL:dl, so no need for use of trig here
+	   FLAMEGPU->setVariable<float>("dx", Dx * dl / remainingL);
+	   FLAMEGPU->setVariable<float>("dy", Dy * dl / remainingL);
+	   FLAMEGPU->setVariable<float>("dl", dl);
+	   
+	 }else if(FLAMEGPU->getVariable<float>("remainingL") > 0){
+	   //Train is on the move - increment its progress and check if it's reaching its target node
+	   
+	   FLAMEGPU->setVariable<float>("remainingL", FLAMEGPU->getVariable<float>("remainingL") - FLAMEGPU->getVariable<float>("dl"));
+	   FLAMEGPU->setVariable<float>("x", FLAMEGPU->getVariable<float>("x") + FLAMEGPU->getVariable<float>("dx"));
+	   FLAMEGPU->setVariable<float>("y", FLAMEGPU->getVariable<float>("y") + FLAMEGPU->getVariable<float>("dy"));
+	   
+	   if(FLAMEGPU->getVariable<float>("remainingL") < FLAMEGPU->getVariable<float>("dl")){
+	     //This train will reach its next station within the next time step - update route information now
+	     source = FLAMEGPU->getVariable<int, 50>("route", FLAMEGPU->getVariable<int>("journeyIndex"));
+	     FLAMEGPU->setVariable<int>("journeyIndex", FLAMEGPU->getVariable<int>("journeyIndex") + 1);
+	     target = FLAMEGPU->getVariable<int, 50>("route", FLAMEGPU->getVariable<int>("journeyIndex"));
+	     
+	     if(target == -2 || source == -2){
+	       //You have reached your destination.
+	       //A more sophisticated model would move the train to its next service here
+	       
+	     }else{
+	       //Continue with next stage of the journey
+	       
+	       //Convert vertex_id to vertex_index
+	       source = graph.getVertexIndex(source);
+	       target = graph.getVertexIndex(target);
+	    
+	       //Set the dwell counter to pause the train in the station
+	       FLAMEGPU->setVariable<int>("dwelltime", graph.getVertexProperty<int>("dwelltime", target));
+	       
+	       //Set up for the next leg of the journey - follows steps used to initialise the first step of the journey
+	       FLAMEGPU->setVariable<float>("x", graph.getVertexProperty<float>("x", source));
+	       FLAMEGPU->setVariable<float>("y", graph.getVertexProperty<float>("y", source));
+	       Dx = graph.getVertexProperty<float>("x", target) - graph.getVertexProperty<float>("x", source);
+	       Dy = graph.getVertexProperty<float>("y", target) - graph.getVertexProperty<float>("y", source);
+	       remainingL = sqrt(Dx*Dx + Dy*Dy);
+	       FLAMEGPU->setVariable<float>("remainingL", remainingL);
+	       unsigned int edge_index = graph.getEdgeIndex(source, target);
+	       dl = myFun(graph.getEdgeProperty<float>("linespeed", edge_index), FLAMEGPU->getVariable<float>("maxSpeed"), timestep);
+	       FLAMEGPU->setVariable<float>("dx", Dx * dl / remainingL);
+	       FLAMEGPU->setVariable<float>("dy", Dy * dl / remainingL);
+	       FLAMEGPU->setVariable<float>("dl", dl);
+	     }
+	   }
+	 }
+       }
+     }
+     return flamegpu::ALIVE;
+   }
+   ...
+
+.. _Graph Model Initialisation:
+
+Initialisation Functions
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Two initialisation functions are used, one for the trains, and one for the graph network. In both cases the data to initialise the agents could be hard coded here, but we instead use data from external configuration files so it can be modified without recompiling the program. 
+
+For the trains initialisation populates agent variables that are not set from the external configuration file. 
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+   ... 
+   //Initialisation of the trains
+   FLAMEGPU_INIT_FUNCTION(InitTrains) {
+     int i = 0;
+     
+     printf("Creating train agents\n");
+     
+     // Get population of train agents which will have been loaded from an external configuration file
+     flamegpu::HostAgentAPI t_pop2 = FLAMEGPU->agent("train");
+     
+     // Get DeviceAgentVector to the train population
+     flamegpu::DeviceAgentVector t_vector = t_pop2.getPopulationData();
+     // Set all trainss to origin
+     for(auto t : t_vector){
+       t.setVariable<int>("target", -1);
+       t.setVariable<int>("journeyIndex", 0);
+       t.setVariable<float>("remainingL", 0.0);
+       t.setVariable<float>("x", 0.0);
+       t.setVariable<float>("y", 0.0);
+       t.setVariable<float>("z", 0.0);
+       t.setVariable<float>("trainviz", (float)i);
+       i++;
+     }
+     printf("Created %i train agents\n", i);
+   }
+   ...
+
+For the graph network the initialisation reads in an external JSON file defining the layout. It's important to adapt the filename to where your JSON file is stored, and to the filename conventions of your Windows (backslash \ as file path separator) or Linux (forward slash / as a file path separator) system.
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+   ...
+   FLAMEGPU_INIT_FUNCTION(InitGraph){
+     flamegpu::HostEnvironmentDirectedGraph graph = FLAMEGPU->environment.getDirectedGraph("graph");  
+     graph.importGraph("../src/graph.json");
+   }
+   ...
+
+For our example the following JSON file defines the network layout and properties of the nodes and edges. Units used should be self-consistent to ensure speeds and distances are physically sensible (in this simple example the time unit is the simulation timestep rather than seconds). Properties of the railway lines may vary with the traverse direction (for example linespeed limit may be different for opposite directions), so two edges between each pair of nodes are defined with the source/destination in opposite order. This file needs to be saved using the name ``graph.json`` within your source code folder (i.e. with a name matching the ``importGraph`` function shown above). 
+
+.. tabs::
+
+  .. code-tab:: json JSON
+
+   {
+	"nodes": [
+        {
+            "id": "1",
+            "capacity": 500,
+            "dwelltime": 600,
+            "type": 0,
+            "x": 650,
+            "y": 50,
+	    "z": 0
+        },
+        {
+            "id": "2",
+            "capacity": 500,
+            "dwelltime": 600,
+            "type": 0,
+            "x": 500,
+            "y": 400,
+	    "z": 0
+        },
+        {
+            "id": "3",
+            "capacity": 500,
+            "dwelltime": 400,
+            "type": 0,
+            "x": 750,
+            "y": 900,
+	    "z": 0
+        },
+        {
+                "id": "4",
+            "capacity": 500,
+            "dwelltime": 300,
+            "type": 0,
+            "x": 50,
+            "y": 750,
+	    "z": 0
+        }],
+	"links": [
+        {
+                "source": "1",
+                "target": "2",
+                "linespeed": 50
+        },
+        {
+                "source": "2",
+                "target": "3",
+                "linespeed": 50
+        },
+        {
+                "source": "2",
+                "target": "4",
+                "linespeed": 50
+        },
+        {
+                "source": "2",
+                "target": "1",
+                "linespeed": 30
+        },
+        {
+                "source": "3",
+                "target": "2",
+                "linespeed": 80
+        },
+        {
+                "source": "4",
+                "target": "2",
+                "linespeed": 40
+        }]
+   }
 
 
+
+Model execution order and logging set-up
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The configuration steps below are included in the code to assemble the elements we have created. The initialisation functions are added to the model, with the first (and only) function to run on the agents added as the ExecutitionRoot. Logging is configured to save environment data at exit. Further configuration of logging for agent data is given in the complete program listing. 
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+   ... 
+   //Setup execution order
+   
+   model.addInitFunction(InitGraph);
+   model.addInitFunction(InitTrains);
+   
+   // Setup the move_trains function
+   flamegpu::AgentFunctionDescription train_fn = train.newFunction("move_trains", move_trains);
+   
+   // Identify the root of execution
+   model.addExecutionRoot(train_fn);
+   
+   // Build the model
+   model.generateLayers();
+   
+   //Convert model to a simulation
+   flamegpu::CUDASimulation simulation(model, argc, argv);
+   
+   // Specify the desired Exit LoggingConfig
+   flamegpu::LoggingConfig exit_log_cfg(model);
+   exit_log_cfg.logEnvironment("camera");
+   exit_log_cfg.logEnvironment("visualisation");
+   exit_log_cfg.logEnvironment("logging");
+   simulation.setExitLog(exit_log_cfg);
+   ...
+    
+Model runtime configuration and train routes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+At runtime the model reads an XML configuration file which contains train agent properties including their routes and timing information. This needs to be saved locally so you can read it at run time, for example, saving as ``config.xml`` in your source code directory. 
+
+Trains undertake routes around the network, with provision here for up to 50 station calls on each route. In the example code trains run at the least of the maximum line speed or the maximum train speed, but a ``timing`` entry is provided through which more control of timetabling for each leg of the journey could be developed. Trains start at the location of the first station on their route, with unused trains stored at a 'depot' location at position 0,0. Each train has a ``starttime`` at which it begins its journey to avoid them all beginning at the start of the simulation. In this simple example the time unit is the simulation timestep rather than seconds. When trains pass through stations they pause for the dwelltime specified in the graph for that station location. 
+
+.. tabs::
+
+  .. code-tab:: xml XML
+
+	<states>
+        <itno>100</itno>
+        <config>
+                <simulation>
+                        <input_file></input_file>
+                        <steps>25000</steps>
+                        <verbosity>1</verbosity>
+                        <console_mode>false</console_mode>
+                </simulation>
+                <cuda>
+                        <device_id>0</device_id>
+                        <inLayerConcurrency>true</inLayerConcurrency>
+                </cuda>
+        </config>
+        <environment>
+                <timestep>0.01</timestep>
+                <visualisation>1</visualisation>
+                <logging>1</logging>
+                <camera>100,500,0,100,500, 1000</camera>
+		<maxtrains>2</maxtrains>
+        </environment>
+        <macro_environment/>
+        <xagent>
+                <name>train</name>
+                <state>default</state>
+                <_id type="j">1</_id>
+                <route type="i">1,2,1,2,1,2,3,2,4,2,1,2,1,-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</route>
+                <starttime type="i">3500</starttime>
+                <timing type="i">0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</timing>
+                <maxSpeed type="f">40</maxSpeed>
+        </xagent>
+        <xagent>
+                <name>train</name>
+                <state>default</state>
+                <_id>2</_id>
+                <route>1,2,4,2,4,-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</route>
+                <starttime>0</starttime>
+                <timing>0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</timing>
+                <maxSpeed>20</maxSpeed>
+        </xagent>
+        <xagent>
+                <name>train</name>
+                <state>default</state>
+                <_id>3</_id>
+                <route>-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</route>
+                <starttime>0</starttime>
+                <timing>0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</timing>
+                <maxSpeed>50</maxSpeed>
+        </xagent>
+	</states>
+	<!-- timestep - currently set to make visualisation run well. Needs to be 1 or 2s, and use framerate (CameraSpeed) to adjust the visualisation -->
+	<!-- Camera target and camera location {x,y,z,x,y,z} -->
+	<!-- visualisation - 0 = off, 1 = on -->
+	<!-- logging - 0 = off, 1 = environment, 2 = environment and agents -->
+	<!-- maxtrains - set to the number of trains that will be colour differentiable in the visualisation -->
+
+
+Visualisation
+^^^^^^^^^^^^^
+
+The visualisation is tailored to the x-y space over which the stations are located. Here, that environment bounds for the visualisation are hard-coded but they could be read from environment variables defined in the XML configuration file using the same approach used for the camera location if it was required to vary these between runs. 
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+   ... 
+   // Create visualisation if enabled
+   #ifdef FLAMEGPU_VISUALISATION
+      flamegpu::visualiser::ModelVis visualiser = simulation.getVisualisation();
+	  
+      if(simulation.getEnvironmentProperty<int>("visualisation") >=1){
+        visualiser.setInitialCameraTarget(simulation.getEnvironmentProperty<int, 6>("camera",0),
+            simulation.getEnvironmentProperty<int, 6>("camera",1), simulation.getEnvironmentProperty<int, 6>("camera",2));
+        visualiser.setInitialCameraLocation(simulation.getEnvironmentProperty<int, 6>("camera",3),
+            simulation.getEnvironmentProperty<int, 6>("camera",4), simulation.getEnvironmentProperty<int, 6>("camera",5));
+        visualiser.setCameraSpeed(0.01f);
+	
+        // Add "train" agents to the visualisation
+        flamegpu::visualiser::AgentVis train_agt = visualiser.addAgent("train");
+        train_agt.setModel(flamegpu::visualiser::Stock::Models::CUBE);
+        train_agt.setModelScale(10, 10, 10);
+        train_agt.setXVariable("x");
+        train_agt.setYVariable("y");
+        train_agt.setZVariable("z");
+        //A more sophisticated model would automatically adapt here for the number of trains
+        train_agt.setColor(flamegpu::visualiser::HSVInterpolation::GREENRED("trainviz", 0.0f, simulation.getEnvironmentProperty<float>("maxtrains")));
+        
+        //Plot location of the graph verticies and edges
+        flamegpu::visualiser::EnvironmentGraphVis g = visualiser.addGraph("graph");
+        g.setColor(flamegpu::visualiser::Color{"#ff0000"});
+        g.setXVertexProperty("x");
+        g.setYVertexProperty("y");
+        g.setZVertexProperty("z");
+        
+        // Mark the environment bounds
+        flamegpu::visualiser::LineVis pen = visualiser.newPolylineSketch(1, 1, 1, 1); //0.2f
+        pen.addVertex(0, 0, 0);
+        pen.addVertex(0, 1000, 0);
+        pen.addVertex(1000, 1000, 0);
+        pen.addVertex(1000, 0, 0);
+        pen.addVertex(0, 0, 0);
+        
+        // Open the visualiser window
+        visualiser.activate();
+      }
+   #endif
+   ...
+
+Compiling and running the Simulation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To run the simulation the location of the XML configuration file must be given on the command line. It is assumed that the JSON network definition file is in the same folder as the source code file. 
+
+If compiling and running from the build directory, and with the ``config.xml`` file and ``graph.json`` file stored in the source directory, the commands on Linux are:
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+	cmake --build . --target flamegpu template -j 4
+
+	./bin/Release/template -i ../src/config.xml
+
+
+Complete Tutorial Code
+^^^^^^^^^^^^^^^^^^^^^^
+
+If you have followed the complete tutorial, you should now understand the flow of the full model code given here. Note that this includes some additional code not explored above to execute the simulation, configure logging from the model, and to manage the visualisation window after the simulation finishes.
+
+.. tabs::
+
+  .. code-tab:: cpp C++
+
+   #include "flamegpu/flamegpu.h"
+   #include "flamegpu/visualiser/visualiser_api.h"
+
+   //Ensure speed is within the capability of both train and infrastructure
+   FLAMEGPU_DEVICE_FUNCTION float myFun(float linespeed, float maxspeed, float dt){
+     float velocity, dl;
+     velocity = min(linespeed, maxspeed);
+     dl = velocity * dt;
+     return dl;
+   }
+
+   //Agent function to move trains on the network
+   FLAMEGPU_AGENT_FUNCTION(move_trains, flamegpu::MessageNone, flamegpu::MessageNone) {
+     // move agents in time steps - a more sophisticated model would account for acceleration and braking periods
+     
+     flamegpu::DeviceEnvironmentDirectedGraph graph = FLAMEGPU->environment.getDirectedGraph("graph");
+     int source, target;
+     float Dx, Dy, dl, vel, remainingL, timestep;
+     
+     timestep = FLAMEGPU->environment.getProperty<float>("timestep");
+    
+     //Initialise train positions
+     if(FLAMEGPU->getStepCounter() == 0 && FLAMEGPU->getVariable<int, 50>("route", 0) != -2){
+       source = FLAMEGPU->getVariable<int, 50>("route", 0);
+       
+       //Convert vertex_id to vertex_index
+       source = graph.getVertexIndex(source);
+       
+       FLAMEGPU->setVariable<float>("x", graph.getVertexProperty<float>("x", source));
+       FLAMEGPU->setVariable<float>("y", graph.getVertexProperty<float>("y", source));
+       FLAMEGPU->setVariable<float>("z", graph.getVertexProperty<float>("z", source));
+     }
+     
+     //Trains start at an allocated time. A more sophisticated model would use clock times not simulation timesteps
+     if(FLAMEGPU->getStepCounter() >= FLAMEGPU->getVariable<int>("starttime")){
+       
+       //If the dwelltime counter is set, decrement the counter but don't move the train yet
+       if(FLAMEGPU->getVariable<int>("dwelltime") > 0){
+	 FLAMEGPU->setVariable<int>("dwelltime", FLAMEGPU->getVariable<int>("dwelltime") - 1);
+	 
+       }else{      
+	 //Prior to starting their journey place the agents at the first node listed in their route
+	 //A more sophisticated model would include the journey to/from a depot
+	 if(FLAMEGPU->getVariable<int>("journeyIndex") == 0 && FLAMEGPU->getVariable<int, 50>("route", 0) != -2){
+	   FLAMEGPU->setVariable<int>("journeyIndex", 1); // Effectively this is the 'next stop' or next node
+	   source = FLAMEGPU->getVariable<int, 50>("route", 0);
+	   target = FLAMEGPU->getVariable<int, 50>("route", 1);
+
+           //Convert vertex_id to vertex_index
+	   source = graph.getVertexIndex(source);
+	   target = graph.getVertexIndex(target);
+	   
+	   FLAMEGPU->setVariable<float>("x", graph.getVertexProperty<float>("x", source));
+	   FLAMEGPU->setVariable<float>("y", graph.getVertexProperty<float>("y", source));
+	   
+	   //Set trajectory based on the source to target geometry (Dx, Dy)
+	   //These are really edge properties but are more easily handled in the train agent
+	   Dx = graph.getVertexProperty<float>("x", target) - graph.getVertexProperty<float>("x", source);
+	   Dy = graph.getVertexProperty<float>("y", target) - graph.getVertexProperty<float>("y", source);
+	   remainingL = sqrt(Dx*Dx + Dy*Dy);
+	   FLAMEGPU->setVariable<float>("remainingL", remainingL);
+	   
+	   //Update the incremental steps according to the speed
+	   unsigned int edge_index = graph.getEdgeIndex(source, target);
+	   dl = myFun(graph.getEdgeProperty<float>("linespeed", edge_index), FLAMEGPU->getVariable<float>("maxSpeed"), timestep);
+	   
+	   //dx and dy scale by the same ratio as remainingL:dl, so no need for use of trig here
+	   FLAMEGPU->setVariable<float>("dx", Dx * dl / remainingL);
+	   FLAMEGPU->setVariable<float>("dy", Dy * dl / remainingL);
+	   FLAMEGPU->setVariable<float>("dl", dl);
+	   
+	 }else if(FLAMEGPU->getVariable<float>("remainingL") > 0){
+	   //Train is on the move - increment its progress and check if it's reaching its target node
+	   
+	   FLAMEGPU->setVariable<float>("remainingL", FLAMEGPU->getVariable<float>("remainingL") - FLAMEGPU->getVariable<float>("dl"));
+	   FLAMEGPU->setVariable<float>("x", FLAMEGPU->getVariable<float>("x") + FLAMEGPU->getVariable<float>("dx"));
+	   FLAMEGPU->setVariable<float>("y", FLAMEGPU->getVariable<float>("y") + FLAMEGPU->getVariable<float>("dy"));
+	   
+	   if(FLAMEGPU->getVariable<float>("remainingL") < FLAMEGPU->getVariable<float>("dl")){
+	     //This train will reach its next station within the next time step - update route information now
+	     source = FLAMEGPU->getVariable<int, 50>("route", FLAMEGPU->getVariable<int>("journeyIndex"));
+	     FLAMEGPU->setVariable<int>("journeyIndex", FLAMEGPU->getVariable<int>("journeyIndex") + 1);
+	     target = FLAMEGPU->getVariable<int, 50>("route", FLAMEGPU->getVariable<int>("journeyIndex"));
+	     
+	     if(target == -2 || source == -2){
+	       //You have reached your destination.
+	       //A more sophisticated model would move the train to its next service here
+	       
+	     }else{
+	       //Continue with next stage of the journey
+	       
+	       //Convert vertex_id to vertex_index
+	       source = graph.getVertexIndex(source);
+	       target = graph.getVertexIndex(target);
+	    
+	       //Set the dwell counter to pause the train in the station
+	       FLAMEGPU->setVariable<int>("dwelltime", graph.getVertexProperty<int>("dwelltime", target));
+	       
+	       //Set up for the next leg of the journey - follows steps used to initialise the first step of the journey
+	       FLAMEGPU->setVariable<float>("x", graph.getVertexProperty<float>("x", source));
+	       FLAMEGPU->setVariable<float>("y", graph.getVertexProperty<float>("y", source));
+	       Dx = graph.getVertexProperty<float>("x", target) - graph.getVertexProperty<float>("x", source);
+	       Dy = graph.getVertexProperty<float>("y", target) - graph.getVertexProperty<float>("y", source);
+	       remainingL = sqrt(Dx*Dx + Dy*Dy);
+	       FLAMEGPU->setVariable<float>("remainingL", remainingL);
+	       unsigned int edge_index = graph.getEdgeIndex(source, target);
+	       dl = myFun(graph.getEdgeProperty<float>("linespeed", edge_index), FLAMEGPU->getVariable<float>("maxSpeed"), timestep);
+	       FLAMEGPU->setVariable<float>("dx", Dx * dl / remainingL);
+	       FLAMEGPU->setVariable<float>("dy", Dy * dl / remainingL);
+	       FLAMEGPU->setVariable<float>("dl", dl);
+	     }
+	   }
+	 }
+       }
+     }
+     return flamegpu::ALIVE;
+   }
+
+   //Initialisation of the trains
+   FLAMEGPU_INIT_FUNCTION(InitTrains) {
+     int i = 0;
+     
+     printf("Creating train agents\n");
+     
+     // Get population of train agents which will have been loaded from an external configuration file
+     flamegpu::HostAgentAPI t_pop2 = FLAMEGPU->agent("train");
+     
+     // Get DeviceAgentVector to the train population
+     flamegpu::DeviceAgentVector t_vector = t_pop2.getPopulationData();
+     // Set all trains's to origin
+     for(auto t : t_vector){
+       t.setVariable<int>("target", -1);
+       t.setVariable<int>("journeyIndex", 0);
+       t.setVariable<float>("remainingL", 0.0);
+       t.setVariable<float>("x", 0.0);
+       t.setVariable<float>("y", 0.0);
+       t.setVariable<float>("z", 0.0);
+       t.setVariable<float>("trainviz", (float)i);
+       i++;
+     }
+     printf("Created %i train agents\n", i);
+   }
+
+   //Initialisation of the graph network
+   FLAMEGPU_INIT_FUNCTION(InitGraph){
+     flamegpu::HostEnvironmentDirectedGraph graph = FLAMEGPU->environment.getDirectedGraph("graph");
+     graph.importGraph("../src/graph.json");
+   }
+
+   //Main function
+   int main(int argc, const char ** argv) {
+    
+     // Filenanme to be used for logging output
+     char filename[60];
+
+     // Use time to give log files unique names
+     time_t now = time(NULL);
+     struct tm *timenow;
+     timenow = gmtime(&now);
+     
+     // Define the FLAME GPU model
+     flamegpu::ModelDescription model("Graph example");
+     
+     // global environment variables
+     flamegpu::EnvironmentDescription env = model.Environment();
+     env.newProperty<int>("visualisation", 0);              //0 = off, 1 = on
+     env.newProperty<int, 6>("camera", {0, 0, 0, 0, 0, 0}); // x,y,z camera target, x,y,z camera location
+     env.newProperty<int>("logging", 0);                    //0 = off, 1 = on
+     env.newProperty<float>("timestep", 1);                 //Time step of the simulation in seconds
+     env.newProperty<float>("maxtrains", (float)100);       //Number of trains that will be colour differentiable in the visualisation 
+     
+     // Graph definition
+     flamegpu::EnvironmentDirectedGraphDescription graph = model.Environment().newDirectedGraph("graph");
+     graph.newVertexProperty<float>("x");       // Location - x
+     graph.newVertexProperty<float>("y");       // Location - y
+     graph.newVertexProperty<float>("z");       // Location - z
+     graph.newVertexProperty<int>("type");      // 0 = terminal station, 1 = through station
+     graph.newVertexProperty<int>("capacity");  // Number of trains that can be accomodated
+     graph.newVertexProperty<int>("dwelltime"); // Minimum time allocated for boarding and alighting at each station
+     graph.newEdgeProperty<float>("linespeed"); // Maximum speed of trains on the line
+     graph.newEdgeProperty<int>("linkid");      // ID for ease of input file preparation
+     
+     //Create agent description
+     flamegpu::AgentDescription train = model.newAgent("train");
+     train.newVariable<float>("x");          // Locaiton - x
+     train.newVariable<float>("y");          // Location - y
+     train.newVariable<float>("z");          // Location - z
+     train.newVariable<float>("trainviz");   // Automatically assigned to enable colour differentiation between trains
+     train.newVariable<int>("target");       // The node (station) the train is heading towards. -1 indicates not yet on journey. -2 indicates journey completed.
+     train.newVariable<int>("starttime");    // Start time in seconds, e.g. relative to midnight
+     train.newVariable<int, 50>("route");    // An array of stations to call at. Allow for 50 stops
+     train.newVariable<int, 50>("timing");   // An array of timings indicating how long each leg of the journey is scheduled to take (incremental, not cumulative)
+     train.newVariable<float>("maxSpeed");   // Train capabillity maximum speed
+     train.newVariable<float>("dx");         // Step size in x on current edge
+     train.newVariable<float>("dy");         // Step size in y on current edge
+     train.newVariable<float>("dl");         // Step size in l on current edge
+     train.newVariable<float>("remainingL"); // Count down to reaching edge destination
+     train.newVariable<int>("journeyIndex"); // Count down to reaching edge destination
+     train.newVariable<int>("dwelltime");    // Count down dwell period in station
+     
+     //Setup execution order
+     
+     model.addInitFunction(InitGraph);
+     model.addInitFunction(InitTrains);
+     
+     // Setup the move_trains function
+     flamegpu::AgentFunctionDescription train_fn = train.newFunction("move_trains", move_trains);
+     
+     // Identify the root of execution
+     model.addExecutionRoot(train_fn);
+     
+     // Build the model
+     model.generateLayers();
+     
+     //Convert model to a simulation
+     flamegpu::CUDASimulation simulation(model, argc, argv);
+     
+     // Specify the desired Exit LoggingConfig
+     flamegpu::LoggingConfig exit_log_cfg(model);
+     exit_log_cfg.logEnvironment("camera");
+     exit_log_cfg.logEnvironment("visualisation");
+     exit_log_cfg.logEnvironment("logging");
+     simulation.setExitLog(exit_log_cfg);
+     
+     //Avoid messages about items not defined in the XML config file
+     simulation.SimulationConfig().verbosity = flamegpu::Verbosity::Quiet;
+     
+     // Create visualisation if enabled
+   #ifdef FLAMEGPU_VISUALISATION
+     flamegpu::visualiser::ModelVis visualiser = simulation.getVisualisation();
+     
+     if(simulation.getEnvironmentProperty<int>("visualisation") >=1){
+       visualiser.setInitialCameraTarget(simulation.getEnvironmentProperty<int, 6>("camera",0),
+					 simulation.getEnvironmentProperty<int, 6>("camera",1), simulation.getEnvironmentProperty<int, 6>("camera",2));
+       visualiser.setInitialCameraLocation(simulation.getEnvironmentProperty<int, 6>("camera",3),
+					   simulation.getEnvironmentProperty<int, 6>("camera",4), simulation.getEnvironmentProperty<int, 6>("camera",5));
+       visualiser.setCameraSpeed(0.01f);
+       
+       // Add "train" agents to the visualisation
+       flamegpu::visualiser::AgentVis train_agt = visualiser.addAgent("train");
+       train_agt.setModel(flamegpu::visualiser::Stock::Models::CUBE);
+       train_agt.setModelScale(10, 10, 10);
+       train_agt.setXVariable("x");
+       train_agt.setYVariable("y");
+       train_agt.setZVariable("z");
+       //A more sophisticated model would automatically adapt here for the number of trains
+       train_agt.setColor(flamegpu::visualiser::HSVInterpolation::GREENRED("trainviz", 0.0f, simulation.getEnvironmentProperty<float>("maxtrains")));
+       
+       //Plot location of the graph verticies and edges
+       flamegpu::visualiser::EnvironmentGraphVis g = visualiser.addGraph("graph");
+       g.setColor(flamegpu::visualiser::Color{"#ff0000"});
+       g.setXVertexProperty("x");
+       g.setYVertexProperty("y");
+       g.setZVertexProperty("z");
+       
+       // Mark the environment bounds
+       flamegpu::visualiser::LineVis pen = visualiser.newPolylineSketch(1, 1, 1, 1); //0.2f
+       pen.addVertex(0, 0, 0);
+       pen.addVertex(0, 1000, 0);
+       pen.addVertex(1000, 1000, 0);
+       pen.addVertex(1000, 0, 0);
+       pen.addVertex(0, 0, 0);
+       
+       // Open the visualiser window
+       visualiser.activate();
+     }
+   #endif
+     
+     //Run the simulation
+     simulation.initialise(argc, argv);  //MUST run this or the environmental graph won't be plotted in the visualisation
+     
+     // Execute the simulation
+     simulation.simulate();
+        
+     //Exit logging
+     if(simulation.getEnvironmentProperty<int>("logging")){
+       // Export the logged data to file
+       // Use custom name. If the file exists the simulation will fail causing all data generated to be lost.
+       strftime(filename, sizeof(filename), "network_%Y-%m-%d_%H-%M-%S.xml", timenow);
+       
+       simulation.exportLog(
+			    filename, // The file to output (must end '.json' or '.xml')
+			    simulation.getEnvironmentProperty<int>("logging")>=1,       // Whether the step log should be included in the log file
+			    true,       // Whether the exit log should be included in the log file
+			    true,       // Whether the step time should be included in the log file (treated as false if step log not included)
+			    true,       // Whether the simulation time should be included in the log file (treated as false if exit log not included)
+			    false       // Whether the log file should be minified or not
+			    );
+       
+       if(simulation.getEnvironmentProperty<int>("logging") >= 2){
+	 //Log agent data
+	 strftime(filename, sizeof(filename), "agents_%Y-%m-%d_%H-%M-%S.xml", timenow);
+	 simulation.exportData(filename);
+       }
+     }
+     
+   #ifdef FLAMEGPU_VISUALISATION
+     if(simulation.getEnvironmentProperty<int>("visualisation") >=1){
+       // Keep the visualisation window active after the simulation has completed
+       visualiser.join();
+     }
+   #endif
+     
+     // Ensure profiling / memcheck work correctly
+     flamegpu::util::cleanup();
+     return EXIT_SUCCESS;
+   }
+  
 Related Links
 -------------
 
