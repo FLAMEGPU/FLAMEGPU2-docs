@@ -76,7 +76,9 @@ Environmental macro properties can be read, via the returned :class:`DeviceMacro
     
 They can also be updated with a selection of functions, which execute atomically. These functions will update a single variable and return information related to it's old or new state. This can be useful, for simple actions such as conflict resolution and counting. However, if a basic read is subsequently required, a separate host or agent function in a following layer must be used (otherwise there would be a race condition). If running with ``FLAMEGPU_SEATBELTS`` error checking enabled, an exception should be thrown where potential race conditions are detected.
 
-Macro properties support the normal :func:`+<flamegpu::DeviceMacroProperty::operator+>`, :func:`-<flamegpu::DeviceMacroProperty::operator->`, :func:`+=<flamegpu::DeviceMacroProperty::operator+=>`, :func:`-=<flamegpu::DeviceMacroProperty::operator-=>`, :func:`++<flamegpu::DeviceMacroProperty::operator++>` (only C++ supports pre and post increment), :func:`--<flamegpu::DeviceMacroProperty::operator-->` (only C++ supports pre and post decrement) operations. They also have access to a limited set of additional functions, explained in the table below.
+Macro properties support the normal :func:`+=<flamegpu::DeviceMacroProperty::operator+=>`, :func:`-=<flamegpu::DeviceMacroProperty::operator-=>`, :func:`++<flamegpu::DeviceMacroProperty::operator++>` (only C++ supports pre and post increment), :func:`--<flamegpu::DeviceMacroProperty::operator-->` (only C++ supports pre and post decrement) operations. They also have access to a limited set of additional functions, explained in the table below.
+
+They can also make use of :func:`+<flamegpu::DeviceMacroProperty::operator+>`, :func:`-<flamegpu::DeviceMacroProperty::operator->`, however these do not operate atomically.
 
 .. note::
 
@@ -90,6 +92,8 @@ Method                                                             Supported Typ
 :func:`max(val)<flamegpu::DeviceMacroProperty::max>`               ``int32_t``, ``uint32_t``, ``uint64_t``               Update property according to ``val > old ? val : old`` and return it's new value.
 :func:`CAS(compare, val)<flamegpu::DeviceMacroProperty::CAS>`      ``int32_t``, ``uint32_t``, ``uint64_t``, ``uint16_t`` Update property according to ``old == compare ? val : old`` and return ``old``.
 :func:`exchange(val)<flamegpu::DeviceMacroProperty::exchange>`     ``int32_t``, ``uint32_t``, ``float``                  Update property to match val, and return ``old``.
+:func:`addAtomic(val)<flamegpu::DeviceMacroProperty::addAtomic>`     ``int32_t``, ``uint32_t``, ``uint64_t``, ``float``, ``double``                Atomically add val and return the result.
+:func:`subAtomic(val)<flamegpu::DeviceMacroProperty::addAtomic>`     ``int32_t``, ``uint32_t``, ``uint64_t``, ``float``, ``double``                Atomically subtract val and return the result.
 ================================================================== ===================================================== ============================
 
 
@@ -125,8 +129,8 @@ Example usage is shown below:
     def ExampleFn(message_in: pyflamegpu.MessageNone, message_out: pyflamegpu.MessageNone):
         # Get the root of the 3x3x3 environment macro property 'location' and store it in a variable of the same name
         location = pyflamegpu.environment.getMacroPropertyUInt("location", 3, 3, 3)
-        # Notify our location, of our presence and store how many other agents were there before us in `location_count`
-        location_count = location[0][1][2]+=1
+        # Notify our location, of our presence and store our arrival index to `location_count`
+        location_count = location[0][1][2].addAtomic(1)
         
         
         # Get the root of the float environment macro property 'swap' and store it in a variable of the same name
