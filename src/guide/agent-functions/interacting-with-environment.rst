@@ -78,7 +78,7 @@ They can also be updated with a selection of functions, which execute atomically
 
 Macro properties support the normal :func:`+=<flamegpu::DeviceMacroProperty::operator+=>`, :func:`-=<flamegpu::DeviceMacroProperty::operator-=>`, :func:`++<flamegpu::DeviceMacroProperty::operator++>` (only C++ supports pre and post increment), :func:`--<flamegpu::DeviceMacroProperty::operator-->` (only C++ supports pre and post decrement) operations. They also have access to a limited set of additional functions, explained in the table below.
 
-They can also make use of :func:`+<flamegpu::DeviceMacroProperty::operator+>`, :func:`-<flamegpu::DeviceMacroProperty::operator->`, however these do not operate atomically.
+They can also make use of :func:`+<flamegpu::DeviceMacroProperty::operator+>`, :func:`-<flamegpu::DeviceMacroProperty::operator->`, however, these do not operate atomically as they do not mutate the macro environment property.
 
 .. note::
 
