@@ -322,10 +322,10 @@ Pastel (from seaborn)     *Viridis (from BIDS/MatPlotLib)*
     flamegpu::visualiser::AgentVis boid_agt = visualisation.addAgent("boid");
     
     // Map the agent's color to the value of 'i' as selected from a discrete stock palette
-    boid_agt.setColor(flamegpu::visualiser::DiscreteColor("i", flamegpu::visualiser::Stock::Palette::DARK2, flamegpu::visualiser::Stock::Colors::WHITE));
+    boid_agt.setColor(flamegpu::visualiser::DiscreteColor("i", flamegpu::visualiser::Stock::Palettes::DARK2, flamegpu::visualiser::Stock::Colors::WHITE));
     // Or, map the agent's color to the value of 'i', as selected from a dynamic stock palette, using 10 uniformly spaced values from Viridis
     // Override the offset to 1, and stride to 2 (1,3,5,7..)
-    boid_agt.setColor(flamegpu::visualiser::DiscreteColor("i", flamegpu::visualiser::Stock::Palette::Viridis(10), flamegpu::visualiser::Stock::Colors::WHITE,
+    boid_agt.setColor(flamegpu::visualiser::DiscreteColor("i", flamegpu::visualiser::Stock::Palettes::Viridis(10), flamegpu::visualiser::Stock::Colors::WHITE,
     1, 2));
     
     
@@ -340,7 +340,7 @@ Pastel (from seaborn)     *Viridis (from BIDS/MatPlotLib)*
     # Override the offset to 1, and stride to 2 (1,3,5,7..)
     boid_agt.setColor(pyflamegpu.DiscreteColor("i", pyflamegpu.Viridis(10), pyflamegpu.WHITE, 1, 2))
 
-Alternatively, you can construct a bespoke palette of discrete colors
+Alternatively, you can construct a bespoke palette of discrete colors, using :class:`iDiscreteColor<flamegpu::visualiser::iDiscreteColor>` for ``int`` agent variables and :class:`uDiscreteColor<flamegpu::visualiser::uDiscreteColor>` for ``unsigned int`` agent variables.
 
 .. tabs::
 
@@ -469,7 +469,7 @@ Additionally, all agents in a particular state can be hidden using :func:`setVis
 Colors from Palettes
 ^^^^^^^^^^^^^^^^^^^^
 
-If you would rather use a palette to automatically assign agents in different states colors, rather than manual assignment outlined above, you can specify a pallet to be used with :func:`setAutoPalette()<flamegpu::visualiser::AgentVis::setAutoPalette>`. Each agent state specialised (by calling :func:`State()<flamegpu::visualiser::AgentVis::State>`) will then be assigned a different color from the selected palette.
+If you would rather use a palette to automatically assign agents in different states colors, rather than manual assignment outlined above, you can specify a pallete to be used with :func:`setAutoPalette()<flamegpu::visualiser::AgentVis::setAutoPalette>`. Each agent state specialised (by calling :func:`State()<flamegpu::visualiser::AgentVis::State>`) will then be assigned a different color from the selected palette.
 
 .. tabs::
 
@@ -478,7 +478,7 @@ If you would rather use a palette to automatically assign agents in different st
     // Add agent 'boid' to the visualisation
     flamegpu::visualiser::AgentVis boid_agt = visualisation.addAgent("boid");
     // Assign a palette to the boid agent
-    boid_agt.setAutoPalette(flamegpu::visualiser::Stock::Palette::DARK2);
+    boid_agt.setAutoPalette(flamegpu::visualiser::Stock::Palettes::DARK2);
     
     // Specialise the 'active' agent state, assigning it a unique color from the DARK2 palette
     boid_agent.State("active");
