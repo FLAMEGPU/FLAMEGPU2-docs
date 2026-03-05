@@ -85,16 +85,16 @@ They can also make use of :func:`+<flamegpu::DeviceMacroProperty::operator+>`, :
   :class:`DeviceMacroProperty<flamegpu::DeviceMacroProperty>` update support is limited to specific variable types. This varies between functions however ``uint32_t`` has the widest support, for full explanation check the API docs.
 
 
-================================================================== ===================================================== ============================
-Method                                                             Supported Types                                       Description
-================================================================== ===================================================== ============================
-:func:`min(val)<flamegpu::DeviceMacroProperty::min>`               ``int32_t``, ``uint32_t``, ``uint64_t``               Update property according to ``val < old ? val : old`` and return it's new value.
-:func:`max(val)<flamegpu::DeviceMacroProperty::max>`               ``int32_t``, ``uint32_t``, ``uint64_t``               Update property according to ``val > old ? val : old`` and return it's new value.
-:func:`CAS(compare, val)<flamegpu::DeviceMacroProperty::CAS>`      ``int32_t``, ``uint32_t``, ``uint64_t``, ``uint16_t`` Update property according to ``old == compare ? val : old`` and return ``old``.
-:func:`exchange(val)<flamegpu::DeviceMacroProperty::exchange>`     ``int32_t``, ``uint32_t``, ``float``                  Update property to match val, and return ``old``.
-:func:`addAtomic(val)<flamegpu::DeviceMacroProperty::addAtomic>`     ``int32_t``, ``uint32_t``, ``uint64_t``, ``float``, ``double``                Atomically add val and return the result.
-:func:`subAtomic(val)<flamegpu::DeviceMacroProperty::addAtomic>`     ``int32_t``, ``uint32_t``, ``uint64_t``, ``float``, ``double``                Atomically subtract val and return the result.
-================================================================== ===================================================== ============================
+================================================================== =============================================================== ====================================================================================
+Method                                                             Supported Types                                                 Description
+================================================================== =============================================================== ====================================================================================
+:func:`min(val)<flamegpu::DeviceMacroProperty::min>`               ``int32_t``, ``uint32_t``, ``uint64_t``                         Update property according to ``val < old ? val : old`` and return it's new value.
+:func:`max(val)<flamegpu::DeviceMacroProperty::max>`               ``int32_t``, ``uint32_t``, ``uint64_t``                         Update property according to ``val > old ? val : old`` and return it's new value.
+:func:`CAS(compare, val)<flamegpu::DeviceMacroProperty::CAS>`      ``int32_t``, ``uint32_t``, ``uint64_t``, ``uint16_t``           Update property according to ``old == compare ? val : old`` and return ``old``.
+:func:`exchange(val)<flamegpu::DeviceMacroProperty::exchange>`     ``int32_t``, ``uint32_t``, ``float``                            Update property to match val, and return ``old``.
+:func:`addAtomic(val)<flamegpu::DeviceMacroProperty::addAtomic>`   ``int32_t``, ``uint32_t``, ``uint64_t``, ``float``, ``double``  Atomically add val and return the result.
+:func:`subAtomic(val)<flamegpu::DeviceMacroProperty::addAtomic>`   ``int32_t``, ``uint32_t``, ``uint64_t``, ``float``, ``double``  Atomically subtract val and return the result.
+================================================================== =============================================================== ====================================================================================
 
 
 Example usage is shown below:
