@@ -278,7 +278,7 @@ The below code block displays example files output from FLAME GPU 2 in both XML 
         "repulse": 0.05,
         "_stepCount": 1
       },
-      "environment": {
+      "macro_environment": {
         "heat": [1,1,1,1,0,0,0,0]
       },
       "agents": {
