@@ -32,7 +32,7 @@ Metric Data for Telemetry Deck (Collected for all Telemetry)
 Payload values captured for all simulation, ensemble and test executions
  - ``appVersion``: Application full version string. e.g. :code:`pyflamegpu2.0.0-rc` (Python) or :code:`2.0.0-rc` (C++)
  - ``appVersionFull``: Full version with build hash e.g. :code:`2.0.0-rc+a0ff3c1f`
- - ``appPythonVersionFull``: Collected only for pyflamegpu. FLAME GPU version with CUDA version. e.g. :code:`2.0.0rc+cuda118`
+ - ``appPythonVersionFull``: Collected only for pyflamegpu. FLAME GPU version with CUDA/HIP local version. e.g. :code:`2.0.0rc+cuda118`
  - ``majorSystemVersion``: e.g. :code:`2`
  - ``majorMinorSystemVersion``: e.g. :code:`2.0.0`
  - ``appVersionPatch``: e.g. :code:`0`
@@ -44,7 +44,8 @@ Payload values captured for all simulation, ensemble and test executions
 Additional Payload values captured for Simulation or Ensemble Runs only
  - ``GPUDevices``: The GPU devices selected for simulation or ensemble execution. e.g. :code:`NVIDIAGeForceRTX3080`
  - ``SimTime(s)``: The simulation or ensemble time of your model.
- - ``NVCCVersion``: The version of NVCC used to compile the Simulation/Ensemble. e.g. ``12.0.76``.
+ - ``NVCCVersion``: The version of NVCC used to compile the Simulation/Ensemble, when built with CUDA. e.g. :code:`12.0.76`.
+ - ``HIPVersion``: The version of HIP/ROCm used to compile the Simulation/Ensemble, when built with HIP/ROCm. e.g. :code:`7.2.26015`.
 
 Payload values captured for GoogleTest and pytest runs only
  - ``TestOutcome``: Passed or Failed
