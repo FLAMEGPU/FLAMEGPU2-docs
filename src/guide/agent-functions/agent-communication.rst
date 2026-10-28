@@ -77,7 +77,7 @@ The agent function will now allow output a message of type "location_message". T
       @pyflamegpu.agent_function
       def outputdata(message_in: pyflamegpu.MessageNone, message_out: pyflamegpu.MessageBruteForce):
           # Set the "id" message variable to this agent's id (ID type is equivalent to an unsigned int within Python)
-          pyflamegpu.message_out.setVariableUInt("id", pyflamegpu.getID())
+          message_out.setVariableUInt("id", pyflamegpu.getID())
           return pyflamegpu.ALIVE
 
       
@@ -107,9 +107,9 @@ When outputting bucket messages, the bucket index for the message must be set, u
       # Define an agent function, "outputdata" which has no input messages and outputs a message using the "MessageBucket" communication strategy
       @pyflamegpu.agent_function
       def outputdata(message_in: pyflamegpu.MessageNone, message_out: pyflamegpu.MessageBucket):
-          pyflamegpu.message_out.setVariableFloat("x", pyflamegpu.getVariableFloat("x"))
+          message_out.setVariableFloat("x", pyflamegpu.getVariableFloat("x"))
           # Set the bucket key for the message, to the agents "bucket" member variable
-          pyflamegpu.message_out.setKey(pyflamegpu.getVariableInt("bucket"))
+          message_out.setKey(pyflamegpu.getVariableInt("bucket"))
           return pyflamegpu.ALIVE
       
 Messages assigned keys outside of the bounds have undefined behaviour. If using ``FLAMEGPU_SEATBELTS`` error checking, an exception will be raised.
@@ -148,11 +148,11 @@ If you are using :class:`MessageSpatial2D<flamegpu::MessageSpatial2D>` or :class
       @pyflamegpu.agent_function
       def outputdata(message_in: pyflamegpu.MessageNone, message_out: pyflamegpu.MessageSpatial3D):
           # Set the required variables for spatial messaging
-          pyflamegpu.message_out.setVariableFloat("x", pyflamegpu.getVariableFloat("x"))
-          pyflamegpu.message_out.setVariableFloat("y", pyflamegpu.getVariableFloat("y"))
-          pyflamegpu.message_out.setVariableFloat("z", pyflamegpu.getVariableFloat("z"))
+          message_out.setVariableFloat("x", pyflamegpu.getVariableFloat("x"))
+          message_out.setVariableFloat("y", pyflamegpu.getVariableFloat("y"))
+          message_out.setVariableFloat("z", pyflamegpu.getVariableFloat("z"))
           # Set any tertiary message variables
-          pyflamegpu.message_out.setVariableInt("count", pyflamegpu.getVariableInt("count"))
+          message_out.setVariableInt("count", pyflamegpu.getVariableInt("count"))
           return pyflamegpu.ALIVE
 
 
@@ -180,9 +180,9 @@ If you are using :class:`MessageArray<flamegpu::MessageArray>`, :class:`MessageA
       @pyflamegpu.agent_function
       def outputdata(message_in: pyflamegpu.MessageNone, message_out: pyflamegpu.MessageArray3D):
           # Set the index to store the array message
-          pyflamegpu.message_out.setIndex(pyflamegpu.getVariableUInt("x"), pyflamegpu.getVariableUInt("y"), pyflamegpu.getVariableUInt("z"))
+          message_out.setIndex(pyflamegpu.getVariableUInt("x"), pyflamegpu.getVariableUInt("y"), pyflamegpu.getVariableUInt("z"))
           # Set message variables
-          pyflamegpu.message_out.setVariableFloat("foo", pyflamegpu.getVariableFloat("bar"))
+          message_out.setVariableFloat("foo", pyflamegpu.getVariableFloat("bar"))
           return pyflamegpu.ALIVE
 
 Reading Messages
@@ -252,7 +252,7 @@ All messages are accessed, so the whole message list is iterated over:
       @pyflamegpu.agent_function
       def inputdata(message_in: pyflamegpu.MessageBruteForce, message_out: pyflamegpu.MessageNone):
           # For each message in the message list 
-          for message in pyflamegpu.message_in:
+          for message in message_in:
               # Process the message's variables e.g.
               # var = message.getVariableInt(...)
               ...
@@ -292,7 +292,7 @@ If an invalid bucket key is specified (based on the bounds provided when the mes
           bucket = pyflamegpu.getVariableInt("bucket");
 
           # For each message in the message list which was output to the requested bucket
-          for message in pyflamegpu.message_in(bucket):
+          for message in message_in(bucket):
               # Process the message's variables e.g.
               # var = message.getVariableInt(...)
               ...
@@ -356,14 +356,14 @@ Spatial messaging will return all messages within the radius specified at the mo
       # Define an agent function, "inputdata" which has an input message using the "MessageSpatial3D" communication strategy
       @pyflamegpu.agent_function
       def inputdata(message_in: pyflamegpu.MessageSpatial3D, message_out: pyflamegpu.MessageNone):
-          RADIUS = pyflamegpu.message_in.radius()
+          RADIUS = message_in.radius()
           # Get this agent's x, y, z variables
           x = pyflamegpu.getVariableFloat("x")
           y = pyflamegpu.getVariableFloat("y")
           z = pyflamegpu.getVariableFloat("z")
           
           # For each message in the message list which was output by a nearby agent
-          for message in pyflamegpu.message_in(x, y, z):
+          for message in message_in(x, y, z):
               x2 = message.getVariableFloat("x")
               y2 = message.getVariableFloat("y")
               z2 = message.getVariableFloat("z")
@@ -412,14 +412,14 @@ Spatial messaging will return all messages within the radius specified at the mo
       # Define an agent function, "inputdata" which has an input message using the "MessageSpatial3D" communication strategy
       @pyflamegpu.agent_function
       def inputdata(message_in: pyflamegpu.MessageSpatial3D, message_out: pyflamegpu.MessageNone):
-          RADIUS = pyflamegpu.message_in.radius()
+          RADIUS = message_in.radius()
           # Get this agent's x, y, z variables
           x = pyflamegpu.getVariableFloat("x")
           y = pyflamegpu.getVariableFloat("y")
           z = pyflamegpu.getVariableFloat("z")
           
           # For each message in the message list which was output by a nearby agent
-          for message in pyflamegpu.message_in. wrap(x, y, z):
+          for message in message_in. wrap(x, y, z):
               x2 = message.getVirtualX()
               y2 = message.getVirtualY()
               z2 = message.getVirtualZ()
@@ -468,7 +468,7 @@ Messages can be accessed from a specific array index:
           y = pyflamegpu.getVariableFloat("y")
           z = pyflamegpu.getVariableFloat("z")
           # Select the message
-          message = pyflamegpu.message_in.at(x, y, z)
+          message = message_in.at(x, y, z)
           # Process the message's variables e.g.
           # var = message.getVariableInt(...)
           ...
@@ -532,7 +532,7 @@ Example of a Moore neighbourhood iterator:
           y = pyflamegpu.getVariableFloat("y")
           z = pyflamegpu.getVariableFloat("z")
           # For each message in the exclusive Moore neighbourhood of radius 1
-          for message in pyflamegpu.message_in(x, y, z):  
+          for message in message_in(x, y, z):  
               # Fetch the current array message's index
               # ix = message.getX()
               ...     
@@ -575,7 +575,7 @@ Example of wrapped Moore neighbourhood iterator:
           x = pyflamegpu.getVariableFloat("x")
           y = pyflamegpu.getVariableFloat("y")
           # For each message in the exclusive wrapped Moore neighbourhood of radius 2
-          for message in pyflamegpu.message_in.wrap(x, y, 2):
+          for message in message_in.wrap(x, y, 2):
               # Fetch the current array message's index
               # ix = message.getX()
               ...
@@ -619,7 +619,7 @@ Example of a Von Neumann neighbourhood iterator:
           y = pyflamegpu.getVariableFloat("y")
           z = pyflamegpu.getVariableFloat("z")
           # For each message in the exclusive Von Neumann neighbourhood of radius 2
-          for message in pyflamegpu.message_in.vn(x, y, z, 2):
+          for message in message_in.vn(x, y, z, 2):
               # Fetch the current array message's index
               # ix = message.getX()
               ...
@@ -661,7 +661,7 @@ Example of a wrapped Von Neumann neighbourhood iterator:
           x = pyflamegpu.getVariableFloat("x")
           y = pyflamegpu.getVariableFloat("y")
           # For each message in the exclusive wrapped Von Neumann neighbourhood of radius 1
-          for message in pyflamegpu.message_in.vn_wrap(x, y):
+          for message in message_in.vn_wrap(x, y):
               # Fetch the current array message's index
               # ix = message.getX()
               ...
