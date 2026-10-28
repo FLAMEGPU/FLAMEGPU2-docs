@@ -272,7 +272,7 @@ If an invalid bucket key is specified (based on the bounds provided when the mes
     // Define an agent function, "inputdata" which has an input message using the "MessageBucket" communication strategy
     FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MessageBucket, flamegpu::MessageNone) {
         // Get this agent's bucket variable
-        const int x = FLAMEGPU->getVariable<int>("bucket");
+        const int bucket = FLAMEGPU->getVariable<int>("bucket");
 
         // For each message in the message list which was output to the requested bucket
         for (const auto& message : FLAMEGPU->message_in(bucket)) {
@@ -289,7 +289,7 @@ If an invalid bucket key is specified (based on the bounds provided when the mes
       @pyflamegpu.agent_function
       def inputdata(message_in: pyflamegpu.MessageBucket, message_out: pyflamegpu.MessageNone):
           # Get this agent's bucket variable
-          x = pyflamegpu.getVariableInt("bucket");
+          bucket = pyflamegpu.getVariableInt("bucket");
 
           # For each message in the message list which was output to the requested bucket
           for message in pyflamegpu.message_in(bucket):
