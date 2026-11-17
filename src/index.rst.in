@@ -1,10 +1,16 @@
-.. FLAME GPU 2 documentation master file, created by
-   sphinx-quickstart on Fri Nov 15 15:04:28 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Welcome to FLAME GPU 2's documentation!
 =======================================
+
+FLAME GPU is a GPU accelerated agent-based simulation library for domain independent complex systems simulations.
+Version 2 is a complete re-write of the existing library offering greater flexibility, an improved interface for agent scripting and better research software engineering, with CUDA/ROCm C++ and Python interfaces.
+
+FLAME GPU provides a mapping between a formal agent specifications with C++ based scripting and optimised CUDA/ROCm code.
+This includes a number of key Agent-based Modelling (ABM) building blocks such as multiple agent types, agent communication and birth and death allocation.
+
+* Agent-based (AB) modellers are able to focus on specifying agent behaviour and run simulations without explicit understanding of CUDA/ROCm programming or GPU optimisation strategies.
+* Simulation performance is significantly increased in comparison with CPU alternatives. This allows simulation of far larger model sizes with high performance at a fraction of the cost of grid based alternatives.
+* Massive agent populations can be visualised in real time as agent data is already located on the GPU hardware.
+
 
 .. toctree::
    :maxdepth: 5

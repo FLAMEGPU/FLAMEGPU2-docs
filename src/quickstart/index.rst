@@ -16,14 +16,13 @@ Prerequisites
 Regardless of which programming interface you wish to use there are some common requirements:
 
 * Windows or Linux
-* `CUDA Toolkit <https://developer.nvidia.com/cuda-downloads>`__ ``>= 12.0`` and a `Compute Capability <https://developer.nvidia.com/cuda-downloads>`__ ``>= 5.0`` NVIDIA GPU
+* `CUDA Toolkit <https://developer.nvidia.com/cuda-downloads>`__ ``>= 12.4`` and a `Compute Capability <https://developer.nvidia.com/cuda-downloads>`__ ``>= 5.0`` NVIDIA GPU
 
-  * FLAME GPU aims to support the 2 most recent major CUDA versions, currently ``12`` and ``13``.
-  * On Windows, CUDA ``>= 12.4`` is required for some optional features (python support)
+  * FLAME GPU aims to support the 2 most recent major CUDA versions, currently ``12.4+`` and ``13``.
 
 Installing python binary wheels requires:
 
-* `Python <https://www.python.org/>`__ ``>= 3.8``
+* `Python <https://www.python.org/>`__ ``3.10 - 3.14``
 
   * ``pip``
   * ``glibc`` ``>= 2.28`` (linux)
@@ -99,20 +98,20 @@ For example, to build the ``example`` target of the template repository, for Com
   .. code-tab:: bash Linux
 
        mkdir -p build && cd build
-       cmake .. -DCMAKE_CUDA_ARCHITECTURES=75 -DCMAKE_BUILD_TYPE=Release
+       cmake .. -DCMAKE_CUDA_ARCHITECTURES=75 -DFLAMEGPU_BACKEND=CUDA -DCMAKE_BUILD_TYPE=Release
        cmake --build . --target example -j 8
        
   .. code-tab:: bat Windows
 
      mkdir build && cd build
-     cmake .. -G "Visual Studio 17 2022" -DCMAKE_CUDA_ARCHITECTURES=75
+     cmake .. -G "Visual Studio 17 2022" -DCMAKE_CUDA_ARCHITECTURES=75 -DFLAMEGPU_BACKEND=CUDA
      cmake --build . --target example --config Release -j 8
 
 For more information on CMake Configuration options please see the `template repository README.md <https://github.com/FLAMEGPU/FLAMEGPU2-example-template#building-with-cmake>`__ as these options may vary between releases.
 
 .. note::
 
-  On windows, by default CMake will select the newest version of CUDA available when configuring. If you have multiple versions of CUDA installed then you can select an earlier installed CUDA version (e.g. CUDA 12.0) by additionally passing ``-T cuda=12.0`` when calling CMake configure (``cmake ..``).
+  On windows, by default CMake will select the newest version of CUDA available when configuring. If you have multiple versions of CUDA installed then you can select an earlier installed CUDA version (e.g. CUDA 12.4) by additionally passing ``-T cuda=12.4`` when calling CMake configure (``cmake ..``).
   
   It is still necessary for the selected version of CUDA to be supported by FLAME GPU.
   
@@ -131,7 +130,7 @@ However, CMake also provides ``cmake-gui`` on Windows, a CMake client with a gra
 * Specify the directory to store FLAME GPU 2 build files (**Annotation #2**). This must not match the source directory FLAME GPU 2 does not currently support in-source builds. The ``build`` subdirectory of the source directory is most commonly used. If this directory does not exist, CMake will offer to create it for you.
 * Press the Configure button (**Annotation #3**) to load the configuration options. You will then be asked to select a "generator" (see the below image), you should select the latest version of visual studio you have and choose the ``x64`` platform. It will then perform various checks to initialise the build configuration, such as detecting CUDA and testing the compiler is suitable.
   
-  * At this point, if you have multiple CUDA versions installed and don't wish to use the newest, you can specify the desired version in the toolset box e.g. ``cuda=12.0`` would select CUDA 12.0.
+  * At this point, if you have multiple CUDA versions installed and don't wish to use the newest, you can specify the desired version in the toolset box e.g. ``cuda=12.4`` would select CUDA 12.4.
 
 * The central table should now be filled with options you can configure to adjust how FLAME GPU 2 is built. You can update these options, according to the `FLAME GPU 2 README.md <https://github.com/FLAMEGPU/FLAMEGPU2/#cmake-configuration-options>`__ in the source directory as suggested options may vary between releases.
 * If you have changed any options, you should press the Configure button again (**Annotation #3**), as subsequent initialisation may need to be performed.
@@ -174,10 +173,10 @@ Installation
 
 Pre-built binary wheels are available for Windows and Linux on ``x86_64`` platforms for:
 
-* Python ``3.8`` to Python ``3.12``
+* Python ``3.10`` to Python ``3.14``
 * Linux ``x86_64`` with ``glibc >= 2.28``
 
-  * CUDA ``12.0+`` (Compute Capability ``>= 5.0``)
+  * CUDA ``12.4+`` (Compute Capability ``>= 5.0``)
   * CUDA ``13.0+`` (Compute Capability ``>= 7.5``)
 
 * Windows ``x86_64``
@@ -265,7 +264,7 @@ For example, to build and install python bindings into a new venv, for Compute C
 
        # Build the python bindings, producing a .whl
        mkdir -p build && cd build
-       cmake .. -DCMAKE_CUDA_ARCHITECTURES=75 -DFLAMEGPU_BUILD_PYTHON=ON -DCMAKE_BUILD_TYPE=Release
+       cmake .. -DCMAKE_CUDA_ARCHITECTURES=75 -DFLAMEGPU_BACKEND=CUDA -DFLAMEGPU_BUILD_PYTHON=ON -DCMAKE_BUILD_TYPE=Release
        cmake --build . --target pyflamegpu -j 8
 
        # Install the wheel via pip
@@ -279,7 +278,7 @@ For example, to build and install python bindings into a new venv, for Compute C
 
        :: Build the python bindings, producing a .whl
        mkdir build && cd build
-       cmake .. -G "Visual Studio 17 2022" -DCMAKE_CUDA_ARCHITECTURES=75 -DFLAMEGPU_BUILD_PYTHON=ON
+       cmake .. -G "Visual Studio 17 2022" -DCMAKE_CUDA_ARCHITECTURES=75 -DFLAMEGPU_BACKEND=CUDA -DFLAMEGPU_BUILD_PYTHON=ON
        cmake --build . --target pyflamegpu --config Release -j 8
 
        :: Install the wheel via pip
